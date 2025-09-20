@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "768164532049",
+    "project_id": "party-bar",
+    "storage_bucket": "party-bar.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768164532049:android:3fd918eef7c7f010f04d70",
+        "android_client_info": {
+          "package_name": "com.example.party_bar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768164532049-27i13aqjkvp31ej1t685oimv0fr3eaal.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClgbjWswnmSnKNcmgIyJ8KUHM0KAuy6Ao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "768164532049-27i13aqjkvp31ej1t685oimv0fr3eaal.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "768164532049-h6ma40bsd70llavpjgmrk1relerj88p3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.partyBar"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
