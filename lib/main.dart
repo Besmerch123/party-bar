@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'utils/app_router.dart';
 
 void main() {
   runApp(const PartyBarApp());
@@ -9,7 +10,7 @@ class PartyBarApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'PartyBar',
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -20,28 +21,7 @@ class PartyBarApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const PartyBarHome(),
-    );
-  }
-}
-
-class PartyBarHome extends StatelessWidget {
-  const PartyBarHome({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: Center(
-        child: Text(
-          'PartyBar 1.1',
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      routerConfig: appRouter,
     );
   }
 }
