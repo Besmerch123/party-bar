@@ -11,6 +11,8 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+*.dtmp
+*.bkp
 
 # IntelliJ related
 *.iml
