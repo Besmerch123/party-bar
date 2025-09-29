@@ -18,6 +18,8 @@ export class IngredientService {
     // Validate input
     this.validateIngredientData(data);
     
+    const image = this.normalizeImage(data.image);
+
     // Check for duplicate titles
     const exists = await this.repository.existsByTitle(data.title.trim());
     if (exists) {
@@ -28,6 +30,7 @@ export class IngredientService {
     return await this.repository.create({
       title: data.title.trim(),
       category: data.category,
+      image,
     });
   }
 
@@ -80,10 +83,10 @@ export class IngredientService {
     if (data.category !== undefined) {
       this.validateCategory(data.category);
     }
-
     // Check for duplicate titles (excluding current ingredient)
     if (data.title) {
-      const exists = await this.repository.existsByTitle(data.title.trim(), id);
+      const trimmedTitle = data.title.trim();
+      const exists = await this.repository.existsByTitle(trimmedTitle, id);
       if (exists) {
         throw new Error('An ingredient with this title already exists');
       }
@@ -96,6 +99,12 @@ export class IngredientService {
     }
     if (data.category !== undefined) {
       updateData.category = data.category;
+    }
+    if (data.image !== undefined) {
+      const image = this.normalizeImage(data.image);
+      if (image !== undefined) {
+        updateData.image = image;
+      }
     }
 
     const updated = await this.repository.update(id.trim(), updateData);
@@ -133,6 +142,7 @@ export class IngredientService {
   private validateIngredientData(data: CreateIngredientDto): void {
     this.validateTitle(data.title);
     this.validateCategory(data.category);
+    this.normalizeImage(data.image);
   }
 
   /**
@@ -174,5 +184,30 @@ export class IngredientService {
     if (trimmedCategory.length > 50) {
       throw new Error('Category cannot exceed 50 characters');
     }
+  }
+
+  /**
+   * Validates and normalizes the optional image path
+   */
+  private normalizeImage(image: string | undefined): string | undefined {
+    if (image === undefined) {
+      return undefined;
+    }
+
+    if (typeof image !== 'string') {
+      throw new Error('Image path must be a string');
+    }
+
+    const trimmedImage = image.trim();
+
+    if (trimmedImage.length === 0) {
+      throw new Error('Image path cannot be empty');
+    }
+
+    if (trimmedImage.length > 2048) {
+      throw new Error('Image path cannot exceed 2048 characters');
+    }
+
+    return trimmedImage;
   }
 }

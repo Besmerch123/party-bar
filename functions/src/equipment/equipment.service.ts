@@ -18,6 +18,8 @@ export class EquipmentService {
     // Validate input
     this.validateEquipmentData(data);
     
+    const image = this.normalizeImage(data.image);
+
     // Check for duplicate titles
     const exists = await this.repository.existsByTitle(data.title.trim());
     if (exists) {
@@ -27,6 +29,7 @@ export class EquipmentService {
     // Create the equipment
     return await this.repository.create({
       title: data.title.trim(),
+      image,
     });
   }
 
@@ -64,22 +67,33 @@ export class EquipmentService {
     // Validate update data if provided
     if (data.title !== undefined) {
       this.validateTitle(data.title);
-      data.title = data.title.trim();
     }
 
     // Check for duplicate titles if title is being updated
     if (data.title) {
-      const exists = await this.repository.existsByTitle(data.title);
+      const trimmedTitle = data.title.trim();
+      const exists = await this.repository.existsByTitle(trimmedTitle);
       if (exists) {
         // Check if it's the same equipment
         const existing = await this.repository.findById(id.trim());
-        if (!existing || existing.title.toLowerCase() !== data.title.toLowerCase()) {
+        if (!existing || existing.title.toLowerCase() !== trimmedTitle.toLowerCase()) {
           throw new Error('An equipment with this title already exists');
         }
       }
     }
 
-    const updatedEquipment = await this.repository.update(id.trim(), data);
+    const updatePayload: UpdateEquipmentDto = {};
+    if (data.title !== undefined) {
+      updatePayload.title = data.title.trim();
+    }
+    if (data.image !== undefined) {
+      const image = this.normalizeImage(data.image);
+      if (image !== undefined) {
+        updatePayload.image = image;
+      }
+    }
+
+    const updatedEquipment = await this.repository.update(id.trim(), updatePayload);
     if (!updatedEquipment) {
       throw new Error('Equipment not found');
     }
@@ -106,6 +120,7 @@ export class EquipmentService {
    */
   private validateEquipmentData(data: CreateEquipmentDto): void {
     this.validateTitle(data.title);
+    this.normalizeImage(data.image);
   }
 
   /**
@@ -128,5 +143,30 @@ export class EquipmentService {
     if (trimmedTitle.length > 100) {
       throw new Error('Title cannot exceed 100 characters');
     }
+  }
+
+  /**
+   * Validates and normalizes the optional image path
+   */
+  private normalizeImage(image: string | undefined): string | undefined {
+    if (image === undefined) {
+      return undefined;
+    }
+
+    if (typeof image !== 'string') {
+      throw new Error('Image path must be a string');
+    }
+
+    const trimmedImage = image.trim();
+
+    if (trimmedImage.length === 0) {
+      throw new Error('Image path cannot be empty');
+    }
+
+    if (trimmedImage.length > 2048) {
+      throw new Error('Image path cannot exceed 2048 characters');
+    }
+
+    return trimmedImage;
   }
 }

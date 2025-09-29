@@ -30,6 +30,7 @@ The `Ingredient` is the core entity representing a building block for cocktails:
 - **ID**: Unique identifier (Firebase document ID)
 - **Title**: The name of the ingredient
 - **Category**: Type of ingredient (spirit, mixer, garnish, etc.)
+- **Image**: Optional Google Cloud Storage path or public URL
 - **Timestamps**: Created/updated dates
 
 ## Available Categories
@@ -203,7 +204,6 @@ All functions return structured errors:
 
 ## Future Enhancements
 
-- Add ingredient images/photos
 - Support for ingredient alternatives/substitutions
 - Ingredient availability/seasonality
 - Nutritional information

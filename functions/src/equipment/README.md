@@ -27,6 +27,7 @@ The `Equipment` is the core entity representing tools and equipment needed for c
 
 - **ID**: Unique identifier (Firebase document ID)
 - **Title**: The name of the equipment
+- **Image**: Optional Google Cloud Storage path or public URL
 - **Timestamps**: Created/updated dates
 
 ## Endpoints Organization
@@ -156,7 +157,6 @@ All functions return structured errors:
 
 ## Future Enhancements
 
-- Add equipment images/photos
 - Support for equipment descriptions
 - Equipment categories or types
 - Equipment availability status

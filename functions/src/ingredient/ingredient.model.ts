@@ -31,6 +31,9 @@ export interface Ingredient {
   
   /** Category of the ingredient (e.g., "spirit", "mixer", "garnish", "liqueur") */
   category: IngredientCategory;
+
+  /** Google Cloud Storage path or URL to the ingredient image */
+  image?: string;
   
   /** Timestamp when the ingredient was created */
   createdAt?: Date;
@@ -46,6 +49,7 @@ export interface Ingredient {
 export interface CreateIngredientDto {
   title: string;
   category: IngredientCategory;
+  image?: string;
 }
 
 /**
@@ -55,4 +59,5 @@ export interface CreateIngredientDto {
 export interface UpdateIngredientDto {
   title?: string;
   category?: IngredientCategory;
+  image?: string;
 }

@@ -16,12 +16,14 @@ export async function testIngredientOperations() {
     // Example 1: Create ingredients
     const vodkaData: CreateIngredientDto = {
       title: 'Vodka',
-      category: 'spirit'
+      category: 'spirit',
+      image: 'gs://party-bar/ingredients/vodka.png'
     };
     
     const limeData: CreateIngredientDto = {
       title: 'Fresh Lime Juice',
-      category: 'mixer'
+      category: 'mixer',
+      image: 'gs://party-bar/ingredients/fresh-lime-juice.png'
     };
     
     console.log('Creating ingredients...');
@@ -44,7 +46,8 @@ export async function testIngredientOperations() {
     // Example 4: Update an ingredient
     console.log('\nUpdating vodka...');
     const updatedVodka = await service.updateIngredient(vodka.id, {
-      title: 'Premium Vodka'
+      title: 'Premium Vodka',
+      image: 'gs://party-bar/ingredients/premium-vodka.png'
     });
     console.log('Updated:', updatedVodka);
     

@@ -20,16 +20,24 @@ export class EquipmentRepository {
     
     const equipment: Equipment = {
       id: docRef.id,
-      ...equipmentData,
+      title: equipmentData.title,
+      image: equipmentData.image,
       createdAt: now,
       updatedAt: now,
     };
 
-    await docRef.set({
-      ...equipment,
+    const firestoreData: Record<string, unknown> = {
+      id: equipment.id,
+      title: equipment.title,
       createdAt: admin.firestore.Timestamp.fromDate(now),
       updatedAt: admin.firestore.Timestamp.fromDate(now),
-    });
+    };
+
+    if (equipment.image !== undefined) {
+      firestoreData.image = equipment.image;
+    }
+
+    await docRef.set(firestoreData);
 
     return equipment;
   }
@@ -48,6 +56,7 @@ export class EquipmentRepository {
     return {
       id: doc.id,
       title: data?.title,
+      image: data?.image,
       createdAt: data?.createdAt?.toDate(),
       updatedAt: data?.updatedAt?.toDate(),
     } as Equipment;
@@ -64,6 +73,7 @@ export class EquipmentRepository {
       return {
         id: doc.id,
         title: data.title,
+        image: data.image,
         createdAt: data.createdAt?.toDate(),
         updatedAt: data.updatedAt?.toDate(),
       } as Equipment;
@@ -84,10 +94,17 @@ export class EquipmentRepository {
     }
 
     const now = new Date();
-    const updatedFields = {
-      ...updateData,
+    const updatedFields: Record<string, unknown> = {
       updatedAt: admin.firestore.Timestamp.fromDate(now),
     };
+
+    if (updateData.title !== undefined) {
+      updatedFields.title = updateData.title;
+    }
+
+    if (updateData.image !== undefined) {
+      updatedFields.image = updateData.image;
+    }
 
     await docRef.update(updatedFields);
     

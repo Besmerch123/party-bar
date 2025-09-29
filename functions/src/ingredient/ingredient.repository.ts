@@ -20,16 +20,26 @@ export class IngredientRepository {
     
     const ingredient: Ingredient = {
       id: docRef.id,
-      ...ingredientData,
+      title: ingredientData.title,
+      category: ingredientData.category,
+      image: ingredientData.image,
       createdAt: now,
       updatedAt: now,
     };
 
-    await docRef.set({
-      ...ingredient,
+    const firestoreData: Record<string, unknown> = {
+      id: ingredient.id,
+      title: ingredient.title,
+      category: ingredient.category,
       createdAt: admin.firestore.Timestamp.fromDate(now),
       updatedAt: admin.firestore.Timestamp.fromDate(now),
-    });
+    };
+
+    if (ingredient.image !== undefined) {
+      firestoreData.image = ingredient.image;
+    }
+
+    await docRef.set(firestoreData);
 
     return ingredient;
   }
@@ -49,6 +59,7 @@ export class IngredientRepository {
       id: doc.id,
       title: data?.title,
       category: data?.category,
+      image: data?.image,
       createdAt: data?.createdAt?.toDate(),
       updatedAt: data?.updatedAt?.toDate(),
     } as Ingredient;
@@ -66,6 +77,7 @@ export class IngredientRepository {
         id: doc.id,
         title: data.title,
         category: data.category,
+        image: data.image,
         createdAt: data.createdAt?.toDate(),
         updatedAt: data.updatedAt?.toDate(),
       } as Ingredient;
@@ -87,6 +99,7 @@ export class IngredientRepository {
         id: doc.id,
         title: data.title,
         category: data.category,
+        image: data.image,
         createdAt: data.createdAt?.toDate(),
         updatedAt: data.updatedAt?.toDate(),
       } as Ingredient;
@@ -105,10 +118,21 @@ export class IngredientRepository {
     }
 
     const now = new Date();
-    const updatedFields = {
-      ...updateData,
+    const updatedFields: Record<string, unknown> = {
       updatedAt: admin.firestore.Timestamp.fromDate(now),
     };
+
+    if (updateData.title !== undefined) {
+      updatedFields.title = updateData.title;
+    }
+
+    if (updateData.category !== undefined) {
+      updatedFields.category = updateData.category;
+    }
+
+    if (updateData.image !== undefined) {
+      updatedFields.image = updateData.image;
+    }
 
     await docRef.update(updatedFields);
     

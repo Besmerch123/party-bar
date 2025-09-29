@@ -10,6 +10,9 @@ export interface Equipment {
   
   /** The name/title of the equipment */
   title: string;
+
+  /** Google Cloud Storage path or URL to the equipment image */
+  image?: string;
   
   /** Timestamp when the equipment was created */
   createdAt?: Date;
@@ -24,6 +27,7 @@ export interface Equipment {
  */
 export interface CreateEquipmentDto {
   title: string;
+  image?: string;
 }
 
 /**
@@ -32,4 +36,5 @@ export interface CreateEquipmentDto {
  */
 export interface UpdateEquipmentDto {
   title?: string;
+  image?: string;
 }

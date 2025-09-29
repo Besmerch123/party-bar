@@ -19,6 +19,7 @@ export async function testEquipmentOperations() {
     console.log('\n1. Creating equipment...');
     const newEquipment: CreateEquipmentDto = {
       title: 'Boston Shaker',
+      image: 'gs://party-bar/equipment/boston-shaker.png',
     };
 
     const createdEquipment = await equipmentService.createEquipment(newEquipment);
@@ -38,6 +39,7 @@ export async function testEquipmentOperations() {
     console.log('\n4. Updating equipment...');
     const updatedEquipment = await equipmentService.updateEquipment(createdEquipment.id, {
       title: 'Professional Boston Shaker',
+      image: 'gs://party-bar/equipment/boston-shaker-pro.png',
     });
     console.log('Updated:', updatedEquipment);
 
