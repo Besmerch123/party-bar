@@ -14,4 +14,4 @@ export { IngredientRepository } from './ingredient.repository';
 export { IngredientService } from './ingredient.service';
 
 // Cloud Functions
-export * from './ingredient.functions';
+export * from './endpoints';

@@ -1,0 +1,124 @@
+/**
+ * Equipment Repository
+ * 
+ * Handles data persistence operations for equipment using Firestore.
+ * Following DDD principles, this abstracts the database layer.
+ */
+
+import * as admin from 'firebase-admin';
+import { Equipment, CreateEquipmentDto, UpdateEquipmentDto } from './equipment.model';
+
+export class EquipmentRepository {
+  private readonly collection = admin.firestore().collection('equipment');
+
+  /**
+   * Creates a new equipment in Firestore
+   */
+  async create(equipmentData: CreateEquipmentDto): Promise<Equipment> {
+    const now = new Date();
+    const docRef = this.collection.doc();
+    
+    const equipment: Equipment = {
+      id: docRef.id,
+      ...equipmentData,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    await docRef.set({
+      ...equipment,
+      createdAt: admin.firestore.Timestamp.fromDate(now),
+      updatedAt: admin.firestore.Timestamp.fromDate(now),
+    });
+
+    return equipment;
+  }
+
+  /**
+   * Retrieves an equipment by ID
+   */
+  async findById(id: string): Promise<Equipment | null> {
+    const doc = await this.collection.doc(id).get();
+    
+    if (!doc.exists) {
+      return null;
+    }
+
+    const data = doc.data();
+    return {
+      id: doc.id,
+      title: data?.title,
+      createdAt: data?.createdAt?.toDate(),
+      updatedAt: data?.updatedAt?.toDate(),
+    } as Equipment;
+  }
+
+  /**
+   * Retrieves all equipment
+   */
+  async findAll(): Promise<Equipment[]> {
+    const snapshot = await this.collection.orderBy('title', 'asc').get();
+    
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        title: data.title,
+        createdAt: data.createdAt?.toDate(),
+        updatedAt: data.updatedAt?.toDate(),
+      } as Equipment;
+    });
+  }
+
+
+
+  /**
+   * Updates an existing equipment
+   */
+  async update(id: string, updateData: UpdateEquipmentDto): Promise<Equipment | null> {
+    const docRef = this.collection.doc(id);
+    const doc = await docRef.get();
+    
+    if (!doc.exists) {
+      return null;
+    }
+
+    const now = new Date();
+    const updatedFields = {
+      ...updateData,
+      updatedAt: admin.firestore.Timestamp.fromDate(now),
+    };
+
+    await docRef.update(updatedFields);
+    
+    // Return the updated equipment
+    return await this.findById(id);
+  }
+
+  /**
+   * Deletes an equipment by ID
+   */
+  async delete(id: string): Promise<boolean> {
+    const docRef = this.collection.doc(id);
+    const doc = await docRef.get();
+    
+    if (!doc.exists) {
+      return false;
+    }
+
+    await docRef.delete();
+    return true;
+  }
+
+  /**
+   * Checks if an equipment with the given title already exists
+   */
+  async existsByTitle(title: string): Promise<boolean> {
+    const snapshot = await this.collection
+      .where('title', '==', title.trim())
+      .limit(1)
+      .get();
+    
+    return !snapshot.empty;
+  }
+}

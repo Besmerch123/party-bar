@@ -13,5 +13,6 @@ import * as admin from 'firebase-admin';
 admin.initializeApp();
 
 export * from './ingredient';
+export * from './equipment';
 
 setGlobalOptions({ maxInstances: 10 });
