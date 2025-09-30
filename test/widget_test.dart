@@ -14,7 +14,7 @@ void main() {
     WidgetTester tester,
   ) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const PartyBarApp());
+    await tester.pumpWidget(PartyBarApp(showWelcome: true));
 
     // Verify that our app loads without errors
     expect(find.text('PartyBar'), findsOneWidget);

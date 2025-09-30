@@ -17,7 +17,7 @@ class WelcomeScreen extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                Theme.of(context).colorScheme.primary.withValues(alpha: .1),
                 Theme.of(context).colorScheme.surface,
               ],
             ),
@@ -57,12 +57,12 @@ class WelcomeScreen extends StatelessWidget {
 
               // Subtitle
               Text(
-                'Create amazing cocktail experiences\\nfor your parties and gatherings',
+                'Create amazing cocktail experiences for your parties and gatherings',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Theme.of(
                     context,
-                  ).colorScheme.onSurface.withOpacity(0.7),
+                  ).colorScheme.onSurface.withValues(alpha: .7),
                 ),
               ),
 
@@ -109,7 +109,7 @@ class WelcomeScreen extends StatelessWidget {
                           fontSize: 16,
                           color: Theme.of(
                             context,
-                          ).colorScheme.onSurface.withOpacity(0.8),
+                          ).colorScheme.onSurface.withValues(alpha: .8),
                         ),
                       ),
                     ),

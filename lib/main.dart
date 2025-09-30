@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'utils/app_router.dart';
 
-void main() {
-  runApp(const PartyBarApp());
+const _hasSeenWelcomeKey = 'has_seen_welcome';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final hasSeenWelcome = prefs.getBool(_hasSeenWelcomeKey) ?? false;
+
+  if (!hasSeenWelcome) {
+    await prefs.setBool(_hasSeenWelcomeKey, true);
+  }
+
+  runApp(PartyBarApp(showWelcome: !hasSeenWelcome));
 }
 
 class PartyBarApp extends StatelessWidget {
-  const PartyBarApp({super.key});
+  PartyBarApp({super.key, required bool showWelcome})
+    : _router = createAppRouter(showWelcome: showWelcome);
+
+  final GoRouter _router;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +36,7 @@ class PartyBarApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      routerConfig: appRouter,
+      routerConfig: _router,
     );
   }
 }

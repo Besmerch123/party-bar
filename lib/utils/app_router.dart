@@ -20,85 +20,100 @@ class AppRoutes {
   static const String auth = '/auth';
 }
 
-final GoRouter appRouter = GoRouter(
-  initialLocation: AppRoutes.welcome,
-  routes: [
-    // Welcome and Onboarding
-    GoRoute(
-      path: AppRoutes.welcome,
-      builder: (context, state) => const WelcomeScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.onboarding,
-      builder: (context, state) => const OnboardingScreen(),
-    ),
+GoRouter createAppRouter({required bool showWelcome}) {
+  return GoRouter(
+    initialLocation: showWelcome ? AppRoutes.welcome : AppRoutes.explore,
+    routes: [
+      // Welcome and Onboarding
+      GoRoute(
+        path: AppRoutes.welcome,
+        builder: (context, state) => const WelcomeScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.onboarding,
+        builder: (context, state) => const OnboardingScreen(),
+      ),
 
-    // Main App Navigation
-    GoRoute(
-      path: AppRoutes.home,
-      builder: (context, state) => const MainNavigationWrapper(),
-    ),
+      // Main App Navigation
+      GoRoute(
+        path: AppRoutes.home,
+        builder: (context, state) => const MainNavigationWrapper(),
+      ),
+      GoRoute(
+        path: AppRoutes.explore,
+        builder: (context, state) =>
+            const MainNavigationWrapper(initialIndex: 1),
+      ),
 
-    // Cocktail Routes
-    GoRoute(
-      path: '${AppRoutes.cocktailDetails}/:id',
-      builder: (context, state) {
-        final cocktailId = state.pathParameters['id']!;
-        return CocktailDetailsScreen(cocktailId: cocktailId);
-      },
-    ),
+      // Cocktail Routes
+      GoRoute(
+        path: '${AppRoutes.cocktailDetails}/:id',
+        builder: (context, state) {
+          final cocktailId = state.pathParameters['id']!;
+          return CocktailDetailsScreen(cocktailId: cocktailId);
+        },
+      ),
 
-    // Party Routes
-    GoRoute(
-      path: AppRoutes.joinParty,
-      builder: (context, state) => const JoinPartyScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.createParty,
-      builder: (context, state) => const CreatePartyScreen(),
-    ),
-    GoRoute(
-      path: '${AppRoutes.partyDetails}/:id',
-      builder: (context, state) {
-        final partyId = state.pathParameters['id']!;
-        return PartyDetailsScreen(partyId: partyId);
-      },
-    ),
+      // Party Routes
+      GoRoute(
+        path: AppRoutes.joinParty,
+        builder: (context, state) => const JoinPartyScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.createParty,
+        builder: (context, state) => const CreatePartyScreen(),
+      ),
+      GoRoute(
+        path: '${AppRoutes.partyDetails}/:id',
+        builder: (context, state) {
+          final partyId = state.pathParameters['id']!;
+          return PartyDetailsScreen(partyId: partyId);
+        },
+      ),
 
-    // Bar Routes
-    GoRoute(
-      path: AppRoutes.createBar,
-      builder: (context, state) => const CreateBarScreen(),
-    ),
-    GoRoute(
-      path: '${AppRoutes.barDetails}/:id',
-      builder: (context, state) {
-        final barId = state.pathParameters['id']!;
-        return BarDetailsScreen(barId: barId);
-      },
-    ),
+      // Bar Routes
+      GoRoute(
+        path: AppRoutes.createBar,
+        builder: (context, state) => const CreateBarScreen(),
+      ),
+      GoRoute(
+        path: '${AppRoutes.barDetails}/:id',
+        builder: (context, state) {
+          final barId = state.pathParameters['id']!;
+          return BarDetailsScreen(barId: barId);
+        },
+      ),
 
-    // Profile Routes
-    GoRoute(
-      path: AppRoutes.settings,
-      builder: (context, state) => const SettingsScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.auth,
-      builder: (context, state) => const AuthScreen(),
-    ),
-  ],
-);
+      // Profile Routes
+      GoRoute(
+        path: AppRoutes.settings,
+        builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.auth,
+        builder: (context, state) => const AuthScreen(),
+      ),
+    ],
+  );
+}
 
 class MainNavigationWrapper extends StatefulWidget {
-  const MainNavigationWrapper({super.key});
+  const MainNavigationWrapper({super.key, this.initialIndex = 0});
+
+  final int initialIndex;
 
   @override
   State<MainNavigationWrapper> createState() => _MainNavigationWrapperState();
 }
 
 class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+  }
 
   final List<Widget> _screens = [
     const HomeScreen(),
@@ -123,7 +138,7 @@ class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
         selectedItemColor: Theme.of(context).colorScheme.primary,
         unselectedItemColor: Theme.of(
           context,
-        ).colorScheme.onSurface.withOpacity(0.6),
+        ).colorScheme.onSurface.withValues(alpha: .6),
         backgroundColor: Theme.of(context).colorScheme.surface,
         items: const [
           BottomNavigationBarItem(
