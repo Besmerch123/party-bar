@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../models/models.dart';
-import '../../data/mock_data.dart';
+import '../../data/cocktail_repository.dart';
 import '../../utils/app_router.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -12,61 +12,62 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  final CocktailRepository _repository = CocktailRepository();
+
+  List<Cocktail> _allCocktails = [];
   List<Cocktail> _filteredCocktails = [];
   String _searchQuery = '';
   CocktailCategory? _selectedCategory;
-  CocktailDifficulty? _selectedDifficulty;
-  bool _showAlcoholicOnly = false;
-  bool _showNonAlcoholicOnly = false;
+  bool _isLoading = true;
+  String? _error;
 
   @override
   void initState() {
     super.initState();
-    _filteredCocktails = MockData.cocktails;
+    _loadCocktails();
+  }
+
+  Future<void> _loadCocktails() async {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+
+    try {
+      final cocktails = await _repository.getAllCocktails(
+        locale: SupportedLocale.en, // TODO: Get from LocaleProvider
+      );
+
+      setState(() {
+        _allCocktails = cocktails;
+        _filteredCocktails = cocktails;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = 'Failed to load cocktails: $e';
+        _isLoading = false;
+      });
+    }
   }
 
   void _filterCocktails() {
     setState(() {
-      _filteredCocktails = MockData.cocktails.where((cocktail) {
+      _filteredCocktails = _allCocktails.where((cocktail) {
         // Search query filter
         bool matchesSearch =
             _searchQuery.isEmpty ||
-            cocktail.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+            cocktail.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
             cocktail.description.toLowerCase().contains(
               _searchQuery.toLowerCase(),
-            ) ||
-            cocktail.tags.any(
-              (tag) => tag.toLowerCase().contains(_searchQuery.toLowerCase()),
-            ) ||
-            cocktail.ingredients.any(
-              (ingredient) => ingredient.name.toLowerCase().contains(
-                _searchQuery.toLowerCase(),
-              ),
             );
 
         // Category filter
         bool matchesCategory =
-            _selectedCategory == null || cocktail.category == _selectedCategory;
+            _selectedCategory == null ||
+            cocktail.categories.contains(_selectedCategory);
 
-        // Difficulty filter
-        bool matchesDifficulty =
-            _selectedDifficulty == null ||
-            cocktail.difficulty == _selectedDifficulty;
-
-        // Alcohol content filter
-        bool matchesAlcohol = true;
-        if (_showAlcoholicOnly && _showNonAlcoholicOnly) {
-          matchesAlcohol = true; // Both selected means show all
-        } else if (_showAlcoholicOnly) {
-          matchesAlcohol = cocktail.alcoholContent > 0;
-        } else if (_showNonAlcoholicOnly) {
-          matchesAlcohol = cocktail.alcoholContent == 0;
-        }
-
-        return matchesSearch &&
-            matchesCategory &&
-            matchesDifficulty &&
-            matchesAlcohol;
+        return matchesSearch && matchesCategory;
       }).toList();
     });
   }
@@ -74,9 +75,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
   void _clearFilters() {
     setState(() {
       _selectedCategory = null;
-      _selectedDifficulty = null;
-      _showAlcoholicOnly = false;
-      _showNonAlcoholicOnly = false;
       _searchQuery = '';
     });
     _filterCocktails();
@@ -93,124 +91,110 @@ class _ExploreScreenState extends State<ExploreScreen> {
             icon: const Icon(Icons.filter_list),
             onPressed: () => _showFiltersBottomSheet(),
           ),
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: _loadCocktails,
+          ),
         ],
       ),
-      body: Column(
-        children: [
-          // Search Bar
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              onChanged: (value) {
-                _searchQuery = value;
-                _filterCocktails();
-              },
-              decoration: InputDecoration(
-                hintText: 'Search cocktails...',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? _buildErrorState()
+          : Column(
+              children: [
+                // Search Bar
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextField(
+                    onChanged: (value) {
+                      _searchQuery = value;
+                      _filterCocktails();
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search cocktails...',
+                      prefixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      filled: true,
+                      fillColor: Theme.of(context).colorScheme.surface,
+                    ),
+                  ),
                 ),
-                filled: true,
-                fillColor: Theme.of(context).colorScheme.surface,
-              ),
-            ),
-          ),
 
-          // Active Filters Display
-          if (_selectedCategory != null ||
-              _selectedDifficulty != null ||
-              _showAlcoholicOnly ||
-              _showNonAlcoholicOnly)
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
+                // Active Filters Display
+                if (_selectedCategory != null)
+                  Container(
+                    height: 50,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
                       children: [
-                        if (_selectedCategory != null)
-                          _buildFilterChip(
-                            _getCategoryDisplayName(_selectedCategory!),
-                            () => setState(() {
-                              _selectedCategory = null;
-                              _filterCocktails();
-                            }),
+                        Expanded(
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              if (_selectedCategory != null)
+                                _buildFilterChip(
+                                  _getCategoryDisplayName(_selectedCategory!),
+                                  () => setState(() {
+                                    _selectedCategory = null;
+                                    _filterCocktails();
+                                  }),
+                                ),
+                            ],
                           ),
-                        if (_selectedDifficulty != null)
-                          _buildFilterChip(
-                            _getDifficultyDisplayName(_selectedDifficulty!),
-                            () => setState(() {
-                              _selectedDifficulty = null;
-                              _filterCocktails();
-                            }),
-                          ),
-                        if (_showAlcoholicOnly)
-                          _buildFilterChip(
-                            'Alcoholic',
-                            () => setState(() {
-                              _showAlcoholicOnly = false;
-                              _filterCocktails();
-                            }),
-                          ),
-                        if (_showNonAlcoholicOnly)
-                          _buildFilterChip(
-                            'Non-Alcoholic',
-                            () => setState(() {
-                              _showNonAlcoholicOnly = false;
-                              _filterCocktails();
-                            }),
-                          ),
+                        ),
+                        TextButton(
+                          onPressed: _clearFilters,
+                          child: const Text('Clear All'),
+                        ),
                       ],
                     ),
                   ),
-                  TextButton(
-                    onPressed: _clearFilters,
-                    child: const Text('Clear All'),
-                  ),
-                ],
-              ),
-            ),
 
-          // Results Count
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                '${_filteredCocktails.length} cocktails found',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withOpacity(0.7),
+                // Results Count
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '${_filteredCocktails.length} cocktails found',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withOpacity(0.7),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
 
-          // Cocktails Grid
-          Expanded(
-            child: _filteredCocktails.isEmpty
-                ? _buildEmptyState()
-                : GridView.builder(
-                    padding: const EdgeInsets.all(16),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
-                          childAspectRatio: 0.75,
+                // Cocktails Grid
+                Expanded(
+                  child: _filteredCocktails.isEmpty
+                      ? _buildEmptyState()
+                      : GridView.builder(
+                          padding: const EdgeInsets.all(16),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16,
+                                childAspectRatio: 0.75,
+                              ),
+                          itemCount: _filteredCocktails.length,
+                          itemBuilder: (context, index) {
+                            return _buildCocktailCard(
+                              _filteredCocktails[index],
+                            );
+                          },
                         ),
-                    itemCount: _filteredCocktails.length,
-                    itemBuilder: (context, index) {
-                      return _buildCocktailCard(_filteredCocktails[index]);
-                    },
-                  ),
-          ),
-        ],
-      ),
+                ),
+              ],
+            ),
     );
   }
 
@@ -263,7 +247,41 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
+  Widget _buildErrorState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error_outline,
+            size: 64,
+            color: Theme.of(context).colorScheme.error,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Error Loading Cocktails',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _error ?? 'Unknown error',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(onPressed: _loadCocktails, child: const Text('Retry')),
+        ],
+      ),
+    );
+  }
+
   Widget _buildCocktailCard(Cocktail cocktail) {
+    final primaryCategory = cocktail.categories.isNotEmpty
+        ? cocktail.categories.first
+        : CocktailCategory.classic;
+
     return GestureDetector(
       onTap: () => context.push('${AppRoutes.cocktailDetails}/${cocktail.id}'),
       child: Card(
@@ -271,58 +289,26 @@ class _ExploreScreenState extends State<ExploreScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image placeholder
+            // Image placeholder with category color
             Container(
               height: 120,
               width: double.infinity,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    _getCategoryColor(cocktail.category).withOpacity(0.8),
-                    _getCategoryColor(cocktail.category),
+                    _getCategoryColor(primaryCategory).withOpacity(0.8),
+                    _getCategoryColor(primaryCategory),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
               ),
-              child: Stack(
-                children: [
-                  Center(
-                    child: Icon(
-                      Icons.local_bar,
-                      size: 40,
-                      color: Colors.white.withOpacity(0.8),
-                    ),
-                  ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.6),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        '${cocktail.prepTimeMinutes}m',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                  if (cocktail.isPopular)
-                    const Positioned(
-                      top: 8,
-                      left: 8,
-                      child: Icon(Icons.star, color: Colors.amber, size: 20),
-                    ),
-                ],
+              child: Center(
+                child: Icon(
+                  Icons.local_bar,
+                  size: 40,
+                  color: Colors.white.withOpacity(0.8),
+                ),
               ),
             ),
             Expanded(
@@ -332,7 +318,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      cocktail.name,
+                      cocktail.title,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -351,32 +337,34 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _buildDifficultyBadge(cocktail.difficulty),
-                        if (cocktail.alcoholContent > 0)
-                          Text(
-                            '${cocktail.alcoholContent.toStringAsFixed(0)}% ABV',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                          )
-                        else
-                          Text(
-                            'Non-Alcoholic',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.secondary,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                          ),
-                      ],
-                    ),
+                    // Display categories as chips
+                    if (cocktail.categories.isNotEmpty)
+                      Wrap(
+                        spacing: 4,
+                        runSpacing: 4,
+                        children: cocktail.categories.take(2).map((category) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: _getCategoryColor(
+                                category,
+                              ).withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              _getCategoryDisplayName(category),
+                              style: TextStyle(
+                                color: _getCategoryColor(category),
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
                   ],
                 ),
               ),
@@ -387,60 +375,30 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
-  Widget _buildDifficultyBadge(CocktailDifficulty difficulty) {
-    Color color;
-    switch (difficulty) {
-      case CocktailDifficulty.easy:
-        color = Colors.green;
-        break;
-      case CocktailDifficulty.medium:
-        color = Colors.orange;
-        break;
-      case CocktailDifficulty.hard:
-        color = Colors.red;
-        break;
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.5)),
-      ),
-      child: Text(
-        _getDifficultyDisplayName(difficulty),
-        style: TextStyle(
-          color: color,
-          fontSize: 10,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-
   Color _getCategoryColor(CocktailCategory category) {
     switch (category) {
       case CocktailCategory.classic:
         return Colors.brown;
-      case CocktailCategory.modern:
+      case CocktailCategory.signature:
         return Colors.purple;
-      case CocktailCategory.tropical:
+      case CocktailCategory.seasonal:
         return Colors.orange;
-      case CocktailCategory.martini:
-        return Colors.blue;
-      case CocktailCategory.whiskey:
-        return Colors.amber;
-      case CocktailCategory.vodka:
-        return Colors.cyan;
-      case CocktailCategory.rum:
-        return Colors.deepOrange;
-      case CocktailCategory.gin:
-        return Colors.teal;
-      case CocktailCategory.shots:
-        return Colors.red;
+      case CocktailCategory.frozen:
+        return Colors.lightBlue;
       case CocktailCategory.mocktail:
         return Colors.green;
+      case CocktailCategory.shot:
+        return Colors.red;
+      case CocktailCategory.long:
+        return Colors.amber;
+      case CocktailCategory.punch:
+        return Colors.pink;
+      case CocktailCategory.tiki:
+        return Colors.deepOrange;
+      case CocktailCategory.highball:
+        return Colors.cyan;
+      case CocktailCategory.lowball:
+        return Colors.teal;
     }
   }
 
@@ -448,35 +406,26 @@ class _ExploreScreenState extends State<ExploreScreen> {
     switch (category) {
       case CocktailCategory.classic:
         return 'Classic';
-      case CocktailCategory.modern:
-        return 'Modern';
-      case CocktailCategory.tropical:
-        return 'Tropical';
-      case CocktailCategory.martini:
-        return 'Martini';
-      case CocktailCategory.whiskey:
-        return 'Whiskey';
-      case CocktailCategory.vodka:
-        return 'Vodka';
-      case CocktailCategory.rum:
-        return 'Rum';
-      case CocktailCategory.gin:
-        return 'Gin';
-      case CocktailCategory.shots:
-        return 'Shots';
+      case CocktailCategory.signature:
+        return 'Signature';
+      case CocktailCategory.seasonal:
+        return 'Seasonal';
+      case CocktailCategory.frozen:
+        return 'Frozen';
       case CocktailCategory.mocktail:
         return 'Mocktail';
-    }
-  }
-
-  String _getDifficultyDisplayName(CocktailDifficulty difficulty) {
-    switch (difficulty) {
-      case CocktailDifficulty.easy:
-        return 'Easy';
-      case CocktailDifficulty.medium:
-        return 'Medium';
-      case CocktailDifficulty.hard:
-        return 'Hard';
+      case CocktailCategory.shot:
+        return 'Shot';
+      case CocktailCategory.long:
+        return 'Long';
+      case CocktailCategory.punch:
+        return 'Punch';
+      case CocktailCategory.tiki:
+        return 'Tiki';
+      case CocktailCategory.highball:
+        return 'Highball';
+      case CocktailCategory.lowball:
+        return 'Lowball';
     }
   }
 
@@ -563,64 +512,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       );
                     }).toList(),
                   ),
-
-                  const SizedBox(height: 24),
-
-                  // Difficulty
-                  Text(
-                    'Difficulty',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: CocktailDifficulty.values.map((difficulty) {
-                      final isSelected = _selectedDifficulty == difficulty;
-                      return FilterChip(
-                        label: Text(_getDifficultyDisplayName(difficulty)),
-                        selected: isSelected,
-                        onSelected: (selected) {
-                          setModalState(() {
-                            _selectedDifficulty = selected ? difficulty : null;
-                          });
-                        },
-                      );
-                    }).toList(),
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  // Alcohol Content
-                  Text(
-                    'Alcohol Content',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  CheckboxListTile(
-                    title: const Text('Alcoholic cocktails only'),
-                    value: _showAlcoholicOnly,
-                    onChanged: (value) {
-                      setModalState(() {
-                        _showAlcoholicOnly = value ?? false;
-                        if (_showAlcoholicOnly) _showNonAlcoholicOnly = false;
-                      });
-                    },
-                  ),
-                  CheckboxListTile(
-                    title: const Text('Non-alcoholic cocktails only'),
-                    value: _showNonAlcoholicOnly,
-                    onChanged: (value) {
-                      setModalState(() {
-                        _showNonAlcoholicOnly = value ?? false;
-                        if (_showNonAlcoholicOnly) _showAlcoholicOnly = false;
-                      });
-                    },
-                  ),
                 ],
               ),
             ),
@@ -634,9 +525,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     onPressed: () {
                       setModalState(() {
                         _selectedCategory = null;
-                        _selectedDifficulty = null;
-                        _showAlcoholicOnly = false;
-                        _showNonAlcoholicOnly = false;
                       });
                     },
                     child: const Text('Clear All'),

@@ -20,123 +20,112 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
   final List<Cocktail> _allCocktails = [
     Cocktail(
       id: '1',
-      name: 'Mojito',
+      title: 'Mojito',
       description: 'Fresh mint, lime, and rum cocktail',
       ingredients: [
-        CocktailIngredient(name: 'White rum', amount: '2 oz'),
-        CocktailIngredient(name: 'Fresh mint', amount: '10 leaves'),
-        CocktailIngredient(name: 'Lime juice', amount: '1 oz'),
-        CocktailIngredient(name: 'Sugar', amount: '1 tsp'),
-        CocktailIngredient(name: 'Soda water', amount: '3 oz'),
+        'ingredients/white_rum',
+        'ingredients/fresh_mint',
+        'ingredients/lime_juice',
+        'ingredients/sugar',
+        'ingredients/soda_water',
       ],
-      instructions: [
-        'Muddle mint and lime',
-        'Add rum and sugar',
-        'Top with soda water',
+      equipments: [
+        'equipments/muddler',
+        'equipments/highball_glass',
+        'equipments/bar_spoon',
       ],
-      difficulty: CocktailDifficulty.easy,
-      category: CocktailCategory.classic,
-      imageUrl: 'https://example.com/mojito.jpg',
-      prepTimeMinutes: 5,
-      alcoholContent: 15.0,
+      categories: [CocktailCategory.classic, CocktailCategory.long],
+      createdAt: DateTime.now().subtract(const Duration(days: 30)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 5)),
     ),
     Cocktail(
       id: '2',
-      name: 'Margarita',
+      title: 'Margarita',
       description: 'Classic tequila cocktail with lime',
       ingredients: [
-        CocktailIngredient(name: 'Tequila', amount: '2 oz'),
-        CocktailIngredient(name: 'Triple sec', amount: '1 oz'),
-        CocktailIngredient(name: 'Lime juice', amount: '1 oz'),
-        CocktailIngredient(name: 'Salt', amount: 'for rim'),
+        'ingredients/tequila',
+        'ingredients/triple_sec',
+        'ingredients/lime_juice',
+        'ingredients/salt',
       ],
-      instructions: [
-        'Rim glass with salt',
-        'Shake ingredients with ice',
-        'Strain into glass',
+      equipments: [
+        'equipments/cocktail_shaker',
+        'equipments/margarita_glass',
+        'equipments/strainer',
       ],
-      difficulty: CocktailDifficulty.easy,
-      category: CocktailCategory.classic,
-      imageUrl: 'https://example.com/margarita.jpg',
-      prepTimeMinutes: 3,
-      alcoholContent: 18.0,
+      categories: [CocktailCategory.classic, CocktailCategory.lowball],
+      createdAt: DateTime.now().subtract(const Duration(days: 28)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 3)),
     ),
     Cocktail(
       id: '3',
-      name: 'Old Fashioned',
+      title: 'Old Fashioned',
       description: 'Classic whiskey cocktail',
       ingredients: [
-        CocktailIngredient(name: 'Bourbon', amount: '2 oz'),
-        CocktailIngredient(name: 'Sugar', amount: '1 cube'),
-        CocktailIngredient(name: 'Angostura bitters', amount: '2 dashes'),
-        CocktailIngredient(name: 'Orange peel', amount: '1 twist'),
+        'ingredients/bourbon',
+        'ingredients/sugar',
+        'ingredients/angostura_bitters',
+        'ingredients/orange_peel',
       ],
-      instructions: [
-        'Muddle sugar and bitters',
-        'Add whiskey and ice',
-        'Garnish with orange',
+      equipments: [
+        'equipments/mixing_glass',
+        'equipments/bar_spoon',
+        'equipments/old_fashioned_glass',
       ],
-      difficulty: CocktailDifficulty.medium,
-      category: CocktailCategory.classic,
-      imageUrl: 'https://example.com/oldfashioned.jpg',
-      prepTimeMinutes: 4,
-      alcoholContent: 25.0,
+      categories: [CocktailCategory.classic, CocktailCategory.lowball],
+      createdAt: DateTime.now().subtract(const Duration(days: 25)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 2)),
     ),
     Cocktail(
       id: '4',
-      name: 'Piña Colada',
+      title: 'Piña Colada',
       description: 'Tropical coconut and pineapple cocktail',
       ingredients: [
-        CocktailIngredient(name: 'White rum', amount: '2 oz'),
-        CocktailIngredient(name: 'Coconut cream', amount: '2 oz'),
-        CocktailIngredient(name: 'Pineapple juice', amount: '4 oz'),
+        'ingredients/white_rum',
+        'ingredients/coconut_cream',
+        'ingredients/pineapple_juice',
       ],
-      instructions: [
-        'Blend all ingredients with ice',
-        'Serve in hurricane glass',
-      ],
-      difficulty: CocktailDifficulty.easy,
-      category: CocktailCategory.tropical,
-      imageUrl: 'https://example.com/pinacolada.jpg',
-      prepTimeMinutes: 3,
-      alcoholContent: 12.0,
+      equipments: ['equipments/blender', 'equipments/hurricane_glass'],
+      categories: [CocktailCategory.tiki, CocktailCategory.frozen],
+      createdAt: DateTime.now().subtract(const Duration(days: 20)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
     ),
     Cocktail(
       id: '5',
-      name: 'Negroni',
+      title: 'Negroni',
       description: 'Bitter Italian cocktail',
       ingredients: [
-        CocktailIngredient(name: 'Gin', amount: '1 oz'),
-        CocktailIngredient(name: 'Campari', amount: '1 oz'),
-        CocktailIngredient(name: 'Sweet vermouth', amount: '1 oz'),
+        'ingredients/gin',
+        'ingredients/campari',
+        'ingredients/sweet_vermouth',
       ],
-      instructions: [
-        'Stir ingredients with ice',
-        'Strain over ice',
-        'Garnish with orange',
+      equipments: [
+        'equipments/mixing_glass',
+        'equipments/bar_spoon',
+        'equipments/old_fashioned_glass',
       ],
-      difficulty: CocktailDifficulty.medium,
-      category: CocktailCategory.classic,
-      imageUrl: 'https://example.com/negroni.jpg',
-      prepTimeMinutes: 2,
-      alcoholContent: 24.0,
+      categories: [CocktailCategory.classic, CocktailCategory.lowball],
+      createdAt: DateTime.now().subtract(const Duration(days: 15)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
     ),
     Cocktail(
       id: '6',
-      name: 'Cosmopolitan',
-      description: 'Pink vodka cocktail',
+      title: 'Cosmopolitan',
+      description: 'Pink vodka cocktail made famous in the 90s',
       ingredients: [
-        CocktailIngredient(name: 'Vodka', amount: '1.5 oz'),
-        CocktailIngredient(name: 'Triple sec', amount: '0.5 oz'),
-        CocktailIngredient(name: 'Cranberry juice', amount: '0.5 oz'),
-        CocktailIngredient(name: 'Lime juice', amount: '0.25 oz'),
+        'ingredients/vodka',
+        'ingredients/triple_sec',
+        'ingredients/cranberry_juice',
+        'ingredients/lime_juice',
       ],
-      instructions: ['Shake ingredients with ice', 'Strain into martini glass'],
-      difficulty: CocktailDifficulty.easy,
-      category: CocktailCategory.modern,
-      imageUrl: 'https://example.com/cosmopolitan.jpg',
-      prepTimeMinutes: 3,
-      alcoholContent: 20.0,
+      equipments: [
+        'equipments/cocktail_shaker',
+        'equipments/martini_glass',
+        'equipments/strainer',
+      ],
+      categories: [CocktailCategory.classic],
+      createdAt: DateTime.now().subtract(const Duration(days: 10)),
+      updatedAt: DateTime.now(),
     ),
   ];
 
@@ -372,19 +361,26 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
                           _selectedCocktailIds.addAll(
                             _allCocktails
                                 .where(
-                                  (c) => c.category == CocktailCategory.classic,
+                                  (c) => c.categories.contains(
+                                    CocktailCategory.classic,
+                                  ),
                                 )
                                 .map((c) => c.id),
                           );
                         });
                       }),
-                      _buildQuickSelectButton('Easy Only', () {
+                      _buildQuickSelectButton('Tiki & Frozen', () {
                         setState(() {
                           _selectedCocktailIds.addAll(
                             _allCocktails
                                 .where(
                                   (c) =>
-                                      c.difficulty == CocktailDifficulty.easy,
+                                      c.categories.contains(
+                                        CocktailCategory.tiki,
+                                      ) ||
+                                      c.categories.contains(
+                                        CocktailCategory.frozen,
+                                      ),
                                 )
                                 .map((c) => c.id),
                           );
@@ -515,7 +511,7 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      cocktail.name,
+                      cocktail.title,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -525,7 +521,15 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
                       ),
                     ),
                     Text(
-                      '${cocktail.difficulty.name.substring(0, 1).toUpperCase() + cocktail.difficulty.name.substring(1)} • ${cocktail.prepTimeMinutes} min',
+                      cocktail.categories.isNotEmpty
+                          ? cocktail.categories
+                                .map(
+                                  (c) =>
+                                      c.name.substring(0, 1).toUpperCase() +
+                                      c.name.substring(1),
+                                )
+                                .join(' • ')
+                          : 'Cocktail',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey.shade600,

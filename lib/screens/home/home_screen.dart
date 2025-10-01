@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../models/models.dart';
-import '../../data/mock_data.dart';
+import '../../data/cocktail_repository.dart';
 import '../../utils/app_router.dart';
+
+/// Data class to hold all home screen data
+class _HomeData {
+  final List<Cocktail> featuredCocktails;
+  final List<Cocktail> popularCocktails;
+  final Map<CocktailCategory, List<Cocktail>> categorizedCocktails;
+  final int totalCocktails;
+
+  const _HomeData({
+    required this.featuredCocktails,
+    required this.popularCocktails,
+    required this.categorizedCocktails,
+    required this.totalCocktails,
+  });
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,32 +27,54 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late List<Cocktail> featuredCocktails;
-  late List<Cocktail> popularCocktails;
-  late Map<CocktailCategory, List<Cocktail>> categorizedCocktails;
-  bool isAuthenticated = true; // Mock authentication state
+  final CocktailRepository _cocktailRepository = CocktailRepository();
+  final SupportedLocale _locale = SupportedLocale.en; // TODO: Get from provider
+
+  late Future<_HomeData> _homeDataFuture;
+  bool isAuthenticated = true; // TODO: Get from auth provider
 
   @override
   void initState() {
     super.initState();
-    _loadData();
+    _homeDataFuture = _loadData();
   }
 
-  void _loadData() {
-    // Mock featured cocktails (first 3 popular ones)
-    featuredCocktails = MockData.getPopularCocktails().take(3).toList();
+  Future<_HomeData> _loadData() async {
+    // Fetch all cocktails
+    final allCocktails = await _cocktailRepository.getAllCocktails(
+      locale: _locale,
+    );
 
-    // Mock popular cocktails
-    popularCocktails = MockData.getPopularCocktails();
+    // Sort by creation date and take latest 3 for featured
+    final sortedByDate = List<Cocktail>.from(allCocktails)
+      ..sort((a, b) {
+        final aDate = a.createdAt ?? DateTime(2000);
+        final bDate = b.createdAt ?? DateTime(2000);
+        return bDate.compareTo(aDate);
+      });
+    final featured = sortedByDate.take(3).toList();
 
-    // Categorize cocktails for quick access
-    categorizedCocktails = {};
+    // Take latest 5 for popular section (simplified)
+    final popular = sortedByDate.take(5).toList();
+
+    // Categorize cocktails
+    final categorized = <CocktailCategory, List<Cocktail>>{};
     for (final category in CocktailCategory.values) {
-      final cocktails = MockData.getCocktailsByCategory(category);
+      final cocktails = allCocktails
+          .where((c) => c.categories.contains(category))
+          .take(3)
+          .toList();
       if (cocktails.isNotEmpty) {
-        categorizedCocktails[category] = cocktails.take(3).toList();
+        categorized[category] = cocktails;
       }
     }
+
+    return _HomeData(
+      featuredCocktails: featured,
+      popularCocktails: popular,
+      categorizedCocktails: categorized,
+      totalCocktails: allCocktails.length,
+    );
   }
 
   @override
@@ -63,40 +100,73 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          setState(() {
-            _loadData();
-          });
+      body: FutureBuilder<_HomeData>(
+        future: _homeDataFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Text('Error loading data: ${snapshot.error}'),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _homeDataFuture = _loadData();
+                      });
+                    },
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          if (!snapshot.hasData) {
+            return const Center(child: Text('No data available'));
+          }
+
+          final data = snapshot.data!;
+
+          return RefreshIndicator(
+            onRefresh: () async {
+              setState(() {
+                _homeDataFuture = _loadData();
+              });
+            },
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildWelcomeSection(data),
+                  const SizedBox(height: 24),
+                  _buildQuickActions(),
+                  const SizedBox(height: 24),
+                  _buildFeaturedSection(data),
+                  const SizedBox(height: 24),
+                  _buildCategoriesSection(data),
+                  const SizedBox(height: 24),
+                  _buildPopularSection(data),
+                  const SizedBox(height: 80), // Bottom padding for FABs
+                ],
+              ),
+            ),
+          );
         },
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildWelcomeSection(),
-              const SizedBox(height: 24),
-              _buildQuickActions(),
-              const SizedBox(height: 24),
-              _buildFeaturedSection(),
-              const SizedBox(height: 24),
-              _buildCategoriesSection(),
-              const SizedBox(height: 24),
-              if (isAuthenticated) ...[
-                _buildRecentActivitySection(),
-                const SizedBox(height: 24),
-              ],
-              _buildPopularSection(),
-              const SizedBox(height: 80), // Bottom padding for FABs
-            ],
-          ),
-        ),
       ),
       floatingActionButton: _buildFloatingActionButtons(),
     );
   }
 
-  Widget _buildWelcomeSection() {
+  Widget _buildWelcomeSection(_HomeData data) {
     final currentHour = DateTime.now().hour;
     String greeting;
     if (currentHour < 12) {
@@ -135,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 8),
           Text(
             isAuthenticated
-                ? 'Welcome back, ${MockData.users.first.name}!'
+                ? 'Welcome back!' // Simplified - no user data yet
                 : 'Ready to create amazing cocktail experiences?',
             style: const TextStyle(
               color: Colors.white,
@@ -149,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const Icon(Icons.local_bar, color: Colors.white, size: 20),
               const SizedBox(width: 8),
               Text(
-                '${MockData.cocktails.length} cocktails available',
+                '${data.totalCocktails} cocktails available',
                 style: const TextStyle(color: Colors.white, fontSize: 14),
               ),
             ],
@@ -239,7 +309,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildFeaturedSection() {
+  Widget _buildFeaturedSection(_HomeData data) {
+    if (data.featuredCocktails.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -266,9 +340,9 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 280,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: featuredCocktails.length,
+            itemCount: data.featuredCocktails.length,
             itemBuilder: (context, index) {
-              return _buildFeaturedCocktailCard(featuredCocktails[index]);
+              return _buildFeaturedCocktailCard(data.featuredCocktails[index]);
             },
           ),
         ),
@@ -277,6 +351,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildFeaturedCocktailCard(Cocktail cocktail) {
+    // Get first category or use classic as fallback
+    final category = cocktail.categories.isNotEmpty
+        ? cocktail.categories.first
+        : CocktailCategory.classic;
+
     return GestureDetector(
       onTap: () => context.push('${AppRoutes.cocktailDetails}/${cocktail.id}'),
       child: Container(
@@ -293,8 +372,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      _getCategoryColor(cocktail.category).withOpacity(0.8),
-                      _getCategoryColor(cocktail.category),
+                      _getCategoryColor(category).withOpacity(0.8),
+                      _getCategoryColor(category),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -352,7 +431,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        cocktail.name,
+                        cocktail.title,
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.bold),
                         maxLines: 1,
@@ -370,19 +449,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       const Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '${cocktail.prepTimeMinutes}m',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                          ),
-                          _buildDifficultyBadge(cocktail.difficulty),
-                        ],
+                      // Simplified - no prep time or difficulty in current model
+                      Text(
+                        _getCategoryDisplayName(category),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
@@ -395,7 +468,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildCategoriesSection() {
+  Widget _buildCategoriesSection(_HomeData data) {
+    if (data.categorizedCocktails.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -410,10 +487,10 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 120,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: categorizedCocktails.keys.length,
+            itemCount: data.categorizedCocktails.keys.length,
             itemBuilder: (context, index) {
-              final category = categorizedCocktails.keys.elementAt(index);
-              final cocktails = categorizedCocktails[category]!;
+              final category = data.categorizedCocktails.keys.elementAt(index);
+              final cocktails = data.categorizedCocktails[category]!;
               return _buildCategoryCard(category, cocktails.length);
             },
           ),
@@ -472,125 +549,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildRecentActivitySection() {
-    // Mock recent activity data
-    final recentOrders = MockData.orders.take(3).toList();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Recent Activity',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: recentOrders.map((order) {
-                final cocktail = MockData.getCocktailById(order.cocktailId);
-                return _buildActivityItem(
-                  title: cocktail?.name ?? 'Unknown Cocktail',
-                  subtitle: 'Ordered ${_getTimeAgo(order.createdAt)}',
-                  status: order.status,
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildActivityItem({
-    required String title,
-    required String subtitle,
-    required OrderStatus status,
-  }) {
-    Color statusColor;
-    String statusText;
-
-    switch (status) {
-      case OrderStatus.pending:
-        statusColor = Colors.orange;
-        statusText = 'Pending';
-        break;
-      case OrderStatus.preparing:
-        statusColor = Colors.blue;
-        statusText = 'Preparing';
-        break;
-      case OrderStatus.ready:
-        statusColor = Colors.green;
-        statusText = 'Ready';
-        break;
-      case OrderStatus.delivered:
-        statusColor = Colors.grey;
-        statusText = 'Delivered';
-        break;
-      case OrderStatus.cancelled:
-        statusColor = Colors.red;
-        statusText = 'Cancelled';
-        break;
+  Widget _buildPopularSection(_HomeData data) {
+    if (data.popularCocktails.isEmpty) {
+      return const SizedBox.shrink();
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Container(
-            width: 8,
-            height: 8,
-            decoration: BoxDecoration(
-              color: statusColor,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
-                ),
-                Text(
-                  subtitle,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withOpacity(0.7),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: statusColor.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              statusText,
-              style: TextStyle(
-                color: statusColor,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPopularSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -598,7 +561,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Popular Cocktails',
+              'Latest Cocktails',
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -616,9 +579,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: popularCocktails.take(5).length,
+          itemCount: data.popularCocktails.length,
           itemBuilder: (context, index) {
-            return _buildPopularCocktailItem(popularCocktails[index]);
+            return _buildPopularCocktailItem(data.popularCocktails[index]);
           },
         ),
       ],
@@ -626,6 +589,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildPopularCocktailItem(Cocktail cocktail) {
+    final category = cocktail.categories.isNotEmpty
+        ? cocktail.categories.first
+        : CocktailCategory.classic;
+
     return GestureDetector(
       onTap: () => context.push('${AppRoutes.cocktailDetails}/${cocktail.id}'),
       child: Card(
@@ -640,8 +607,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      _getCategoryColor(cocktail.category).withOpacity(0.8),
-                      _getCategoryColor(cocktail.category),
+                      _getCategoryColor(category).withOpacity(0.8),
+                      _getCategoryColor(category),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(8),
@@ -658,14 +625,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      cocktail.name,
+                      cocktail.title,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${cocktail.prepTimeMinutes}m • ${_getDifficultyDisplayName(cocktail.difficulty)}',
+                      _getCategoryDisplayName(category),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(
                           context,
@@ -675,7 +642,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              const Icon(Icons.star, color: Colors.amber, size: 20),
+              Icon(
+                _getCategoryIcon(category),
+                color: _getCategoryColor(category),
+                size: 20,
+              ),
             ],
           ),
         ),
@@ -704,60 +675,30 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildDifficultyBadge(CocktailDifficulty difficulty) {
-    Color color;
-    switch (difficulty) {
-      case CocktailDifficulty.easy:
-        color = Colors.green;
-        break;
-      case CocktailDifficulty.medium:
-        color = Colors.orange;
-        break;
-      case CocktailDifficulty.hard:
-        color = Colors.red;
-        break;
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withOpacity(0.5)),
-      ),
-      child: Text(
-        _getDifficultyDisplayName(difficulty),
-        style: TextStyle(
-          color: color,
-          fontSize: 10,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-
   Color _getCategoryColor(CocktailCategory category) {
     switch (category) {
       case CocktailCategory.classic:
         return Colors.brown;
-      case CocktailCategory.modern:
+      case CocktailCategory.signature:
         return Colors.purple;
-      case CocktailCategory.tropical:
+      case CocktailCategory.seasonal:
         return Colors.orange;
-      case CocktailCategory.martini:
+      case CocktailCategory.frozen:
         return Colors.blue;
-      case CocktailCategory.whiskey:
-        return Colors.amber;
-      case CocktailCategory.vodka:
-        return Colors.cyan;
-      case CocktailCategory.rum:
-        return Colors.deepOrange;
-      case CocktailCategory.gin:
-        return Colors.teal;
-      case CocktailCategory.shots:
-        return Colors.red;
       case CocktailCategory.mocktail:
         return Colors.green;
+      case CocktailCategory.shot:
+        return Colors.red;
+      case CocktailCategory.long:
+        return Colors.cyan;
+      case CocktailCategory.punch:
+        return Colors.pink;
+      case CocktailCategory.tiki:
+        return Colors.amber;
+      case CocktailCategory.highball:
+        return Colors.teal;
+      case CocktailCategory.lowball:
+        return Colors.deepOrange;
     }
   }
 
@@ -765,24 +706,26 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (category) {
       case CocktailCategory.classic:
         return Icons.history;
-      case CocktailCategory.modern:
+      case CocktailCategory.signature:
         return Icons.auto_awesome;
-      case CocktailCategory.tropical:
+      case CocktailCategory.seasonal:
         return Icons.wb_sunny;
-      case CocktailCategory.martini:
-        return Icons.wine_bar;
-      case CocktailCategory.whiskey:
-        return Icons.local_bar;
-      case CocktailCategory.vodka:
+      case CocktailCategory.frozen:
         return Icons.ac_unit;
-      case CocktailCategory.rum:
-        return Icons.sailing;
-      case CocktailCategory.gin:
-        return Icons.local_florist;
-      case CocktailCategory.shots:
-        return Icons.flash_on;
       case CocktailCategory.mocktail:
         return Icons.eco;
+      case CocktailCategory.shot:
+        return Icons.flash_on;
+      case CocktailCategory.long:
+        return Icons.height;
+      case CocktailCategory.punch:
+        return Icons.celebration;
+      case CocktailCategory.tiki:
+        return Icons.sailing;
+      case CocktailCategory.highball:
+        return Icons.wine_bar;
+      case CocktailCategory.lowball:
+        return Icons.local_bar;
     }
   }
 
@@ -790,50 +733,26 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (category) {
       case CocktailCategory.classic:
         return 'Classic';
-      case CocktailCategory.modern:
-        return 'Modern';
-      case CocktailCategory.tropical:
-        return 'Tropical';
-      case CocktailCategory.martini:
-        return 'Martini';
-      case CocktailCategory.whiskey:
-        return 'Whiskey';
-      case CocktailCategory.vodka:
-        return 'Vodka';
-      case CocktailCategory.rum:
-        return 'Rum';
-      case CocktailCategory.gin:
-        return 'Gin';
-      case CocktailCategory.shots:
-        return 'Shots';
+      case CocktailCategory.signature:
+        return 'Signature';
+      case CocktailCategory.seasonal:
+        return 'Seasonal';
+      case CocktailCategory.frozen:
+        return 'Frozen';
       case CocktailCategory.mocktail:
         return 'Mocktail';
-    }
-  }
-
-  String _getDifficultyDisplayName(CocktailDifficulty difficulty) {
-    switch (difficulty) {
-      case CocktailDifficulty.easy:
-        return 'Easy';
-      case CocktailDifficulty.medium:
-        return 'Medium';
-      case CocktailDifficulty.hard:
-        return 'Hard';
-    }
-  }
-
-  String _getTimeAgo(DateTime dateTime) {
-    final now = DateTime.now();
-    final difference = now.difference(dateTime);
-
-    if (difference.inDays > 0) {
-      return '${difference.inDays}d ago';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours}h ago';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes}m ago';
-    } else {
-      return 'Just now';
+      case CocktailCategory.shot:
+        return 'Shot';
+      case CocktailCategory.long:
+        return 'Long';
+      case CocktailCategory.punch:
+        return 'Punch';
+      case CocktailCategory.tiki:
+        return 'Tiki';
+      case CocktailCategory.highball:
+        return 'Highball';
+      case CocktailCategory.lowball:
+        return 'Lowball';
     }
   }
 

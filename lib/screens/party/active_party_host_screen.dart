@@ -18,73 +18,70 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
   final List<CocktailOrder> _orders = [];
   bool _partyActive = true;
 
-  // Mock available cocktails
+  // Mock available cocktails (aligned with new Cocktail model)
   final List<Cocktail> _availableCocktails = [
     Cocktail(
       id: '1',
-      name: 'Mojito',
+      title: 'Mojito',
       description: 'Fresh mint, lime, and rum cocktail',
       ingredients: [
-        CocktailIngredient(name: 'White rum', amount: '2 oz'),
-        CocktailIngredient(name: 'Fresh mint', amount: '10 leaves'),
-        CocktailIngredient(name: 'Lime juice', amount: '1 oz'),
-        CocktailIngredient(name: 'Sugar', amount: '1 tsp'),
-        CocktailIngredient(name: 'Soda water', amount: '3 oz'),
+        'ingredients/white_rum',
+        'ingredients/fresh_mint',
+        'ingredients/lime_juice',
+        'ingredients/sugar',
+        'ingredients/soda_water',
       ],
-      instructions: [
-        'Muddle mint and lime',
-        'Add rum and sugar',
-        'Top with soda water',
+      equipments: [
+        'equipment/shaker',
+        'equipment/muddler',
+        'equipment/highball_glass',
       ],
-      difficulty: CocktailDifficulty.easy,
-      category: CocktailCategory.classic,
-      imageUrl: 'https://example.com/mojito.jpg',
-      prepTimeMinutes: 5,
-      alcoholContent: 15.0,
+      categories: [CocktailCategory.classic, CocktailCategory.highball],
+      createdAt: DateTime.now().subtract(const Duration(days: 30)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 5)),
     ),
     Cocktail(
       id: '2',
-      name: 'Margarita',
+      title: 'Margarita',
       description: 'Classic tequila cocktail with lime',
       ingredients: [
-        CocktailIngredient(name: 'Tequila', amount: '2 oz'),
-        CocktailIngredient(name: 'Triple sec', amount: '1 oz'),
-        CocktailIngredient(name: 'Lime juice', amount: '1 oz'),
-        CocktailIngredient(name: 'Salt', amount: 'for rim'),
+        'ingredients/tequila',
+        'ingredients/triple_sec',
+        'ingredients/lime_juice',
+        'ingredients/salt',
       ],
-      instructions: [
-        'Rim glass with salt',
-        'Shake ingredients with ice',
-        'Strain into glass',
+      equipments: [
+        'equipment/shaker',
+        'equipment/strainer',
+        'equipment/margarita_glass',
       ],
-      difficulty: CocktailDifficulty.easy,
-      category: CocktailCategory.classic,
-      imageUrl: 'https://example.com/margarita.jpg',
-      prepTimeMinutes: 3,
-      alcoholContent: 18.0,
+      categories: [CocktailCategory.classic],
+      createdAt: DateTime.now().subtract(const Duration(days: 25)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 3)),
     ),
     Cocktail(
       id: '3',
-      name: 'Old Fashioned',
+      title: 'Old Fashioned',
       description: 'Classic whiskey cocktail',
       ingredients: [
-        CocktailIngredient(name: 'Bourbon', amount: '2 oz'),
-        CocktailIngredient(name: 'Sugar', amount: '1 cube'),
-        CocktailIngredient(name: 'Angostura bitters', amount: '2 dashes'),
-        CocktailIngredient(name: 'Orange peel', amount: '1 twist'),
+        'ingredients/bourbon',
+        'ingredients/sugar_cube',
+        'ingredients/angostura_bitters',
+        'ingredients/orange_peel',
       ],
-      instructions: [
-        'Muddle sugar and bitters',
-        'Add whiskey and ice',
-        'Garnish with orange',
+      equipments: [
+        'equipment/mixing_glass',
+        'equipment/muddler',
+        'equipment/rocks_glass',
       ],
-      difficulty: CocktailDifficulty.medium,
-      category: CocktailCategory.classic,
-      imageUrl: 'https://example.com/oldfashioned.jpg',
-      prepTimeMinutes: 4,
-      alcoholContent: 25.0,
+      categories: [CocktailCategory.classic, CocktailCategory.lowball],
+      createdAt: DateTime.now().subtract(const Duration(days: 35)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 7)),
     ),
   ];
+
+  // Mock metadata for cocktails (since new model doesn't store these)
+  final Map<String, int> _mockPrepTimes = {'1': 5, '2': 3, '3': 4};
 
   @override
   void initState() {
@@ -150,7 +147,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          '${cocktail.name} for ${order.guestName} marked as ${newStatus.name}',
+          '${cocktail.title} for ${order.guestName} marked as ${newStatus.name}',
         ),
         backgroundColor: Colors.green,
       ),
@@ -521,7 +518,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        cocktail.name,
+                        cocktail.title,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -545,7 +542,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                   ),
                 ),
                 Text(
-                  '${cocktail.prepTimeMinutes} min',
+                  '${_mockPrepTimes[cocktail.id] ?? 5} min',
                   style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
                 ),
               ],
@@ -757,7 +754,8 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
         (c) => c.id == order.cocktailId,
         orElse: () => _availableCocktails.first,
       );
-      cocktailCounts[cocktail.name] = (cocktailCounts[cocktail.name] ?? 0) + 1;
+      cocktailCounts[cocktail.title] =
+          (cocktailCounts[cocktail.title] ?? 0) + 1;
     }
     final sortedEntries = cocktailCounts.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
@@ -819,9 +817,9 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                 ),
                 child: Icon(Icons.local_bar, color: Colors.purple.shade600),
               ),
-              title: Text(cocktail.name),
+              title: Text(cocktail.title),
               subtitle: Text(
-                '${cocktail.difficulty.name.substring(0, 1).toUpperCase() + cocktail.difficulty.name.substring(1)} • ${cocktail.prepTimeMinutes} min',
+                '${cocktail.categories.isNotEmpty ? cocktail.categories.first.name.substring(0, 1).toUpperCase() + cocktail.categories.first.name.substring(1) : 'Classic'} • ${_mockPrepTimes[cocktail.id] ?? 5} min',
               ),
               trailing: Text(
                 '${_orders.where((o) => o.cocktailId == cocktail.id).length} orders',

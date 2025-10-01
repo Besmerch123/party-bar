@@ -38,67 +38,93 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
   final List<Cocktail> _availableCocktails = [
     Cocktail(
       id: '1',
-      name: 'Mojito',
+      title: 'Mojito',
       description: 'Fresh mint, lime, and rum cocktail',
       ingredients: [
-        CocktailIngredient(name: 'White rum', amount: '2 oz'),
-        CocktailIngredient(name: 'Fresh mint', amount: '10 leaves'),
-        CocktailIngredient(name: 'Lime juice', amount: '1 oz'),
-        CocktailIngredient(name: 'Sugar', amount: '1 tsp'),
-        CocktailIngredient(name: 'Soda water', amount: '3 oz'),
+        'ingredients/white_rum',
+        'ingredients/fresh_mint',
+        'ingredients/lime_juice',
+        'ingredients/sugar',
+        'ingredients/soda_water',
       ],
-      instructions: [
-        'Muddle mint and lime',
-        'Add rum and sugar',
-        'Top with soda water',
+      equipments: [
+        'equipments/muddler',
+        'equipments/highball_glass',
+        'equipments/bar_spoon',
       ],
-      difficulty: CocktailDifficulty.easy,
-      category: CocktailCategory.classic,
-      imageUrl: 'https://example.com/mojito.jpg',
-      prepTimeMinutes: 5,
-      alcoholContent: 15.0,
+      categories: [CocktailCategory.classic, CocktailCategory.long],
+      createdAt: DateTime.now().subtract(const Duration(days: 30)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 5)),
     ),
     Cocktail(
       id: '2',
-      name: 'Margarita',
+      title: 'Margarita',
       description: 'Classic tequila cocktail with lime',
       ingredients: [
-        CocktailIngredient(name: 'Tequila', amount: '2 oz'),
-        CocktailIngredient(name: 'Triple sec', amount: '1 oz'),
-        CocktailIngredient(name: 'Lime juice', amount: '1 oz'),
-        CocktailIngredient(name: 'Salt', amount: 'for rim'),
+        'ingredients/tequila',
+        'ingredients/triple_sec',
+        'ingredients/lime_juice',
+        'ingredients/salt',
       ],
-      instructions: [
-        'Rim glass with salt',
-        'Shake ingredients with ice',
-        'Strain into glass',
+      equipments: [
+        'equipments/cocktail_shaker',
+        'equipments/margarita_glass',
+        'equipments/strainer',
       ],
-      difficulty: CocktailDifficulty.easy,
-      category: CocktailCategory.classic,
-      imageUrl: 'https://example.com/margarita.jpg',
-      prepTimeMinutes: 3,
-      alcoholContent: 18.0,
+      categories: [CocktailCategory.classic, CocktailCategory.lowball],
+      createdAt: DateTime.now().subtract(const Duration(days: 28)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 3)),
     ),
     Cocktail(
       id: '3',
-      name: 'Old Fashioned',
+      title: 'Old Fashioned',
       description: 'Classic whiskey cocktail',
       ingredients: [
-        CocktailIngredient(name: 'Bourbon', amount: '2 oz'),
-        CocktailIngredient(name: 'Sugar', amount: '1 cube'),
-        CocktailIngredient(name: 'Angostura bitters', amount: '2 dashes'),
-        CocktailIngredient(name: 'Orange peel', amount: '1 twist'),
+        'ingredients/bourbon',
+        'ingredients/sugar',
+        'ingredients/angostura_bitters',
+        'ingredients/orange_peel',
       ],
-      instructions: [
-        'Muddle sugar and bitters',
-        'Add whiskey and ice',
-        'Garnish with orange',
+      equipments: [
+        'equipments/mixing_glass',
+        'equipments/bar_spoon',
+        'equipments/old_fashioned_glass',
       ],
-      difficulty: CocktailDifficulty.medium,
-      category: CocktailCategory.classic,
-      imageUrl: 'https://example.com/oldfashioned.jpg',
-      prepTimeMinutes: 4,
-      alcoholContent: 25.0,
+      categories: [CocktailCategory.classic, CocktailCategory.lowball],
+      createdAt: DateTime.now().subtract(const Duration(days: 25)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 2)),
+    ),
+    Cocktail(
+      id: '4',
+      title: 'Piña Colada',
+      description: 'Tropical coconut and pineapple cocktail',
+      ingredients: [
+        'ingredients/white_rum',
+        'ingredients/coconut_cream',
+        'ingredients/pineapple_juice',
+      ],
+      equipments: ['equipments/blender', 'equipments/hurricane_glass'],
+      categories: [CocktailCategory.tiki, CocktailCategory.frozen],
+      createdAt: DateTime.now().subtract(const Duration(days: 20)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
+    ),
+    Cocktail(
+      id: '5',
+      title: 'Negroni',
+      description: 'Bitter Italian cocktail',
+      ingredients: [
+        'ingredients/gin',
+        'ingredients/campari',
+        'ingredients/sweet_vermouth',
+      ],
+      equipments: [
+        'equipments/mixing_glass',
+        'equipments/bar_spoon',
+        'equipments/old_fashioned_glass',
+      ],
+      categories: [CocktailCategory.classic, CocktailCategory.lowball],
+      createdAt: DateTime.now().subtract(const Duration(days: 15)),
+      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
     ),
   ];
 
@@ -125,7 +151,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${cocktail.name} ordered successfully!'),
+        content: Text('${cocktail.title} ordered successfully!'),
         backgroundColor: Colors.green,
       ),
     );
@@ -137,11 +163,11 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Order ${cocktail.name}'),
+        title: Text('Order ${cocktail.title}'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Are you sure you want to order ${cocktail.name}?'),
+            Text('Are you sure you want to order ${cocktail.title}?'),
             const SizedBox(height: 16),
             TextField(
               controller: specialRequestsController,
@@ -266,7 +292,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          Expanded(child: Text(cocktail.name)),
+                          Expanded(child: Text(cocktail.title)),
                           Text(
                             _getStatusText(order.status),
                             style: TextStyle(
@@ -346,7 +372,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        cocktail.name,
+                        cocktail.title,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -358,46 +384,33 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
                           fontSize: 14,
                           color: Colors.grey.shade600,
                         ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.timer,
-                            size: 16,
-                            color: Colors.grey.shade500,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            '${cocktail.prepTimeMinutes} min',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey.shade500,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Container(
+                      Wrap(
+                        spacing: 8,
+                        children: cocktail.categories.take(3).map((category) {
+                          return Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8,
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: _getDifficultyColor(cocktail.difficulty),
+                              color: _getCategoryColor(category),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
-                              cocktail.difficulty.name
-                                      .substring(0, 1)
-                                      .toUpperCase() +
-                                  cocktail.difficulty.name.substring(1),
+                              category.name.substring(0, 1).toUpperCase() +
+                                  category.name.substring(1),
                               style: const TextStyle(
                                 fontSize: 10,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                          ),
-                        ],
+                          );
+                        }).toList(),
                       ),
                     ],
                   ),
@@ -483,14 +496,30 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
     }
   }
 
-  Color _getDifficultyColor(CocktailDifficulty difficulty) {
-    switch (difficulty) {
-      case CocktailDifficulty.easy:
+  Color _getCategoryColor(CocktailCategory category) {
+    switch (category) {
+      case CocktailCategory.classic:
+        return Colors.deepPurple;
+      case CocktailCategory.signature:
+        return Colors.amber;
+      case CocktailCategory.seasonal:
         return Colors.green;
-      case CocktailDifficulty.medium:
+      case CocktailCategory.frozen:
+        return Colors.blue;
+      case CocktailCategory.mocktail:
         return Colors.orange;
-      case CocktailDifficulty.hard:
+      case CocktailCategory.shot:
         return Colors.red;
+      case CocktailCategory.long:
+        return Colors.teal;
+      case CocktailCategory.punch:
+        return Colors.pink;
+      case CocktailCategory.tiki:
+        return Colors.lime;
+      case CocktailCategory.highball:
+        return Colors.indigo;
+      case CocktailCategory.lowball:
+        return Colors.brown;
     }
   }
 }
