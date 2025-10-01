@@ -5,6 +5,9 @@
  * Following DDD principles, this is the core entity of the Cocktail domain.
  */
 
+import { Timestamp } from 'firebase-admin/firestore';
+import { I18nField } from '../shared/types';
+
 export const COCKTAIL_CATEGORIES = {
   CLASSIC: 'classic',
   SIGNATURE: 'signature',
@@ -12,6 +15,7 @@ export const COCKTAIL_CATEGORIES = {
   FROZEN: 'frozen',
   MOCKTAIL: 'mocktail',
   SHOT: 'shot',
+  LONG: 'long',
   PUNCH: 'punch',
   TIKI: 'tiki',
   HIGHBALL: 'highball',
@@ -44,6 +48,13 @@ export interface Cocktail {
 
   /** Timestamp when the cocktail was last updated */
   updatedAt?: Date;
+}
+
+export interface CocktailDocument extends Omit<Cocktail, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'> {
+  title: I18nField;
+  description: I18nField;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
 export interface CreateCocktailDto {
