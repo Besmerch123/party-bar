@@ -1,148 +1,252 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'shared_types.dart';
+
+/// Common cocktail categories for validation
 enum CocktailCategory {
   classic,
-  modern,
-  shots,
-  tropical,
-  martini,
-  whiskey,
-  vodka,
-  rum,
-  gin,
+  signature,
+  seasonal,
+  frozen,
   mocktail,
+  shot,
+  long,
+  punch,
+  tiki,
+  highball,
+  lowball,
 }
 
-enum CocktailDifficulty { easy, medium, hard }
-
-class CocktailIngredient {
-  final String name;
-  final String amount;
-  final String? unit;
-  final bool isOptional;
-
-  const CocktailIngredient({
-    required this.name,
-    required this.amount,
-    this.unit,
-    this.isOptional = false,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'amount': amount,
-      'unit': unit,
-      'isOptional': isOptional,
-    };
-  }
-
-  factory CocktailIngredient.fromMap(Map<String, dynamic> map) {
-    return CocktailIngredient(
-      name: map['name'] ?? '',
-      amount: map['amount'] ?? '',
-      unit: map['unit'],
-      isOptional: map['isOptional'] ?? false,
-    );
-  }
-}
-
+/// Cocktail Domain Model (UI/Business Logic Layer)
+///
+/// Represents a cocktail composed of ingredients and prepared with equipment.
+/// This is a clean domain entity with translated strings for the UI layer.
+/// Following DDD principles, this is the core entity of the Cocktail domain.
 class Cocktail {
+  /// Unique identifier (Firebase document ID)
   final String id;
-  final String name;
+
+  /// Human-readable name/title of the cocktail (already translated)
+  final String title;
+
+  /// Detailed description, preparation notes, history, etc. (already translated)
   final String description;
-  final List<CocktailIngredient> ingredients;
-  final List<String> instructions;
-  final CocktailCategory category;
-  final CocktailDifficulty difficulty;
-  final int prepTimeMinutes;
-  final String? imageUrl;
-  final List<String> tags;
-  final double alcoholContent;
-  final bool isPopular;
+
+  /// Firestore document paths referencing ingredient records
+  final List<String> ingredients;
+
+  /// Firestore document paths referencing equipment records
+  final List<String> equipments;
+
+  /// Categorization tags to aid discovery
+  final List<CocktailCategory> categories;
+
+  /// Timestamp when the cocktail was created
+  final DateTime? createdAt;
+
+  /// Timestamp when the cocktail was last updated
+  final DateTime? updatedAt;
 
   const Cocktail({
     required this.id,
-    required this.name,
+    required this.title,
     required this.description,
     required this.ingredients,
-    required this.instructions,
-    required this.category,
-    required this.difficulty,
-    required this.prepTimeMinutes,
-    this.imageUrl,
-    this.tags = const [],
-    required this.alcoholContent,
-    this.isPopular = false,
+    required this.equipments,
+    required this.categories,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  Cocktail copyWith({
+    String? id,
+    String? title,
+    String? description,
+    List<String>? ingredients,
+    List<String>? equipments,
+    List<CocktailCategory>? categories,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return Cocktail(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      ingredients: ingredients ?? this.ingredients,
+      equipments: equipments ?? this.equipments,
+      categories: categories ?? this.categories,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+}
+
+/// Firestore Document representation of a Cocktail
+///
+/// Uses I18nField for title and description to support multiple languages
+/// Timestamps are stored as Firestore Timestamps
+class CocktailDocument {
+  /// I18n field containing translations for the cocktail title
+  final I18nField title;
+
+  /// I18n field containing translations for the cocktail description
+  final I18nField description;
+
+  /// Firestore document paths referencing ingredient records
+  final List<String> ingredients;
+
+  /// Firestore document paths referencing equipment records
+  final List<String> equipments;
+
+  /// Categorization tags to aid discovery
+  final List<CocktailCategory> categories;
+
+  /// Firestore Timestamp when the cocktail was created
+  final Timestamp createdAt;
+
+  /// Firestore Timestamp when the cocktail was last updated
+  final Timestamp updatedAt;
+
+  const CocktailDocument({
+    required this.title,
+    required this.description,
+    required this.ingredients,
+    required this.equipments,
+    required this.categories,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  /// Convert Firestore document to CocktailDocument
+  factory CocktailDocument.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return CocktailDocument.fromMap(data);
+  }
+
+  factory CocktailDocument.fromMap(Map<String, dynamic> map) {
+    return CocktailDocument(
+      title: Map<String, String>.from(map['title'] ?? {}),
+      description: Map<String, String>.from(map['description'] ?? {}),
+      ingredients: List<String>.from(map['ingredients'] ?? []),
+      equipments: List<String>.from(map['equipments'] ?? []),
+      categories:
+          (map['categories'] as List<dynamic>?)
+              ?.map(
+                (e) => CocktailCategory.values.firstWhere(
+                  (c) => c.name == e,
+                  orElse: () => CocktailCategory.classic,
+                ),
+              )
+              .toList() ??
+          [],
+      createdAt: map['createdAt'] as Timestamp,
+      updatedAt: map['updatedAt'] as Timestamp,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'description': description,
+      'ingredients': ingredients,
+      'equipments': equipments,
+      'categories': categories.map((c) => c.name).toList(),
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+    };
+  }
+}
+
+/// Transformer to convert between CocktailDocument and Cocktail entity
+class CocktailTransformer
+    extends FirestoreTransformer<CocktailDocument, Cocktail> {
+  @override
+  Cocktail fromDocument(
+    CocktailDocument document,
+    String id,
+    SupportedLocale locale,
+  ) {
+    return Cocktail(
+      id: id,
+      title: document.title.translate(locale),
+      description: document.description.translate(locale),
+      ingredients: document.ingredients,
+      equipments: document.equipments,
+      categories: document.categories,
+      createdAt: document.createdAt.toDate(),
+      updatedAt: document.updatedAt.toDate(),
+    );
+  }
+
+  @override
+  CocktailDocument toDocument(Cocktail entity) {
+    // When creating/updating, you'd typically provide the I18n fields
+    // This is a simplified version
+    throw UnimplementedError(
+      'Use CreateCocktailDto or UpdateCocktailDto for writes',
+    );
+  }
+
+  /// Convert Firestore DocumentSnapshot directly to Cocktail entity
+  Cocktail fromFirestore(DocumentSnapshot doc, SupportedLocale locale) {
+    final document = CocktailDocument.fromFirestore(doc);
+    return fromDocument(document, doc.id, locale);
+  }
+}
+
+/// Data transfer object for creating a new cocktail
+/// Excludes ID and timestamps as they are generated by the system
+class CreateCocktailDto {
+  final String title;
+  final String description;
+  final List<String> ingredients;
+  final List<String> equipments;
+  final List<CocktailCategory> categories;
+
+  const CreateCocktailDto({
+    required this.title,
+    required this.description,
+    required this.ingredients,
+    required this.equipments,
+    required this.categories,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'name': name,
+      'title': title,
       'description': description,
-      'ingredients': ingredients.map((x) => x.toMap()).toList(),
-      'instructions': instructions,
-      'category': category.name,
-      'difficulty': difficulty.name,
-      'prepTimeMinutes': prepTimeMinutes,
-      'imageUrl': imageUrl,
-      'tags': tags,
-      'alcoholContent': alcoholContent,
-      'isPopular': isPopular,
+      'ingredients': ingredients,
+      'equipments': equipments,
+      'categories': categories.map((c) => c.name).toList(),
     };
   }
+}
 
-  factory Cocktail.fromMap(Map<String, dynamic> map) {
-    return Cocktail(
-      id: map['id'] ?? '',
-      name: map['name'] ?? '',
-      description: map['description'] ?? '',
-      ingredients: List<CocktailIngredient>.from(
-        map['ingredients']?.map((x) => CocktailIngredient.fromMap(x)) ?? [],
-      ),
-      instructions: List<String>.from(map['instructions'] ?? []),
-      category: CocktailCategory.values.firstWhere(
-        (e) => e.name == map['category'],
-        orElse: () => CocktailCategory.modern,
-      ),
-      difficulty: CocktailDifficulty.values.firstWhere(
-        (e) => e.name == map['difficulty'],
-        orElse: () => CocktailDifficulty.medium,
-      ),
-      prepTimeMinutes: map['prepTimeMinutes']?.toInt() ?? 0,
-      imageUrl: map['imageUrl'],
-      tags: List<String>.from(map['tags'] ?? []),
-      alcoholContent: map['alcoholContent']?.toDouble() ?? 0.0,
-      isPopular: map['isPopular'] ?? false,
-    );
-  }
+/// Data transfer object for updating an existing cocktail
+/// All fields are optional to support partial updates
+class UpdateCocktailDto {
+  final String? title;
+  final String? description;
+  final List<String>? ingredients;
+  final List<String>? equipments;
+  final List<CocktailCategory>? categories;
 
-  Cocktail copyWith({
-    String? id,
-    String? name,
-    String? description,
-    List<CocktailIngredient>? ingredients,
-    List<String>? instructions,
-    CocktailCategory? category,
-    CocktailDifficulty? difficulty,
-    int? prepTimeMinutes,
-    String? imageUrl,
-    List<String>? tags,
-    double? alcoholContent,
-    bool? isPopular,
-  }) {
-    return Cocktail(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      ingredients: ingredients ?? this.ingredients,
-      instructions: instructions ?? this.instructions,
-      category: category ?? this.category,
-      difficulty: difficulty ?? this.difficulty,
-      prepTimeMinutes: prepTimeMinutes ?? this.prepTimeMinutes,
-      imageUrl: imageUrl ?? this.imageUrl,
-      tags: tags ?? this.tags,
-      alcoholContent: alcoholContent ?? this.alcoholContent,
-      isPopular: isPopular ?? this.isPopular,
-    );
+  const UpdateCocktailDto({
+    this.title,
+    this.description,
+    this.ingredients,
+    this.equipments,
+    this.categories,
+  });
+
+  Map<String, dynamic> toMap() {
+    final map = <String, dynamic>{};
+    if (title != null) map['title'] = title;
+    if (description != null) map['description'] = description;
+    if (ingredients != null) map['ingredients'] = ingredients;
+    if (equipments != null) map['equipments'] = equipments;
+    if (categories != null) {
+      map['categories'] = categories!.map((c) => c.name).toList();
+    }
+    return map;
   }
 }
