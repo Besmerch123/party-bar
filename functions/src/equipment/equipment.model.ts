@@ -1,3 +1,6 @@
+import { Timestamp } from 'firebase-admin/firestore';
+import { I18nField } from '../shared/types';
+
 /**
  * Equipment Domain Model
  * 
@@ -19,6 +22,12 @@ export interface Equipment {
   
   /** Timestamp when the equipment was last updated */
   updatedAt?: Date;
+}
+
+export interface EquipmentDocument extends Omit<Equipment, 'id' | 'title' | 'createdAt' | 'updatedAt'> {
+  title: I18nField;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
 /**
