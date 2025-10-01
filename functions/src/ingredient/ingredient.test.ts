@@ -8,6 +8,8 @@
 import { IngredientService } from './ingredient.service';
 import { CreateIngredientDto } from './ingredient.model';
 
+const locale = 'en';
+
 // Example usage (for testing locally)
 export async function testIngredientOperations() {
   const service = new IngredientService();
@@ -27,8 +29,8 @@ export async function testIngredientOperations() {
     };
     
     console.log('Creating ingredients...');
-    const vodka = await service.createIngredient(vodkaData);
-    const lime = await service.createIngredient(limeData);
+    const vodka = await service.createIngredient(vodkaData, locale);
+    const lime = await service.createIngredient(limeData, locale);
     
     console.log('Created:', vodka);
     console.log('Created:', lime);
@@ -48,7 +50,7 @@ export async function testIngredientOperations() {
     const updatedVodka = await service.updateIngredient(vodka.id, {
       title: 'Premium Vodka',
       image: 'gs://party-bar/ingredients/premium-vodka.png'
-    });
+    }, locale);
     console.log('Updated:', updatedVodka);
     
     // Example 5: Get available categories

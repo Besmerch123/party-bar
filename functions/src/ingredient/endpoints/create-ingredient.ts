@@ -1,8 +1,6 @@
-/**
- * Create Ingredient Endpoint
- */
+import { onRequest, HttpsError } from 'firebase-functions/v2/https';
 
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { getLocaleHeader } from '../../shared/utils';
 import { IngredientService } from '../ingredient.service';
 import { CreateIngredientDto } from '../ingredient.model';
 
@@ -11,25 +9,20 @@ const ingredientService = new IngredientService();
 /**
  * Creates a new ingredient
  */
-export const createIngredient = onCall(async (request) => {
+export const createIngredient = onRequest(async (request, response) => {
   try {
-    // Basic auth check (you may want to add proper authentication later)
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'User must be authenticated');
-    }
+    const locale = getLocaleHeader(request);
 
-    const data = request.data as CreateIngredientDto;
+    const data = request.body as CreateIngredientDto;
     
     if (!data) {
       throw new HttpsError('invalid-argument', 'Ingredient data is required');
     }
 
-    const ingredient = await ingredientService.createIngredient(data);
+    const ingredient = await ingredientService.createIngredient(data, locale);
     
-    return {
-      success: true,
-      data: ingredient,
-    };
+
+    response.status(201).send(ingredient);
   } catch (error) {
     console.error('Error creating ingredient:', error);
     

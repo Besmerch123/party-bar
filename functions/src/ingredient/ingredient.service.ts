@@ -8,13 +8,15 @@
 import { IngredientRepository } from './ingredient.repository';
 import { Ingredient, CreateIngredientDto, UpdateIngredientDto, INGREDIENT_CATEGORIES } from './ingredient.model';
 
+import { SupportedLocale } from '../shared/types';
+
 export class IngredientService {
   private readonly repository = new IngredientRepository();
 
   /**
    * Creates a new ingredient with validation
    */
-  async createIngredient(data: CreateIngredientDto): Promise<Ingredient> {
+  async createIngredient(data: CreateIngredientDto, locale: SupportedLocale): Promise<Ingredient> {
     // Validate input
     this.validateIngredientData(data);
     
@@ -31,7 +33,7 @@ export class IngredientService {
       title: data.title.trim(),
       category: data.category,
       image,
-    });
+    }, locale);
   }
 
   /**
@@ -71,7 +73,7 @@ export class IngredientService {
   /**
    * Updates an existing ingredient
    */
-  async updateIngredient(id: string, data: UpdateIngredientDto): Promise<Ingredient> {
+  async updateIngredient(id: string, data: UpdateIngredientDto, locale: SupportedLocale): Promise<Ingredient> {
     if (!id || id.trim() === '') {
       throw new Error('Ingredient ID is required');
     }
@@ -107,7 +109,7 @@ export class IngredientService {
       }
     }
 
-    const updated = await this.repository.update(id.trim(), updateData);
+    const updated = await this.repository.update(id.trim(), updateData, locale);
     if (!updated) {
       throw new Error('Ingredient not found');
     }

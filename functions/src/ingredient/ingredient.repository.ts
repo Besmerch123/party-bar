@@ -5,16 +5,25 @@
  * Following DDD principles, this abstracts the database layer.
  */
 
-import * as admin from 'firebase-admin';
-import { Ingredient, CreateIngredientDto, UpdateIngredientDto } from './ingredient.model';
+import { CollectionReference, getFirestore, Timestamp } from 'firebase-admin/firestore';
+
+import { SupportedLocale } from '../shared/types';
+
+import type { 
+  Ingredient,
+  CreateIngredientDto, 
+  UpdateIngredientDto, 
+  IngredientDocument
+} from './ingredient.model';
+
 
 export class IngredientRepository {
-  private readonly collection = admin.firestore().collection('ingredients');
+  private readonly collection = getFirestore().collection('ingredients') as CollectionReference<IngredientDocument>;
 
   /**
    * Creates a new ingredient in Firestore
    */
-  async create(ingredientData: CreateIngredientDto): Promise<Ingredient> {
+  async create(ingredientData: CreateIngredientDto, locale: SupportedLocale): Promise<Ingredient> {
     const now = new Date();
     const docRef = this.collection.doc();
     
@@ -27,17 +36,17 @@ export class IngredientRepository {
       updatedAt: now,
     };
 
-    const firestoreData: Record<string, unknown> = {
-      id: ingredient.id,
-      title: ingredient.title,
-      category: ingredient.category,
-      createdAt: admin.firestore.Timestamp.fromDate(now),
-      updatedAt: admin.firestore.Timestamp.fromDate(now),
-    };
+    const timestamp = Timestamp.fromDate(now);
 
-    if (ingredient.image !== undefined) {
-      firestoreData.image = ingredient.image;
-    }
+    const firestoreData: IngredientDocument = {
+      title: {
+        [locale]: ingredient.title
+      },
+      category: ingredient.category,
+      image: ingredient.image,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    };
 
     await docRef.set(firestoreData);
 
@@ -109,7 +118,7 @@ export class IngredientRepository {
   /**
    * Updates an existing ingredient
    */
-  async update(id: string, updateData: UpdateIngredientDto): Promise<Ingredient | null> {
+  async update(id: string, updateData: UpdateIngredientDto, locale: SupportedLocale): Promise<Ingredient | null> {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
     
@@ -119,11 +128,11 @@ export class IngredientRepository {
 
     const now = new Date();
     const updatedFields: Record<string, unknown> = {
-      updatedAt: admin.firestore.Timestamp.fromDate(now),
+      updatedAt: Timestamp.fromDate(now),
     };
 
     if (updateData.title !== undefined) {
-      updatedFields.title = updateData.title;
+      updatedFields.title = { [locale]: updateData.title };
     }
 
     if (updateData.category !== undefined) {
@@ -134,7 +143,7 @@ export class IngredientRepository {
       updatedFields.image = updateData.image;
     }
 
-    await docRef.update(updatedFields);
+    await docRef.set(updatedFields, { merge: true });
     
     // Return the updated ingredient
     return await this.findById(id);

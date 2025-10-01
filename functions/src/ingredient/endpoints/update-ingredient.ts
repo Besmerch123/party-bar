@@ -1,8 +1,6 @@
-/**
- * Update Ingredient Endpoint
- */
+import { onRequest, HttpsError } from 'firebase-functions/v2/https';
 
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { getLocaleHeader } from '../../shared/utils';
 import { IngredientService } from '../ingredient.service';
 import { UpdateIngredientDto } from '../ingredient.model';
 
@@ -11,24 +9,18 @@ const ingredientService = new IngredientService();
 /**
  * Updates an existing ingredient
  */
-export const updateIngredient = onCall(async (request) => {
+export const updateIngredient = onRequest(async (request, response) => {
   try {
-    if (!request.auth) {
-      throw new HttpsError('unauthenticated', 'User must be authenticated');
-    }
-
-    const { id, ...updateData } = request.data;
+    const { id, ...updateData } = request.body as Partial<UpdateIngredientDto> & { id: string };
+    const locale = getLocaleHeader(request);
     
     if (!id) {
       throw new HttpsError('invalid-argument', 'Ingredient ID is required');
     }
 
-    const ingredient = await ingredientService.updateIngredient(id, updateData as UpdateIngredientDto);
+    const ingredient = await ingredientService.updateIngredient(id, updateData as UpdateIngredientDto, locale);
     
-    return {
-      success: true,
-      data: ingredient,
-    };
+    response.status(200).send(ingredient);
   } catch (error) {
     console.error('Error updating ingredient:', error);
     

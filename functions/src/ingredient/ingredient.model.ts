@@ -1,3 +1,7 @@
+import type { Timestamp } from 'firebase-admin/firestore';
+
+import type { I18nField } from '../shared/types';
+
 /**
  * Common ingredient categories for validation
  */
@@ -61,3 +65,18 @@ export interface UpdateIngredientDto {
   category?: IngredientCategory;
   image?: string;
 }
+
+/**
+ * Firestore document representation of an Ingredient
+ *
+ * Uses I18nField for title to support multiple languages
+ * Timestamps are stored as Firestore Timestamps
+ */
+export interface IngredientDocument extends Omit<Ingredient, 'id' | 'title' | 'createdAt' | 'updatedAt'> {
+  title: I18nField;
+
+  createdAt: Timestamp;
+
+  updatedAt: Timestamp;
+}
+
