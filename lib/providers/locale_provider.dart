@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:party_bar/models/shared_types.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Provider for managing the current locale throughout the app
 ///
@@ -7,7 +8,7 @@ import 'package:party_bar/models/shared_types.dart';
 /// ```dart
 /// // In main.dart, wrap your app:
 /// ChangeNotifierProvider(
-///   create: (_) => LocaleProvider(),
+///   create: (_) => LocaleProvider()..initialize(),
 ///   child: MyApp(),
 /// )
 ///
@@ -16,10 +17,16 @@ import 'package:party_bar/models/shared_types.dart';
 /// final cocktail = await repo.getCocktail(id, locale: locale);
 /// ```
 class LocaleProvider extends ChangeNotifier {
+  static const String _localeKey = 'app_locale';
+
   SupportedLocale _currentLocale = SupportedLocale.en;
+  bool _isInitialized = false;
 
   /// Get the current locale
   SupportedLocale get currentLocale => _currentLocale;
+
+  /// Check if the provider has been initialized
+  bool get isInitialized => _isInitialized;
 
   /// Get the current locale as a Flutter Locale
   Locale get locale {
@@ -31,18 +38,48 @@ class LocaleProvider extends ChangeNotifier {
     }
   }
 
-  /// Set the current locale
-  void setLocale(SupportedLocale locale) {
+  /// Initialize the provider by loading the saved locale
+  Future<void> initialize() async {
+    if (_isInitialized) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final savedLocaleCode = prefs.getString(_localeKey);
+
+    if (savedLocaleCode != null) {
+      _currentLocale = _parseSupportedLocale(savedLocaleCode);
+    }
+
+    _isInitialized = true;
+    notifyListeners();
+  }
+
+  /// Set the current locale and persist it
+  Future<void> setLocale(SupportedLocale locale) async {
     if (_currentLocale != locale) {
       _currentLocale = locale;
+
+      // Save to shared preferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_localeKey, _localeCodeString(locale));
+
       notifyListeners();
     }
   }
 
+  /// Convert SupportedLocale to string
+  String _localeCodeString(SupportedLocale locale) {
+    switch (locale) {
+      case SupportedLocale.en:
+        return 'en';
+      case SupportedLocale.uk:
+        return 'uk';
+    }
+  }
+
   /// Set locale from Flutter Locale
-  void setLocaleFromFlutter(Locale locale) {
+  Future<void> setLocaleFromFlutter(Locale locale) async {
     final supportedLocale = _parseSupportedLocale(locale.languageCode);
-    setLocale(supportedLocale);
+    await setLocale(supportedLocale);
   }
 
   /// Parse string to SupportedLocale
@@ -56,10 +93,14 @@ class LocaleProvider extends ChangeNotifier {
     }
   }
 
-  /// Initialize from system locale
-  void initializeFromSystem(BuildContext context) {
-    final systemLocale = Localizations.localeOf(context);
-    setLocaleFromFlutter(systemLocale);
+  /// Initialize from system locale (only if no saved preference exists)
+  Future<void> initializeFromSystem(BuildContext context) async {
+    // Only use system locale if we haven't saved a preference yet
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey(_localeKey)) {
+      final systemLocale = Localizations.localeOf(context);
+      await setLocaleFromFlutter(systemLocale);
+    }
   }
 }
 

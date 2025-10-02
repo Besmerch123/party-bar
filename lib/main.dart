@@ -34,7 +34,7 @@ class PartyBarApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => LocaleProvider(),
+      create: (_) => LocaleProvider()..initialize(),
       child: MaterialApp.router(
         title: 'PartyBar',
         theme: ThemeData(
