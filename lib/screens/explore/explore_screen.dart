@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../../models/models.dart';
 import '../../data/cocktail_repository.dart';
+import '../../providers/locale_provider.dart';
 import '../../utils/app_router.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -14,8 +16,8 @@ class ExploreScreen extends StatefulWidget {
 class _ExploreScreenState extends State<ExploreScreen> {
   final CocktailRepository _repository = CocktailRepository();
 
-  List<Cocktail> _allCocktails = [];
-  List<Cocktail> _filteredCocktails = [];
+  List<(String id, CocktailDocument doc)> _allCocktailDocs = [];
+  List<(String id, CocktailDocument doc)> _filteredCocktailDocs = [];
   String _searchQuery = '';
   CocktailCategory? _selectedCategory;
   bool _isLoading = true;
@@ -34,13 +36,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
     });
 
     try {
-      final cocktails = await _repository.getAllCocktails(
-        locale: SupportedLocale.en, // TODO: Get from LocaleProvider
-      );
+      final cocktailDocs = await _repository.getAllCocktailDocuments();
 
       setState(() {
-        _allCocktails = cocktails;
-        _filteredCocktails = cocktails;
+        _allCocktailDocs = cocktailDocs;
+        _filteredCocktailDocs = cocktailDocs;
         _isLoading = false;
       });
     } catch (e) {
@@ -52,8 +52,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   void _filterCocktails() {
+    // Get current locale for search filtering
+    final locale = context.read<LocaleProvider>().currentLocale;
+
     setState(() {
-      _filteredCocktails = _allCocktails.where((cocktail) {
+      _filteredCocktailDocs = _allCocktailDocs.where((entry) {
+        final (id, doc) = entry;
+        final cocktail = doc.toEntity(id, locale);
+
         // Search query filter
         bool matchesSearch =
             _searchQuery.isEmpty ||
@@ -65,7 +71,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         // Category filter
         bool matchesCategory =
             _selectedCategory == null ||
-            cocktail.categories.contains(_selectedCategory);
+            doc.categories.contains(_selectedCategory);
 
         return matchesSearch && matchesCategory;
       }).toList();
@@ -162,7 +168,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      '${_filteredCocktails.length} cocktails found',
+                      '${_filteredCocktailDocs.length} cocktails found',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(
                           context,
@@ -174,7 +180,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
                 // Cocktails Grid
                 Expanded(
-                  child: _filteredCocktails.isEmpty
+                  child: _filteredCocktailDocs.isEmpty
                       ? _buildEmptyState()
                       : GridView.builder(
                           padding: const EdgeInsets.all(16),
@@ -185,11 +191,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 mainAxisSpacing: 16,
                                 childAspectRatio: 0.75,
                               ),
-                          itemCount: _filteredCocktails.length,
+                          itemCount: _filteredCocktailDocs.length,
                           itemBuilder: (context, index) {
-                            return _buildCocktailCard(
-                              _filteredCocktails[index],
-                            );
+                            final (id, doc) = _filteredCocktailDocs[index];
+                            final locale = context
+                                .watch<LocaleProvider>()
+                                .currentLocale;
+                            final cocktail = doc.toEntity(id, locale);
+                            return _buildCocktailCard(cocktail);
                           },
                         ),
                 ),

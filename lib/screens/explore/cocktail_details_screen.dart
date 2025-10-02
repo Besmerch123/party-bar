@@ -19,7 +19,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
   final IngredientRepository _ingredientRepo = IngredientRepository();
   final EquipmentRepository _equipmentRepo = EquipmentRepository();
 
-  Cocktail? cocktail;
+  CocktailDocument? _cocktailDoc;
   List<Ingredient> ingredients = [];
   List<Equipment> equipments = [];
   bool isFavorite = false;
@@ -41,13 +41,12 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
     try {
       final locale = context.read<LocaleProvider>().currentLocale;
 
-      // Fetch cocktail
-      final fetchedCocktail = await _cocktailRepo.getCocktail(
+      // Fetch cocktail document (untranslated)
+      final fetchedCocktailDoc = await _cocktailRepo.getCocktailDocument(
         widget.cocktailId,
-        locale: locale,
       );
 
-      if (fetchedCocktail == null) {
+      if (fetchedCocktailDoc == null) {
         setState(() {
           errorMessage = 'Cocktail not found';
           isLoading = false;
@@ -55,19 +54,21 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
         return;
       }
 
+      final (id, doc) = fetchedCocktailDoc;
+
       // Fetch related ingredients and equipment
       final fetchedIngredients = await _ingredientRepo.getIngredientsByPaths(
-        fetchedCocktail.ingredients,
+        doc.ingredients,
         locale: locale,
       );
 
       final fetchedEquipments = await _equipmentRepo.getEquipmentsByPaths(
-        fetchedCocktail.equipments,
+        doc.equipments,
         locale: locale,
       );
 
       setState(() {
-        cocktail = fetchedCocktail;
+        _cocktailDoc = doc;
         ingredients = fetchedIngredients;
         equipments = fetchedEquipments;
         isLoading = false;
@@ -91,7 +92,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
       );
     }
 
-    if (errorMessage != null || cocktail == null) {
+    if (errorMessage != null || _cocktailDoc == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Cocktail Details')),
         body: Center(
@@ -120,21 +121,25 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
       );
     }
 
+    // Translate cocktail on-demand based on current locale
+    final locale = context.watch<LocaleProvider>().currentLocale;
+    final cocktail = _cocktailDoc!.toEntity(widget.cocktailId, locale);
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _buildSliverAppBar(),
+          _buildSliverAppBar(cocktail),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildHeader(),
+                  _buildHeader(cocktail),
                   const SizedBox(height: 24),
-                  _buildCategories(),
+                  _buildCategories(cocktail),
                   const SizedBox(height: 24),
-                  _buildIngredients(),
+                  _buildIngredients(cocktail),
                   const SizedBox(height: 24),
                   _buildEquipment(),
                   const SizedBox(height: 80), // Bottom padding for FAB
@@ -144,17 +149,12 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _addToOrder(),
-        icon: const Icon(Icons.add),
-        label: const Text('Add to Order'),
-      ),
     );
   }
 
-  Widget _buildSliverAppBar() {
-    final primaryCategory = cocktail!.categories.isNotEmpty
-        ? cocktail!.categories.first
+  Widget _buildSliverAppBar(Cocktail cocktail) {
+    final primaryCategory = cocktail.categories.isNotEmpty
+        ? cocktail.categories.first
         : CocktailCategory.classic;
 
     return SliverAppBar(
@@ -221,19 +221,19 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(Cocktail cocktail) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          cocktail!.title,
+          cocktail.title,
           style: Theme.of(
             context,
           ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Text(
-          cocktail!.description,
+          cocktail.description,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
           ),
@@ -242,8 +242,8 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
     );
   }
 
-  Widget _buildCategories() {
-    if (cocktail!.categories.isEmpty) return const SizedBox.shrink();
+  Widget _buildCategories(Cocktail cocktail) {
+    if (cocktail.categories.isEmpty) return const SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,7 +258,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: cocktail!.categories
+          children: cocktail.categories
               .map(
                 (category) => Chip(
                   label: Text(_getCategoryDisplayName(category)),
@@ -280,7 +280,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
     );
   }
 
-  Widget _buildIngredients() {
+  Widget _buildIngredients(Cocktail cocktail) {
     if (ingredients.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -310,7 +310,9 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: ingredients
-                  .map((ingredient) => _buildIngredientItem(ingredient))
+                  .map(
+                    (ingredient) => _buildIngredientItem(ingredient, cocktail),
+                  )
                   .toList(),
             ),
           ),
@@ -319,9 +321,9 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
     );
   }
 
-  Widget _buildIngredientItem(Ingredient ingredient) {
-    final primaryCategory = cocktail!.categories.isNotEmpty
-        ? cocktail!.categories.first
+  Widget _buildIngredientItem(Ingredient ingredient, Cocktail cocktail) {
+    final primaryCategory = cocktail.categories.isNotEmpty
+        ? cocktail.categories.first
         : CocktailCategory.classic;
 
     return Padding(
@@ -515,17 +517,21 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
   }
 
   void _shareCocktail() {
+    // Get the translated cocktail for sharing
+    final locale = context.read<LocaleProvider>().currentLocale;
+    final cocktail = _cocktailDoc!.toEntity(widget.cocktailId, locale);
+
     final ingredientsList = ingredients.map((i) => '• ${i.title}').join('\n');
     final equipmentsList = equipments.map((e) => '• ${e.title}').join('\n');
-    final categoriesList = cocktail!.categories
+    final categoriesList = cocktail.categories
         .map((c) => _getCategoryDisplayName(c))
         .join(', ');
 
     final shareText =
         '''
-🍸 ${cocktail!.title}
+🍸 ${cocktail.title}
 
-${cocktail!.description}
+${cocktail.description}
 
 � Categories: $categoriesList
 
@@ -555,21 +561,6 @@ Made with PartyBar App 🎉
       const SnackBar(
         content: Text('Ingredients copied to clipboard!'),
         duration: Duration(seconds: 2),
-      ),
-    );
-  }
-
-  void _addToOrder() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('${cocktail!.title} added to order queue!'),
-        duration: const Duration(seconds: 3),
-        action: SnackBarAction(
-          label: 'View Orders',
-          onPressed: () {
-            // Navigate to orders or party screen
-          },
-        ),
       ),
     );
   }

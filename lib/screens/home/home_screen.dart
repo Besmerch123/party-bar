@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../../models/models.dart';
 import '../../data/cocktail_repository.dart';
+import '../../providers/locale_provider.dart';
 import '../../utils/app_router.dart';
 
-/// Data class to hold all home screen data
+/// Data class to hold all home screen data (untranslated)
 class _HomeData {
-  final List<Cocktail> featuredCocktails;
-  final List<Cocktail> popularCocktails;
-  final Map<CocktailCategory, List<Cocktail>> categorizedCocktails;
+  final List<(String id, CocktailDocument doc)> featuredCocktails;
+  final List<(String id, CocktailDocument doc)> popularCocktails;
+  final Map<CocktailCategory, List<(String id, CocktailDocument doc)>>
+  categorizedCocktails;
   final int totalCocktails;
 
   const _HomeData({
@@ -28,7 +31,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final CocktailRepository _cocktailRepository = CocktailRepository();
-  final SupportedLocale _locale = SupportedLocale.en; // TODO: Get from provider
 
   late Future<_HomeData> _homeDataFuture;
   bool isAuthenticated = true; // TODO: Get from auth provider
@@ -40,16 +42,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<_HomeData> _loadData() async {
-    // Fetch all cocktails
-    final allCocktails = await _cocktailRepository.getAllCocktails(
-      locale: _locale,
-    );
+    // Fetch all cocktail documents (untranslated)
+    final allCocktailDocs = await _cocktailRepository.getAllCocktailDocuments();
 
     // Sort by creation date and take latest 3 for featured
-    final sortedByDate = List<Cocktail>.from(allCocktails)
+    final sortedByDate = List<(String, CocktailDocument)>.from(allCocktailDocs)
       ..sort((a, b) {
-        final aDate = a.createdAt ?? DateTime(2000);
-        final bDate = b.createdAt ?? DateTime(2000);
+        final aDate = a.$2.createdAt.toDate();
+        final bDate = b.$2.createdAt.toDate();
         return bDate.compareTo(aDate);
       });
     final featured = sortedByDate.take(3).toList();
@@ -58,10 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final popular = sortedByDate.take(5).toList();
 
     // Categorize cocktails
-    final categorized = <CocktailCategory, List<Cocktail>>{};
+    final categorized = <CocktailCategory, List<(String, CocktailDocument)>>{};
     for (final category in CocktailCategory.values) {
-      final cocktails = allCocktails
-          .where((c) => c.categories.contains(category))
+      final cocktails = allCocktailDocs
+          .where((c) => c.$2.categories.contains(category))
           .take(3)
           .toList();
       if (cocktails.isNotEmpty) {
@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
       featuredCocktails: featured,
       popularCocktails: popular,
       categorizedCocktails: categorized,
-      totalCocktails: allCocktails.length,
+      totalCocktails: allCocktailDocs.length,
     );
   }
 
@@ -342,7 +342,10 @@ class _HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.horizontal,
             itemCount: data.featuredCocktails.length,
             itemBuilder: (context, index) {
-              return _buildFeaturedCocktailCard(data.featuredCocktails[index]);
+              final (id, doc) = data.featuredCocktails[index];
+              final locale = context.watch<LocaleProvider>().currentLocale;
+              final cocktail = doc.toEntity(id, locale);
+              return _buildFeaturedCocktailCard(cocktail);
             },
           ),
         ),
@@ -581,7 +584,10 @@ class _HomeScreenState extends State<HomeScreen> {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: data.popularCocktails.length,
           itemBuilder: (context, index) {
-            return _buildPopularCocktailItem(data.popularCocktails[index]);
+            final (id, doc) = data.popularCocktails[index];
+            final locale = context.watch<LocaleProvider>().currentLocale;
+            final cocktail = doc.toEntity(id, locale);
+            return _buildPopularCocktailItem(cocktail);
           },
         ),
       ],

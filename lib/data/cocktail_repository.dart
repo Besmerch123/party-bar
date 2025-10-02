@@ -6,7 +6,24 @@ class CocktailRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CocktailTransformer _transformer = CocktailTransformer();
 
+  /// Fetch all cocktail documents (untranslated)
+  /// Use this to fetch once and translate on-demand when locale changes
+  Future<List<(String id, CocktailDocument doc)>>
+  getAllCocktailDocuments() async {
+    try {
+      final snapshot = await _firestore.collection('cocktails').get();
+
+      return snapshot.docs
+          .map((doc) => (doc.id, CocktailDocument.fromFirestore(doc)))
+          .toList();
+    } catch (e) {
+      print('Error fetching cocktail documents: $e');
+      return [];
+    }
+  }
+
   /// Fetch all cocktails with translation
+  /// @deprecated Use getAllCocktailDocuments() and translate on-demand for better performance
   Future<List<Cocktail>> getAllCocktails({
     SupportedLocale locale = SupportedLocale.en,
   }) async {
@@ -42,7 +59,21 @@ class CocktailRepository {
     }
   }
 
+  /// Stream cocktail documents in real-time (untranslated)
+  /// Use this to stream once and translate on-demand when locale changes
+  Stream<List<(String id, CocktailDocument doc)>> streamCocktailDocuments() {
+    return _firestore
+        .collection('cocktails')
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => (doc.id, CocktailDocument.fromFirestore(doc)))
+              .toList(),
+        );
+  }
+
   /// Stream cocktails in real-time with translation
+  /// @deprecated Use streamCocktailDocuments() and translate on-demand for better performance
   Stream<List<Cocktail>> streamCocktails({
     SupportedLocale locale = SupportedLocale.en,
   }) {
@@ -56,7 +87,25 @@ class CocktailRepository {
         );
   }
 
+  /// Fetch a single cocktail document by ID (untranslated)
+  /// Use this to fetch once and translate on-demand when locale changes
+  Future<(String id, CocktailDocument doc)?> getCocktailDocument(
+    String id,
+  ) async {
+    try {
+      final doc = await _firestore.collection('cocktails').doc(id).get();
+
+      if (!doc.exists) return null;
+
+      return (doc.id, CocktailDocument.fromFirestore(doc));
+    } catch (e) {
+      print('Error fetching cocktail document: $e');
+      return null;
+    }
+  }
+
   /// Fetch a single cocktail by ID with translation
+  /// @deprecated Use getCocktailDocument() and translate on-demand for better performance
   Future<Cocktail?> getCocktail(
     String id, {
     SupportedLocale locale = SupportedLocale.en,

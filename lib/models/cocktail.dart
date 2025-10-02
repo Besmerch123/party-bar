@@ -156,7 +156,26 @@ class CocktailDocument {
   }
 }
 
+/// Extension to convert CocktailDocument to entity with specific locale
+/// This allows on-demand translation without re-querying Firestore
+extension CocktailDocumentEntity on CocktailDocument {
+  /// Convert this document to a Cocktail entity with the given locale
+  Cocktail toEntity(String id, SupportedLocale locale) {
+    return Cocktail(
+      id: id,
+      title: title.translate(locale),
+      description: description.translate(locale),
+      ingredients: ingredients,
+      equipments: equipments,
+      categories: categories,
+      createdAt: createdAt.toDate(),
+      updatedAt: updatedAt.toDate(),
+    );
+  }
+}
+
 /// Transformer to convert between CocktailDocument and Cocktail entity
+/// @deprecated Use CocktailDocumentEntity extension instead for better performance
 class CocktailTransformer
     extends FirestoreTransformer<CocktailDocument, Cocktail> {
   @override
@@ -165,16 +184,7 @@ class CocktailTransformer
     String id,
     SupportedLocale locale,
   ) {
-    return Cocktail(
-      id: id,
-      title: document.title.translate(locale),
-      description: document.description.translate(locale),
-      ingredients: document.ingredients,
-      equipments: document.equipments,
-      categories: document.categories,
-      createdAt: document.createdAt.toDate(),
-      updatedAt: document.updatedAt.toDate(),
-    );
+    return document.toEntity(id, locale);
   }
 
   @override
