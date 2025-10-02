@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
 import 'utils/app_router.dart';
 import 'providers/locale_provider.dart';
@@ -14,6 +15,12 @@ Future<void> main() async {
 
   // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Configure Firestore offline persistence (50MB cache)
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+    cacheSizeBytes: 50 * 1024 * 1024, // 50MB
+  );
 
   final prefs = await SharedPreferences.getInstance();
   final hasSeenWelcome = prefs.getBool(_hasSeenWelcomeKey) ?? false;

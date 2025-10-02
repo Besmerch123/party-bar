@@ -33,10 +33,13 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
   }
 
   Future<void> _loadCocktail() async {
-    setState(() {
-      isLoading = true;
-      errorMessage = null;
-    });
+    // Only show loading on first load or when explicitly refreshing
+    if (_cocktailDoc == null) {
+      setState(() {
+        isLoading = true;
+        errorMessage = null;
+      });
+    }
 
     try {
       final locale = context.read<LocaleProvider>().currentLocale;
@@ -56,21 +59,16 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
 
       final (id, doc) = fetchedCocktailDoc;
 
-      // Fetch related ingredients and equipment
-      final fetchedIngredients = await _ingredientRepo.getIngredientsByPaths(
-        doc.ingredients,
-        locale: locale,
-      );
-
-      final fetchedEquipments = await _equipmentRepo.getEquipmentsByPaths(
-        doc.equipments,
-        locale: locale,
-      );
+      // Fetch related ingredients and equipment in parallel for better performance
+      final results = await Future.wait([
+        _ingredientRepo.getIngredientsByPaths(doc.ingredients, locale: locale),
+        _equipmentRepo.getEquipmentsByPaths(doc.equipments, locale: locale),
+      ]);
 
       setState(() {
         _cocktailDoc = doc;
-        ingredients = fetchedIngredients;
-        equipments = fetchedEquipments;
+        ingredients = results[0] as List<Ingredient>;
+        equipments = results[1] as List<Equipment>;
         isLoading = false;
         // TODO: Check favorites from user preferences/Firestore
         isFavorite = false;
