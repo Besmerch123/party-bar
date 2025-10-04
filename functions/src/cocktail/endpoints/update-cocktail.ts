@@ -11,13 +11,13 @@ const cocktailService = new CocktailService();
 /**
  * Updates an existing cocktail
  */
-export const updateCocktail = onCall(async (request) => {
+export const updateCocktail = onCall<UpdateCocktailDto>(async (request) => {
   try {
     if (!request.auth) {
       throw new HttpsError('unauthenticated', 'User must be authenticated');
     }
 
-    const { id, ...updateData } = (request.data ?? {}) as { id?: string } & UpdateCocktailDto;
+    const { id, ...updateData } = request.data ?? {}; 
 
     if (!id) {
       throw new HttpsError('invalid-argument', 'Cocktail ID is required');
@@ -25,10 +25,7 @@ export const updateCocktail = onCall(async (request) => {
 
     const cocktail = await cocktailService.updateCocktail(id, updateData);
 
-    return {
-      success: true,
-      data: cocktail,
-    };
+    return  cocktail;
   } catch (error) {
     console.error('Error updating cocktail:', error);
 

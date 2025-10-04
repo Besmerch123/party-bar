@@ -6,6 +6,7 @@
  */
 
 import * as admin from 'firebase-admin';
+import { Timestamp } from 'firebase-admin/firestore';
 import { Cocktail, CreateCocktailDto, UpdateCocktailDto } from './cocktail.model';
 
 export class CocktailRepository {
@@ -14,7 +15,7 @@ export class CocktailRepository {
   /**
    * Creates a new cocktail in Firestore
    */
-  async create(cocktailData: CreateCocktailDto): Promise<Cocktail> {
+  async create(cocktailData: CreateCocktailDto, locale: string): Promise<Cocktail> {
     const now = new Date();
     const docRef = this.collection.doc();
 
@@ -29,15 +30,19 @@ export class CocktailRepository {
       updatedAt: now,
     };
 
+    const timestamp = Timestamp.fromDate(now);
     const firestoreData: Record<string, unknown> = {
-      id: cocktail.id,
-      title: cocktail.title,
-      description: cocktail.description,
+      title: {
+        [locale]: cocktail.title
+      },
+      description: {
+        [locale]: cocktail.description
+      },
       ingredients: cocktail.ingredients,
       equipments: cocktail.equipments,
       categories: cocktail.categories,
-      createdAt: admin.firestore.Timestamp.fromDate(now),
-      updatedAt: admin.firestore.Timestamp.fromDate(now),
+      createdAt: timestamp,
+      updatedAt: timestamp,
     };
 
     await docRef.set(firestoreData);
@@ -116,7 +121,7 @@ export class CocktailRepository {
   /**
    * Updates an existing cocktail
    */
-  async update(id: string, updateData: UpdateCocktailDto): Promise<Cocktail | null> {
+  async update(id: string, updateData: UpdateCocktailDto, locale: string): Promise<Cocktail | null> {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
 
@@ -126,15 +131,15 @@ export class CocktailRepository {
 
     const now = new Date();
     const updatedFields: Record<string, unknown> = {
-      updatedAt: admin.firestore.Timestamp.fromDate(now),
+      updatedAt: Timestamp.fromDate(now),
     };
 
     if (updateData.title !== undefined) {
-      updatedFields.title = updateData.title;
+      updatedFields.title = { [locale]: updateData.title };
     }
 
     if (updateData.description !== undefined) {
-      updatedFields.description = updateData.description;
+      updatedFields.description = { [locale]: updateData.description };
     }
 
     if (updateData.ingredients !== undefined) {
@@ -149,7 +154,7 @@ export class CocktailRepository {
       updatedFields.categories = updateData.categories;
     }
 
-    await docRef.update(updatedFields);
+    await docRef.set(updatedFields, { merge: true });
 
     return await this.findById(id);
   }

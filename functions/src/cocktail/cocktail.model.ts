@@ -66,6 +66,7 @@ export interface CreateCocktailDto {
 }
 
 export interface UpdateCocktailDto {
+  id?: string;
   title?: string;
   description?: string;
   ingredients?: string[];
