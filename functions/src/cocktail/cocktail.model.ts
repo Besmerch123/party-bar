@@ -29,10 +29,10 @@ export interface Cocktail {
   id: string;
 
   /** Human-readable name/title of the cocktail */
-  title: string;
+  title: I18nField;
 
   /** Detailed description, preparation notes, history, etc. */
-  description: string;
+  description: I18nField;
 
   /** Firestore document paths referencing ingredient records */
   ingredients: string[];
@@ -50,16 +50,14 @@ export interface Cocktail {
   updatedAt?: Date;
 }
 
-export interface CocktailDocument extends Omit<Cocktail, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'> {
-  title: I18nField;
-  description: I18nField;
+export interface CocktailDocument extends Omit<Cocktail, 'id' |'createdAt' | 'updatedAt'> {
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
 
 export interface CreateCocktailDto {
-  title: string;
-  description: string;
+  title: I18nField;
+  description: I18nField;
   ingredients: string[];
   equipments: string[];
   categories: CocktailCategory[];
@@ -67,8 +65,8 @@ export interface CreateCocktailDto {
 
 export interface UpdateCocktailDto {
   id?: string;
-  title?: string;
-  description?: string;
+  title?: I18nField;
+  description?: I18nField;
   ingredients?: string[];
   equipments?: string[];
   categories?: CocktailCategory[];

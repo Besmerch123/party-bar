@@ -5,7 +5,7 @@
  * Following DDD principles, this is the application service layer.
  */
 
-import { SupportedLocale } from '../shared/types';
+import { I18nField } from '../shared/types';
 import { CocktailRepository } from './cocktail.repository';
 import {
   Cocktail,
@@ -24,17 +24,23 @@ export class CocktailService {
   /**
    * Creates a new cocktail with validation
    */
-  async createCocktail(data: CreateCocktailDto, locale: SupportedLocale): Promise<Cocktail> {
+  async createCocktail(data: CreateCocktailDto): Promise<Cocktail> {
     this.validateCocktailData(data);
 
     const normalized = this.normalizeCreateData(data);
 
-    const exists = await this.repository.existsByTitle(normalized.title);
-    if (exists) {
-      throw new Error('A cocktail with this title already exists');
+    // Check for duplicate titles in all locales
+    for (const locale of Object.keys(normalized.title)) {
+      const titleValue = normalized.title[locale as keyof typeof normalized.title];
+      if (titleValue) {
+        const exists = await this.repository.existsByTitle(titleValue, locale);
+        if (exists) {
+          throw new Error(`A cocktail with this title already exists in locale: ${locale}`);
+        }
+      }
     }
 
-    return await this.repository.create(normalized, locale);
+    return await this.repository.create(normalized);
   }
 
   /**
@@ -74,7 +80,7 @@ export class CocktailService {
   /**
    * Updates an existing cocktail
    */
-  async updateCocktail(id: string, data: UpdateCocktailDto, locale: SupportedLocale): Promise<Cocktail> {
+  async updateCocktail(id: string, data: UpdateCocktailDto): Promise<Cocktail> {
     if (!id || id.trim() === '') {
       throw new Error('Cocktail ID is required');
     }
@@ -82,18 +88,29 @@ export class CocktailService {
     const updatePayload: UpdateCocktailDto = {};
 
     if (data.title !== undefined) {
-      this.validateTitle(data.title);
-      const trimmedTitle = data.title.trim();
-      const exists = await this.repository.existsByTitle(trimmedTitle, id.trim());
-      if (exists) {
-        throw new Error('A cocktail with this title already exists');
+      this.validateI18nField(data.title, 'title');
+      const normalizedTitle = this.normalizeI18nField(data.title);
+      
+      // Check for duplicate titles in all locales
+      const existing = await this.repository.findById(id.trim());
+      for (const locale of Object.keys(normalizedTitle)) {
+        const titleValue = normalizedTitle[locale as keyof typeof normalizedTitle];
+        if (titleValue) {
+          const exists = await this.repository.existsByTitle(titleValue, locale);
+          if (exists) {
+            // Check if it's the same cocktail
+            if (!existing || existing.title[locale as keyof typeof existing.title]?.toLowerCase() !== titleValue.toLowerCase()) {
+              throw new Error(`A cocktail with this title already exists in locale: ${locale}`);
+            }
+          }
+        }
       }
-      updatePayload.title = trimmedTitle;
+      updatePayload.title = normalizedTitle;
     }
 
     if (data.description !== undefined) {
-      this.validateDescription(data.description);
-      updatePayload.description = data.description.trim();
+      this.validateI18nField(data.description, 'description');
+      updatePayload.description = this.normalizeI18nField(data.description);
     }
 
     if (data.ingredients !== undefined) {
@@ -111,7 +128,7 @@ export class CocktailService {
       updatePayload.categories = this.normalizeCategories(data.categories);
     }
 
-    const updated = await this.repository.update(id.trim(), updatePayload, locale);
+    const updated = await this.repository.update(id.trim(), updatePayload);
     if (!updated) {
       throw new Error('Cocktail not found');
     }
@@ -141,48 +158,61 @@ export class CocktailService {
   }
 
   private validateCocktailData(data: CreateCocktailDto): void {
-    this.validateTitle(data.title);
-    this.validateDescription(data.description);
+    this.validateI18nField(data.title, 'title');
+    this.validateI18nField(data.description, 'description');
     this.validateReferenceArray(data.ingredients, 'ingredients');
     this.validateReferenceArray(data.equipments, 'equipments');
     this.validateCategories(data.categories);
   }
 
-  private validateTitle(title: string): void {
-    if (!title || typeof title !== 'string') {
-      throw new Error('Title is required and must be a string');
+  /**
+   * Validates I18n field (translatable field)
+   */
+  private validateI18nField(field: I18nField, fieldName: 'title' | 'description'): void {
+    if (!field || typeof field !== 'object') {
+      throw new Error(`${fieldName} is required and must be an object with locale keys`);
     }
 
-    const trimmedTitle = title.trim();
-    if (trimmedTitle.length === 0) {
-      throw new Error('Title cannot be empty');
+    const locales = Object.keys(field);
+    if (locales.length === 0) {
+      throw new Error(`${fieldName} must have at least one locale`);
     }
 
-    if (trimmedTitle.length < 2) {
-      throw new Error('Title must be at least 2 characters long');
-    }
-
-    if (trimmedTitle.length > 150) {
-      throw new Error('Title cannot exceed 150 characters');
+    for (const locale of locales) {
+      const value = field[locale as keyof typeof field];
+      if (value !== undefined) {
+        this.validateFieldValue(value, locale, fieldName);
+      }
     }
   }
 
-  private validateDescription(description: string): void {
-    if (!description || typeof description !== 'string') {
-      throw new Error('Description is required and must be a string');
+  /**
+   * Validates a single field value for a specific locale
+   */
+  private validateFieldValue(value: string, locale: string, fieldName: 'title' | 'description'): void {
+    if (typeof value !== 'string') {
+      throw new Error(`${fieldName} for locale '${locale}' must be a string`);
     }
 
-    const trimmedDescription = description.trim();
-    if (trimmedDescription.length === 0) {
-      throw new Error('Description cannot be empty');
+    const trimmedValue = value.trim();
+    if (trimmedValue.length === 0) {
+      throw new Error(`${fieldName} for locale '${locale}' cannot be empty`);
     }
 
-    if (trimmedDescription.length < 10) {
-      throw new Error('Description must be at least 10 characters long');
-    }
-
-    if (trimmedDescription.length > 5000) {
-      throw new Error('Description cannot exceed 5000 characters');
+    if (fieldName === 'title') {
+      if (trimmedValue.length < 2) {
+        throw new Error(`Title for locale '${locale}' must be at least 2 characters long`);
+      }
+      if (trimmedValue.length > 150) {
+        throw new Error(`Title for locale '${locale}' cannot exceed 150 characters`);
+      }
+    } else if (fieldName === 'description') {
+      if (trimmedValue.length < 10) {
+        throw new Error(`Description for locale '${locale}' must be at least 10 characters long`);
+      }
+      if (trimmedValue.length > 5000) {
+        throw new Error(`Description for locale '${locale}' cannot exceed 5000 characters`);
+      }
     }
   }
 
@@ -239,12 +269,26 @@ export class CocktailService {
 
   private normalizeCreateData(data: CreateCocktailDto): CreateCocktailDto {
     return {
-      title: data.title.trim(),
-      description: data.description.trim(),
+      title: this.normalizeI18nField(data.title),
+      description: this.normalizeI18nField(data.description),
       ingredients: this.normalizeReferenceArray(data.ingredients),
       equipments: this.normalizeReferenceArray(data.equipments),
       categories: this.normalizeCategories(data.categories),
     };
+  }
+
+  /**
+   * Normalizes I18n field by trimming all locale values
+   */
+  private normalizeI18nField(field: I18nField): I18nField {
+    const normalized: I18nField = {};
+    for (const locale of Object.keys(field)) {
+      const value = field[locale as keyof typeof field];
+      if (value !== undefined && typeof value === 'string') {
+        normalized[locale as keyof typeof normalized] = value.trim();
+      }
+    }
+    return normalized;
   }
 
   private normalizeReferenceArray(values: string[]): string[] {

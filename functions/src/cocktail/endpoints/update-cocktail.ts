@@ -3,7 +3,6 @@
  */
 
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import { getLocaleHeader } from '../../shared/utils';
 import { CocktailService } from '../cocktail.service';
 import { UpdateCocktailDto } from '../cocktail.model';
 
@@ -17,7 +16,6 @@ export const updateCocktail = onCall<UpdateCocktailDto>(async (request) => {
     if (!request.auth) {
       throw new HttpsError('unauthenticated', 'User must be authenticated');
     }
-    const locale = getLocaleHeader(request);
 
     const { id, ...updateData } = request.data ?? {}; 
 
@@ -25,7 +23,7 @@ export const updateCocktail = onCall<UpdateCocktailDto>(async (request) => {
       throw new HttpsError('invalid-argument', 'Cocktail ID is required');
     }
 
-    const cocktail = await cocktailService.updateCocktail(id, updateData, locale);
+    const cocktail = await cocktailService.updateCocktail(id, updateData);
 
     return  cocktail;
   } catch (error) {

@@ -15,7 +15,7 @@ export class CocktailRepository {
   /**
    * Creates a new cocktail in Firestore
    */
-  async create(cocktailData: CreateCocktailDto, locale: string): Promise<Cocktail> {
+  async create(cocktailData: CreateCocktailDto): Promise<Cocktail> {
     const now = new Date();
     const docRef = this.collection.doc();
 
@@ -32,12 +32,8 @@ export class CocktailRepository {
 
     const timestamp = Timestamp.fromDate(now);
     const firestoreData: Record<string, unknown> = {
-      title: {
-        [locale]: cocktail.title
-      },
-      description: {
-        [locale]: cocktail.description
-      },
+      title: cocktail.title,
+      description: cocktail.description,
       ingredients: cocktail.ingredients,
       equipments: cocktail.equipments,
       categories: cocktail.categories,
@@ -121,7 +117,7 @@ export class CocktailRepository {
   /**
    * Updates an existing cocktail
    */
-  async update(id: string, updateData: UpdateCocktailDto, locale: string): Promise<Cocktail | null> {
+  async update(id: string, updateData: UpdateCocktailDto): Promise<Cocktail | null> {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
 
@@ -135,11 +131,11 @@ export class CocktailRepository {
     };
 
     if (updateData.title !== undefined) {
-      updatedFields.title = { [locale]: updateData.title };
+      updatedFields.title = updateData.title;
     }
 
     if (updateData.description !== undefined) {
-      updatedFields.description = { [locale]: updateData.description };
+      updatedFields.description = updateData.description;
     }
 
     if (updateData.ingredients !== undefined) {
@@ -154,7 +150,7 @@ export class CocktailRepository {
       updatedFields.categories = updateData.categories;
     }
 
-    await docRef.set(updatedFields, { merge: true });
+    await docRef.update(updatedFields);
 
     return await this.findById(id);
   }
@@ -175,15 +171,15 @@ export class CocktailRepository {
   }
 
   /**
-   * Checks if a cocktail with the given title already exists
+   * Checks if a cocktail with the given title already exists in any locale
    */
-  async existsByTitle(title: string, excludeId?: string): Promise<boolean> {
-    const snapshot = await this.collection.where('title', '==', title).get();
-
-    if (excludeId) {
-      return snapshot.docs.some((doc) => doc.id !== excludeId);
-    }
-
+  async existsByTitle(title: string, locale: string = 'en'): Promise<boolean> {
+    const fieldPath = `title.${locale}`;
+    const snapshot = await this.collection
+      .where(fieldPath, '==', title.trim())
+      .limit(1)
+      .get();
+    
     return !snapshot.empty;
   }
 }
