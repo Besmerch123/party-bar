@@ -18,7 +18,10 @@ export async function testEquipmentOperations() {
     // Test 1: Create equipment
     console.log('\n1. Creating equipment...');
     const newEquipment: CreateEquipmentDto = {
-      title: 'Boston Shaker',
+      title: {
+        en: 'Boston Shaker',
+        uk: 'Бостонський шейкер',
+      },
       image: 'gs://party-bar/equipment/boston-shaker.png',
     };
 
@@ -38,7 +41,10 @@ export async function testEquipmentOperations() {
     // Test 4: Update equipment
     console.log('\n4. Updating equipment...');
     const updatedEquipment = await equipmentService.updateEquipment(createdEquipment.id, {
-      title: 'Professional Boston Shaker',
+      title: {
+        en: 'Professional Boston Shaker',
+        uk: 'Професійний бостонський шейкер',
+      },
       image: 'gs://party-bar/equipment/boston-shaker-pro.png',
     });
     console.log('Updated:', updatedEquipment);

@@ -7,6 +7,7 @@
 
 import { EquipmentRepository } from './equipment.repository';
 import { Equipment, CreateEquipmentDto, UpdateEquipmentDto } from './equipment.model';
+import { I18nField } from '../shared/types';
 
 export class EquipmentService {
   private readonly repository = new EquipmentRepository();
@@ -19,16 +20,22 @@ export class EquipmentService {
     this.validateEquipmentData(data);
     
     const image = this.normalizeImage(data.image);
+    const normalizedTitle = this.normalizeI18nField(data.title);
 
-    // Check for duplicate titles
-    const exists = await this.repository.existsByTitle(data.title.trim());
-    if (exists) {
-      throw new Error('An equipment with this title already exists');
+    // Check for duplicate titles in all locales
+    for (const locale of Object.keys(normalizedTitle)) {
+      const titleValue = normalizedTitle[locale as keyof typeof normalizedTitle];
+      if (titleValue) {
+        const exists = await this.repository.existsByTitle(titleValue, locale);
+        if (exists) {
+          throw new Error(`An equipment with this title already exists in locale: ${locale}`);
+        }
+      }
     }
 
     // Create the equipment
     return await this.repository.create({
-      title: data.title.trim(),
+      title: normalizedTitle,
       image,
     });
   }
@@ -66,25 +73,31 @@ export class EquipmentService {
 
     // Validate update data if provided
     if (data.title !== undefined) {
-      this.validateTitle(data.title);
+      this.validateI18nField(data.title);
     }
 
     // Check for duplicate titles if title is being updated
     if (data.title) {
-      const trimmedTitle = data.title.trim();
-      const exists = await this.repository.existsByTitle(trimmedTitle);
-      if (exists) {
-        // Check if it's the same equipment
-        const existing = await this.repository.findById(id.trim());
-        if (!existing || existing.title.toLowerCase() !== trimmedTitle.toLowerCase()) {
-          throw new Error('An equipment with this title already exists');
+      const normalizedTitle = this.normalizeI18nField(data.title);
+      const existing = await this.repository.findById(id.trim());
+      
+      for (const locale of Object.keys(normalizedTitle)) {
+        const titleValue = normalizedTitle[locale as keyof typeof normalizedTitle];
+        if (titleValue) {
+          const exists = await this.repository.existsByTitle(titleValue, locale);
+          if (exists) {
+            // Check if it's the same equipment
+            if (!existing || existing.title[locale as keyof typeof existing.title]?.toLowerCase() !== titleValue.toLowerCase()) {
+              throw new Error(`An equipment with this title already exists in locale: ${locale}`);
+            }
+          }
         }
       }
     }
 
     const updatePayload: UpdateEquipmentDto = {};
     if (data.title !== undefined) {
-      updatePayload.title = data.title.trim();
+      updatePayload.title = this.normalizeI18nField(data.title);
     }
     if (data.image !== undefined) {
       const image = this.normalizeImage(data.image);
@@ -119,30 +132,65 @@ export class EquipmentService {
    * Validates equipment data
    */
   private validateEquipmentData(data: CreateEquipmentDto): void {
-    this.validateTitle(data.title);
+    this.validateI18nField(data.title);
     this.normalizeImage(data.image);
   }
 
   /**
-   * Validates equipment title
+   * Validates I18n field (translatable field)
    */
-  private validateTitle(title: string): void {
-    if (!title || typeof title !== 'string') {
-      throw new Error('Title is required and must be a string');
+  private validateI18nField(field: I18nField): void {
+    if (!field || typeof field !== 'object') {
+      throw new Error('Title is required and must be an object with locale keys');
+    }
+
+    const locales = Object.keys(field);
+    if (locales.length === 0) {
+      throw new Error('Title must have at least one locale');
+    }
+
+    for (const locale of locales) {
+      const value = field[locale as keyof typeof field];
+      if (value !== undefined) {
+        this.validateTitleValue(value, locale);
+      }
+    }
+  }
+
+  /**
+   * Validates a single title value for a specific locale
+   */
+  private validateTitleValue(title: string, locale: string): void {
+    if (typeof title !== 'string') {
+      throw new Error(`Title for locale '${locale}' must be a string`);
     }
 
     const trimmedTitle = title.trim();
     if (trimmedTitle.length === 0) {
-      throw new Error('Title cannot be empty');
+      throw new Error(`Title for locale '${locale}' cannot be empty`);
     }
 
     if (trimmedTitle.length < 2) {
-      throw new Error('Title must be at least 2 characters long');
+      throw new Error(`Title for locale '${locale}' must be at least 2 characters long`);
     }
 
     if (trimmedTitle.length > 100) {
-      throw new Error('Title cannot exceed 100 characters');
+      throw new Error(`Title for locale '${locale}' cannot exceed 100 characters`);
     }
+  }
+
+  /**
+   * Normalizes I18n field by trimming all locale values
+   */
+  private normalizeI18nField(field: I18nField): I18nField {
+    const normalized: I18nField = {};
+    for (const locale of Object.keys(field)) {
+      const value = field[locale as keyof typeof field];
+      if (value !== undefined && typeof value === 'string') {
+        normalized[locale as keyof typeof normalized] = value.trim();
+      }
+    }
+    return normalized;
   }
 
   /**

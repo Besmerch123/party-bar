@@ -53,30 +53,40 @@ export class EquipmentRepository {
     }
 
     const data = doc.data();
-    return {
+    const equipment: Equipment = {
       id: doc.id,
-      title: data?.title,
-      image: data?.image,
+      title: data?.title || {},
       createdAt: data?.createdAt?.toDate(),
       updatedAt: data?.updatedAt?.toDate(),
-    } as Equipment;
+    };
+
+    if (data?.image !== undefined) {
+      equipment.image = data.image;
+    }
+
+    return equipment;
   }
 
   /**
    * Retrieves all equipment
    */
   async findAll(): Promise<Equipment[]> {
-    const snapshot = await this.collection.orderBy('title', 'asc').get();
+    const snapshot = await this.collection.orderBy('title.en', 'asc').get();
     
     return snapshot.docs.map(doc => {
       const data = doc.data();
-      return {
+      const equipment: Equipment = {
         id: doc.id,
-        title: data.title,
-        image: data.image,
+        title: data.title || {},
         createdAt: data.createdAt?.toDate(),
         updatedAt: data.updatedAt?.toDate(),
-      } as Equipment;
+      };
+
+      if (data.image !== undefined) {
+        equipment.image = data.image;
+      }
+
+      return equipment;
     });
   }
 
@@ -128,11 +138,12 @@ export class EquipmentRepository {
   }
 
   /**
-   * Checks if an equipment with the given title already exists
+   * Checks if an equipment with the given title already exists in any locale
    */
-  async existsByTitle(title: string): Promise<boolean> {
+  async existsByTitle(title: string, locale: string = 'en'): Promise<boolean> {
+    const fieldPath = `title.${locale}`;
     const snapshot = await this.collection
-      .where('title', '==', title.trim())
+      .where(fieldPath, '==', title.trim())
       .limit(1)
       .get();
     
