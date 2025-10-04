@@ -1,6 +1,5 @@
 import { onRequest, HttpsError } from 'firebase-functions/v2/https';
 
-import { getLocaleHeader } from '../../shared/utils';
 import { IngredientService } from '../ingredient.service';
 import { CreateIngredientDto } from '../ingredient.model';
 
@@ -11,15 +10,13 @@ const ingredientService = new IngredientService();
  */
 export const createIngredient = onRequest(async (request, response) => {
   try {
-    const locale = getLocaleHeader(request);
-
     const data = request.body as CreateIngredientDto;
     
     if (!data) {
       throw new HttpsError('invalid-argument', 'Ingredient data is required');
     }
 
-    const ingredient = await ingredientService.createIngredient(data, locale);
+    const ingredient = await ingredientService.createIngredient(data);
     
 
     response.status(201).send(ingredient);

@@ -7,8 +7,6 @@
 
 import { CollectionReference, getFirestore, Timestamp } from 'firebase-admin/firestore';
 
-import { SupportedLocale } from '../shared/types';
-
 import type { 
   Ingredient,
   CreateIngredientDto, 
@@ -23,7 +21,7 @@ export class IngredientRepository {
   /**
    * Creates a new ingredient in Firestore
    */
-  async create(ingredientData: CreateIngredientDto, locale: SupportedLocale): Promise<Ingredient> {
+  async create(ingredientData: CreateIngredientDto): Promise<Ingredient> {
     const now = new Date();
     const docRef = this.collection.doc();
     
@@ -39,9 +37,7 @@ export class IngredientRepository {
     const timestamp = Timestamp.fromDate(now);
 
     const firestoreData: IngredientDocument = {
-      title: {
-        [locale]: ingredient.title
-      },
+      title: ingredient.title,
       category: ingredient.category,
       image: ingredient.image,
       createdAt: timestamp,
@@ -118,7 +114,7 @@ export class IngredientRepository {
   /**
    * Updates an existing ingredient
    */
-  async update(id: string, updateData: UpdateIngredientDto, locale: SupportedLocale): Promise<Ingredient | null> {
+  async update(id: string, updateData: UpdateIngredientDto): Promise<Ingredient | null> {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
     
@@ -132,7 +128,7 @@ export class IngredientRepository {
     };
 
     if (updateData.title !== undefined) {
-      updatedFields.title = { [locale]: updateData.title };
+      updatedFields.title = updateData.title;
     }
 
     if (updateData.category !== undefined) {
@@ -143,7 +139,7 @@ export class IngredientRepository {
       updatedFields.image = updateData.image;
     }
 
-    await docRef.set(updatedFields, { merge: true });
+    await docRef.update(updatedFields);
     
     // Return the updated ingredient
     return await this.findById(id);
@@ -165,16 +161,14 @@ export class IngredientRepository {
   }
 
   /**
-   * Checks if an ingredient with the given title already exists
+   * Checks if an ingredient with the given title already exists in any locale
    */
-  async existsByTitle(title: string, excludeId?: string): Promise<boolean> {
-    const query = this.collection.where('title', '==', title);
-    
-    const snapshot = await query.get();
-    
-    if (excludeId) {
-      return snapshot.docs.some(doc => doc.id !== excludeId);
-    }
+  async existsByTitle(title: string, locale: string = 'en'): Promise<boolean> {
+    const fieldPath = `title.${locale}`;
+    const snapshot = await this.collection
+      .where(fieldPath, '==', title.trim())
+      .limit(1)
+      .get();
     
     return !snapshot.empty;
   }

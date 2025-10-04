@@ -1,6 +1,5 @@
 import { onRequest, HttpsError } from 'firebase-functions/v2/https';
 
-import { getLocaleHeader } from '../../shared/utils';
 import { IngredientService } from '../ingredient.service';
 import { UpdateIngredientDto } from '../ingredient.model';
 
@@ -12,13 +11,12 @@ const ingredientService = new IngredientService();
 export const updateIngredient = onRequest(async (request, response) => {
   try {
     const { id, ...updateData } = request.body as Partial<UpdateIngredientDto> & { id: string };
-    const locale = getLocaleHeader(request);
     
     if (!id) {
       throw new HttpsError('invalid-argument', 'Ingredient ID is required');
     }
 
-    const ingredient = await ingredientService.updateIngredient(id, updateData as UpdateIngredientDto, locale);
+    const ingredient = await ingredientService.updateIngredient(id, updateData as UpdateIngredientDto);
     
     response.status(200).send(ingredient);
   } catch (error) {

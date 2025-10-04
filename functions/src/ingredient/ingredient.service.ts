@@ -7,8 +7,7 @@
 
 import { IngredientRepository } from './ingredient.repository';
 import { Ingredient, CreateIngredientDto, UpdateIngredientDto, INGREDIENT_CATEGORIES } from './ingredient.model';
-
-import { SupportedLocale } from '../shared/types';
+import { I18nField } from '../shared/types';
 
 export class IngredientService {
   private readonly repository = new IngredientRepository();
@@ -16,24 +15,30 @@ export class IngredientService {
   /**
    * Creates a new ingredient with validation
    */
-  async createIngredient(data: CreateIngredientDto, locale: SupportedLocale): Promise<Ingredient> {
+  async createIngredient(data: CreateIngredientDto): Promise<Ingredient> {
     // Validate input
     this.validateIngredientData(data);
     
     const image = this.normalizeImage(data.image);
+    const normalizedTitle = this.normalizeI18nField(data.title);
 
-    // Check for duplicate titles
-    const exists = await this.repository.existsByTitle(data.title.trim());
-    if (exists) {
-      throw new Error('An ingredient with this title already exists');
+    // Check for duplicate titles in all locales
+    for (const locale of Object.keys(normalizedTitle)) {
+      const titleValue = normalizedTitle[locale as keyof typeof normalizedTitle];
+      if (titleValue) {
+        const exists = await this.repository.existsByTitle(titleValue, locale);
+        if (exists) {
+          throw new Error(`An ingredient with this title already exists in locale: ${locale}`);
+        }
+      }
     }
 
     // Create the ingredient
     return await this.repository.create({
-      title: data.title.trim(),
+      title: normalizedTitle,
       category: data.category,
       image,
-    }, locale);
+    });
   }
 
   /**
@@ -73,48 +78,58 @@ export class IngredientService {
   /**
    * Updates an existing ingredient
    */
-  async updateIngredient(id: string, data: UpdateIngredientDto, locale: SupportedLocale): Promise<Ingredient> {
+  async updateIngredient(id: string, data: UpdateIngredientDto): Promise<Ingredient> {
     if (!id || id.trim() === '') {
       throw new Error('Ingredient ID is required');
     }
 
-    // Validate input if provided
+    // Validate update data if provided
     if (data.title !== undefined) {
-      this.validateTitle(data.title);
+      this.validateI18nField(data.title);
     }
     if (data.category !== undefined) {
       this.validateCategory(data.category);
     }
-    // Check for duplicate titles (excluding current ingredient)
+
+    // Check for duplicate titles if title is being updated
     if (data.title) {
-      const trimmedTitle = data.title.trim();
-      const exists = await this.repository.existsByTitle(trimmedTitle, id);
-      if (exists) {
-        throw new Error('An ingredient with this title already exists');
+      const normalizedTitle = this.normalizeI18nField(data.title);
+      const existing = await this.repository.findById(id.trim());
+      
+      for (const locale of Object.keys(normalizedTitle)) {
+        const titleValue = normalizedTitle[locale as keyof typeof normalizedTitle];
+        if (titleValue) {
+          const exists = await this.repository.existsByTitle(titleValue, locale);
+          if (exists) {
+            // Check if it's the same ingredient
+            if (!existing || existing.title[locale as keyof typeof existing.title]?.toLowerCase() !== titleValue.toLowerCase()) {
+              throw new Error(`An ingredient with this title already exists in locale: ${locale}`);
+            }
+          }
+        }
       }
     }
 
-    // Prepare update data
-    const updateData: UpdateIngredientDto = {};
+    const updatePayload: UpdateIngredientDto = {};
     if (data.title !== undefined) {
-      updateData.title = data.title.trim();
+      updatePayload.title = this.normalizeI18nField(data.title);
     }
     if (data.category !== undefined) {
-      updateData.category = data.category;
+      updatePayload.category = data.category;
     }
     if (data.image !== undefined) {
       const image = this.normalizeImage(data.image);
       if (image !== undefined) {
-        updateData.image = image;
+        updatePayload.image = image;
       }
     }
 
-    const updated = await this.repository.update(id.trim(), updateData, locale);
-    if (!updated) {
+    const updatedIngredient = await this.repository.update(id.trim(), updatePayload);
+    if (!updatedIngredient) {
       throw new Error('Ingredient not found');
     }
 
-    return updated;
+    return updatedIngredient;
   }
 
   /**
@@ -142,31 +157,66 @@ export class IngredientService {
    * Validates ingredient data
    */
   private validateIngredientData(data: CreateIngredientDto): void {
-    this.validateTitle(data.title);
+    this.validateI18nField(data.title);
     this.validateCategory(data.category);
     this.normalizeImage(data.image);
   }
 
   /**
-   * Validates ingredient title
+   * Validates I18n field (translatable field)
    */
-  private validateTitle(title: string): void {
-    if (!title || typeof title !== 'string') {
-      throw new Error('Title is required and must be a string');
+  private validateI18nField(field: I18nField): void {
+    if (!field || typeof field !== 'object') {
+      throw new Error('Title is required and must be an object with locale keys');
+    }
+
+    const locales = Object.keys(field);
+    if (locales.length === 0) {
+      throw new Error('Title must have at least one locale');
+    }
+
+    for (const locale of locales) {
+      const value = field[locale as keyof typeof field];
+      if (value !== undefined) {
+        this.validateTitleValue(value, locale);
+      }
+    }
+  }
+
+  /**
+   * Validates a single title value for a specific locale
+   */
+  private validateTitleValue(title: string, locale: string): void {
+    if (typeof title !== 'string') {
+      throw new Error(`Title for locale '${locale}' must be a string`);
     }
 
     const trimmedTitle = title.trim();
     if (trimmedTitle.length === 0) {
-      throw new Error('Title cannot be empty');
+      throw new Error(`Title for locale '${locale}' cannot be empty`);
     }
 
     if (trimmedTitle.length < 2) {
-      throw new Error('Title must be at least 2 characters long');
+      throw new Error(`Title for locale '${locale}' must be at least 2 characters long`);
     }
 
     if (trimmedTitle.length > 100) {
-      throw new Error('Title cannot exceed 100 characters');
+      throw new Error(`Title for locale '${locale}' cannot exceed 100 characters`);
     }
+  }
+
+  /**
+   * Normalizes I18n field by trimming all locale values
+   */
+  private normalizeI18nField(field: I18nField): I18nField {
+    const normalized: I18nField = {};
+    for (const locale of Object.keys(field)) {
+      const value = field[locale as keyof typeof field];
+      if (value !== undefined && typeof value === 'string') {
+        normalized[locale as keyof typeof normalized] = value.trim();
+      }
+    }
+    return normalized;
   }
 
   /**

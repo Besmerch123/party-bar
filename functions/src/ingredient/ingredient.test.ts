@@ -8,8 +8,6 @@
 import { IngredientService } from './ingredient.service';
 import { CreateIngredientDto } from './ingredient.model';
 
-const locale = 'en';
-
 // Example usage (for testing locally)
 export async function testIngredientOperations() {
   const service = new IngredientService();
@@ -17,20 +15,26 @@ export async function testIngredientOperations() {
   try {
     // Example 1: Create ingredients
     const vodkaData: CreateIngredientDto = {
-      title: 'Vodka',
+      title: {
+        en: 'Vodka',
+        uk: 'Горілка'
+      },
       category: 'spirit',
       image: 'gs://party-bar/ingredients/vodka.png'
     };
     
     const limeData: CreateIngredientDto = {
-      title: 'Fresh Lime Juice',
+      title: {
+        en: 'Fresh Lime Juice',
+        uk: 'Свіжий сік лайма'
+      },
       category: 'mixer',
       image: 'gs://party-bar/ingredients/fresh-lime-juice.png'
     };
     
     console.log('Creating ingredients...');
-    const vodka = await service.createIngredient(vodkaData, locale);
-    const lime = await service.createIngredient(limeData, locale);
+    const vodka = await service.createIngredient(vodkaData);
+    const lime = await service.createIngredient(limeData);
     
     console.log('Created:', vodka);
     console.log('Created:', lime);
@@ -48,9 +52,12 @@ export async function testIngredientOperations() {
     // Example 4: Update an ingredient
     console.log('\nUpdating vodka...');
     const updatedVodka = await service.updateIngredient(vodka.id, {
-      title: 'Premium Vodka',
+      title: {
+        en: 'Premium Vodka',
+        uk: 'Преміум Горілка'
+      },
       image: 'gs://party-bar/ingredients/premium-vodka.png'
-    }, locale);
+    });
     console.log('Updated:', updatedVodka);
     
     // Example 5: Get available categories
