@@ -1,26 +1,27 @@
 <script setup lang="ts">
 import CocktailsTable from '~/components/cocktails/CocktailsTable.vue';
 import { useCocktails } from '~/composables/useCocktails';
+import LocaleSwitcher from '~/components/LocaleSwitcher.vue';
 import type { Cocktail } from '../../../../functions/src/cocktail/cocktail.model';
 
-const { fetchCocktails } = useCocktails();
-
-const { data } = fetchCocktails({ pageSize: 10 });
-
-const locale = 'en';
+const { data, fetchNextPage, hasNextPage, isPending, isLoading } = useCocktails();
 
 const cocktails = computed<Cocktail[]>(() => {
-  return (data?.value?.cocktails || []).map((doc) => {
-    const { title, description, createdAt, updatedAt, ...restData } = doc.data();
+  return (data?.value?.pages || []).flatMap((page) => {
+    const cocktails = page.cocktails || [];
 
-    return {
-      id: doc.id,
-      title: title[locale] || 'N/A',
-      description: description[locale] || 'N/A',
-      createdAt: createdAt?.toDate() || undefined,
-      updatedAt: updatedAt?.toDate() || undefined,
-      ...restData
-    };
+    return cocktails.map((doc) => {
+      const { title, description, createdAt, updatedAt, ...restData } = doc.data();
+
+      return {
+        id: doc.id,
+        title,
+        description,
+        createdAt: createdAt?.toDate() || undefined,
+        updatedAt: updatedAt?.toDate() || undefined,
+        ...restData
+      };
+    });
   });
 });
 </script>
@@ -32,12 +33,26 @@ const cocktails = computed<Cocktail[]>(() => {
         <template #leading>
           <UDashboardSidebarCollapse />
         </template>
+
+        <template #right>
+          <LocaleSwitcher />
+        </template>
       </UDashboardNavbar>
     </template>
 
     <template #body>
       <UContainer>
-        <CocktailsTable :cocktails />
+        <CocktailsTable :cocktails :loading="isPending || isLoading" />
+
+        <div class="mt-4 flex justify-center">
+          <LoadMore
+            v-if="hasNextPage"
+            :loading="isLoading"
+            @click="fetchNextPage()"
+          >
+            Load more
+          </LoadMore>
+        </div>
       </UContainer>
     </template>
   </UDashboardPanel>

@@ -1,5 +1,6 @@
 import type { Firestore, DocumentReference, CollectionReference } from 'firebase/firestore';
 import { doc, getDoc, collection, where, query, getDocs } from 'firebase/firestore';
+import { useQuery } from '@tanstack/vue-query';
 import type { CocktailDocument } from '../../../functions/src/cocktail/cocktail.model';
 import type { IngredientDocument } from '../../../functions/src/ingredient/ingredient.model';
 import type { EquipmentDocument } from '../../../functions/src/equipment/equipment.model';
@@ -7,25 +8,33 @@ import type { EquipmentDocument } from '../../../functions/src/equipment/equipme
 export function useCocktail(id: string) {
   const db = useFirestore();
 
-  return useAsyncData(`cocktail-${id}`, async () => {
-    const docSnap = await loadCocktailDoc(id, db);
+  return useQuery({
+    queryKey: ['cocktail', id],
+    queryFn: async () => {
+      const docSnap = await loadCocktailDoc(id, db);
 
-    if (!docSnap.exists()) {
-      throw new Error(`Cocktail with ID ${id} not found`);
+      console.log('Cocktail document snapshot:', docSnap);
+
+      if (!docSnap.exists()) {
+        throw new Error(`Cocktail with ID ${id} not found`);
+      }
+
+      const cocktail = docSnap.data();
+
+      const [ingredients, equipments] = await Promise.all([
+        loadIngredients(cocktail.ingredients, db),
+        loadEquipments(cocktail.equipments, db)
+      ]);
+
+      console.log('Ingredients:', ingredients);
+      console.log('Equipments:', equipments);
+
+      return {
+        cocktail,
+        ingredients,
+        equipments
+      };
     }
-
-    const cocktailData = docSnap.data();
-
-    const [ingredients, equipments] = await Promise.all([
-      loadIngredients(cocktailData.ingredients, db),
-      loadEquipments(cocktailData.equipments, db)
-    ]);
-
-    return {
-      cocktailData,
-      ingredients,
-      equipments
-    };
   });
 }
 

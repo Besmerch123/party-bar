@@ -2,13 +2,14 @@
 import { useCocktail } from '~/composables/useCocktail';
 import { useLocale } from '~/composables/useLocale';
 import CocktailForm from '~/components/cocktails/CocktailForm.vue';
+import LocaleSwitcher from '~/components/LocaleSwitcher.vue';
 
 const route = useRoute();
 const id = route.params.id as string;
 
 const locale = useLocale();
 
-const { data, error } = await useCocktail(id);
+const { data, error, isFetched, isPending } = useCocktail(id);
 </script>
 
 <template>
@@ -17,7 +18,7 @@ const { data, error } = await useCocktail(id);
       <UDashboardToolbar>
         <template #left>
           <h1 class="text-lg font-medium">
-            {{ data?.cocktailData.title[locale] }}
+            {{ data?.cocktail.title[locale] }}
           </h1>
           <h2 class="text-sm font-medium text-muted">
             ID: {{ id }}
@@ -25,20 +26,7 @@ const { data, error } = await useCocktail(id);
         </template>
 
         <template #right>
-          <UFieldGroup orientation="horizontal">
-            <UButton
-              color="neutral"
-              :variant="locale === 'en' ? 'subtle' : 'outline'"
-              label="en"
-              @click="locale = 'en'"
-            />
-            <UButton
-              color="neutral"
-              :variant="locale === 'uk' ? 'subtle' : 'outline'"
-              label="uk"
-              @click="locale = 'uk'"
-            />
-          </UFieldGroup>
+          <LocaleSwitcher />
         </template>
       </UDashboardToolbar>
     </template>
@@ -49,9 +37,12 @@ const { data, error } = await useCocktail(id);
           Error loading cocktail: {{ error.message }}
         </UAlert>
 
+        <USkeleton v-if="isPending" class="h-12 w-full mb-4" />
+
         <CocktailForm
+          v-if="isFetched"
           :cocktail-id="id"
-          :cocktail-document="data?.cocktailData"
+          :cocktail-document="data?.cocktail"
           :ingredients="data?.ingredients"
           :equipments="data?.equipments"
         />

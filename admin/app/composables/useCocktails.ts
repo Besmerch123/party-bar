@@ -1,82 +1,57 @@
 import {
   collection,
-  doc,
   query,
   orderBy,
   limit,
   startAfter,
-  getDocs,
-  getDoc
-} from 'firebase/firestore'
-import type { CollectionReference, DocumentSnapshot } from 'firebase/firestore'
-import type { CocktailDocument } from '../../../functions/src/cocktail/cocktail.model'
+  getDocs
+} from 'firebase/firestore';
+import type { CollectionReference, DocumentSnapshot } from 'firebase/firestore';
+import { useInfiniteQuery } from '@tanstack/vue-query';
+import type { CocktailDocument } from '../../../functions/src/cocktail/cocktail.model';
 
-export interface PaginationOptions {
-  pageSize?: number
-  lastDoc?: DocumentSnapshot
-}
+const PAGE_SIZE = 25;
 
 export function useCocktails() {
-  const db = useFirestore()
-  const cocktailsCollection = collection(db, 'cocktails') as CollectionReference<CocktailDocument>
+  const db = useFirestore();
+  const cocktailsCollection = collection(db, 'cocktails') as CollectionReference<CocktailDocument>;
 
-  /**
-   * Fetch cocktails with pagination
-   */
-  const fetchCocktails = (options?: PaginationOptions) => {
-    const pageSize = options?.pageSize || 20
+  return useInfiniteQuery({
+    queryKey: ['cocktails'],
+    queryFn: async ({ pageParam }) => {
+      let q = query(
+        cocktailsCollection,
+        orderBy('createdAt', 'desc'),
+        limit(PAGE_SIZE)
+      );
 
-    return useAsyncData(
-      `cocktails-${pageSize}-${options?.lastDoc?.id || 'initial'}`,
-      async () => {
-        let q = query(
+      if (pageParam) {
+        q = query(
           cocktailsCollection,
           orderBy('createdAt', 'desc'),
-          limit(pageSize)
-        )
-
-        if (options?.lastDoc) {
-          q = query(
-            cocktailsCollection,
-            orderBy('createdAt', 'desc'),
-            startAfter(options.lastDoc),
-            limit(pageSize)
-          )
-        }
-
-        const snapshot = await getDocs(q)
-        const cocktails = snapshot.docs
-
-        return {
-          cocktails,
-          lastDoc: snapshot.docs.at(-1) || null,
-          hasMore: snapshot.docs.length === pageSize
-        }
+          startAfter(pageParam),
+          limit(PAGE_SIZE)
+        );
       }
-    )
-  }
 
-  /**
-   * Fetch a single cocktail by ID
-   */
-  const fetchCocktailById = (id: string) => {
-    return useAsyncData(`cocktail-${id}`, async () => {
-      const docRef = doc(db, 'cocktails', id)
-      const docSnap = await getDoc(docRef)
-
-      if (!docSnap.exists()) {
-        throw new Error(`Cocktail with ID ${id} not found`)
-      }
+      const snapshot = await getDocs(q);
+      const cocktails = snapshot.docs;
 
       return {
-        id: docSnap.id,
-        ...docSnap.data()
-      }
-    })
-  }
-
-  return {
-    fetchCocktails,
-    fetchCocktailById
-  }
+        cocktails,
+        lastDoc: snapshot.docs.at(-1) || null,
+        hasMore: snapshot.docs.length === PAGE_SIZE
+      };
+    },
+    initialPageParam: undefined as DocumentSnapshot | undefined,
+    getNextPageParam: (lastPage) => {
+      // Return the last document if there are more pages, otherwise undefined
+      return lastPage.hasMore ? lastPage.lastDoc : undefined;
+    },
+    getPreviousPageParam: () => {
+      // Firebase cursor pagination doesn't support going backwards easily
+      // Return undefined to disable previous page functionality
+      return undefined;
+    }
+  });
 }

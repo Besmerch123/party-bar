@@ -1,7 +1,6 @@
 import { httpsCallable, getFunctions } from 'firebase/functions';
 import { useMutation } from '@tanstack/vue-query';
 import type { CocktailDocument, UpdateCocktailDto } from '../../../functions/src/cocktail/cocktail.model';
-import type { SupportedLocale } from '../../../functions/src/shared/types';
 import { useLocale } from './useLocale';
 
 type SavePayload = {
@@ -20,7 +19,7 @@ export function useCocktailSave() {
 
   return useMutation({
     mutationKey: ['save-cocktail', locale],
-    mutationFn: (payload: SavePayload) => updateCocktail(documentToPayload(payload.id, payload.cocktailDocument, locale.value)),
+    mutationFn: (payload: SavePayload) => updateCocktail({ id: payload.id, ...payload.cocktailDocument }),
     onSuccess: () => {
       toast.add({
         color: 'success',
@@ -29,17 +28,4 @@ export function useCocktailSave() {
       });
     }
   });
-}
-
-function documentToPayload(id: string, cocktailDocument: Partial<CocktailDocument>, locale: SupportedLocale) {
-  const payload: UpdateCocktailDto = {
-    id,
-    title: cocktailDocument?.title?.[locale],
-    description: cocktailDocument?.description?.[locale],
-    ingredients: cocktailDocument?.ingredients,
-    equipments: cocktailDocument?.equipments,
-    categories: cocktailDocument?.categories
-  };
-
-  return payload;
 }

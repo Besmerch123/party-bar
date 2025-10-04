@@ -54,12 +54,3 @@ export default defineNuxtConfig({
     }
   }
 });
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAvoHw3eHP8UXyz0xpKKrmlRav1mZc5XLI",
-//   authDomain: "party-bar.firebaseapp.com",
-//   projectId: "party-bar",
-//   storageBucket: "party-bar.firebasestorage.app",
-//   messagingSenderId: "768164532049",
-//   appId: "1:768164532049:web:be5756bf63a51a6cf04d70"
-// };
