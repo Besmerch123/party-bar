@@ -1,8 +1,18 @@
 export default defineAppConfig({
   ui: {
     colors: {
-      primary: 'green',
+      primary: 'blue',
       neutral: 'zinc'
+    },
+    input: {
+      slots: {
+        root: 'w-full'
+      }
+    },
+    selectMenu: {
+      slots: {
+        base: 'w-full'
+      }
     }
   }
-})
+});

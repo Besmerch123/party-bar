@@ -9,6 +9,9 @@ import { CocktailService } from './cocktail.service';
 import { CreateCocktailDto } from './cocktail.model';
 
 // Example usage (for testing locally)
+
+const locale = 'en';
+
 export async function testCocktailOperations() {
   const service = new CocktailService();
 
@@ -31,7 +34,7 @@ export async function testCocktailOperations() {
     };
 
     console.log('Creating cocktail...');
-    const created = await service.createCocktail(espressoMartini);
+    const created = await service.createCocktail(espressoMartini, locale);
     console.log('Created:', created);
 
     console.log('\nGetting all cocktails...');
@@ -45,7 +48,7 @@ export async function testCocktailOperations() {
     console.log('\nUpdating cocktail title...');
     const updated = await service.updateCocktail(created.id, {
       title: 'Midnight Espresso Martini',
-    });
+    }, locale);
     console.log('Updated:', updated);
 
     console.log('\nDeleting cocktail...');

@@ -5,6 +5,7 @@
  * Following DDD principles, this is the application service layer.
  */
 
+import { SupportedLocale } from '../shared/types';
 import { CocktailRepository } from './cocktail.repository';
 import {
   Cocktail,
@@ -23,7 +24,7 @@ export class CocktailService {
   /**
    * Creates a new cocktail with validation
    */
-  async createCocktail(data: CreateCocktailDto): Promise<Cocktail> {
+  async createCocktail(data: CreateCocktailDto, locale: SupportedLocale): Promise<Cocktail> {
     this.validateCocktailData(data);
 
     const normalized = this.normalizeCreateData(data);
@@ -33,7 +34,7 @@ export class CocktailService {
       throw new Error('A cocktail with this title already exists');
     }
 
-    return await this.repository.create(normalized);
+    return await this.repository.create(normalized, locale);
   }
 
   /**
@@ -73,7 +74,7 @@ export class CocktailService {
   /**
    * Updates an existing cocktail
    */
-  async updateCocktail(id: string, data: UpdateCocktailDto): Promise<Cocktail> {
+  async updateCocktail(id: string, data: UpdateCocktailDto, locale: SupportedLocale): Promise<Cocktail> {
     if (!id || id.trim() === '') {
       throw new Error('Cocktail ID is required');
     }
@@ -110,7 +111,7 @@ export class CocktailService {
       updatePayload.categories = this.normalizeCategories(data.categories);
     }
 
-    const updated = await this.repository.update(id.trim(), updatePayload);
+    const updated = await this.repository.update(id.trim(), updatePayload, locale);
     if (!updated) {
       throw new Error('Cocktail not found');
     }
