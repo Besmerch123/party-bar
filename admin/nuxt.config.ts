@@ -15,6 +15,12 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  runtimeConfig: {
+    public: {
+      useEmulators: process.env.USE_EMULATORS === 'true' || false
+    }
+  },
+
   routeRules: {
     '/api/**': {
       cors: true
@@ -47,7 +53,7 @@ export default defineNuxtConfig({
       appId: '1:768164532049:web:be5756bf63a51a6cf04d70'
     }
   }
-})
+});
 
 // const firebaseConfig = {
 //   apiKey: "AIzaSyAvoHw3eHP8UXyz0xpKKrmlRav1mZc5XLI",

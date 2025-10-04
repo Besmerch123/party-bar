@@ -1,4 +1,4 @@
-import { httpsCallable, getFunctions, connectFunctionsEmulator } from 'firebase/functions';
+import { httpsCallable, getFunctions } from 'firebase/functions';
 import { useMutation } from '@tanstack/vue-query';
 import type { CocktailDocument, UpdateCocktailDto } from '../../../functions/src/cocktail/cocktail.model';
 import type { SupportedLocale } from '../../../functions/src/shared/types';
@@ -15,8 +15,6 @@ export function useCocktailSave() {
   const locale = useLocale();
 
   const functions = getFunctions(app);
-
-  connectFunctionsEmulator(functions, 'localhost', 5001);
 
   const updateCocktail = httpsCallable<UpdateCocktailDto>(functions, 'updateCocktail');
 
