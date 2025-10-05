@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import type { DropdownMenuItem } from '@nuxt/ui'
-import { signOut } from 'firebase/auth'
+import type { DropdownMenuItem } from '@nuxt/ui';
+import { signOut } from 'firebase/auth';
 
 defineProps<{
-  collapsed?: boolean
-}>()
+  collapsed?: boolean;
+}>();
 
-const colorMode = useColorMode()
-const appConfig = useAppConfig()
+const colorMode = useColorMode();
+const appConfig = useAppConfig();
 
-const colors = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
-const neutrals = ['slate', 'gray', 'zinc', 'neutral', 'stone']
+const colors = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'];
+const neutrals = ['slate', 'gray', 'zinc', 'neutral', 'stone'];
 
-const auth = useFirebaseAuth()!
-const user = useCurrentUser()
+const auth = useFirebaseAuth()!;
+const user = useCurrentUser();
 
 const items = computed<DropdownMenuItem[][]>(() => ([[{
   type: 'label',
@@ -24,17 +24,8 @@ const items = computed<DropdownMenuItem[][]>(() => ([[{
         alt: user.value.displayName || 'User'
       }
     : undefined
-}], [{
-  label: 'Profile',
-  icon: 'i-lucide-user'
-}, {
-  label: 'Billing',
-  icon: 'i-lucide-credit-card'
-}, {
-  label: 'Settings',
-  icon: 'i-lucide-settings',
-  to: '/settings'
-}], [{
+}],
+[{
   label: 'Theme',
   icon: 'i-lucide-palette',
   children: [{
@@ -52,9 +43,9 @@ const items = computed<DropdownMenuItem[][]>(() => ([[{
       checked: appConfig.ui.colors.primary === color,
       type: 'checkbox',
       onSelect: (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        appConfig.ui.colors.primary = color
+        appConfig.ui.colors.primary = color;
       }
     }))
   }, {
@@ -72,9 +63,9 @@ const items = computed<DropdownMenuItem[][]>(() => ([[{
       type: 'checkbox',
       checked: appConfig.ui.colors.neutral === color,
       onSelect: (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        appConfig.ui.colors.neutral = color
+        appConfig.ui.colors.neutral = color;
       }
     }))
   }]
@@ -87,9 +78,9 @@ const items = computed<DropdownMenuItem[][]>(() => ([[{
     type: 'checkbox',
     checked: colorMode.value === 'light',
     onSelect(e: Event) {
-      e.preventDefault()
+      e.preventDefault();
 
-      colorMode.preference = 'light'
+      colorMode.preference = 'light';
     }
   }, {
     label: 'Dark',
@@ -98,21 +89,21 @@ const items = computed<DropdownMenuItem[][]>(() => ([[{
     checked: colorMode.value === 'dark',
     onUpdateChecked(checked: boolean) {
       if (checked) {
-        colorMode.preference = 'dark'
+        colorMode.preference = 'dark';
       }
     },
     onSelect(e: Event) {
-      e.preventDefault()
+      e.preventDefault();
     }
   }]
 }], [{
   label: 'Log out',
   icon: 'i-lucide-log-out',
   onSelect: async () => {
-    await signOut(auth)
-    navigateTo('/sign-in')
+    await signOut(auth);
+    navigateTo('/sign-in');
   }
-}]]))
+}]]));
 </script>
 
 <template>
