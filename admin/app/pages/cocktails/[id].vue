@@ -2,7 +2,7 @@
 import { useCocktail } from '~/composables/useCocktail';
 import { useLocale } from '~/composables/useLocale';
 import CocktailForm from '~/components/cocktails/CocktailForm.vue';
-import LocaleSwitcher from '~/components/LocaleSwitcher.vue';
+import DefaultPageToolbar from '~/components/DefaultPageToolbar.vue';
 
 const route = useRoute();
 const id = route.params.id as string;
@@ -15,8 +15,8 @@ const { data, error, isFetched, isPending } = useCocktail(id);
 <template>
   <UDashboardPanel id="cocktail">
     <template #header>
-      <UDashboardToolbar>
-        <template #left>
+      <DefaultPageToolbar>
+        <template #title>
           <h1 class="text-lg font-medium">
             {{ data?.cocktail.title[locale] }}
           </h1>
@@ -24,11 +24,7 @@ const { data, error, isFetched, isPending } = useCocktail(id);
             ID: {{ id }}
           </h2>
         </template>
-
-        <template #right>
-          <LocaleSwitcher />
-        </template>
-      </UDashboardToolbar>
+      </DefaultPageToolbar>
     </template>
 
     <template #body>

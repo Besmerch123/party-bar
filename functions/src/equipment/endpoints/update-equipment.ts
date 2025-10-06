@@ -11,29 +11,22 @@ const equipmentService = new EquipmentService();
 /**
  * Updates an existing equipment
  */
-export const updateEquipment = onCall(async (request) => {
+export const updateEquipment = onCall<UpdateEquipmentDto>(async (request) => {
   try {
     // Basic auth check (you may want to add proper authentication later)
     if (!request.auth) {
       throw new HttpsError('unauthenticated', 'User must be authenticated');
     }
 
-    const { id, ...updateData } = request.data;
+    const updateData = request.data;
     
-    if (!id) {
+    if (!updateData.id) {
       throw new HttpsError('invalid-argument', 'Equipment ID is required');
     }
 
-    if (!updateData || Object.keys(updateData).length === 0) {
-      throw new HttpsError('invalid-argument', 'Update data is required');
-    }
-
-    const equipment = await equipmentService.updateEquipment(id, updateData as UpdateEquipmentDto);
+    const equipment = await equipmentService.updateEquipment(updateData);
     
-    return {
-      success: true,
-      data: equipment,
-    };
+    return  equipment;
   } catch (error) {
     console.error('Error updating equipment:', error);
     

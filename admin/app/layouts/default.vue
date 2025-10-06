@@ -7,12 +7,20 @@ const onSelect = () => {
   open.value = false;
 };
 
-const links = [{
-  label: 'Cocktails',
-  icon: 'i-lucide-martini',
-  to: '/cocktails',
-  onSelect
-}] satisfies NavigationMenuItem[];
+const links = [
+  {
+    label: 'Cocktails',
+    icon: 'i-lucide-martini',
+    to: '/cocktails',
+    onSelect
+  },
+  {
+    label: 'Equipment',
+    icon: 'i-lucide-amphora',
+    to: '/equipment',
+    onSelect
+  }
+] satisfies NavigationMenuItem[];
 </script>
 
 <template>

@@ -40,7 +40,8 @@ export async function testEquipmentOperations() {
 
     // Test 4: Update equipment
     console.log('\n4. Updating equipment...');
-    const updatedEquipment = await equipmentService.updateEquipment(createdEquipment.id, {
+    const updatedEquipment = await equipmentService.updateEquipment({
+      id: createdEquipment.id,
       title: {
         en: 'Professional Boston Shaker',
         uk: 'Професійний бостонський шейкер',

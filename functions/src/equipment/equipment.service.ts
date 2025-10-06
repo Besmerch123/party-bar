@@ -66,7 +66,7 @@ export class EquipmentService {
   /**
    * Updates an existing equipment
    */
-  async updateEquipment(id: string, data: UpdateEquipmentDto): Promise<Equipment> {
+  async updateEquipment({ id, ...data }: UpdateEquipmentDto): Promise<Equipment> {
     if (!id || id.trim() === '') {
       throw new Error('Equipment ID is required');
     }

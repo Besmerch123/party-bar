@@ -44,6 +44,7 @@ export interface CreateEquipmentDto {
  * All fields are optional to support partial updates
  */
 export interface UpdateEquipmentDto {
+  id?: string;
   title?: I18nField;
   image?: string;
 }

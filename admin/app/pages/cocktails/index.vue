@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import CocktailsTable from '~/components/cocktails/CocktailsTable.vue';
 import { useCocktails } from '~/composables/useCocktails';
-import LocaleSwitcher from '~/components/LocaleSwitcher.vue';
-import type { Cocktail } from '~/types';
 import AddCocktailForm from '~/components/cocktails/AddCocktailForm.vue';
+import DefaultPageToolbar from '~/components/DefaultPageToolbar.vue';
+import type { Cocktail } from '~/types';
 
 const { data, fetchNextPage, hasNextPage, isPending, isLoading } = useCocktails();
 
@@ -30,15 +30,7 @@ const cocktails = computed<Cocktail[]>(() => {
 <template>
   <UDashboardPanel id="cocktails">
     <template #header>
-      <UDashboardNavbar title="Cocktails" :ui="{ right: 'gap-3' }">
-        <template #leading>
-          <UDashboardSidebarCollapse />
-        </template>
-
-        <template #right>
-          <LocaleSwitcher />
-        </template>
-      </UDashboardNavbar>
+      <DefaultPageToolbar title="Cocktails" />
     </template>
 
     <template #body>
