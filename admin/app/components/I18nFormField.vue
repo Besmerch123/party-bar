@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useLocale } from '~/composables/useLocale';
-import type { I18nField } from '../../../functions/src/shared/types';
+import type { I18nField } from '~/types';
 
 const model = defineModel<I18nField>({ required: true });
 

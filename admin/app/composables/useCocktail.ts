@@ -13,8 +13,6 @@ export function useCocktail(id: string) {
     queryFn: async () => {
       const docSnap = await loadCocktailDoc(id, db);
 
-      console.log('Cocktail document snapshot:', docSnap);
-
       if (!docSnap.exists()) {
         throw new Error(`Cocktail with ID ${id} not found`);
       }
@@ -25,9 +23,6 @@ export function useCocktail(id: string) {
         loadIngredients(cocktail.ingredients, db),
         loadEquipments(cocktail.equipments, db)
       ]);
-
-      console.log('Ingredients:', ingredients);
-      console.log('Equipments:', equipments);
 
       return {
         cocktail,

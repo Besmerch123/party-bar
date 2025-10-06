@@ -11,3 +11,4 @@ export { getCocktailsByCategory } from './get-cocktails-by-category';
 export { updateCocktail } from './update-cocktail';
 export { deleteCocktail } from './delete-cocktail';
 export { getCocktailCategories } from './get-cocktail-categories';
+export { generateCocktail } from './generate-cocktail';

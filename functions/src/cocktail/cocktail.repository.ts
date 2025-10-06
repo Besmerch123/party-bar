@@ -26,6 +26,8 @@ export class CocktailRepository {
       ingredients: cocktailData.ingredients,
       equipments: cocktailData.equipments,
       categories: cocktailData.categories,
+      abv: cocktailData.abv,
+      preparationSteps: cocktailData.preparationSteps,
       createdAt: now,
       updatedAt: now,
     };
@@ -37,9 +39,14 @@ export class CocktailRepository {
       ingredients: cocktail.ingredients,
       equipments: cocktail.equipments,
       categories: cocktail.categories,
+      preparationSteps: cocktail.preparationSteps,
       createdAt: timestamp,
       updatedAt: timestamp,
     };
+
+    if (cocktailData.abv !== undefined) {
+      firestoreData.abv = cocktailData.abv;
+    }
 
     await docRef.set(firestoreData);
 
@@ -64,6 +71,8 @@ export class CocktailRepository {
       ingredients: data?.ingredients ?? [],
       equipments: data?.equipments ?? [],
       categories: data?.categories ?? [],
+      abv: data?.abv,
+      preparationSteps: data?.preparationSteps ?? {},
       createdAt: data?.createdAt?.toDate(),
       updatedAt: data?.updatedAt?.toDate(),
     } as Cocktail;
@@ -84,6 +93,8 @@ export class CocktailRepository {
         ingredients: data.ingredients ?? [],
         equipments: data.equipments ?? [],
         categories: data.categories ?? [],
+        abv: data.abv,
+        preparationSteps: data.preparationSteps ?? {},
         createdAt: data.createdAt?.toDate(),
         updatedAt: data.updatedAt?.toDate(),
       } as Cocktail;
@@ -108,6 +119,8 @@ export class CocktailRepository {
         ingredients: data.ingredients ?? [],
         equipments: data.equipments ?? [],
         categories: data.categories ?? [],
+        abv: data.abv,
+        preparationSteps: data.preparationSteps ?? {},
         createdAt: data.createdAt?.toDate(),
         updatedAt: data.updatedAt?.toDate(),
       } as Cocktail;
@@ -148,6 +161,14 @@ export class CocktailRepository {
 
     if (updateData.categories !== undefined) {
       updatedFields.categories = updateData.categories;
+    }
+
+    if (updateData.abv !== undefined) {
+      updatedFields.abv = updateData.abv;
+    }
+
+    if (updateData.preparationSteps !== undefined) {
+      updatedFields.preparationSteps = updateData.preparationSteps;
     }
 
     await docRef.update(updatedFields);

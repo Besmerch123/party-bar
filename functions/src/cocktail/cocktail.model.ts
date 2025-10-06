@@ -6,7 +6,7 @@
  */
 
 import { Timestamp } from 'firebase-admin/firestore';
-import { I18nField } from '../shared/types';
+import { I18nField, I18nArrayField } from '../shared/types';
 
 export const COCKTAIL_CATEGORIES = {
   CLASSIC: 'classic',
@@ -43,6 +43,12 @@ export interface Cocktail {
   /** Categorization tags to aid discovery */
   categories: CocktailCategory[];
 
+  /** Alcohol by volume percentage (0-100), optional */
+  abv?: number;
+
+  /** Step-by-step preparation instructions */
+  preparationSteps: I18nArrayField;
+
   /** Timestamp when the cocktail was created */
   createdAt?: Date;
 
@@ -61,6 +67,8 @@ export interface CreateCocktailDto {
   ingredients: string[];
   equipments: string[];
   categories: CocktailCategory[];
+  abv?: number;
+  preparationSteps: I18nArrayField;
 }
 
 export interface UpdateCocktailDto {
@@ -70,4 +78,6 @@ export interface UpdateCocktailDto {
   ingredients?: string[];
   equipments?: string[];
   categories?: CocktailCategory[];
+  abv?: number;
+  preparationSteps?: I18nArrayField;
 }

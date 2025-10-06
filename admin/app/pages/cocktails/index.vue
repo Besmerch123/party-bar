@@ -2,7 +2,8 @@
 import CocktailsTable from '~/components/cocktails/CocktailsTable.vue';
 import { useCocktails } from '~/composables/useCocktails';
 import LocaleSwitcher from '~/components/LocaleSwitcher.vue';
-import type { Cocktail } from '../../../../functions/src/cocktail/cocktail.model';
+import type { Cocktail } from '~/types';
+import AddCocktailForm from '~/components/cocktails/AddCocktailForm.vue';
 
 const { data, fetchNextPage, hasNextPage, isPending, isLoading } = useCocktails();
 
@@ -42,6 +43,16 @@ const cocktails = computed<Cocktail[]>(() => {
 
     <template #body>
       <UContainer>
+        <div class="flex justify-end mb-4">
+          <UPopover>
+            <UButton label="Add cocktail" />
+
+            <template #content>
+              <AddCocktailForm class="p-4" />
+            </template>
+          </UPopover>
+        </div>
+
         <CocktailsTable :cocktails :loading="isPending || isLoading" />
 
         <div class="mt-4 flex justify-center">

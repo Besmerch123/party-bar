@@ -128,6 +128,8 @@ async function main(): Promise<void> {
     const docData: CocktailDocument = {
       title: suggestion.title,
       description: suggestion.description,
+      abv: undefined, // To be calculated later
+      preparationSteps: { en: [], uk: [] }, // To be filled in later
       ingredients: suggestion.ingredients.map(id => `ingredients/${id}`),
       equipments: suggestion.equipments.map(id => `equipment/${id}`),
       categories: suggestion.categories,

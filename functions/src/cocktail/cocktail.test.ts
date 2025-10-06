@@ -23,6 +23,21 @@ export async function testCocktailOperations() {
         en: 'Shake all ingredients with ice and fine strain into a chilled coupe glass.',
         uk: 'Збовтайте всі інгредієнти з льодом і процідіть у охолоджений келих.',
       },
+      abv: 20,
+      preparationSteps: {
+        en: [
+          'Add all ingredients into a cocktail shaker.',
+          'Fill with ice and shake vigorously until well-chilled.',
+          'Fine strain into a chilled coupe glass.',
+          'Garnish with three coffee beans.',
+        ],
+        uk: [
+          'Додайте всі інгредієнти в коктейльний шейкер.',
+          'Наповніть льодом і енергійно збовтайте до охолодження.',
+          'Процідіть у охолоджений келих.',
+          'Прикрасьте трьома кавовими зернами.',
+        ],
+      },
       ingredients: [
         'ingredients/vodka',
         'ingredients/coffee-liqueur',

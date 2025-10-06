@@ -128,6 +128,16 @@ export class CocktailService {
       updatePayload.categories = this.normalizeCategories(data.categories);
     }
 
+    if (data.abv !== undefined) {
+      this.validateAbv(data.abv);
+      updatePayload.abv = data.abv;
+    }
+
+    if (data.preparationSteps !== undefined) {
+      this.validateI18nArrayField(data.preparationSteps, 'preparationSteps');
+      updatePayload.preparationSteps = this.normalizeI18nArrayField(data.preparationSteps);
+    }
+
     const updated = await this.repository.update(id.trim(), updatePayload);
     if (!updated) {
       throw new Error('Cocktail not found');
@@ -163,6 +173,8 @@ export class CocktailService {
     this.validateReferenceArray(data.ingredients, 'ingredients');
     this.validateReferenceArray(data.equipments, 'equipments');
     this.validateCategories(data.categories);
+    this.validateAbv(data.abv);
+    this.validateI18nArrayField(data.preparationSteps, 'preparationSteps');
   }
 
   /**
@@ -267,14 +279,91 @@ export class CocktailService {
     });
   }
 
+  /**
+   * Validates ABV (Alcohol by Volume) percentage
+   */
+  private validateAbv(abv: unknown): void {
+    if (abv === undefined || abv === null) {
+      return; // ABV is optional
+    }
+
+    if (typeof abv !== 'number') {
+      throw new Error('ABV must be a number');
+    }
+
+    if (isNaN(abv)) {
+      throw new Error('ABV must be a valid number');
+    }
+
+    if (abv < 0 || abv > 100) {
+      throw new Error('ABV must be between 0 and 100');
+    }
+  }
+
+  /**
+   * Validates I18n array field (translatable array field)
+   */
+  private validateI18nArrayField(field: unknown, fieldName: string): void {
+    if (!field || typeof field !== 'object') {
+      throw new Error(`${fieldName} is required and must be an object with locale keys`);
+    }
+
+    const locales = Object.keys(field);
+    if (locales.length === 0) {
+      throw new Error(`${fieldName} must have at least one locale`);
+    }
+
+    for (const locale of locales) {
+      const value = (field as Record<string, unknown>)[locale];
+      if (value !== undefined) {
+        this.validateArrayFieldValue(value, locale, fieldName);
+      }
+    }
+  }
+
+  /**
+   * Validates a single array field value for a specific locale
+   */
+  private validateArrayFieldValue(value: unknown, locale: string, fieldName: string): void {
+    if (!Array.isArray(value)) {
+      throw new Error(`${fieldName} for locale '${locale}' must be an array of strings`);
+    }
+
+    if (value.length === 0) {
+      throw new Error(`${fieldName} for locale '${locale}' cannot be empty`);
+    }
+
+    value.forEach((item, index) => {
+      if (typeof item !== 'string') {
+        throw new Error(`${fieldName}[${index}] for locale '${locale}' must be a string`);
+      }
+
+      const trimmed = item.trim();
+      if (trimmed.length === 0) {
+        throw new Error(`${fieldName}[${index}] for locale '${locale}' cannot be empty`);
+      }
+
+      if (trimmed.length > 1000) {
+        throw new Error(`${fieldName}[${index}] for locale '${locale}' cannot exceed 1000 characters`);
+      }
+    });
+  }
+
   private normalizeCreateData(data: CreateCocktailDto): CreateCocktailDto {
-    return {
+    const normalized: CreateCocktailDto = {
       title: this.normalizeI18nField(data.title),
       description: this.normalizeI18nField(data.description),
       ingredients: this.normalizeReferenceArray(data.ingredients),
       equipments: this.normalizeReferenceArray(data.equipments),
       categories: this.normalizeCategories(data.categories),
+      preparationSteps: this.normalizeI18nArrayField(data.preparationSteps),
     };
+
+    if (data.abv !== undefined) {
+      normalized.abv = data.abv;
+    }
+
+    return normalized;
   }
 
   /**
@@ -286,6 +375,20 @@ export class CocktailService {
       const value = field[locale as keyof typeof field];
       if (value !== undefined && typeof value === 'string') {
         normalized[locale as keyof typeof normalized] = value.trim();
+      }
+    }
+    return normalized;
+  }
+
+  /**
+   * Normalizes I18n array field by trimming all values in each locale's array
+   */
+  private normalizeI18nArrayField(field: Record<string, string[]>): Record<string, string[]> {
+    const normalized: Record<string, string[]> = {};
+    for (const locale of Object.keys(field)) {
+      const value = field[locale];
+      if (value !== undefined && Array.isArray(value)) {
+        normalized[locale] = value.map((item) => item.trim());
       }
     }
     return normalized;

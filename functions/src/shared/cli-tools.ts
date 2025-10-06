@@ -145,6 +145,8 @@ export function hasAllLocaleTitles(
     return false;
   }
 
+  console.log('Validating generated cocktail', title, locales);
+
   return locales.every((locale) => {
     const value = title[locale];
     return typeof value === 'string' && value.trim().length > 0;
