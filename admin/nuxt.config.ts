@@ -45,7 +45,7 @@ export default defineNuxtConfig({
       sessionCookie: false
     },
     config: {
-      apiKey: 'AIzaSyAvoHw3eHP8UXyz0xpKKrmlRav1mZc5XLI',
+      apiKey: process.env.NUXT_FIREBASE_API_KEY,
       authDomain: 'party-bar.firebaseapp.com',
       projectId: 'party-bar',
       storageBucket: 'party-bar.firebasestorage.app',
