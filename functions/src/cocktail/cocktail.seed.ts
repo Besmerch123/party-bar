@@ -133,6 +133,7 @@ async function main(): Promise<void> {
       ingredients: suggestion.ingredients.map(id => `ingredients/${id}`),
       equipments: suggestion.equipments.map(id => `equipment/${id}`),
       categories: suggestion.categories,
+      image: null, // To be added later
       createdAt: now,
       updatedAt: now
     };

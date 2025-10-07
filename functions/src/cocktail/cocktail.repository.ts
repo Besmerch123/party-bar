@@ -28,6 +28,7 @@ export class CocktailRepository {
       categories: cocktailData.categories,
       abv: cocktailData.abv,
       preparationSteps: cocktailData.preparationSteps,
+      image: cocktailData.image,
       createdAt: now,
       updatedAt: now,
     };
@@ -46,6 +47,10 @@ export class CocktailRepository {
 
     if (cocktailData.abv !== undefined) {
       firestoreData.abv = cocktailData.abv;
+    }
+
+    if (cocktailData.image !== undefined) {
+      firestoreData.image = cocktailData.image;
     }
 
     await docRef.set(firestoreData);
@@ -73,6 +78,7 @@ export class CocktailRepository {
       categories: data?.categories ?? [],
       abv: data?.abv,
       preparationSteps: data?.preparationSteps ?? {},
+      image: data?.image,
       createdAt: data?.createdAt?.toDate(),
       updatedAt: data?.updatedAt?.toDate(),
     } as Cocktail;
@@ -95,6 +101,7 @@ export class CocktailRepository {
         categories: data.categories ?? [],
         abv: data.abv,
         preparationSteps: data.preparationSteps ?? {},
+        image: data.image,
         createdAt: data.createdAt?.toDate(),
         updatedAt: data.updatedAt?.toDate(),
       } as Cocktail;
@@ -121,6 +128,7 @@ export class CocktailRepository {
         categories: data.categories ?? [],
         abv: data.abv,
         preparationSteps: data.preparationSteps ?? {},
+        image: data.image,
         createdAt: data.createdAt?.toDate(),
         updatedAt: data.updatedAt?.toDate(),
       } as Cocktail;
@@ -169,6 +177,10 @@ export class CocktailRepository {
 
     if (updateData.preparationSteps !== undefined) {
       updatedFields.preparationSteps = updateData.preparationSteps;
+    }
+
+    if (updateData.image !== undefined) {
+      updatedFields.image = updateData.image;
     }
 
     await docRef.update(updatedFields);

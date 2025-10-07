@@ -51,7 +51,8 @@ export async function testIngredientOperations() {
     
     // Example 4: Update an ingredient
     console.log('\nUpdating vodka...');
-    const updatedVodka = await service.updateIngredient(vodka.id, {
+    const updatedVodka = await service.updateIngredient({
+      id: vodka.id,
       title: {
         en: 'Premium Vodka',
         uk: 'Преміум Горілка'

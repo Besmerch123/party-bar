@@ -138,6 +138,11 @@ export class CocktailService {
       updatePayload.preparationSteps = this.normalizeI18nArrayField(data.preparationSteps);
     }
 
+    if (data.image !== undefined) {
+      this.validateImage(data.image);
+      updatePayload.image = data.image;
+    }
+
     const updated = await this.repository.update(id.trim(), updatePayload);
     if (!updated) {
       throw new Error('Cocktail not found');
@@ -301,6 +306,28 @@ export class CocktailService {
   }
 
   /**
+   * Validates image URL or path
+   */
+  private validateImage(image: string | null | undefined): void {
+    if (image === undefined || image === null) {
+      return; // Image is optional
+    }
+
+    if (typeof image !== 'string') {
+      throw new Error('Image must be a string');
+    }
+
+    const trimmed = image.trim();
+    if (trimmed.length === 0) {
+      return; // Empty string is acceptable (treated as null)
+    }
+
+    if (trimmed.length > 2048) {
+      throw new Error('Image URL cannot exceed 2048 characters');
+    }
+  }
+
+  /**
    * Validates I18n array field (translatable array field)
    */
   private validateI18nArrayField(field: unknown, fieldName: string): void {
@@ -361,6 +388,12 @@ export class CocktailService {
 
     if (data.abv !== undefined) {
       normalized.abv = data.abv;
+    }
+
+    if (data.image !== undefined) {
+      normalized.image = data.image && typeof data.image === 'string' && data.image.trim().length > 0 
+        ? data.image.trim() 
+        : null;
     }
 
     return normalized;

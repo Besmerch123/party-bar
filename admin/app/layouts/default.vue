@@ -15,6 +15,12 @@ const links = [
     onSelect
   },
   {
+    label: 'Ingredients',
+    icon: 'i-lucide-cherry',
+    to: '/ingredients',
+    onSelect
+  },
+  {
     label: 'Equipment',
     icon: 'i-lucide-amphora',
     to: '/equipment',

@@ -49,6 +49,9 @@ export interface Cocktail {
   /** Step-by-step preparation instructions */
   preparationSteps: I18nArrayField;
 
+  /** URL or path to the cocktail image */
+  image?: string | null;
+
   /** Timestamp when the cocktail was created */
   createdAt?: Date;
 
@@ -69,6 +72,7 @@ export interface CreateCocktailDto {
   categories: CocktailCategory[];
   abv?: number;
   preparationSteps: I18nArrayField;
+  image?: string | null;
 }
 
 export interface UpdateCocktailDto {
@@ -80,4 +84,5 @@ export interface UpdateCocktailDto {
   categories?: CocktailCategory[];
   abv?: number;
   preparationSteps?: I18nArrayField;
+  image?: string | null;
 }

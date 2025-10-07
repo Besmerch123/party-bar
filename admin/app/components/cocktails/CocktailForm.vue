@@ -10,6 +10,7 @@ import type {
   I18nField,
   I18nArrayField
 } from '~/types';
+import GeneratableImageFormField from '~/components/image-generation/GeneratableImageFormField.vue';
 
 import I18nArrayFormField from '../I18nArrayFormField.vue';
 import IngredientCard from './IngredientCard.vue';
@@ -25,6 +26,7 @@ const props = defineProps<{
 type FormState = {
   title: I18nField;
   description: I18nField;
+  image?: string;
   abv?: number;
   preparationSteps: I18nArrayField;
   ingredients: DocumentSnapshot<IngredientDocument>[];
@@ -66,6 +68,11 @@ const submitHandler = async (event: FormSubmitEvent<FormState>) => {
     cocktailDocument
   });
 };
+
+const ingredientGenerationPrompt = computed(() => {
+  return `${formData.value.title.en} cocktail. ${formData.value.description.en}
+Ingredients: ${formData.value.ingredients.map(ing => ing.data()?.title.en).join(', ')}.`;
+});
 </script>
 
 <template>
@@ -75,6 +82,14 @@ const submitHandler = async (event: FormSubmitEvent<FormState>) => {
       <UFormField label="Title" name="title" required>
         <I18nFormField v-model="formData.title" />
       </UFormField>
+
+      <GeneratableImageFormField
+        v-model:image-src="formData.image"
+        label="Cocktail Image"
+        template="cocktail"
+        :title="formData.title.en || ''"
+        :prompt="ingredientGenerationPrompt"
+      />
 
       <!-- Categories Field -->
       <UFormField
@@ -89,6 +104,10 @@ const submitHandler = async (event: FormSubmitEvent<FormState>) => {
         />
       </UFormField>
 
+      <UFormField label="ABV, %" name="abv">
+        <UInputNumber v-model="formData.abv" class="w-full" :step="0.1" />
+      </UFormField>
+
       <!-- Description Field -->
       <UFormField label="Description" name="description" class="col-span-2">
         <I18nFormField v-slot="{ value, setValue }" v-model="formData.description">
@@ -101,11 +120,7 @@ const submitHandler = async (event: FormSubmitEvent<FormState>) => {
         </I18nFormField>
       </UFormField>
 
-      <I18nArrayFormField v-model="formData.preparationSteps" label="Preparation steps" />
-
-      <UFormField label="ABV, %" name="abv">
-        <UInputNumber v-model="formData.abv" class="w-full" :step="0.1" />
-      </UFormField>
+      <I18nArrayFormField v-model="formData.preparationSteps" label="Preparation steps" class="col-span-2" />
 
       <UFormField label="Ingredients">
         <div class="grid grid-cols-4 gap-2 col-span-2 mt-4">

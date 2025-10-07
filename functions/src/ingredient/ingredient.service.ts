@@ -78,8 +78,8 @@ export class IngredientService {
   /**
    * Updates an existing ingredient
    */
-  async updateIngredient(id: string, data: UpdateIngredientDto): Promise<Ingredient> {
-    if (!id || id.trim() === '') {
+  async updateIngredient(data: UpdateIngredientDto): Promise<Ingredient> {
+    if (!data.id || data.id.trim() === '') {
       throw new Error('Ingredient ID is required');
     }
 
@@ -89,25 +89,6 @@ export class IngredientService {
     }
     if (data.category !== undefined) {
       this.validateCategory(data.category);
-    }
-
-    // Check for duplicate titles if title is being updated
-    if (data.title) {
-      const normalizedTitle = this.normalizeI18nField(data.title);
-      const existing = await this.repository.findById(id.trim());
-      
-      for (const locale of Object.keys(normalizedTitle)) {
-        const titleValue = normalizedTitle[locale as keyof typeof normalizedTitle];
-        if (titleValue) {
-          const exists = await this.repository.existsByTitle(titleValue, locale);
-          if (exists) {
-            // Check if it's the same ingredient
-            if (!existing || existing.title[locale as keyof typeof existing.title]?.toLowerCase() !== titleValue.toLowerCase()) {
-              throw new Error(`An ingredient with this title already exists in locale: ${locale}`);
-            }
-          }
-        }
-      }
     }
 
     const updatePayload: UpdateIngredientDto = {};
@@ -124,7 +105,7 @@ export class IngredientService {
       }
     }
 
-    const updatedIngredient = await this.repository.update(id.trim(), updatePayload);
+    const updatedIngredient = await this.repository.update(data.id.trim(), updatePayload);
     if (!updatedIngredient) {
       throw new Error('Ingredient not found');
     }

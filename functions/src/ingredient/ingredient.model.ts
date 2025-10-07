@@ -61,6 +61,7 @@ export interface CreateIngredientDto {
  * All fields are optional to support partial updates
  */
 export interface UpdateIngredientDto {
+  id?: string;
   title?: I18nField;
   category?: IngredientCategory;
   image?: string;

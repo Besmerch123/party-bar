@@ -1,4 +1,4 @@
-import { onRequest, HttpsError } from 'firebase-functions/v2/https';
+import {  HttpsError, onCall } from 'firebase-functions/v2/https';
 
 import { IngredientService } from '../ingredient.service';
 import { UpdateIngredientDto } from '../ingredient.model';
@@ -8,17 +8,16 @@ const ingredientService = new IngredientService();
 /**
  * Updates an existing ingredient
  */
-export const updateIngredient = onRequest(async (request, response) => {
+export const updateIngredient = onCall<UpdateIngredientDto>(async (request) => {
   try {
-    const { id, ...updateData } = request.body as Partial<UpdateIngredientDto> & { id: string };
     
-    if (!id) {
+    if (!request.data.id) {
       throw new HttpsError('invalid-argument', 'Ingredient ID is required');
     }
 
-    const ingredient = await ingredientService.updateIngredient(id, updateData as UpdateIngredientDto);
+    const ingredient = await ingredientService.updateIngredient(request.data);
     
-    response.status(200).send(ingredient);
+    return ingredient;
   } catch (error) {
     console.error('Error updating ingredient:', error);
     
