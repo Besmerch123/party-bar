@@ -1,11 +1,6 @@
 import { httpsCallable, getFunctions } from 'firebase/functions';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
-import type { EquipmentDocument } from '../../../functions/src/equipment/equipment.model';
-
-type SavePayload = {
-  id: string;
-  equipmentDocument: Partial<EquipmentDocument>;
-};
+import type { UpdateEquipmentDto } from '~/types';
 
 export function useEquipmentSave() {
   const app = useFirebaseApp();
@@ -14,11 +9,11 @@ export function useEquipmentSave() {
 
   const functions = getFunctions(app);
 
-  const updateEquipment = httpsCallable(functions, 'updateEquipment');
+  const updateEquipment = httpsCallable<UpdateEquipmentDto>(functions, 'updateEquipment');
 
   return useMutation({
     mutationKey: ['save-equipment'],
-    mutationFn: (payload: SavePayload) => updateEquipment({ id: payload.id, ...payload.equipmentDocument }),
+    mutationFn: (payload: UpdateEquipmentDto) => updateEquipment(payload),
     onSuccess: (_, variables) => {
       toast.add({
         color: 'success',

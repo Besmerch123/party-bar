@@ -76,25 +76,6 @@ export class EquipmentService {
       this.validateI18nField(data.title);
     }
 
-    // Check for duplicate titles if title is being updated
-    if (data.title) {
-      const normalizedTitle = this.normalizeI18nField(data.title);
-      const existing = await this.repository.findById(id.trim());
-      
-      for (const locale of Object.keys(normalizedTitle)) {
-        const titleValue = normalizedTitle[locale as keyof typeof normalizedTitle];
-        if (titleValue) {
-          const exists = await this.repository.existsByTitle(titleValue, locale);
-          if (exists) {
-            // Check if it's the same equipment
-            if (!existing || existing.title[locale as keyof typeof existing.title]?.toLowerCase() !== titleValue.toLowerCase()) {
-              throw new Error(`An equipment with this title already exists in locale: ${locale}`);
-            }
-          }
-        }
-      }
-    }
-
     const updatePayload: UpdateEquipmentDto = {};
     if (data.title !== undefined) {
       updatePayload.title = this.normalizeI18nField(data.title);

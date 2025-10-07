@@ -5,11 +5,12 @@
  * Following DDD principles, this abstracts the database layer.
  */
 
-import * as admin from 'firebase-admin';
+import { firestore } from 'firebase-admin';
+import { Timestamp } from 'firebase-admin/firestore';
 import { Equipment, CreateEquipmentDto, UpdateEquipmentDto } from './equipment.model';
 
 export class EquipmentRepository {
-  private readonly collection = admin.firestore().collection('equipment');
+  private readonly collection = firestore().collection('equipment');
 
   /**
    * Creates a new equipment in Firestore
@@ -29,8 +30,8 @@ export class EquipmentRepository {
     const firestoreData: Record<string, unknown> = {
       id: equipment.id,
       title: equipment.title,
-      createdAt: admin.firestore.Timestamp.fromDate(now),
-      updatedAt: admin.firestore.Timestamp.fromDate(now),
+      createdAt: Timestamp.now(),
+      updatedAt: Timestamp.now(),
     };
 
     if (equipment.image !== undefined) {
@@ -103,9 +104,8 @@ export class EquipmentRepository {
       return null;
     }
 
-    const now = new Date();
     const updatedFields: Record<string, unknown> = {
-      updatedAt: admin.firestore.Timestamp.fromDate(now),
+      updatedAt: Timestamp.now(),
     };
 
     if (updateData.title !== undefined) {
