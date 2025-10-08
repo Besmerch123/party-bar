@@ -1,13 +1,12 @@
-import { httpsCallable, getFunctions } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import type { UpdateEquipmentDto } from '~/types';
+import { useFunctions } from '~/composables/useFunctions';
 
 export function useEquipmentSave() {
-  const app = useFirebaseApp();
   const toast = useToast();
   const queryClient = useQueryClient();
-
-  const functions = getFunctions(app);
+  const functions = useFunctions();
 
   const updateEquipment = httpsCallable<UpdateEquipmentDto>(functions, 'updateEquipment');
 

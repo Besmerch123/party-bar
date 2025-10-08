@@ -1,6 +1,7 @@
-import { httpsCallable, getFunctions } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
 import { useMutation } from '@tanstack/vue-query';
 import type { Cocktail } from '~/types';
+import { useFunctions } from '~/composables/useFunctions';
 
 interface GenerateCocktailRequest {
   /** Desired cocktail name in plain English */
@@ -10,10 +11,8 @@ interface GenerateCocktailRequest {
 }
 
 export function useCocktailGenerate() {
-  const app = useFirebaseApp();
   const toast = useToast();
-
-  const functions = getFunctions(app);
+  const functions = useFunctions();
 
   const generateCocktail = httpsCallable<GenerateCocktailRequest, Cocktail>(functions, 'generateCocktail');
 

@@ -1,13 +1,12 @@
-import { httpsCallable, getFunctions } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import type { UpdateIngredientDto } from '~/types';
+import { useFunctions } from '~/composables/useFunctions';
 
 export function useIngredientSave() {
-  const app = useFirebaseApp();
   const toast = useToast();
   const queryClient = useQueryClient();
-
-  const functions = getFunctions(app);
+  const functions = useFunctions();
 
   const updateIngredient = httpsCallable<UpdateIngredientDto>(functions, 'updateIngredient');
 

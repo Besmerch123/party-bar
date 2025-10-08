@@ -46,7 +46,7 @@ export default defineNuxtConfig({
     },
     config: {
       apiKey: process.env.NUXT_FIREBASE_API_KEY,
-      authDomain: 'party-bar.firebaseapp.com',
+      authDomain: 'https://party-bar.web.app',
       projectId: 'party-bar',
       storageBucket: 'party-bar.firebasestorage.app',
       messagingSenderId: '768164532049',

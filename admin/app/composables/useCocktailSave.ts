@@ -1,6 +1,7 @@
-import { httpsCallable, getFunctions } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
 import { useMutation } from '@tanstack/vue-query';
 import type { CocktailDocument, UpdateCocktailDto } from '../../../functions/src/cocktail/cocktail.model';
+import { useFunctions } from '~/composables/useFunctions';
 
 type SavePayload = {
   id: string;
@@ -8,10 +9,8 @@ type SavePayload = {
 };
 
 export function useCocktailSave() {
-  const app = useFirebaseApp();
   const toast = useToast();
-
-  const functions = getFunctions(app);
+  const functions = useFunctions();
 
   const updateCocktail = httpsCallable<UpdateCocktailDto>(functions, 'updateCocktail');
 

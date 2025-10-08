@@ -1,12 +1,12 @@
-import { httpsCallable, getFunctions } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
 import { useMutation } from '@tanstack/vue-query';
 import type { StorageUploadRequest, StorageUploadResponse } from '~/types';
+import { useFunctions } from '~/composables/useFunctions';
 
 export function useFileUpload() {
-  const app = useFirebaseApp();
   const toast = useToast();
 
-  const functions = getFunctions(app);
+  const functions = useFunctions();
 
   const uploadFiles = httpsCallable<StorageUploadRequest, StorageUploadResponse>(
     functions,
