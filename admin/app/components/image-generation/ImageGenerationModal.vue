@@ -21,21 +21,14 @@ const { mutateAsync: generateImage, isPending: isGeneratingImage, data } = useIm
     </template>
 
     <template #body>
-      <div class="grid grid-cols-2 gap-4">
-        <template v-if="isGeneratingImage">
-          <USkeleton v-for="i in 4" :key="i" class="w-full aspect-square rounded-md" />
-        </template>
+      <USkeleton v-if="isGeneratingImage" class="w-full aspect-square rounded-md" />
 
-        <template v-else>
-          <img
-            v-for="(image, i) in data || []"
-            :key="i"
-            :src="`data:${image.mimeType};base64,${image.bytesBase64Encoded}`"
-            class="w-full aspect-square object-cover cursor-pointer"
-            @click="$emit('choice', image)"
-          >
-        </template>
-      </div>
+      <img
+        v-else
+        :src="`data:${data?.[0]?.mimeType};base64,${data?.[0]?.bytesBase64Encoded}`"
+        class="w-full aspect-square object-cover cursor-pointer"
+        @click="$emit('choice', data?.[0]!)"
+      >
     </template>
 
     <template #footer>
@@ -44,6 +37,14 @@ const { mutateAsync: generateImage, isPending: isGeneratingImage, data } = useIm
         class="cursor-pointer"
         :loading="isGeneratingImage"
         @click="generateImage({ template, description: prompt })"
+      />
+
+      <UButton
+        label="Accept"
+        color="success"
+        class="cursor-pointer"
+        :disabled="isGeneratingImage"
+        @click="$emit('choice', data?.[0]!)"
       />
     </template>
   </UModal>

@@ -26,8 +26,8 @@ const props = defineProps<{
 type FormState = {
   title: I18nField;
   description: I18nField;
-  image?: string;
   abv?: number;
+  image?: string;
   preparationSteps: I18nArrayField;
   ingredients: DocumentSnapshot<IngredientDocument>[];
   equipments: DocumentSnapshot<EquipmentDocument>[];
@@ -39,6 +39,7 @@ const formData = ref<FormState>({
   title: { en: '', uk: '', ...props.cocktailDocument?.title },
   description: { en: '', uk: '', ...props.cocktailDocument?.description },
   abv: props.cocktailDocument?.abv,
+  image: props.cocktailDocument?.image ?? '',
   preparationSteps: { en: [''], uk: [''], ...props.cocktailDocument?.preparationSteps },
   ingredients: props?.ingredients || [],
   equipments: props?.equipments || [],
@@ -53,19 +54,16 @@ const { mutate: saveCocktail, isPending } = useCocktailSave();
 const submitHandler = async (event: FormSubmitEvent<FormState>) => {
   const data = event.data;
 
-  const cocktailDocument: Partial<CocktailDocument> = {
+  await saveCocktail({
+    id: props.cocktailId,
     title: data.title,
     description: data.description,
     abv: data.abv,
+    image: data.image,
     preparationSteps: data.preparationSteps,
     ingredients: data.ingredients.map(ing => ing.ref.path),
     equipments: data.equipments.map(eq => eq.ref.path),
     categories: data.categories
-  };
-
-  await saveCocktail({
-    id: props.cocktailId,
-    cocktailDocument
   });
 };
 

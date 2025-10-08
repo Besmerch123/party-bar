@@ -16,9 +16,9 @@ export function useImagen() {
   const model = getImagenModel(
     ai,
     {
-      model: 'imagen-4.0-fast-generate-001',
+      model: 'imagen-4.0-generate-001',
       generationConfig: {
-        numberOfImages: 4,
+        numberOfImages: 1,
         aspectRatio: '1:1',
         imageFormat: {
           mimeType: 'image/jpeg'

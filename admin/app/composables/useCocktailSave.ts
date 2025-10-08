@@ -1,12 +1,7 @@
 import { httpsCallable } from 'firebase/functions';
 import { useMutation } from '@tanstack/vue-query';
-import type { CocktailDocument, UpdateCocktailDto } from '../../../functions/src/cocktail/cocktail.model';
+import type { UpdateCocktailDto } from '../../../functions/src/cocktail/cocktail.model';
 import { useFunctions } from '~/composables/useFunctions';
-
-type SavePayload = {
-  id: string;
-  cocktailDocument: Partial<CocktailDocument>;
-};
 
 export function useCocktailSave() {
   const toast = useToast();
@@ -16,7 +11,7 @@ export function useCocktailSave() {
 
   return useMutation({
     mutationKey: ['save-cocktail'],
-    mutationFn: (payload: SavePayload) => updateCocktail({ id: payload.id, ...payload.cocktailDocument }),
+    mutationFn: (payload: UpdateCocktailDto) => updateCocktail(payload),
     onSuccess: () => {
       toast.add({
         color: 'success',
