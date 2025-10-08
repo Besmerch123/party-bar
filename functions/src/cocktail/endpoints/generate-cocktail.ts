@@ -5,7 +5,7 @@
  * Uses Gemini 2.5 Pro to generate all needed information including ABV and preparation steps.
  */
 
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { onCall, HttpsError } from 'firebase-functions/https';
 import { VertexAI } from '@google-cloud/vertexai';
 import * as admin from 'firebase-admin';
 

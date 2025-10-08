@@ -2,7 +2,7 @@
  * Delete Ingredient Endpoint
  */
 
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { onCall, HttpsError } from 'firebase-functions/https';
 import { IngredientService } from '../ingredient.service';
 
 const ingredientService = new IngredientService();

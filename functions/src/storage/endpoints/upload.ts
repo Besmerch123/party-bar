@@ -1,4 +1,4 @@
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { onCall, HttpsError } from 'firebase-functions/https';
 import { logger } from 'firebase-functions';
 import { storage } from 'firebase-admin';
 

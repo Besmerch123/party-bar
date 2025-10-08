@@ -2,7 +2,7 @@
  * Update Cocktail Endpoint
  */
 
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { onCall, HttpsError } from 'firebase-functions/https';
 import { CocktailService } from '../cocktail.service';
 import { UpdateCocktailDto } from '../cocktail.model';
 

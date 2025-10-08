@@ -1,4 +1,4 @@
-import {  HttpsError, onCall } from 'firebase-functions/v2/https';
+import {  HttpsError, onCall } from 'firebase-functions/https';
 
 import { IngredientService } from '../ingredient.service';
 import { UpdateIngredientDto } from '../ingredient.model';

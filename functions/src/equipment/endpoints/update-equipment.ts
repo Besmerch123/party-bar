@@ -2,7 +2,7 @@
  * Update Equipment Endpoint
  */
 
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { onCall, HttpsError } from 'firebase-functions/https';
 import { EquipmentService } from '../equipment.service';
 import { UpdateEquipmentDto } from '../equipment.model';
 

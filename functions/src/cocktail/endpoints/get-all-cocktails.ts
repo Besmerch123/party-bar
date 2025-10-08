@@ -2,7 +2,7 @@
  * Get All Cocktails Endpoint
  */
 
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { onCall, HttpsError } from 'firebase-functions/https';
 import { CocktailService } from '../cocktail.service';
 
 const cocktailService = new CocktailService();
