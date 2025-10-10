@@ -8,6 +8,8 @@ const equipmentId = route.params.id as string;
 const locale = useLocale();
 
 const { data, isLoading, error } = useEquipmentDetail(equipmentId);
+
+const equipmentForm = useTemplateRef('equipmentForm');
 </script>
 
 <template>
@@ -17,6 +19,31 @@ const { data, isLoading, error } = useEquipmentDetail(equipmentId);
     </template>
     <template #body>
       <UContainer>
+        <UDashboardToolbar :ui="{ root: 'mb-6 px-0 sm:px-0 border-none' }">
+          <template #left>
+            <UButton
+              variant="ghost"
+              color="neutral"
+              icon="i-lucide-chevron-left"
+              to="/equipment"
+            >
+              Back to Equipment
+            </UButton>
+          </template>
+
+          <template #right>
+            <UButton
+              form="equipment-form"
+              type="submit"
+              color="neutral"
+              class="cursor-pointer"
+              :loading="equipmentForm?.isSaving"
+            >
+              Save
+            </UButton>
+          </template>
+        </UDashboardToolbar>
+
         <div v-if="isLoading" class="flex justify-center items-center h-64">
           <UIcon name="i-lucide-loader-circle" class="animate-spin size-8" />
         </div>
@@ -29,6 +56,7 @@ const { data, isLoading, error } = useEquipmentDetail(equipmentId);
 
         <div v-else-if="data" class="py-8">
           <EquipmentForm
+            ref="equipmentForm"
             :equipment-id="equipmentId"
             :equipment-document="data.equipment"
           />

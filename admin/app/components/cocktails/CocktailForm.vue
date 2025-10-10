@@ -46,6 +46,14 @@ const formData = ref<FormState>({
   categories: props.cocktailDocument?.categories || []
 });
 
+const handleIngredientRemove = (id: string) => {
+  formData.value.ingredients = formData.value.ingredients.filter(ing => ing.id !== id);
+};
+
+const handleEquipmentRemove = (id: string) => {
+  formData.value.equipments = formData.value.equipments.filter(eq => eq.id !== id);
+};
+
 // Category options for select
 const categoryOptions: string[] = Object.values(COCKTAIL_CATEGORIES);
 
@@ -71,83 +79,88 @@ const ingredientGenerationPrompt = computed(() => {
   return `${formData.value.title.en} cocktail. ${formData.value.description.en}
 Ingredients: ${formData.value.ingredients.map(ing => ing.data()?.title.en).join(', ')}.`;
 });
+
+defineExpose({
+  isSaving: isPending
+});
 </script>
 
 <template>
-  <UForm :state="formData" :disabled="isPending" @submit="submitHandler">
-    <div class="grid grid-cols-2 gap-4">
-      <!-- Title Field -->
-      <UFormField label="Title" name="title" required>
-        <I18nFormField v-model="formData.title" />
-      </UFormField>
+  <UForm
+    id="cocktail-form"
+    :state="formData"
+    :disabled="isPending"
+    class="grid grid-cols-2 gap-4"
+    @submit="submitHandler"
+  >
+    <!-- Title Field -->
+    <UFormField label="Title" name="title" required>
+      <I18nFormField v-model="formData.title" />
+    </UFormField>
 
-      <GeneratableImageFormField
-        v-model:image-src="formData.image"
-        label="Cocktail Image"
-        template="cocktail"
-        :title="formData.title.en || ''"
-        :prompt="ingredientGenerationPrompt"
+    <GeneratableImageFormField
+      v-model:image-src="formData.image"
+      label="Cocktail Image"
+      template="cocktail"
+      :title="formData.title.en || ''"
+      :prompt="ingredientGenerationPrompt"
+    />
+
+    <!-- Categories Field -->
+    <UFormField
+      label="Categories"
+      name="categories"
+      required
+    >
+      <USelectMenu
+        v-model="formData.categories"
+        :items="categoryOptions"
+        multiple
       />
+    </UFormField>
 
-      <!-- Categories Field -->
-      <UFormField
-        label="Categories"
-        name="categories"
-        required
-      >
-        <USelectMenu
-          v-model="formData.categories"
-          :items="categoryOptions"
-          multiple
+    <UFormField label="ABV, %" name="abv">
+      <UInputNumber v-model="formData.abv" class="w-full" :step="0.1" />
+    </UFormField>
+
+    <!-- Description Field -->
+    <UFormField label="Description" name="description" class="col-span-2">
+      <I18nFormField v-slot="{ value, setValue }" v-model="formData.description">
+        <UTextarea
+          :model-value="value"
+          class="w-full"
+          :rows="5"
+          @update:model-value="setValue"
         />
-      </UFormField>
+      </I18nFormField>
+    </UFormField>
 
-      <UFormField label="ABV, %" name="abv">
-        <UInputNumber v-model="formData.abv" class="w-full" :step="0.1" />
-      </UFormField>
+    <I18nArrayFormField v-model="formData.preparationSteps" label="Preparation steps" class="col-span-2" />
 
-      <!-- Description Field -->
-      <UFormField label="Description" name="description" class="col-span-2">
-        <I18nFormField v-slot="{ value, setValue }" v-model="formData.description">
-          <UTextarea
-            :model-value="value"
-            class="w-full"
-            :rows="5"
-            @update:model-value="setValue"
-          />
-        </I18nFormField>
-      </UFormField>
-
-      <I18nArrayFormField v-model="formData.preparationSteps" label="Preparation steps" class="col-span-2" />
-
-      <UFormField label="Ingredients">
-        <div class="grid grid-cols-4 gap-2 col-span-2 mt-4">
-          <IngredientCard
-            v-for="(ingredient, i) in formData.ingredients"
-            :key="i"
-            :ingredient="ingredient.data()!"
-            class="basis-1/4"
-          />
-        </div>
-      </UFormField>
-
-      <!-- Equipment Field -->
-      <UFormField label="Equipment">
-        <div class="grid grid-cols-4 gap-2 col-span-2 mt-4">
-          <EquipmentCard
-            v-for="(equipment, i) in formData.equipments"
-            :key="i"
-            :equipment="equipment.data()!"
-          />
-        </div>
-      </UFormField>
-
-      <!-- Submit Button -->
-      <div class="col-span-2 flex justify-end gap-2">
-        <UButton type="submit" color="primary" :loading="isPending">
-          {{ cocktailDocument ? 'Update' : 'Create' }} Cocktail
-        </UButton>
+    <UFormField label="Ingredients">
+      <div class="grid grid-cols-4 gap-2 col-span-2 mt-4">
+        <IngredientCard
+          v-for="(ingredient, i) in formData.ingredients"
+          :id="ingredient.id"
+          :key="i"
+          :ingredient="ingredient.data()!"
+          class="basis-1/4"
+          @remove="handleIngredientRemove"
+        />
       </div>
-    </div>
+    </UFormField>
+
+    <!-- Equipment Field -->
+    <UFormField label="Equipment">
+      <div class="grid grid-cols-4 gap-2 col-span-2 mt-4">
+        <EquipmentCard
+          v-for="(equipment, i) in formData.equipments"
+          :id="equipment.id"
+          :key="i"
+          :equipment="equipment.data()!"
+          @remove="handleEquipmentRemove"
+        />
+      </div>
+    </UFormField>
   </UForm>
 </template>

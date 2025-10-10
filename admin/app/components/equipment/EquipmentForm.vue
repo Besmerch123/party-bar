@@ -29,35 +29,32 @@ const submitHandler = async (event: FormSubmitEvent<FormState>) => {
     ...data
   });
 };
+
+defineExpose({
+  isSaving: isPending
+});
 </script>
 
 <template>
-  <UForm :state="formData" :disabled="isPending" @submit="submitHandler">
-    <div class="grid grid-cols-2 gap-4">
-      <!-- Title Field -->
-      <UFormField label="Title" name="title" required>
-        <I18nFormField v-model="formData.title" />
-      </UFormField>
+  <UForm
+    id="equipment-form"
+    :state="formData"
+    :disabled="isPending"
+    class="grid grid-cols-2 gap-4"
+    @submit="submitHandler"
+  >
+    <!-- Title Field -->
+    <UFormField label="Title" name="title" required>
+      <I18nFormField v-model="formData.title" />
+    </UFormField>
 
-      <GeneratableImageFormField
-        v-model:image-src="formData.image"
-        label="Image"
-        name="image"
-        template="equipment"
-        :title="equipmentDocument?.title.en || ''"
-        :prompt="formData.title.en || ''"
-      />
-
-      <!-- Submit Button -->
-      <div class="flex justify-end gap-2 col-span-2">
-        <UButton
-          type="submit"
-          color="primary"
-          :loading="isPending"
-        >
-          {{ equipmentDocument ? 'Update' : 'Create' }} Equipment
-        </UButton>
-      </div>
-    </div>
+    <GeneratableImageFormField
+      v-model:image-src="formData.image"
+      label="Image"
+      name="image"
+      template="equipment"
+      :title="equipmentDocument?.title.en || ''"
+      :prompt="formData.title.en || ''"
+    />
   </UForm>
 </template>

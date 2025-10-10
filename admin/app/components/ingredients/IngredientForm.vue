@@ -39,49 +39,46 @@ const submitHandler = async (event: FormSubmitEvent<FormState>) => {
 const ingredientGenerationPrompt = computed(() => {
   return `${formData.value.title.en} - ${formData.value.category} - cocktail ingredient`;
 });
+
+defineExpose({
+  isSaving: isPending
+});
 </script>
 
 <template>
-  <UForm :state="formData" :disabled="isPending" @submit="submitHandler">
-    <div class="grid grid-cols-2 gap-4">
-      <!-- Title Field -->
-      <UFormField label="Title" name="title" required>
-        <I18nFormField v-model="formData.title" />
-      </UFormField>
+  <UForm
+    id="ingredient-form"
+    :state="formData"
+    :disabled="isPending"
+    class="grid grid-cols-2 gap-4"
+    @submit="submitHandler"
+  >
+    <!-- Title Field -->
+    <UFormField label="Title" name="title" required>
+      <I18nFormField v-model="formData.title" />
+    </UFormField>
 
-      <!-- Category Field -->
-      <UFormField
-        label="Category"
-        name="category"
-        required
-      >
-        <USelectMenu
-          v-model="formData.category"
-          :items="categoryOptions"
-          class="capitalize"
-        />
-      </UFormField>
-
-      <!-- Image Field -->
-      <GeneratableImageFormField
-        v-model:image-src="formData.image"
-        label="Image"
-        name="image"
-        template="ingredient"
-        :title="ingredientDocument?.title.en || ''"
-        :prompt="ingredientGenerationPrompt"
+    <!-- Category Field -->
+    <UFormField
+      label="Category"
+      name="category"
+      required
+    >
+      <USelectMenu
+        v-model="formData.category"
+        :items="categoryOptions"
+        class="capitalize"
       />
+    </UFormField>
 
-      <!-- Submit Button -->
-      <div class="flex justify-end gap-2 col-span-2">
-        <UButton
-          type="submit"
-          color="primary"
-          :loading="isPending"
-        >
-          {{ ingredientDocument ? 'Update' : 'Create' }} Ingredient
-        </UButton>
-      </div>
-    </div>
+    <!-- Image Field -->
+    <GeneratableImageFormField
+      v-model:image-src="formData.image"
+      label="Image"
+      name="image"
+      template="ingredient"
+      :title="ingredientDocument?.title.en || ''"
+      :prompt="ingredientGenerationPrompt"
+    />
   </UForm>
 </template>

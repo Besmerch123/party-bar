@@ -1,9 +1,23 @@
 <script setup lang="ts">
-defineProps<{ imageSrc?: string; title?: string; subtitle?: string }>();
+import type { ButtonProps } from '@nuxt/ui';
+
+defineProps<{ imageSrc?: string; title?: string; subtitle?: string; to?: ButtonProps['to'] }>();
+
+defineEmits<{
+  (e: 'remove'): void;
+}>();
 </script>
 
 <template>
-  <div class="rounded-xl overflow-hidden shadow-sm bg-elevated">
+  <div class="rounded-xl overflow-hidden shadow-sm bg-elevated relative group">
+    <UButton
+      icon="i-lucide-x"
+      color="error"
+      variant="ghost"
+      class="absolute top-0 right-0 cursor-pointer z-10 invisible group-hover:visible"
+      @click="$emit('remove')"
+    />
+
     <div class="bg-muted aspect-square mb-2 flex items-center justify-center">
       <img
         v-if="imageSrc"
@@ -14,7 +28,12 @@ defineProps<{ imageSrc?: string; title?: string; subtitle?: string }>();
     </div>
 
     <h3 class="text-md font-semibold mb-2 px-2">
-      {{ title }}
+      <NuxtLink
+        :to
+        target="_blank"
+      >
+        {{ title }}
+      </NuxtLink>
     </h3>
     <p class="text-sm text-muted px-2 mb-2">
       {{ subtitle }}

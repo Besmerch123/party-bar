@@ -10,6 +10,8 @@ const id = route.params.id as string;
 const locale = useLocale();
 
 const { data, error, isFetched, isPending } = useCocktail(id);
+
+const cocktailForm = useTemplateRef('cocktailForm');
 </script>
 
 <template>
@@ -29,6 +31,31 @@ const { data, error, isFetched, isPending } = useCocktail(id);
 
     <template #body>
       <UContainer>
+        <UDashboardToolbar :ui="{ root: 'mb-6 px-0 sm:px-0 border-none' }">
+          <template #left>
+            <UButton
+              variant="ghost"
+              color="neutral"
+              icon="i-lucide-chevron-left"
+              to="/cocktails"
+            >
+              Back to Cocktails
+            </UButton>
+          </template>
+
+          <template #right>
+            <UButton
+              form="cocktail-form"
+              type="submit"
+              color="neutral"
+              class="cursor-pointer"
+              :loading="cocktailForm?.isSaving"
+            >
+              Save
+            </UButton>
+          </template>
+        </UDashboardToolbar>
+
         <UAlert v-if="error" type="error" class="mb-4">
           Error loading cocktail: {{ error.message }}
         </UAlert>
@@ -37,6 +64,7 @@ const { data, error, isFetched, isPending } = useCocktail(id);
 
         <CocktailForm
           v-if="isFetched"
+          ref="cocktailForm"
           :cocktail-id="id"
           :cocktail-document="data?.cocktail"
           :ingredients="data?.ingredients"
