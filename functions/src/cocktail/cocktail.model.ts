@@ -9,7 +9,7 @@ import { Timestamp } from 'firebase-admin/firestore';
 import type { Ingredient, IngredientSearchDocument } from '../ingredient/ingredient.model';
 import type { Equipment, EquipmentSearchDocument } from '../equipment/equipment.model';
 import type { ElasticDocument } from '../elastic/elastic.types';
-import type { I18nField, I18nArrayField } from '../shared/types';
+import type { I18nField, I18nArrayField, PaginationParams } from '../shared/types';
 
 export const COCKTAIL_CATEGORIES = {
   CLASSIC: 'classic',
@@ -95,7 +95,20 @@ export interface UpdateCocktailDto {
   image?: string | null;
 }
 
-export interface CocktailSearchDocument extends ElasticDocument, Omit<Cocktail, 'createdAt' | 'updatedAt' | 'preparationSteps' | 'ingredients' | 'equipments'> {
+export interface CocktailSearchDocument extends ElasticDocument, Omit<Cocktail, 'preparationSteps' | 'ingredients' | 'equipments'> {
   ingredients: IngredientSearchDocument[];
   equipment: EquipmentSearchDocument[];
 }
+
+
+export type CocktailsSearchSchema = {
+  query?: string;
+  filters?: {
+    categories?: CocktailCategory[];
+    ingredients?: string[]; // ingredient IDs
+    equipments?: string[]; // equipment IDs
+    abvRange?: { min: number; max: number }; // abv percentage range
+  },
+  pagination?: PaginationParams
+};
+

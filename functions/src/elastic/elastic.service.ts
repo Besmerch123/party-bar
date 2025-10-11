@@ -1,4 +1,5 @@
 import { Client } from '@elastic/elasticsearch';
+import type { estypes } from '@elastic/elasticsearch';
 import { defineSecret, defineString } from 'firebase-functions/params';
 
 import type { ElasticDocument } from './elastic.types';
@@ -34,6 +35,48 @@ class ElasticService {
     await this.client.delete({
       index: this.getIndexName(index),
       id: documentId,
+    });
+  }
+
+  public async searchDocuments<Document extends ElasticDocument>(
+    index: string,
+    query: estypes.QueryDslQueryContainer
+  ): Promise<Document[]> {
+    const response = await this.client.search<Document>({
+      index: this.getIndexName(index),
+      query
+    });
+
+    return response.hits.hits.map(hit => hit._source!);
+  }
+
+  public async searchDocumentsWithMetadata<Document extends ElasticDocument>(
+    index: string,
+    body: estypes.SearchRequest['body']
+  ): Promise<{
+    documents: Document[];
+    total: number;
+    took: number;
+  }> {
+    const response = await this.client.search<Document>({
+      index: this.getIndexName(index),
+      body
+    });
+
+    const total = typeof response.hits.total === 'number' 
+      ? response.hits.total 
+      : response.hits.total?.value || 0;
+
+    return {
+      documents: response.hits.hits.map(hit => hit._source!),
+      total,
+      took: response.took || 0
+    };
+  }
+
+  public async deleteIndex(index: string): Promise<void> {
+    await this.client.indices.delete({
+      index: this.getIndexName(index),
     });
   }
 

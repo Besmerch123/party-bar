@@ -3,14 +3,14 @@
  */
 
 import { onCall, HttpsError } from 'firebase-functions/https';
-import { CocktailService } from '../cocktail.service';
-
-const cocktailService = new CocktailService();
+import { getCocktailService } from '../cocktail.service';
 
 /**
  * Retrieves a cocktail by ID
- */
+*/
 export const getCocktail = onCall(async (request) => {
+  const cocktailService = getCocktailService();
+
   try {
     if (!request.auth) {
       throw new HttpsError('unauthenticated', 'User must be authenticated');

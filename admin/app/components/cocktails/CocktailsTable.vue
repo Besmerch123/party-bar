@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { h, resolveComponent } from 'vue';
+import { h } from 'vue';
 import type { TableColumn } from '#ui/types';
-import { ULink } from '#components';
+import { ULink, UBadge } from '#components';
 import { useLocale } from '~/composables/useLocale';
-import type { Cocktail } from '../../../../functions/src/cocktail/cocktail.model';
+import type { CocktailSearchDocument } from '~/types';
 
-const UBadge = resolveComponent('UBadge');
-
-interface Props {
-  cocktails: Cocktail[];
-}
-
-defineProps<Props>();
+defineProps<{ cocktails: CocktailSearchDocument[] }>();
 
 const locale = useLocale();
 
-const columns: TableColumn<Cocktail>[] = [
+// const formatter = new Intl.DateTimeFormat('en-US', {
+//   year: 'numeric',
+//   month: 'short',
+//   day: 'numeric'
+// });
+
+const columns: TableColumn<CocktailSearchDocument>[] = [
   {
     accessorKey: 'title',
     header: 'Title',
@@ -49,36 +49,34 @@ const columns: TableColumn<Cocktail>[] = [
     accessorKey: 'ingredients',
     header: 'Ingredients',
     cell: ({ row }) => {
-      const items = row.getValue('ingredients') as string[];
-      const count = items.length;
-      const text = count > 0 ? `${count} item${count !== 1 ? 's' : ''}` : 'None';
-      return h('span', { class: 'text-sm text-muted' }, text);
+      const items = row.original.ingredients.map(i => i.title[locale.value] || 'N/A').join(', ');
+
+      return h('span', { class: 'text-sm text-muted max-w-xs inline-block truncate' }, items);
     }
   },
   {
     accessorKey: 'equipments',
     header: 'Equipment',
     cell: ({ row }) => {
-      const items = row.getValue('equipments') as string[];
-      const count = items.length;
-      const text = count > 0 ? `${count} item${count !== 1 ? 's' : ''}` : 'None';
-      return h('span', { class: 'text-sm text-muted' }, text);
-    }
-  },
-  {
-    accessorKey: 'createdAt',
-    header: 'Created',
-    cell: ({ row }) => {
-      const date = row.getValue('createdAt') as Date | undefined;
-      if (!date) return 'N/A';
-      const formatted = new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      }).format(date);
-      return h('span', { class: 'text-sm text-muted' }, formatted);
+      const items = row.original.equipment.map(e => e.title[locale.value] || 'N/A').join(', ');
+
+      return h('span', { class: 'text-sm text-muted max-w-xs inline-block truncate' }, items);
     }
   }
+  // {
+  //   accessorKey: 'createdAt',
+  //   header: 'Created',
+  //   cell: ({ row }) => {
+  //     const date = row.getValue('createdAt') as Date | undefined;
+  //     if (!date) return 'N/A';
+  //     const formatted = new Intl.DateTimeFormat('en-US', {
+  //       year: 'numeric',
+  //       month: 'short',
+  //       day: 'numeric'
+  //     }).format(date);
+  //     return h('span', { class: 'text-sm text-muted' }, formatted);
+  //   }
+  // }
 ];
 </script>
 

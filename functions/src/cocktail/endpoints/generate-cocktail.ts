@@ -15,14 +15,12 @@ import type { IngredientDocument } from '../../ingredient/ingredient.model';
 import type { EquipmentDocument } from '../../equipment/equipment.model';
 import type { SupportedLocale } from '../../shared/types';
 import { SUPPORTED_LOCALES } from '../../shared/types';
-import { CocktailService } from '../cocktail.service';
+import { getCocktailService } from '../cocktail.service';
 import {
   extractTextResponse,
   parseJsonResponse,
   hasAllLocaleTitles,
 } from '../../shared/cli-tools';
-
-const cocktailService = new CocktailService();
 
 interface GenerateCocktailRequest {
   /** Desired cocktail name in plain English */
@@ -45,6 +43,8 @@ interface GeminiGeneratedCocktail {
  * Generates a cocktail recipe using AI
  */
 export const generateCocktail = onCall<GenerateCocktailRequest>(async (request) => {
+  const cocktailService = getCocktailService();
+
   try {
     if (!request.auth) {
       throw new HttpsError('unauthenticated', 'User must be authenticated');

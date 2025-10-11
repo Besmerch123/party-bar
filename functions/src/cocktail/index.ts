@@ -8,10 +8,10 @@
 export * from './cocktail.model';
 
 // Repository
-export { CocktailRepository } from './cocktail.repository';
+export * from './cocktail.repository';
 
 // Service
-export { CocktailService } from './cocktail.service';
+export * from './cocktail.service';
 
 // Cloud Functions
 export * from './endpoints';

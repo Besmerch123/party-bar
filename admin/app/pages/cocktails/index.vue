@@ -3,28 +3,11 @@ import CocktailsTable from '~/components/cocktails/CocktailsTable.vue';
 import { useCocktails } from '~/composables/useCocktails';
 import AddCocktailForm from '~/components/cocktails/AddCocktailForm.vue';
 import DefaultPageToolbar from '~/components/DefaultPageToolbar.vue';
-import type { Cocktail } from '~/types';
+import { COCKTAIL_CATEGORIES } from '../../../../functions/src/cocktail/cocktail.model';
 
-const { data, fetchNextPage, hasNextPage, isPending, isLoading } = useCocktails();
+const { data, isLoading, search, page, filters } = useCocktails();
 
-const cocktails = computed<Cocktail[]>(() => {
-  return (data?.value?.pages || []).flatMap((page) => {
-    const cocktails = page.cocktails || [];
-
-    return cocktails.map((doc) => {
-      const { title, description, createdAt, updatedAt, ...restData } = doc.data();
-
-      return {
-        id: doc.id,
-        title,
-        description,
-        createdAt: createdAt?.toDate() || undefined,
-        updatedAt: updatedAt?.toDate() || undefined,
-        ...restData
-      };
-    });
-  });
-});
+const categories = Object.values(COCKTAIL_CATEGORIES);
 </script>
 
 <template>
@@ -35,8 +18,34 @@ const cocktails = computed<Cocktail[]>(() => {
 
     <template #body>
       <UContainer>
-        <div class="flex justify-end mb-4">
-          <UPopover>
+        <div class="flex gap-4 items-center mb-4">
+          <UInput
+            v-model="search"
+            placeholder="Search cocktails..."
+            class="max-w-xs"
+            :loading="isLoading"
+          >
+            <template #trailing>
+              <UButton
+                v-if="search"
+                icon="i-lucide-x"
+                color="neutral"
+                variant="link"
+                size="sm"
+                @click="search = ''"
+              />
+            </template>
+          </UInput>
+
+          <USelectMenu
+            v-model="filters.categories"
+            multiple
+            :items="categories"
+            placeholder="Filter by category"
+            class="max-w-xs"
+          />
+
+          <UPopover class="ml-auto">
             <UButton label="Add cocktail" />
 
             <template #content>
@@ -45,17 +54,18 @@ const cocktails = computed<Cocktail[]>(() => {
           </UPopover>
         </div>
 
-        <CocktailsTable :cocktails :loading="isPending || isLoading" />
+        <CocktailsTable :cocktails="data?.items || []" :loading="isLoading" />
 
-        <div class="mt-4 flex justify-center">
-          <LoadMore
-            v-if="hasNextPage"
-            :loading="isLoading"
-            @click="fetchNextPage()"
-          >
-            Load more
-          </LoadMore>
-        </div>
+        <UPagination
+          v-if="data?.totalPages && data.totalPages > 1"
+          v-model:page="page"
+          :total="data?.total"
+          :items-per-page="data?.pageSize"
+          :ui="{
+            root: 'mt-4',
+            list: 'justify-center'
+          }"
+        />
       </UContainer>
     </template>
   </UDashboardPanel>

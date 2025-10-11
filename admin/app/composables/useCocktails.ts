@@ -1,57 +1,49 @@
-import {
-  collection,
-  query,
-  orderBy,
-  limit,
-  startAfter,
-  getDocs
-} from 'firebase/firestore';
-import type { CollectionReference, DocumentSnapshot } from 'firebase/firestore';
-import { useInfiniteQuery } from '@tanstack/vue-query';
-import type { CocktailDocument } from '../../../functions/src/cocktail/cocktail.model';
+import { useQuery } from '@tanstack/vue-query';
+import { refDebounced } from '@vueuse/core';
+import { httpsCallable } from 'firebase/functions';
+import type { ElasticSearchResults, CocktailSearchDocument, CocktailsSearchSchema } from '~/types';
 
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 10;
 
 export function useCocktails() {
-  const db = useFirestore();
-  const cocktailsCollection = collection(db, 'cocktails') as CollectionReference<CocktailDocument>;
+  // const db = useFirestore();
+  // const cocktailsCollection = collection(db, 'cocktails') as CollectionReference<CocktailDocument>;
 
-  return useInfiniteQuery({
-    queryKey: ['cocktails'],
-    queryFn: async ({ pageParam }) => {
-      let q = query(
-        cocktailsCollection,
-        orderBy('createdAt', 'desc'),
-        limit(PAGE_SIZE)
-      );
+  const functions = useFunctions();
 
-      if (pageParam) {
-        q = query(
-          cocktailsCollection,
-          orderBy('createdAt', 'desc'),
-          startAfter(pageParam),
-          limit(PAGE_SIZE)
-        );
-      }
+  const searchCocktails = httpsCallable<CocktailsSearchSchema, ElasticSearchResults<CocktailSearchDocument>>(functions, 'searchCocktails');
 
-      const snapshot = await getDocs(q);
-      const cocktails = snapshot.docs;
+  const search = ref('');
+  const page = ref(1);
+  const filters = reactive<NonNullable<CocktailsSearchSchema['filters']>>({});
 
-      return {
-        cocktails,
-        lastDoc: snapshot.docs.at(-1) || null,
-        hasMore: snapshot.docs.length === PAGE_SIZE
-      };
-    },
-    initialPageParam: undefined as DocumentSnapshot | undefined,
-    getNextPageParam: (lastPage) => {
-      // Return the last document if there are more pages, otherwise undefined
-      return lastPage.hasMore ? lastPage.lastDoc : undefined;
-    },
-    getPreviousPageParam: () => {
-      // Firebase cursor pagination doesn't support going backwards easily
-      // Return undefined to disable previous page functionality
-      return undefined;
+  const debouncedSearch = refDebounced(search, 1000);
+
+  watch([filters, debouncedSearch], () => {
+    page.value = 1;
+  });
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['cocktails', debouncedSearch, page, filters],
+    queryFn: async () => {
+      const result = await searchCocktails({
+        query: debouncedSearch.value,
+        filters,
+        pagination: {
+          pageSize: PAGE_SIZE,
+          page: page.value
+        }
+      });
+
+      return result.data;
     }
   });
+
+  return {
+    data,
+    search,
+    page,
+    filters,
+    isLoading
+  };
 }

@@ -4,23 +4,40 @@
  * Contains the business logic for cocktail operations.
  * Following DDD principles, this is the application service layer.
  */
+import type { DocumentSnapshot } from 'firebase-admin/firestore';
 
+import { type EquipmentDocument, EquipmentService } from '../equipment';
+import { type IngredientDocument, IngredientService } from '../ingredient';
 import { AbstractService } from '../shared/abstract.service';
 
-import { CocktailRepository } from './cocktail.repository';
+import { getCocktailRepository } from './cocktail.repository';
 import {
-  Cocktail,
   CreateCocktailDto,
   UpdateCocktailDto,
   COCKTAIL_CATEGORIES,
   CocktailCategory,
+  CocktailsSearchSchema,
+  CocktailDocument,
+  CocktailSearchDocument,
 } from './cocktail.model';
 
-export class CocktailService extends AbstractService {
-  private readonly repository = new CocktailRepository();
+class CocktailService extends AbstractService {
+  readonly repository: ReturnType<typeof getCocktailRepository>;
   private readonly allowedCategories: Set<CocktailCategory> = new Set(
     Object.values(COCKTAIL_CATEGORIES)
   );
+
+  readonly equipmentService:  EquipmentService;
+  readonly ingredientService: IngredientService;
+
+  constructor() {
+    super();
+
+    this.repository = getCocktailRepository();
+
+    this.equipmentService = new EquipmentService();
+    this.ingredientService = new IngredientService();
+  }
 
   /**
    * Creates a new cocktail with validation
@@ -50,11 +67,10 @@ export class CocktailService extends AbstractService {
   }
 
   /**
-   * Retrieves all cocktails
-   * @todo Implement pagination and filtering
+   * Search all cocktails
    */
-  async getAllCocktails(): Promise<Cocktail[]> {
-    return [];
+  async searchCocktails(searchSchema: CocktailsSearchSchema) {
+    return this.repository.searchCocktails(searchSchema);
   }
 
   /**
@@ -120,6 +136,19 @@ export class CocktailService extends AbstractService {
     if (!deleted) {
       throw new Error('Cocktail not found');
     }
+  }
+
+  async insertCocktailToElasticIndex(coktailSnap: DocumentSnapshot<CocktailDocument>) {
+    const data = coktailSnap.data();
+        
+    const [equipment, ingredients] =  await Promise.all([
+      this.equipmentService.getEquipmentByIds(data?.equipments || []),
+      this.ingredientService.getIngredientsByIds(data?.ingredients || []),
+    ]);
+    
+    const cocktailSearchDoc = this.toCocktailSearchDocument(coktailSnap, equipment, ingredients);
+    
+    await this.repository.elastic.insertDocument<CocktailSearchDocument>('cocktails', cocktailSearchDoc);
   }
 
   private validateCocktailData(data: CreateCocktailDto): void {
@@ -301,4 +330,56 @@ export class CocktailService extends AbstractService {
     );
     return Array.from(unique.values());
   }
+
+  private toCocktailSearchDocument(
+    cocktailDoc: DocumentSnapshot<CocktailDocument>,
+    equipmentSnapshots: DocumentSnapshot<EquipmentDocument>[],
+    ingredientSnapshots: DocumentSnapshot<IngredientDocument>[]
+  ): CocktailSearchDocument {
+    const cocktailData = cocktailDoc.data();
+  
+    const ingredients: CocktailSearchDocument['ingredients'] = ingredientSnapshots.map((ingredient) => {
+      const data = ingredient.data();
+  
+      return {
+        id: ingredient.id,
+        title: data?.title || {},
+        category: data!.category,
+        image: data?.image,
+      };
+    });
+  
+    const equipment: CocktailSearchDocument['equipment'] = equipmentSnapshots.map((equip) => {
+      const data = equip.data();
+  
+      return {
+        id: equip.id,
+        title: data?.title || {},
+        image: data?.image,
+      };
+    });
+  
+    return {
+      id: cocktailDoc.id,
+      title: cocktailData?.title || {}, 
+      categories: cocktailData?.categories || [],
+      description: cocktailData?.description || {},
+      abv: cocktailData?.abv || 0,
+      image: cocktailData?.image,
+      ingredients,
+      equipment,
+      updatedAt: cocktailData?.updatedAt.toDate().toISOString() || new Date().toISOString(),
+      createdAt: cocktailData?.createdAt.toDate().toISOString() || new Date().toISOString(),
+    };
+  }
+}
+
+let cocktailService: CocktailService;
+
+export function getCocktailService(): CocktailService {
+  if (!cocktailService) {
+    cocktailService = new CocktailService();
+  }
+
+  return cocktailService;
 }
