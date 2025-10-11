@@ -16,10 +16,14 @@ const locale = useLocale();
 
 const columns: TableColumn<Equipment>[] = [
   {
+    accessorKey: 'id',
+    header: 'ID'
+  },
+  {
     accessorKey: 'title',
     header: 'Title',
     cell: ({ row }) => {
-      return h(ULink, { class: 'font-medium', to: `/equipment/${row.original.id}` }, row.original.title[locale.value] || 'N/A');
+      return h(ULink, { class: 'font-medium', to: `/equipment/${row.original.id}` }, () => row.original.title[locale.value] || 'N/A');
     }
   },
   {

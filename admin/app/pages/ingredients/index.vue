@@ -3,8 +3,9 @@ import IngredientsTable from '~/components/ingredients/IngredientsTable.vue';
 import { useIngredients } from '~/composables/useIngredients';
 import DefaultPageToolbar from '~/components/DefaultPageToolbar.vue';
 import type { Ingredient } from '~/types';
+import { INGREDIENT_CATEGORIES } from '../../../../functions/src/ingredient/ingredient.model';
 
-const { data, fetchNextPage, hasNextPage, isPending, isLoading } = useIngredients();
+const { data, fetchNextPage, hasNextPage, isPending, isLoading, filters } = useIngredients();
 
 const ingredients = computed<Ingredient[]>(() => {
   return (data?.value?.pages || []).flatMap((page) => {
@@ -18,12 +19,14 @@ const ingredients = computed<Ingredient[]>(() => {
         title,
         image,
         category,
-        createdAt: createdAt?.toDate() || undefined,
-        updatedAt: updatedAt?.toDate() || undefined
+        createdAt: createdAt?.toDate().toString() || undefined,
+        updatedAt: updatedAt?.toDate().toString() || undefined
       };
     });
   });
 });
+
+const categories = Object.values(INGREDIENT_CATEGORIES);
 </script>
 
 <template>
@@ -34,6 +37,16 @@ const ingredients = computed<Ingredient[]>(() => {
 
     <template #body>
       <UContainer>
+        <div class="flex gap-4 items-center mb-4">
+          <USelectMenu
+            v-model="filters.category"
+            :items="categories"
+            placeholder="Filter by category"
+            class="max-w-xs"
+            clearable
+          />
+        </div>
+
         <IngredientsTable :ingredients="ingredients" :loading="isPending || isLoading" />
 
         <div class="mt-4 flex justify-center">
