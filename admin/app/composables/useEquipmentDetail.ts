@@ -8,6 +8,7 @@ export function useEquipmentDetail(id: string) {
 
   return useQuery({
     queryKey: ['equipment', id],
+    enabled: !!id && id !== 'create',
     queryFn: async () => {
       const docRef = doc(db, 'equipment', id) as DocumentReference<EquipmentDocument>;
       const docSnap = await getDoc(docRef);

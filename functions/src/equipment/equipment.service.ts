@@ -98,6 +98,7 @@ export class EquipmentService extends AbstractService {
     }
 
     const updatedEquipment = await this.repository.update(updatePayload);
+
     if (!updatedEquipment) {
       throw new Error('Equipment not found');
     }

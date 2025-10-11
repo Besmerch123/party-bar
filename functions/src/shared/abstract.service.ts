@@ -4,9 +4,9 @@ export abstract class AbstractService {
   /**
    * Validates and normalizes the optional image path
    */
-  protected normalizeImage(image: string | null | undefined ): string | undefined {
+  protected normalizeImage(image: string | null | undefined ): string | null {
     if (!image) {
-      return undefined;
+      return null;
     }
 
     if (typeof image !== 'string') {

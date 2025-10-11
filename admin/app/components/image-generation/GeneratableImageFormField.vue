@@ -5,7 +5,7 @@ import ImageGenerationModal from './ImageGenerationModal.vue';
 
 const props = defineProps<{ prompt: string; title: string; template: ImageTemplate }>();
 
-const imageSrc = defineModel<string>('image-src');
+const imageSrc = defineModel<string | null>('image-src');
 
 const overlay = useOverlay();
 

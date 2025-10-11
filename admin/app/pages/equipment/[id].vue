@@ -3,11 +3,13 @@ import { useEquipmentDetail } from '~/composables/useEquipmentDetail';
 import { useLocale } from '~/composables/useLocale';
 
 const route = useRoute();
-const equipmentId = route.params.id as string;
+
+const equipmentId = computed(() => route.params.id as string);
+const isCreatePage = computed(() => equipmentId.value === 'create');
 
 const locale = useLocale();
 
-const { data, isLoading, error } = useEquipmentDetail(equipmentId);
+const { data, isLoading, error } = useEquipmentDetail(equipmentId.value);
 
 const equipmentForm = useTemplateRef('equipmentForm');
 </script>
@@ -54,11 +56,11 @@ const equipmentForm = useTemplateRef('equipmentForm');
           </p>
         </div>
 
-        <div v-else-if="data" class="py-8">
+        <div v-else class="py-8">
           <EquipmentForm
             ref="equipmentForm"
-            :equipment-id="equipmentId"
-            :equipment-document="data.equipment"
+            :equipment-id="isCreatePage ? undefined : equipmentId"
+            :equipment-document="data?.equipment"
           />
         </div>
       </UContainer>

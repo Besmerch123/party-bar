@@ -14,6 +14,12 @@ defineProps<Props>();
 
 const locale = useLocale();
 
+const formatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+});
+
 const columns: TableColumn<Equipment>[] = [
   {
     accessorKey: 'id',
@@ -38,14 +44,7 @@ const columns: TableColumn<Equipment>[] = [
     accessorKey: 'createdAt',
     header: 'Created',
     cell: ({ row }) => {
-      const date = row.getValue('createdAt') as Date | undefined;
-      if (!date) return 'N/A';
-      const formatted = new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      }).format(date);
-      return h('span', { class: 'text-sm text-muted' }, formatted);
+      return h('span', { class: 'text-sm text-muted' }, formatter.format(new Date(row.original.createdAt || '')));
     }
   }
 ];

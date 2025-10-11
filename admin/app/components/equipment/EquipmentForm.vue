@@ -4,13 +4,13 @@ import type { EquipmentDocument, I18nField } from '~/types';
 import GeneratableImageFormField from '~/components/image-generation/GeneratableImageFormField.vue';
 
 const props = defineProps<{
-  equipmentId: string;
+  equipmentId?: string;
   equipmentDocument?: EquipmentDocument;
 }>();
 
 type FormState = {
   title: I18nField;
-  image?: string;
+  image?: string | null;
 };
 
 // Form state
@@ -19,7 +19,7 @@ const formData = ref<FormState>({
   image: props.equipmentDocument?.image
 });
 
-const { mutate: saveEquipment, isPending } = useEquipmentSave();
+const { mutateAsync: saveEquipment, isPending } = useEquipmentSave();
 
 const submitHandler = async (event: FormSubmitEvent<FormState>) => {
   const data = event.data;

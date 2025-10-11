@@ -37,7 +37,7 @@ export interface Ingredient {
   category: IngredientCategory;
 
   /** Google Cloud Storage path or URL to the ingredient image */
-  image?: string;
+  image?: string | null;
   
   /** Timestamp when the ingredient was created */
   createdAt?: string;
@@ -53,7 +53,7 @@ export interface Ingredient {
 export interface CreateIngredientDto {
   title: I18nField;
   category: IngredientCategory;
-  image?: string;
+  image?: string | null; // null indicates removal of the image
 }
 
 /**
@@ -64,7 +64,7 @@ export interface UpdateIngredientDto {
   id: string;
   title?: I18nField;
   category?: IngredientCategory;
-  image?: string;
+  image?: string | null; // null indicates removal of the image
 }
 
 /**

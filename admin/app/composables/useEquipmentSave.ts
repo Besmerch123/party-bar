@@ -1,6 +1,6 @@
 import { httpsCallable } from 'firebase/functions';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
-import type { UpdateEquipmentDto } from '~/types';
+import type { UpdateEquipmentDto, CreateEquipmentDto, Equipment } from '~/types';
 import { useFunctions } from '~/composables/useFunctions';
 
 export function useEquipmentSave() {
@@ -8,19 +8,30 @@ export function useEquipmentSave() {
   const queryClient = useQueryClient();
   const functions = useFunctions();
 
-  const updateEquipment = httpsCallable<UpdateEquipmentDto>(functions, 'updateEquipment');
+  const createEquipment = httpsCallable<CreateEquipmentDto, Equipment>(functions, 'createEquipment');
+  const updateEquipment = httpsCallable<UpdateEquipmentDto, Equipment>(functions, 'updateEquipment');
 
   return useMutation({
     mutationKey: ['save-equipment'],
-    mutationFn: (payload: UpdateEquipmentDto) => updateEquipment(payload),
-    onSuccess: (_, variables) => {
+    mutationFn: (payload: UpdateEquipmentDto | CreateEquipmentDto) => {
+      if (isCreatePayload(payload)) {
+        return createEquipment(payload);
+      }
+
+      return updateEquipment(payload);
+    },
+    onSuccess: ({ data }, variables) => {
       toast.add({
         color: 'success',
         title: 'Equipment saved successfully',
         duration: 5000
       });
-      // Invalidate the equipment detail query to refetch
-      queryClient.invalidateQueries({ queryKey: ['equipment', variables.id] });
+
+      if (isCreatePayload(variables)) {
+        navigateTo(`/equipment/${data.id}`);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ['equipment', data.id] });
+      }
     },
     onError: (error: Error) => {
       toast.add({
@@ -31,4 +42,8 @@ export function useEquipmentSave() {
       });
     }
   });
+}
+
+function isCreatePayload(payload: UpdateEquipmentDto | CreateEquipmentDto): payload is CreateEquipmentDto {
+  return !('id' in payload) || payload.id === undefined;
 }

@@ -16,7 +16,7 @@ export interface Equipment {
   title: I18nField;
 
   /** Google Cloud Storage path or URL to the equipment image */
-  image?: string;
+  image?: string | null;
   
   /** Timestamp when the equipment was created */
   createdAt?: string;
@@ -36,7 +36,7 @@ export interface EquipmentDocument extends Omit<Equipment, 'id' | 'createdAt' | 
  */
 export interface CreateEquipmentDto {
   title: I18nField;
-  image?: string;
+  image?: string | null;
 }
 
 /**
@@ -46,7 +46,7 @@ export interface CreateEquipmentDto {
 export interface UpdateEquipmentDto {
   id: string;
   title?: I18nField;
-  image?: string;
+  image?: string | null;
 }
 
 export interface EquipmentSearchDocument extends ElasticDocument, Omit<Equipment, 'createdAt' | 'updatedAt'> {}

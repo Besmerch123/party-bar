@@ -10,7 +10,7 @@ import { CollectionReference, DocumentSnapshot, Timestamp } from 'firebase-admin
 
 import { AbstractRepository } from '../shared/abstract.repository';
 
-import { EquipmentDocument, CreateEquipmentDto, UpdateEquipmentDto } from './equipment.model';
+import { EquipmentDocument, CreateEquipmentDto, UpdateEquipmentDto, Equipment } from './equipment.model';
 
 export class EquipmentRepository extends AbstractRepository {
   readonly collection = firestore().collection('equipment') as CollectionReference<EquipmentDocument>;
@@ -18,7 +18,7 @@ export class EquipmentRepository extends AbstractRepository {
   /**
    * Creates a new equipment in Firestore
    */
-  async create(equipmentData: CreateEquipmentDto): Promise<EquipmentDocument> {
+  async create(equipmentData: CreateEquipmentDto) {
     const englishTitle = equipmentData.title['en'];
 
     if (!englishTitle) {
@@ -36,9 +36,11 @@ export class EquipmentRepository extends AbstractRepository {
       updatedAt: timestamp,
     };
 
-    await docRef.set(equipmentDoc);
+    await docRef.set(equipmentDoc, { merge: true });
 
-    return equipmentDoc;
+    const equipment = await docRef.get();
+
+    return this.docSnapshotToEquipment(equipment);
   }
 
   /**
@@ -70,7 +72,7 @@ export class EquipmentRepository extends AbstractRepository {
   /**
    * Updates an existing equipment
    */
-  async update({ id, ...updateData }: UpdateEquipmentDto): Promise<DocumentSnapshot<EquipmentDocument> | null> {
+  async update({ id, ...updateData }: UpdateEquipmentDto) {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
 
@@ -82,7 +84,9 @@ export class EquipmentRepository extends AbstractRepository {
       updatedAt: Timestamp.now()
     });
 
-    return this.findById(id);
+    const updatedDoc = await docRef.get();
+
+    return this.docSnapshotToEquipment(updatedDoc);
   }
 
   /**
@@ -98,5 +102,14 @@ export class EquipmentRepository extends AbstractRepository {
 
     await docRef.delete();
     return true;
+  }
+
+  private docSnapshotToEquipment(doc: DocumentSnapshot<EquipmentDocument>): Equipment {
+    const data = doc.data();
+    if (!data) {
+      throw new Error('Document data is undefined');
+    }
+
+    return { ...data, id: doc.id, createdAt: data.createdAt.toDate().toString(), updatedAt: data.updatedAt.toDate().toString() };
   }
 }

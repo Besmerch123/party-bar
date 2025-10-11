@@ -17,8 +17,8 @@ const equipment = computed<Equipment[]>(() => {
         id: doc.id,
         title,
         image,
-        createdAt: createdAt?.toDate() || undefined,
-        updatedAt: updatedAt?.toDate() || undefined
+        createdAt: createdAt?.toDate().toString() || undefined,
+        updatedAt: updatedAt?.toDate().toString() || undefined
       };
     });
   });
@@ -33,6 +33,15 @@ const equipment = computed<Equipment[]>(() => {
 
     <template #body>
       <UContainer>
+        <div class="flex gap-4 items-center justify-end mb-4">
+          <UButton
+            icon="i-lucide-plus"
+            to="/equipment/create"
+          >
+            Add Equipment
+          </UButton>
+        </div>
+
         <EquipmentTable :equipment :loading="isPending || isLoading" />
 
         <div class="mt-4 flex justify-center">
