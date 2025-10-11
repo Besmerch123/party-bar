@@ -1,6 +1,7 @@
 import { Client } from '@elastic/elasticsearch';
 import { defineSecret, defineString } from 'firebase-functions/params';
-import { SupportedLocale } from '../shared/types';
+
+import type { ElasticDocument } from './elastic.types';
 
 const elasticNode = defineString('ELASTIC_NODE');
 const elasticApiKey = defineSecret('ELASTIC_API_KEY');
@@ -21,16 +22,23 @@ class ElasticService {
     });
   }
 
-  public async insertDocument<Document extends Record<string, unknown>>(index: string, locale: SupportedLocale, document: Document): Promise<void> {
+  public async insertDocument<Document extends ElasticDocument>(index: string, document: Document): Promise<void> {
     await this.client.index({
-      index: this.getIndexName(index, locale),
+      index: this.getIndexName(index),
       id: document.id as string,
-      body: document,
+      document,
     });
   }
 
-  private getIndexName(baseIndex: string, locale: SupportedLocale): string {
-    return `${baseIndex}-${locale}-${stage.value()}`;
+  public async deleteDocument(index: string, documentId: string): Promise<void> {
+    await this.client.delete({
+      index: this.getIndexName(index),
+      id: documentId,
+    });
+  }
+
+  private getIndexName(baseIndex: string): string {
+    return `${baseIndex}-${stage.value()}`;
   }
 }
 

@@ -5,144 +5,86 @@
  * Following DDD principles, this abstracts the database layer.
  */
 
-import { CollectionReference, getFirestore, Timestamp } from 'firebase-admin/firestore';
+import { firestore } from 'firebase-admin';
+import { CollectionReference, DocumentSnapshot, Timestamp } from 'firebase-admin/firestore';
 
-import type { 
-  Ingredient,
-  CreateIngredientDto, 
-  UpdateIngredientDto, 
-  IngredientDocument
-} from './ingredient.model';
+import { AbstractRepository } from '../shared/abstract.repository';
+
+import { IngredientDocument, CreateIngredientDto, UpdateIngredientDto } from './ingredient.model';
 
 
-export class IngredientRepository {
-  private readonly collection = getFirestore().collection('ingredients') as CollectionReference<IngredientDocument>;
+export class IngredientRepository extends AbstractRepository {
+  readonly collection = firestore().collection('ingredients') as CollectionReference<IngredientDocument>;
 
   /**
    * Creates a new ingredient in Firestore
    */
-  async create(ingredientData: CreateIngredientDto): Promise<Ingredient> {
-    const now = new Date();
-    const docRef = this.collection.doc();
-    
-    const ingredient: Ingredient = {
-      id: docRef.id,
+  async create(ingredientData: CreateIngredientDto): Promise<IngredientDocument> {
+    const englishTitle = ingredientData.title['en'];
+
+    if (!englishTitle) {
+      throw new Error('English title is required to create an ingredient');
+    }
+
+    const slug = await this.getSafeSlug(englishTitle);
+    const docRef = this.collection.doc(slug);
+
+    const timestamp = Timestamp.now();
+    const ingredientDoc: IngredientDocument = {
       title: ingredientData.title,
       category: ingredientData.category,
       image: ingredientData.image,
-      createdAt: now,
-      updatedAt: now,
-    };
-
-    const timestamp = Timestamp.fromDate(now);
-
-    const firestoreData: IngredientDocument = {
-      title: ingredient.title,
-      category: ingredient.category,
-      image: ingredient.image,
       createdAt: timestamp,
       updatedAt: timestamp,
     };
 
-    await docRef.set(firestoreData);
+    await docRef.set(ingredientDoc);
 
-    return ingredient;
+    return ingredientDoc;
   }
 
   /**
    * Retrieves an ingredient by ID
    */
-  async findById(id: string): Promise<Ingredient | null> {
+  async findById(id: string): Promise<DocumentSnapshot<IngredientDocument> | null> {
     const doc = await this.collection.doc(id).get();
-    
+
     if (!doc.exists) {
       return null;
     }
 
-    const data = doc.data();
-    return {
-      id: doc.id,
-      title: data?.title,
-      category: data?.category,
-      image: data?.image,
-      createdAt: data?.createdAt?.toDate(),
-      updatedAt: data?.updatedAt?.toDate(),
-    } as Ingredient;
+    return doc; 
   }
 
   /**
-   * Retrieves all ingredients
+   * Retrieves multiple ingredients by their IDs
    */
-  async findAll(): Promise<Ingredient[]> {
-    const snapshot = await this.collection.orderBy('title', 'asc').get();
-    
-    return snapshot.docs.map(doc => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        title: data.title,
-        category: data.category,
-        image: data.image,
-        createdAt: data.createdAt?.toDate(),
-        updatedAt: data.updatedAt?.toDate(),
-      } as Ingredient;
-    });
-  }
+  async findByIds(ids: string[]): Promise<DocumentSnapshot<IngredientDocument>[]> {
+    if (ids.length === 0) {
+      return [];
+    }
 
-  /**
-   * Retrieves ingredients by category
-   */
-  async findByCategory(category: string): Promise<Ingredient[]> {
-    const snapshot = await this.collection
-      .where('category', '==', category)
-      .orderBy('title', 'asc')
-      .get();
-    
-    return snapshot.docs.map(doc => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        title: data.title,
-        category: data.category,
-        image: data.image,
-        createdAt: data.createdAt?.toDate(),
-        updatedAt: data.updatedAt?.toDate(),
-      } as Ingredient;
-    });
+    const snapshot = await this.collection.where(firestore.FieldPath.documentId(), 'in', ids).get();
+
+    return snapshot.docs;
   }
 
   /**
    * Updates an existing ingredient
    */
-  async update(id: string, updateData: UpdateIngredientDto): Promise<Ingredient | null> {
+  async update({ id, ...updateData }: UpdateIngredientDto): Promise<DocumentSnapshot<IngredientDocument> | null> {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
-    
+
     if (!doc.exists) {
-      return null;
+      throw new Error(`Ingredient ${id} not found`);
     }
 
-    const now = new Date();
-    const updatedFields: Record<string, unknown> = {
-      updatedAt: Timestamp.fromDate(now),
-    };
+    await docRef.update({ ...updateData, 
+      updatedAt: Timestamp.now()
+    });
 
-    if (updateData.title !== undefined) {
-      updatedFields.title = updateData.title;
-    }
-
-    if (updateData.category !== undefined) {
-      updatedFields.category = updateData.category;
-    }
-
-    if (updateData.image !== undefined) {
-      updatedFields.image = updateData.image;
-    }
-
-    await docRef.update(updatedFields);
-    
-    // Return the updated ingredient
-    return await this.findById(id);
+    return this.findById(id);
   }
 
   /**
@@ -151,25 +93,12 @@ export class IngredientRepository {
   async delete(id: string): Promise<boolean> {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
-    
+
     if (!doc.exists) {
       return false;
     }
 
     await docRef.delete();
     return true;
-  }
-
-  /**
-   * Checks if an ingredient with the given title already exists in any locale
-   */
-  async existsByTitle(title: string, locale: string = 'en'): Promise<boolean> {
-    const fieldPath = `title.${locale}`;
-    const snapshot = await this.collection
-      .where(fieldPath, '==', title.trim())
-      .limit(1)
-      .get();
-    
-    return !snapshot.empty;
   }
 }

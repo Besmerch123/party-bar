@@ -1,5 +1,5 @@
 import type { Timestamp } from 'firebase-admin/firestore';
-
+import type { ElasticDocument } from '../elastic/elastic.types';
 import type { I18nField } from '../shared/types';
 
 /**
@@ -40,10 +40,10 @@ export interface Ingredient {
   image?: string;
   
   /** Timestamp when the ingredient was created */
-  createdAt?: Date;
+  createdAt?: string;
   
   /** Timestamp when the ingredient was last updated */
-  updatedAt?: Date;
+  updatedAt?: string;
 }
 
 /**
@@ -61,7 +61,7 @@ export interface CreateIngredientDto {
  * All fields are optional to support partial updates
  */
 export interface UpdateIngredientDto {
-  id?: string;
+  id: string;
   title?: I18nField;
   category?: IngredientCategory;
   image?: string;
@@ -80,3 +80,4 @@ export interface IngredientDocument extends Omit<Ingredient, 'id' | 'createdAt' 
   updatedAt: Timestamp;
 }
 
+export interface IngredientSearchDocument extends ElasticDocument, Omit<Ingredient, 'createdAt' | 'updatedAt'> {}

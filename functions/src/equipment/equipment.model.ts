@@ -1,4 +1,5 @@
 import { Timestamp } from 'firebase-admin/firestore';
+import type { ElasticDocument } from '../elastic/elastic.types';
 import { I18nField } from '../shared/types';
 
 /**
@@ -18,14 +19,13 @@ export interface Equipment {
   image?: string;
   
   /** Timestamp when the equipment was created */
-  createdAt?: Date;
+  createdAt?: string;
   
   /** Timestamp when the equipment was last updated */
-  updatedAt?: Date;
+  updatedAt?: string;
 }
 
-export interface EquipmentDocument extends Omit<Equipment, 'id' | 'title' | 'createdAt' | 'updatedAt'> {
-  title: I18nField;
+export interface EquipmentDocument extends Omit<Equipment, 'id' | 'createdAt' | 'updatedAt'> {
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
@@ -44,7 +44,9 @@ export interface CreateEquipmentDto {
  * All fields are optional to support partial updates
  */
 export interface UpdateEquipmentDto {
-  id?: string;
+  id: string;
   title?: I18nField;
   image?: string;
 }
+
+export interface EquipmentSearchDocument extends ElasticDocument, Omit<Equipment, 'createdAt' | 'updatedAt'> {}

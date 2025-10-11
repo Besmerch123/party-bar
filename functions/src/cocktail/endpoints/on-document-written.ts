@@ -1,7 +1,7 @@
 import { type Change, onDocumentWritten as firebaseOnDocumentWritten,  } from 'firebase-functions/firestore';
 import type { DocumentSnapshot } from 'firebase-admin/firestore';
-import {  CocktailDocument } from '../cocktail.model';
-import { SUPPORTED_LOCALES } from '../../shared/types';
+import type {  CocktailDocument } from '../cocktail.model';
+import { EquipmentService } from '../../equipment';
 import { getElasticService } from '../../elastic/elastic.service';
 
 export const onDocumentWritten = firebaseOnDocumentWritten('cocktails/{cocktailId}', async (event) => {
@@ -10,21 +10,28 @@ export const onDocumentWritten = firebaseOnDocumentWritten('cocktails/{cocktailI
   if (!change) {
     return;
   }
+  
+  const elasticService = getElasticService();
 
   const after = change.after;
 
-  console.log(after.id, after.data());
-
-  const elasticService = getElasticService();
-
-  for (const locale of SUPPORTED_LOCALES) {
-    const data = after.data();
-
-    await elasticService.insertDocument('cocktails', locale, {
-      id: after.id,
-      title: data?.title?.[locale] ?? '',
-      description: data?.description?.[locale] ?? '',
-    });
+  if (!after) {
+    console.info('Document deleted, removing from index', change.before.id);
+    await elasticService.deleteDocument('cocktails', change.before.id);
+    return;
   }
 
+  const data = after.data();
+
+  const equipmentService = new EquipmentService();
+
+  const [equipment] =  await Promise.all([
+    equipmentService.getEquipmentByIds(data?.equipments || []),
+  ]);
+
+  console.log('Indexing cocktail', after.id, data, equipment);
+
+  // await elasticService.insertDocument<CocktailSearchDocument>('cocktails', {
+  //   id: after.id,
+  // });
 });

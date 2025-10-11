@@ -154,7 +154,7 @@ export const generateCocktail = onCall<GenerateCocktailRequest>(async (request) 
     // Create the cocktail
     const cocktail = await cocktailService.createCocktail(cocktailDto);
 
-    console.log(`Successfully generated cocktail: ${cocktail.id}`);
+    console.log(`Successfully generated cocktail: ${cocktail.title.en}`);
 
     return  cocktail;
   } catch (error) {

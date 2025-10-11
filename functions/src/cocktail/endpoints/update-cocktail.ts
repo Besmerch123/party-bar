@@ -17,13 +17,7 @@ export const updateCocktail = onCall<UpdateCocktailDto>(async (request) => {
       throw new HttpsError('unauthenticated', 'User must be authenticated');
     }
 
-    const { id, ...updateData } = request.data ?? {}; 
-
-    if (!id) {
-      throw new HttpsError('invalid-argument', 'Cocktail ID is required');
-    }
-
-    const cocktail = await cocktailService.updateCocktail(id, updateData);
+    const cocktail = await cocktailService.updateCocktail(request.data);
 
     return  cocktail;
   } catch (error) {

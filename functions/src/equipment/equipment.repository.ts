@@ -6,120 +6,83 @@
  */
 
 import { firestore } from 'firebase-admin';
-import { Timestamp } from 'firebase-admin/firestore';
-import { Equipment, CreateEquipmentDto, UpdateEquipmentDto } from './equipment.model';
+import { CollectionReference, DocumentSnapshot, Timestamp } from 'firebase-admin/firestore';
 
-export class EquipmentRepository {
-  private readonly collection = firestore().collection('equipment');
+import { AbstractRepository } from '../shared/abstract.repository';
+
+import { EquipmentDocument, CreateEquipmentDto, UpdateEquipmentDto } from './equipment.model';
+
+export class EquipmentRepository extends AbstractRepository {
+  readonly collection = firestore().collection('equipment') as CollectionReference<EquipmentDocument>;
 
   /**
    * Creates a new equipment in Firestore
    */
-  async create(equipmentData: CreateEquipmentDto): Promise<Equipment> {
-    const now = new Date();
-    const docRef = this.collection.doc();
-    
-    const equipment: Equipment = {
-      id: docRef.id,
-      title: equipmentData.title,
-      image: equipmentData.image,
-      createdAt: now,
-      updatedAt: now,
-    };
+  async create(equipmentData: CreateEquipmentDto): Promise<EquipmentDocument> {
+    const englishTitle = equipmentData.title['en'];
 
-    const firestoreData: Record<string, unknown> = {
-      id: equipment.id,
-      title: equipment.title,
-      createdAt: Timestamp.now(),
-      updatedAt: Timestamp.now(),
-    };
-
-    if (equipment.image !== undefined) {
-      firestoreData.image = equipment.image;
+    if (!englishTitle) {
+      throw new Error('English title is required to create equipment');
     }
 
-    await docRef.set(firestoreData);
+    const slug = await this.getSafeSlug(englishTitle);
+    const docRef = this.collection.doc(slug);
 
-    return equipment;
+    const timestamp = Timestamp.now();
+    const equipmentDoc: EquipmentDocument = {
+      title: equipmentData.title,
+      image: equipmentData.image,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    };
+
+    await docRef.set(equipmentDoc);
+
+    return equipmentDoc;
   }
 
   /**
    * Retrieves an equipment by ID
    */
-  async findById(id: string): Promise<Equipment | null> {
+  async findById(id: string): Promise<DocumentSnapshot<EquipmentDocument> | null> {
     const doc = await this.collection.doc(id).get();
-    
+
     if (!doc.exists) {
       return null;
     }
 
-    const data = doc.data();
-    const equipment: Equipment = {
-      id: doc.id,
-      title: data?.title || {},
-      createdAt: data?.createdAt?.toDate(),
-      updatedAt: data?.updatedAt?.toDate(),
-    };
-
-    if (data?.image !== undefined) {
-      equipment.image = data.image;
-    }
-
-    return equipment;
+    return doc; 
   }
 
   /**
-   * Retrieves all equipment
+   * Retrieves multiple equipment by their IDs
    */
-  async findAll(): Promise<Equipment[]> {
-    const snapshot = await this.collection.orderBy('title.en', 'asc').get();
-    
-    return snapshot.docs.map(doc => {
-      const data = doc.data();
-      const equipment: Equipment = {
-        id: doc.id,
-        title: data.title || {},
-        createdAt: data.createdAt?.toDate(),
-        updatedAt: data.updatedAt?.toDate(),
-      };
+  async findByIds(ids: string[]): Promise<DocumentSnapshot<EquipmentDocument>[]> {
+    if (ids.length === 0) {
+      return [];
+    }
 
-      if (data.image !== undefined) {
-        equipment.image = data.image;
-      }
+    const snapshot = await this.collection.where(firestore.FieldPath.documentId(), 'in', ids).get();
 
-      return equipment;
-    });
+    return snapshot.docs;
   }
-
-
 
   /**
    * Updates an existing equipment
    */
-  async update(id: string, updateData: UpdateEquipmentDto): Promise<Equipment | null> {
+  async update({ id, ...updateData }: UpdateEquipmentDto): Promise<DocumentSnapshot<EquipmentDocument> | null> {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
-    
+
     if (!doc.exists) {
-      return null;
+      throw new Error(`Equipment ${id} not found`);
     }
 
-    const updatedFields: Record<string, unknown> = {
-      updatedAt: Timestamp.now(),
-    };
+    await docRef.update({ ...updateData, 
+      updatedAt: Timestamp.now()
+    });
 
-    if (updateData.title !== undefined) {
-      updatedFields.title = updateData.title;
-    }
-
-    if (updateData.image !== undefined) {
-      updatedFields.image = updateData.image;
-    }
-
-    await docRef.update(updatedFields);
-    
-    // Return the updated equipment
-    return await this.findById(id);
+    return this.findById(id);
   }
 
   /**
@@ -128,25 +91,12 @@ export class EquipmentRepository {
   async delete(id: string): Promise<boolean> {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
-    
+
     if (!doc.exists) {
       return false;
     }
 
     await docRef.delete();
     return true;
-  }
-
-  /**
-   * Checks if an equipment with the given title already exists in any locale
-   */
-  async existsByTitle(title: string, locale: string = 'en'): Promise<boolean> {
-    const fieldPath = `title.${locale}`;
-    const snapshot = await this.collection
-      .where(fieldPath, '==', title.trim())
-      .limit(1)
-      .get();
-    
-    return !snapshot.empty;
   }
 }

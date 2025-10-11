@@ -6,7 +6,10 @@
  */
 
 import { Timestamp } from 'firebase-admin/firestore';
-import { I18nField, I18nArrayField } from '../shared/types';
+import type { Ingredient, IngredientSearchDocument } from '../ingredient/ingredient.model';
+import type { Equipment, EquipmentSearchDocument } from '../equipment/equipment.model';
+import type { ElasticDocument } from '../elastic/elastic.types';
+import type { I18nField, I18nArrayField } from '../shared/types';
 
 export const COCKTAIL_CATEGORIES = {
   CLASSIC: 'classic',
@@ -35,10 +38,10 @@ export interface Cocktail {
   description: I18nField;
 
   /** Firestore document paths referencing ingredient records */
-  ingredients: string[];
+  ingredients: Ingredient[];
 
   /** Firestore document paths referencing equipment records */
-  equipments: string[];
+  equipments: Equipment[];
 
   /** Categorization tags to aid discovery */
   categories: CocktailCategory[];
@@ -53,13 +56,18 @@ export interface Cocktail {
   image?: string | null;
 
   /** Timestamp when the cocktail was created */
-  createdAt?: Date;
+  createdAt?: string;
 
   /** Timestamp when the cocktail was last updated */
-  updatedAt?: Date;
+  updatedAt?: string;
 }
 
-export interface CocktailDocument extends Omit<Cocktail, 'id' |'createdAt' | 'updatedAt'> {
+export interface CocktailDocument extends Omit<Cocktail, 'id' |'createdAt' | 'updatedAt' | 'ingredients' | 'equipments'> {
+  /** Firestore document paths referencing ingredient records */
+  ingredients: string[];
+
+  /** Firestore document paths referencing equipment records */
+  equipments: string[];
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
@@ -76,7 +84,7 @@ export interface CreateCocktailDto {
 }
 
 export interface UpdateCocktailDto {
-  id?: string;
+  id: string;
   title?: I18nField;
   description?: I18nField;
   ingredients?: string[];
@@ -85,4 +93,9 @@ export interface UpdateCocktailDto {
   abv?: number;
   preparationSteps?: I18nArrayField;
   image?: string | null;
+}
+
+export interface CocktailSearchDocument extends ElasticDocument, Omit<Cocktail, 'createdAt' | 'updatedAt' | 'preparationSteps' | 'ingredients' | 'equipments'> {
+  ingredients: IngredientSearchDocument[];
+  equipments: EquipmentSearchDocument[];
 }
