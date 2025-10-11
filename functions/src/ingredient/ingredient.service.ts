@@ -50,7 +50,7 @@ export class IngredientService extends AbstractService {
     return ingredient;
   }
 
-  async getIngredientByIds(ids: string[]) {
+  async getIngredientsByIds(ids: string[]) {
     if (!Array.isArray(ids) || ids.length === 0) {
       return [];
     }

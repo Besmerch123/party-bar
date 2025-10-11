@@ -97,5 +97,5 @@ export interface UpdateCocktailDto {
 
 export interface CocktailSearchDocument extends ElasticDocument, Omit<Cocktail, 'createdAt' | 'updatedAt' | 'preparationSteps' | 'ingredients' | 'equipments'> {
   ingredients: IngredientSearchDocument[];
-  equipments: EquipmentSearchDocument[];
+  equipment: EquipmentSearchDocument[];
 }
