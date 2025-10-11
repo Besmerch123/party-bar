@@ -8,6 +8,7 @@ export function useIngredient(id: string) {
 
   return useQuery({
     queryKey: ['ingredient', id],
+    enabled: !!id && id !== 'create',
     queryFn: async () => {
       const docRef = doc(db, 'ingredients', id) as DocumentReference<IngredientDocument>;
       const docSnap = await getDoc(docRef);

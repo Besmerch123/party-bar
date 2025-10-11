@@ -4,11 +4,13 @@ import { useLocale } from '~/composables/useLocale';
 import IngredientForm from '~/components/ingredients/IngredientForm.vue';
 
 const route = useRoute();
-const ingredientId = route.params.id as string;
+
+const ingredientId = computed(() => route.params.id as string);
+const isCreatePage = computed(() => ingredientId.value === 'create');
 
 const locale = useLocale();
 
-const { data: ingredient, isLoading, error } = useIngredient(ingredientId);
+const { data: ingredient, isLoading, error } = useIngredient(ingredientId.value);
 
 const ingredientForm = useTemplateRef('ingredientForm');
 </script>
@@ -56,10 +58,10 @@ const ingredientForm = useTemplateRef('ingredientForm');
           </p>
         </div>
 
-        <div v-else-if="ingredient" class="py-8">
+        <div v-else class="py-8">
           <IngredientForm
             ref="ingredientForm"
-            :ingredient-id="ingredientId"
+            :ingredient-id="isCreatePage ? undefined : ingredientId"
             :ingredient-document="ingredient"
           />
         </div>

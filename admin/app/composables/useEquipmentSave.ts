@@ -45,5 +45,5 @@ export function useEquipmentSave() {
 }
 
 function isCreatePayload(payload: UpdateEquipmentDto | CreateEquipmentDto): payload is CreateEquipmentDto {
-  return !('id' in payload) || payload.id === undefined;
+  return !('id' in payload) || !payload.id;
 }

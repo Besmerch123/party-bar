@@ -45,6 +45,14 @@ const categories = Object.values(INGREDIENT_CATEGORIES);
             class="max-w-xs"
             clearable
           />
+
+          <UButton
+            icon="i-lucide-plus"
+            to="/ingredients/create"
+            class="ml-auto"
+          >
+            Add Ingredient
+          </UButton>
         </div>
 
         <IngredientsTable :ingredients="ingredients" :loading="isPending || isLoading" />

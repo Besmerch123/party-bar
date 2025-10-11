@@ -1,25 +1,22 @@
-import { onRequest, HttpsError } from 'firebase-functions/https';
+import { HttpsError, onCall } from 'firebase-functions/https';
 
 import { IngredientService } from '../ingredient.service';
-import { CreateIngredientDto } from '../ingredient.model';
+import { CreateIngredientDto, Ingredient } from '../ingredient.model';
 
 const ingredientService = new IngredientService();
 
 /**
  * Creates a new ingredient
  */
-export const createIngredient = onRequest(async (request, response) => {
+export const createIngredient = onCall<CreateIngredientDto, Promise<Ingredient>>(async (request) => {
   try {
-    const data = request.body as CreateIngredientDto;
+    const data = request.data;
     
     if (!data) {
       throw new HttpsError('invalid-argument', 'Ingredient data is required');
     }
 
-    const ingredient = await ingredientService.createIngredient(data);
-    
-
-    response.status(201).send(ingredient);
+    return ingredientService.createIngredient(data);
   } catch (error) {
     console.error('Error creating ingredient:', error);
     

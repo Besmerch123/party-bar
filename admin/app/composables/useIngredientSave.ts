@@ -1,6 +1,6 @@
 import { httpsCallable } from 'firebase/functions';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
-import type { UpdateIngredientDto } from '~/types';
+import type { UpdateIngredientDto, CreateIngredientDto, Ingredient } from '~/types';
 import { useFunctions } from '~/composables/useFunctions';
 
 export function useIngredientSave() {
@@ -8,19 +8,30 @@ export function useIngredientSave() {
   const queryClient = useQueryClient();
   const functions = useFunctions();
 
-  const updateIngredient = httpsCallable<UpdateIngredientDto>(functions, 'updateIngredient');
+  const createIngredient = httpsCallable<CreateIngredientDto, Ingredient>(functions, 'createIngredient');
+  const updateIngredient = httpsCallable<UpdateIngredientDto, Ingredient>(functions, 'updateIngredient');
 
   return useMutation({
     mutationKey: ['save-ingredient'],
-    mutationFn: (payload: UpdateIngredientDto) => updateIngredient(payload),
-    onSuccess: (_, variables) => {
+    mutationFn: (payload: UpdateIngredientDto | CreateIngredientDto) => {
+      if (isCreatePayload(payload)) {
+        return createIngredient(payload);
+      }
+
+      return updateIngredient(payload);
+    },
+    onSuccess: ({ data }, variables) => {
       toast.add({
         color: 'success',
         title: 'Ingredient saved successfully',
         duration: 5000
       });
-      // Invalidate the ingredient detail query to refetch
-      queryClient.invalidateQueries({ queryKey: ['ingredient', variables.id] });
+
+      if (isCreatePayload(variables)) {
+        navigateTo(`/ingredients/${data.id}`);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ['ingredient', data.id] });
+      }
     },
     onError: (error: Error) => {
       toast.add({
@@ -31,4 +42,8 @@ export function useIngredientSave() {
       });
     }
   });
+}
+
+function isCreatePayload(payload: UpdateIngredientDto | CreateIngredientDto): payload is CreateIngredientDto {
+  return !('id' in payload) || !payload.id;
 }

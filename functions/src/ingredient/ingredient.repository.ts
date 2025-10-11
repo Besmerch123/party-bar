@@ -10,7 +10,7 @@ import { CollectionReference, DocumentSnapshot, Timestamp } from 'firebase-admin
 
 import { AbstractRepository } from '../shared/abstract.repository';
 
-import { IngredientDocument, CreateIngredientDto, UpdateIngredientDto } from './ingredient.model';
+import { IngredientDocument, CreateIngredientDto, UpdateIngredientDto, Ingredient } from './ingredient.model';
 
 
 export class IngredientRepository extends AbstractRepository {
@@ -19,7 +19,7 @@ export class IngredientRepository extends AbstractRepository {
   /**
    * Creates a new ingredient in Firestore
    */
-  async create(ingredientData: CreateIngredientDto): Promise<IngredientDocument> {
+  async create(ingredientData: CreateIngredientDto) {
     const englishTitle = ingredientData.title['en'];
 
     if (!englishTitle) {
@@ -40,7 +40,9 @@ export class IngredientRepository extends AbstractRepository {
 
     await docRef.set(ingredientDoc);
 
-    return ingredientDoc;
+    const createdDoc = await docRef.get();
+
+    return this.docSnapshotToIngredient(createdDoc);
   }
 
   /**
@@ -72,7 +74,7 @@ export class IngredientRepository extends AbstractRepository {
   /**
    * Updates an existing ingredient
    */
-  async update({ id, ...updateData }: UpdateIngredientDto): Promise<DocumentSnapshot<IngredientDocument> | null> {
+  async update({ id, ...updateData }: UpdateIngredientDto) {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
 
@@ -84,7 +86,9 @@ export class IngredientRepository extends AbstractRepository {
       updatedAt: Timestamp.now()
     });
 
-    return this.findById(id);
+    const updatedDoc = await docRef.get();
+
+    return this.docSnapshotToIngredient(updatedDoc);
   }
 
   /**
@@ -100,5 +104,11 @@ export class IngredientRepository extends AbstractRepository {
 
     await docRef.delete();
     return true;
+  }
+
+  private docSnapshotToIngredient(doc: DocumentSnapshot<IngredientDocument>): Ingredient {
+    const data = doc.data()!;
+
+    return { ...data, id: doc.id, updatedAt: data?.updatedAt.toDate().toString(), createdAt: data?.createdAt.toDate().toString() };
   }
 }

@@ -5,14 +5,14 @@ import type { IngredientDocument, IngredientCategory, I18nField } from '~/types'
 import GeneratableImageFormField from '~/components/image-generation/GeneratableImageFormField.vue';
 
 const props = defineProps<{
-  ingredientId: string;
+  ingredientId?: string;
   ingredientDocument?: IngredientDocument;
 }>();
 
 type FormState = {
   title: I18nField;
   category: IngredientCategory;
-  image?: string;
+  image?: string | null;
 };
 
 // Form state
