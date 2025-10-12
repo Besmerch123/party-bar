@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin';
-import { Timestamp } from 'firebase-admin/firestore';
 
-import type { EquipmentDocument } from './equipment.model';
+import { EquipmentService } from './equipment.service';
+import type { CreateEquipmentDto } from './equipment.model';
 import { SUPPORTED_LOCALES, type SupportedLocale } from '../shared/types';
 import {
   getProjectId,
@@ -9,7 +9,6 @@ import {
   getVertexModel,
   getVertexLocation,
   requestGeminiJson,
-  createSlug,
   hasAllLocaleTitles
 } from '../shared/cli-tools';
 
@@ -19,14 +18,11 @@ type CliOptions = {
 
 type GeminiEquipmentSuggestion = {
   title: Record<SupportedLocale, string>;
-  image?: string;
 };
 
 if (admin.apps.length === 0) {
   admin.initializeApp();
 }
-
-const firestore = admin.firestore();
 
 async function main(): Promise<void> {
   const options = parseCliArguments();
@@ -56,8 +52,7 @@ async function main(): Promise<void> {
 
   console.log(`Received ${validSuggestions.length} candidate equipment items. Preparing to ${options.dryRun ? 'preview' : 'insert'}...`);
 
-  const now = Timestamp.now();
-  const batch = firestore.batch();
+  const equipmentService = new EquipmentService();
   const skipped: string[] = [];
   const inserted: string[] = [];
 
@@ -68,35 +63,32 @@ async function main(): Promise<void> {
       continue;
     }
 
-    const docId = createSlug(englishTitle);
-    if (!docId) {
-      skipped.push(`${englishTitle} (invalid slug)`);
-      continue;
+    try {
+      // Check if equipment already exists
+      const existingEquipment = await equipmentService.getEquipment(englishTitle.toLowerCase().replace(/\s+/g, '-'));
+      if (existingEquipment) {
+        skipped.push(`${englishTitle} (already exists)`);
+        continue;
+      }
+    } catch {
+      // Equipment doesn't exist, continue with creation
     }
 
-    const docRef = firestore.collection('equipment').doc(docId);
-    const snapshot = await docRef.get();
-    if (snapshot.exists) {
-      skipped.push(`${englishTitle} (already exists)`);
-      continue;
-    }
-
-    const docData: EquipmentDocument = {
+    const equipmentData: CreateEquipmentDto = {
       title: suggestion.title,
-      createdAt: now,
-      updatedAt: now,
-      ...(suggestion.image?.trim() ? { image: suggestion.image.trim() } : {})
+      image: null
     };
 
     if (!options.dryRun) {
-      batch.set(docRef, docData);
+      try {
+        await equipmentService.createEquipment(equipmentData);
+        inserted.push(englishTitle);
+      } catch (error) {
+        skipped.push(`${englishTitle} (creation failed: ${error})`);
+      }
+    } else {
+      inserted.push(englishTitle);
     }
-
-    inserted.push(`${englishTitle} [${docId}]`);
-  }
-
-  if (!options.dryRun && inserted.length > 0) {
-    await batch.commit();
   }
 
   console.log('\n=== Seed Summary ===');
@@ -104,8 +96,10 @@ async function main(): Promise<void> {
   console.log(`Inserted (${inserted.length}):`);
   inserted.forEach((entry) => console.log(`  • ${entry}`));
 
-  console.log(`Skipped (${skipped.length}):`);
-  skipped.forEach((entry) => console.log(`  • ${entry}`));
+  if (skipped.length > 0) {
+    console.log(`\nSkipped (${skipped.length}):`);
+    skipped.forEach((entry) => console.log(`  • ${entry}`));
+  }
 }
 
 function parseCliArguments(): CliOptions {
@@ -143,14 +137,16 @@ function printUsage(): void {
 }
 
 function buildEquipmentPrompt(): string {
-  return 'You are an expert mixologist helping seed a cocktail bar database. Generate a comprehensive list of unique pieces of equipment commonly used in cocktail preparation and bartending. ' +
+  return 'You are an expert mixologist helping seed a cocktail bar database. Generate a comprehensive list of common and essential equipment used in cocktail preparation and bartending. ' +
     'Return ONLY valid JSON (no markdown). The JSON must be an array where each element has:\n' +
     '{\n' +
-    '  "title": { "en": "English name", "uk": "Ukrainian translation" },\n' +
-    '  "image"?: "Optional short description of the image or image URL"\n' +
+    '  "title": { "en": "English name", "uk": "Ukrainian translation" }\n' +
     '}\n' +
-    'Include essential bar tools like shakers, strainers, jiggers, muddlers, bar spoons, mixing glasses, ice tools, garnish tools, measuring tools, glassware accessories, and any other relevant bartending equipment. ' +
-    'Ensure translations are natural (not transliterations) where possible. Respond with compact JSON.';
+    'Include essential bar tools and glassware:\n' +
+    '1. Basic bar tools: Shaker (just one generic shaker, not specific types), Strainer, Jigger, Muddler, Bar Spoon, Mixing Glass\n' +
+    '2. Popular glassware types: Rocks Glass, Martini Glass, Highball Glass, Coupe Glass, Collins Glass, Shot Glass, Margarita Glass, Wine Glass, Champagne Flute\n' +
+    '3. Other essential tools: Ice Bucket, Cocktail Picks, Cutting Board, Knife, Citrus Juicer, Bottle Opener, Corkscrew\n' +
+    'Use generic, common names (e.g., "Shaker" not "Boston Shaker" or "French Shaker"). Ensure Ukrainian translations are natural (not transliterations). Respond with compact JSON.';
 }
 
 function filterValidSuggestions(suggestions: GeminiEquipmentSuggestion[]): GeminiEquipmentSuggestion[] {

@@ -1,10 +1,10 @@
 import * as admin from 'firebase-admin';
-import { Timestamp } from 'firebase-admin/firestore';
 
+import { IngredientService } from './ingredient.service';
 import {
   INGREDIENT_CATEGORIES,
   type IngredientCategory,
-  type IngredientDocument
+  type CreateIngredientDto
 } from './ingredient.model';
 import { SUPPORTED_LOCALES, type SupportedLocale } from '../shared/types';
 import {
@@ -13,7 +13,6 @@ import {
   getVertexModel,
   getVertexLocation,
   requestGeminiJson,
-  createSlug,
   hasAllLocaleTitles
 } from '../shared/cli-tools';
 
@@ -24,15 +23,11 @@ type CliOptions = {
 
 type GeminiIngredientSuggestion = {
   title: Record<SupportedLocale, string>;
-  image?: string;
-  notes?: string;
 };
 
 if (admin.apps.length === 0) {
   admin.initializeApp();
 }
-
-const firestore = admin.firestore();
 
 async function main(): Promise<void> {
   const options = parseCliArguments();
@@ -62,8 +57,7 @@ async function main(): Promise<void> {
 
   console.log(`Received ${validSuggestions.length} candidate ingredients. Preparing to ${options.dryRun ? 'preview' : 'insert'}...`);
 
-  const now = Timestamp.now();
-  const batch = firestore.batch();
+  const ingredientService = new IngredientService();
   const skipped: string[] = [];
   const inserted: string[] = [];
 
@@ -74,36 +68,35 @@ async function main(): Promise<void> {
       continue;
     }
 
-    const docId = createSlug(`${options.category}-${englishTitle}`);
-    if (!docId) {
-      skipped.push(`${englishTitle} (invalid slug)`);
-      continue;
+    try {
+      // Check if ingredient already exists
+      const existingIngredient = await ingredientService.getIngredient(
+        `${options.category}-${englishTitle.toLowerCase().replace(/\s+/g, '-')}`
+      );
+      if (existingIngredient) {
+        skipped.push(`${englishTitle} (already exists)`);
+        continue;
+      }
+    } catch {
+      // Ingredient doesn't exist, continue with creation
     }
 
-    const docRef = firestore.collection('ingredients').doc(docId);
-    const snapshot = await docRef.get();
-    if (snapshot.exists) {
-      skipped.push(`${englishTitle} (already exists)`);
-      continue;
-    }
-
-    const docData: IngredientDocument = {
-      category: options.category,
+    const ingredientData: CreateIngredientDto = {
       title: suggestion.title,
-      createdAt: now,
-      updatedAt: now,
-      ...(suggestion.image?.trim() ? { image: suggestion.image.trim() } : {})
+      category: options.category,
+      image: null
     };
 
     if (!options.dryRun) {
-      batch.set(docRef, docData);
+      try {
+        await ingredientService.createIngredient(ingredientData);
+        inserted.push(englishTitle);
+      } catch (error) {
+        skipped.push(`${englishTitle} (creation failed: ${error})`);
+      }
+    } else {
+      inserted.push(englishTitle);
     }
-
-    inserted.push(`${englishTitle} [${docId}]`);
-  }
-
-  if (!options.dryRun && inserted.length > 0) {
-    await batch.commit();
   }
 
   console.log('\n=== Seed Summary ===');
@@ -111,8 +104,10 @@ async function main(): Promise<void> {
   console.log(`Inserted (${inserted.length}):`);
   inserted.forEach((entry) => console.log(`  • ${entry}`));
 
-  console.log(`Skipped (${skipped.length}):`);
-  skipped.forEach((entry) => console.log(`  • ${entry}`));
+  if (skipped.length > 0) {
+    console.log(`\nSkipped (${skipped.length}):`);
+    skipped.forEach((entry) => console.log(`  • ${entry}`));
+  }
 }
 
 function parseCliArguments(): CliOptions {
@@ -178,9 +173,7 @@ function buildIngredientPrompt(category: IngredientCategory): string {
   return `You are an expert mixologist helping seed a cocktail bar database. Generate unique ingredients that belong to the "${category}" category. ` +
     'Return ONLY valid JSON (no markdown). The JSON must be an array where each element has:\n' +
     '{\n' +
-    '  "title": { "en": "English name", "uk": "Ukrainian translation" },\n' +
-    '  "image"?: "Optional short description of the image or image URL",\n' +
-    '  "notes"?: "Brief note about flavour or usage"\n' +
+    '  "title": { "en": "English name", "uk": "Ukrainian translation" }\n' +
     '}\n' +
     'Ensure translations are natural (not transliterations) where possible. Favour well-known bar ingredients. Respond with compact JSON.';
 }
