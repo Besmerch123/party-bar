@@ -1,15 +1,8 @@
 <script setup lang="ts">
-import type { FormSubmitEvent } from '@nuxt/ui';
 import { COCKTAIL_CATEGORIES } from '../../../../functions/src/cocktail/cocktail.model';
-import type {
-  Cocktail,
-  Ingredient,
-  Equipment,
-  CocktailCategory,
-  I18nField,
-  I18nArrayField
-} from '~/types';
+import type { Cocktail } from '~/types';
 import GeneratableImageFormField from '~/components/image-generation/GeneratableImageFormField.vue';
+import { useCocktailForm } from '~/composables/useCocktailForm';
 
 import I18nArrayFormField from '../I18nArrayFormField.vue';
 import IngredientCard from './IngredientCard.vue';
@@ -19,89 +12,54 @@ const props = defineProps<{
   cocktail?: Cocktail;
 }>();
 
-type FormState = {
-  title: I18nField;
-  description: I18nField;
-  abv?: number | null;
-  image?: string | null;
-  preparationSteps: I18nArrayField;
-  ingredients: Ingredient[];
-  equipments: Equipment[];
-  categories: CocktailCategory[];
-};
+const {
+  state,
+  isSaving,
+  submit,
 
-// Form state
-const formData = ref<FormState>({
-  title: { en: '', uk: '', ...props.cocktail?.title },
-  description: { en: '', uk: '', ...props.cocktail?.description },
-  abv: props.cocktail?.abv,
-  image: props.cocktail?.image ?? '',
-  preparationSteps: { en: [''], uk: [''], ...props.cocktail?.preparationSteps },
-  categories: props.cocktail?.categories || [],
-  ingredients: props?.cocktail?.ingredients || [],
-  equipments: props?.cocktail?.equipments || []
-});
+  addEquipment,
+  isAddingEquipment,
+  removeEquipment,
 
-const handleIngredientRemove = (id: string) => {
-  formData.value.ingredients = formData.value.ingredients.filter(ing => ing.id !== id);
-};
-
-const handleEquipmentRemove = (id: string) => {
-  formData.value.equipments = formData.value.equipments.filter(eq => eq.id !== id);
-};
+  addIngredient,
+  isAddingIngredient,
+  removeIngredient
+} = useCocktailForm(props.cocktail);
 
 // Category options for select
 const categoryOptions: string[] = Object.values(COCKTAIL_CATEGORIES);
 
-const { mutate: saveCocktail, isPending } = useCocktailSave();
-
-const submitHandler = async (event: FormSubmitEvent<FormState>) => {
-  const data = event.data;
-
-  const ingredients = data.ingredients.map(ing => `ingredients/${ing.id}`);
-  const equipments = data.equipments.map(eq => `equipments/${eq.id}`);
-
-  await saveCocktail({
-    id: props.cocktail!.id,
-    title: data.title,
-    description: data.description,
-    abv: data.abv,
-    image: data.image,
-    preparationSteps: data.preparationSteps,
-    ingredients,
-    equipments,
-    categories: data.categories
-  });
-};
-
 const ingredientGenerationPrompt = computed(() => {
-  return `${formData.value.title.en} cocktail. ${formData.value.description.en}
-Ingredients: ${formData.value.ingredients.map(ing => ing.title.en).join(', ')}.`;
+  return `${state.title.en} cocktail. ${state.description?.en}
+Ingredients: ${state.ingredients.map(ing => ing.title.en).join(', ')}.`;
 });
 
+const addIngredientId = ref('');
+const addEquipmentId = ref('');
+
 defineExpose({
-  isSaving: isPending
+  isSaving
 });
 </script>
 
 <template>
   <UForm
     id="cocktail-form"
-    :state="formData"
-    :disabled="isPending"
+    :state="state"
+    :disabled="isSaving"
     class="grid grid-cols-2 gap-4"
-    @submit="submitHandler"
+    @submit="submit"
   >
     <!-- Title Field -->
     <UFormField label="Title" name="title" required>
-      <I18nFormField v-model="formData.title" />
+      <I18nFormField v-model="state.title" />
     </UFormField>
 
     <GeneratableImageFormField
-      v-model:image-src="formData.image"
+      v-model:image-src="state.image"
       label="Cocktail Image"
       template="cocktail"
-      :title="formData.title.en || ''"
+      :title="state.title.en || ''"
       :prompt="ingredientGenerationPrompt"
     />
 
@@ -112,19 +70,19 @@ defineExpose({
       required
     >
       <USelectMenu
-        v-model="formData.categories"
+        v-model="state.categories"
         :items="categoryOptions"
         multiple
       />
     </UFormField>
 
     <UFormField label="ABV, %" name="abv">
-      <UInputNumber v-model="formData.abv" class="w-full" :step="0.1" />
+      <UInputNumber v-model="state.abv" class="w-full" :step="0.1" />
     </UFormField>
 
     <!-- Description Field -->
     <UFormField label="Description" name="description" class="col-span-2">
-      <I18nFormField v-slot="{ value, setValue }" v-model="formData.description">
+      <I18nFormField v-slot="{ value, setValue }" v-model="state.description!">
         <UTextarea
           :model-value="value"
           class="w-full"
@@ -134,30 +92,81 @@ defineExpose({
       </I18nFormField>
     </UFormField>
 
-    <I18nArrayFormField v-model="formData.preparationSteps" label="Preparation steps" class="col-span-2" />
+    <I18nArrayFormField v-model="state.preparationSteps" label="Preparation steps" class="col-span-2" />
 
-    <UFormField label="Ingredients">
+    <UFormField :ui="{ label: 'flex w-full items-center justify-between' }">
+      <template #label>
+        Ingredients
+
+        <UPopover>
+          <UIcon
+            name="i-lucide-plus"
+            class="size-4 cursor-pointer"
+          />
+
+          <template #content>
+            <UFieldGroup>
+              <UInput v-model="addIngredientId" placeholder="Enter Ingredient ID" />
+              <UButton
+                color="neutral"
+                variant="subtle"
+                icon="i-lucide-check"
+                class="cursor-pointer"
+                :disabled="!addIngredientId"
+                :loading="isAddingIngredient"
+                @click="addIngredient(addIngredientId).then(() => addIngredientId = '')"
+              />
+            </UFieldGroup>
+          </template>
+        </UPopover>
+      </template>
       <div class="grid grid-cols-4 gap-2 col-span-2 mt-4">
         <IngredientCard
-          v-for="(ingredient, i) in formData.ingredients"
+          v-for="(ingredient, i) in state.ingredients"
           :id="ingredient.id"
           :key="i"
           :ingredient="ingredient"
           class="basis-1/4"
-          @remove="handleIngredientRemove"
+          @remove="removeIngredient"
         />
       </div>
     </UFormField>
 
     <!-- Equipment Field -->
-    <UFormField label="Equipment">
+    <UFormField :ui="{ label: 'flex w-full items-center justify-between' }">
+      <template #label>
+        Equipment
+
+        <UPopover>
+          <UIcon
+            name="i-lucide-plus"
+            class="size-4 cursor-pointer"
+          />
+
+          <template #content>
+            <UFieldGroup>
+              <UInput v-model="addEquipmentId" placeholder="Enter Equipment ID" />
+              <UButton
+                color="neutral"
+                variant="subtle"
+                icon="i-lucide-check"
+                class="cursor-pointer"
+                :disabled="!addEquipmentId"
+                :loading="isAddingEquipment"
+                @click="addEquipment(addEquipmentId).then(() => addEquipmentId = '')"
+              />
+            </UFieldGroup>
+          </template>
+        </UPopover>
+      </template>
+
       <div class="grid grid-cols-4 gap-2 col-span-2 mt-4">
         <EquipmentCard
-          v-for="(equipment, i) in formData.equipments"
+          v-for="(equipment, i) in state.equipments"
           :id="equipment.id"
           :key="i"
           :equipment="equipment"
-          @remove="handleEquipmentRemove"
+          @remove="removeEquipment"
         />
       </div>
     </UFormField>

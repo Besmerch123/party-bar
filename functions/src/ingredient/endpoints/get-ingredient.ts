@@ -4,13 +4,14 @@
 
 import { onCall, HttpsError } from 'firebase-functions/https';
 import { IngredientService } from '../ingredient.service';
+import type { Ingredient } from '../ingredient.model';
 
 const ingredientService = new IngredientService();
 
 /**
  * Retrieves an ingredient by ID
  */
-export const getIngredient = onCall(async (request) => {
+export const getIngredient = onCall<{ id: string }, Promise<Ingredient>>(async (request) => {
   try {
     if (!request.auth) {
       throw new HttpsError('unauthenticated', 'User must be authenticated');
@@ -22,12 +23,8 @@ export const getIngredient = onCall(async (request) => {
       throw new HttpsError('invalid-argument', 'Ingredient ID is required');
     }
 
-    const ingredient = await ingredientService.getIngredient(id);
+    return ingredientService.getIngredient(id);
     
-    return {
-      success: true,
-      data: ingredient,
-    };
   } catch (error) {
     console.error('Error getting ingredient:', error);
     

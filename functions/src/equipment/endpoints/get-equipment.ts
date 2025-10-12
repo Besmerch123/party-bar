@@ -4,13 +4,14 @@
 
 import { onCall, HttpsError } from 'firebase-functions/https';
 import { EquipmentService } from '../equipment.service';
+import type { Equipment } from '../equipment.model';
 
 const equipmentService = new EquipmentService();
 
 /**
  * Retrieves an equipment by ID
  */
-export const getEquipment = onCall(async (request) => {
+export const getEquipment = onCall<{ id: string }, Promise<Equipment>>(async (request) => {
   try {
     // Basic auth check (you may want to add proper authentication later)
     if (!request.auth) {
@@ -23,12 +24,8 @@ export const getEquipment = onCall(async (request) => {
       throw new HttpsError('invalid-argument', 'Equipment ID is required');
     }
 
-    const equipment = await equipmentService.getEquipment(id);
+    return equipmentService.getEquipment(id);
     
-    return {
-      success: true,
-      data: equipment,
-    };
   } catch (error) {
     console.error('Error getting equipment:', error);
     
