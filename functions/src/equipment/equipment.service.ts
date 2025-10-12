@@ -53,10 +53,10 @@ export class EquipmentService extends AbstractService {
 
   /**
    * Retrieves all equipment
-   * @todo Implement pagination and filtering
    */
   async getAllEquipment(): Promise<Equipment[]> {
-    return [];
+    const equipment = await this.repository.findAll();
+    return equipment.map(doc => this.docSnapshotToEquipment(doc));
   }
 
   async getEquipmentByIds(ids: string[]): Promise<Equipment[]> {

@@ -44,9 +44,20 @@ async function main(): Promise<void> {
   const location = getVertexLocation();
   const generativeModel = vertexAI.getGenerativeModel({ model });
 
+  // Query existing ingredients from the category first
+  console.log(`Querying existing "${options.category}" ingredients from Firestore...`);
+  const ingredientService = new IngredientService();
+  const existingIngredients = await ingredientService.getIngredientsByCategory(options.category);
+  const existingTitles = existingIngredients.map(ing => ing.title.en).filter((title): title is string => Boolean(title));
+  
+  console.log(`Found ${existingTitles.length} existing ingredients in "${options.category}" category.`);
+  if (existingTitles.length > 0) {
+    console.log('Existing ingredients:', existingTitles.join(', '));
+  }
+
   console.log(`Requesting "${options.category}" ingredients from Gemini (${model} @ ${location})...`);
 
-  const prompt = buildIngredientPrompt(options.category);
+  const prompt = buildIngredientPrompt(options.category, existingTitles);
   const suggestions = await requestGeminiJson<GeminiIngredientSuggestion[]>(generativeModel, prompt);
   const validSuggestions = filterValidSuggestions(suggestions);
 
@@ -57,7 +68,6 @@ async function main(): Promise<void> {
 
   console.log(`Received ${validSuggestions.length} candidate ingredients. Preparing to ${options.dryRun ? 'preview' : 'insert'}...`);
 
-  const ingredientService = new IngredientService();
   const skipped: string[] = [];
   const inserted: string[] = [];
 
@@ -169,13 +179,23 @@ function printUsage(): void {
   console.log('  --dry-run, -d   Preview results without writing to Firestore');
 }
 
-function buildIngredientPrompt(category: IngredientCategory): string {
-  return `You are an expert mixologist helping seed a cocktail bar database. Generate unique ingredients that belong to the "${category}" category. ` +
+function buildIngredientPrompt(category: IngredientCategory, existingTitles: string[]): string {
+  let prompt = `You are an expert mixologist helping seed a cocktail bar database. Generate unique ingredients that belong to the "${category}" category. ` +
     'Return ONLY valid JSON (no markdown). The JSON must be an array where each element has:\n' +
     '{\n' +
     '  "title": { "en": "English name", "uk": "Ukrainian translation" }\n' +
     '}\n' +
-    'Ensure translations are natural (not transliterations) where possible. Favour well-known bar ingredients. Respond with compact JSON.';
+    'Ensure translations are natural (not transliterations) where possible. Favour well-known bar ingredients.';
+  
+  if (existingTitles.length > 0) {
+    prompt += `\n\nIMPORTANT: The following "${category}" ingredients already exist in the database. DO NOT include these items in your response:\n`;
+    prompt += existingTitles.map(title => `- ${title}`).join('\n');
+    prompt += `\n\nGenerate NEW "${category}" ingredients that are NOT in the list above.`;
+  }
+  
+  prompt += ' Respond with compact JSON.';
+  
+  return prompt;
 }
 
 function filterValidSuggestions(suggestions: GeminiIngredientSuggestion[]): GeminiIngredientSuggestion[] {

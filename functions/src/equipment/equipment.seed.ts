@@ -39,9 +39,20 @@ async function main(): Promise<void> {
   const location = getVertexLocation();
   const generativeModel = vertexAI.getGenerativeModel({ model });
 
+  // Query existing equipment first
+  console.log('Querying existing equipment from Firestore...');
+  const equipmentService = new EquipmentService();
+  const existingEquipment = await equipmentService.getAllEquipment();
+  const existingTitles = existingEquipment.map(eq => eq.title.en).filter((title): title is string => Boolean(title));
+  
+  console.log(`Found ${existingTitles.length} existing equipment items.`);
+  if (existingTitles.length > 0) {
+    console.log('Existing equipment:', existingTitles.join(', '));
+  }
+
   console.log(`Requesting equipment items from Gemini (${model} @ ${location})...`);
 
-  const prompt = buildEquipmentPrompt();
+  const prompt = buildEquipmentPrompt(existingTitles);
   const suggestions = await requestGeminiJson<GeminiEquipmentSuggestion[]>(generativeModel, prompt);
   const validSuggestions = filterValidSuggestions(suggestions);
 
@@ -52,7 +63,6 @@ async function main(): Promise<void> {
 
   console.log(`Received ${validSuggestions.length} candidate equipment items. Preparing to ${options.dryRun ? 'preview' : 'insert'}...`);
 
-  const equipmentService = new EquipmentService();
   const skipped: string[] = [];
   const inserted: string[] = [];
 
@@ -136,8 +146,8 @@ function printUsage(): void {
   console.log('  --dry-run, -d   Preview results without writing to Firestore');
 }
 
-function buildEquipmentPrompt(): string {
-  return 'You are an expert mixologist helping seed a cocktail bar database. Generate a comprehensive list of common and essential equipment used in cocktail preparation and bartending. ' +
+function buildEquipmentPrompt(existingTitles: string[]): string {
+  let prompt = 'You are an expert mixologist helping seed a cocktail bar database. Generate a comprehensive list of common and essential equipment used in cocktail preparation and bartending. ' +
     'Return ONLY valid JSON (no markdown). The JSON must be an array where each element has:\n' +
     '{\n' +
     '  "title": { "en": "English name", "uk": "Ukrainian translation" }\n' +
@@ -146,7 +156,17 @@ function buildEquipmentPrompt(): string {
     '1. Basic bar tools: Shaker (just one generic shaker, not specific types), Strainer, Jigger, Muddler, Bar Spoon, Mixing Glass\n' +
     '2. Popular glassware types: Rocks Glass, Martini Glass, Highball Glass, Coupe Glass, Collins Glass, Shot Glass, Margarita Glass, Wine Glass, Champagne Flute\n' +
     '3. Other essential tools: Ice Bucket, Cocktail Picks, Cutting Board, Knife, Citrus Juicer, Bottle Opener, Corkscrew\n' +
-    'Use generic, common names (e.g., "Shaker" not "Boston Shaker" or "French Shaker"). Ensure Ukrainian translations are natural (not transliterations). Respond with compact JSON.';
+    'Use generic, common names (e.g., "Shaker" not "Boston Shaker" or "French Shaker"). Ensure Ukrainian translations are natural (not transliterations).';
+  
+  if (existingTitles.length > 0) {
+    prompt += '\n\nIMPORTANT: The following equipment already exists in the database. DO NOT include these items in your response:\n';
+    prompt += existingTitles.map(title => `- ${title}`).join('\n');
+    prompt += '\n\nGenerate NEW equipment items that are NOT in the list above.';
+  }
+  
+  prompt += ' Respond with compact JSON.';
+  
+  return prompt;
 }
 
 function filterValidSuggestions(suggestions: GeminiEquipmentSuggestion[]): GeminiEquipmentSuggestion[] {

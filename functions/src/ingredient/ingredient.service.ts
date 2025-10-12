@@ -78,6 +78,18 @@ export class IngredientService extends AbstractService {
   }
 
   /**
+   * Retrieves ingredients by category
+   */
+  async getIngredientsByCategory(category: string): Promise<Ingredient[]> {
+    if (!category || category.trim() === '') {
+      throw new Error('Category is required');
+    }
+
+    const ingredients = await this.repository.findByCategory(category.trim());
+    return ingredients.map(this.docSnapshotToIngredient);
+  }
+
+  /**
    * Updates an existing ingredient
    */
   async updateIngredient(data: UpdateIngredientDto): Promise<Ingredient> {

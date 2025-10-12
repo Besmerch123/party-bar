@@ -102,4 +102,12 @@ export class IngredientRepository extends AbstractRepository {
 
     await docRef.delete();
   }
+
+  /**
+   * Retrieves ingredients by category
+   */
+  async findByCategory(category: string): Promise<DocumentSnapshot<IngredientDocument>[]> {
+    const snapshot = await this.collection.where('category', '==', category).get();
+    return snapshot.docs;
+  }
 }

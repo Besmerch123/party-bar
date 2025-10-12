@@ -103,4 +103,12 @@ export class EquipmentRepository extends AbstractRepository {
     await docRef.delete();
     return true;
   }
+
+  /**
+   * Retrieves all equipment
+   */
+  async findAll(): Promise<DocumentSnapshot<EquipmentDocument>[]> {
+    const snapshot = await this.collection.get();
+    return snapshot.docs;
+  }
 }
