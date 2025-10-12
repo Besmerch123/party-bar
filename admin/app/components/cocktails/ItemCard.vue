@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ButtonProps } from '@nuxt/ui';
 
-defineProps<{ imageSrc?: string; title?: string; subtitle?: string; to?: ButtonProps['to'] }>();
+defineProps<{ imageSrc?: string | null; title?: string; subtitle?: string; to?: ButtonProps['to'] }>();
 
 defineEmits<{
   (e: 'remove'): void;

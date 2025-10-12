@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui';
-import type { DocumentSnapshot } from 'firebase/firestore';
 import { COCKTAIL_CATEGORIES } from '../../../../functions/src/cocktail/cocktail.model';
 import type {
-  CocktailDocument,
+  Cocktail,
+  Ingredient,
+  Equipment,
   CocktailCategory,
-  EquipmentDocument,
-  IngredientDocument,
   I18nField,
   I18nArrayField
 } from '~/types';
@@ -17,33 +16,30 @@ import IngredientCard from './IngredientCard.vue';
 import EquipmentCard from './EquipmentCard.vue';
 
 const props = defineProps<{
-  cocktailId: string;
-  cocktailDocument?: CocktailDocument;
-  ingredients?: DocumentSnapshot<IngredientDocument>[];
-  equipments?: DocumentSnapshot<EquipmentDocument>[];
+  cocktail?: Cocktail;
 }>();
 
 type FormState = {
   title: I18nField;
   description: I18nField;
-  abv?: number;
-  image?: string;
+  abv?: number | null;
+  image?: string | null;
   preparationSteps: I18nArrayField;
-  ingredients: DocumentSnapshot<IngredientDocument>[];
-  equipments: DocumentSnapshot<EquipmentDocument>[];
+  ingredients: Ingredient[];
+  equipments: Equipment[];
   categories: CocktailCategory[];
 };
 
 // Form state
 const formData = ref<FormState>({
-  title: { en: '', uk: '', ...props.cocktailDocument?.title },
-  description: { en: '', uk: '', ...props.cocktailDocument?.description },
-  abv: props.cocktailDocument?.abv,
-  image: props.cocktailDocument?.image ?? '',
-  preparationSteps: { en: [''], uk: [''], ...props.cocktailDocument?.preparationSteps },
-  ingredients: props?.ingredients || [],
-  equipments: props?.equipments || [],
-  categories: props.cocktailDocument?.categories || []
+  title: { en: '', uk: '', ...props.cocktail?.title },
+  description: { en: '', uk: '', ...props.cocktail?.description },
+  abv: props.cocktail?.abv,
+  image: props.cocktail?.image ?? '',
+  preparationSteps: { en: [''], uk: [''], ...props.cocktail?.preparationSteps },
+  categories: props.cocktail?.categories || [],
+  ingredients: props?.cocktail?.ingredients || [],
+  equipments: props?.cocktail?.equipments || []
 });
 
 const handleIngredientRemove = (id: string) => {
@@ -62,22 +58,25 @@ const { mutate: saveCocktail, isPending } = useCocktailSave();
 const submitHandler = async (event: FormSubmitEvent<FormState>) => {
   const data = event.data;
 
+  const ingredients = data.ingredients.map(ing => `ingredients/${ing.id}`);
+  const equipments = data.equipments.map(eq => `equipments/${eq.id}`);
+
   await saveCocktail({
-    id: props.cocktailId,
+    id: props.cocktail!.id,
     title: data.title,
     description: data.description,
     abv: data.abv,
     image: data.image,
     preparationSteps: data.preparationSteps,
-    ingredients: data.ingredients.map(ing => ing.ref.path),
-    equipments: data.equipments.map(eq => eq.ref.path),
+    ingredients,
+    equipments,
     categories: data.categories
   });
 };
 
 const ingredientGenerationPrompt = computed(() => {
   return `${formData.value.title.en} cocktail. ${formData.value.description.en}
-Ingredients: ${formData.value.ingredients.map(ing => ing.data()?.title.en).join(', ')}.`;
+Ingredients: ${formData.value.ingredients.map(ing => ing.title.en).join(', ')}.`;
 });
 
 defineExpose({
@@ -143,7 +142,7 @@ defineExpose({
           v-for="(ingredient, i) in formData.ingredients"
           :id="ingredient.id"
           :key="i"
-          :ingredient="ingredient.data()!"
+          :ingredient="ingredient"
           class="basis-1/4"
           @remove="handleIngredientRemove"
         />
@@ -157,7 +156,7 @@ defineExpose({
           v-for="(equipment, i) in formData.equipments"
           :id="equipment.id"
           :key="i"
-          :equipment="equipment.data()!"
+          :equipment="equipment"
           @remove="handleEquipmentRemove"
         />
       </div>

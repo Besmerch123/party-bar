@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useLocale } from '~/composables/useLocale';
-import type { IngredientDocument } from '~/types';
+import type { Ingredient } from '~/types';
 import ItemCard from './ItemCard.vue';
 
 const locale = useLocale();
 
-defineProps<{ ingredient: IngredientDocument; id: string }>();
+defineProps<{ ingredient: Ingredient; id: string }>();
 
 defineEmits<{ remove: [id: string] }>();
 </script>

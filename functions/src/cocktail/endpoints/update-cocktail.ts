@@ -4,12 +4,12 @@
 
 import { onCall, HttpsError } from 'firebase-functions/https';
 import { getCocktailService } from '../cocktail.service';
-import { UpdateCocktailDto } from '../cocktail.model';
+import type { UpdateCocktailDto, Cocktail } from '../cocktail.model';
 
 /**
  * Updates an existing cocktail
 */
-export const updateCocktail = onCall<UpdateCocktailDto>(async (request) => {
+export const updateCocktail = onCall<UpdateCocktailDto, Promise<Cocktail>>(async (request) => {
   const cocktailService = getCocktailService();
 
   try {
@@ -17,9 +17,7 @@ export const updateCocktail = onCall<UpdateCocktailDto>(async (request) => {
       throw new HttpsError('unauthenticated', 'User must be authenticated');
     }
 
-    const cocktail = await cocktailService.updateCocktail(request.data);
-
-    return  cocktail;
+    return cocktailService.updateCocktail(request.data);
   } catch (error) {
     console.error('Error updating cocktail:', error);
 

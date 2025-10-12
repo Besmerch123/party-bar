@@ -4,11 +4,12 @@
 
 import { onCall, HttpsError } from 'firebase-functions/https';
 import { getCocktailService } from '../cocktail.service';
+import type { Cocktail } from '../cocktail.model';
 
 /**
  * Retrieves a cocktail by ID
 */
-export const getCocktail = onCall(async (request) => {
+export const getCocktail = onCall<{ id: string }, Promise<Cocktail>>(async (request) => {
   const cocktailService = getCocktailService();
 
   try {
@@ -16,18 +17,13 @@ export const getCocktail = onCall(async (request) => {
       throw new HttpsError('unauthenticated', 'User must be authenticated');
     }
 
-    const { id } = (request.data ?? {}) as { id?: string };
+    const { id } = (request.data ?? {});
 
     if (!id) {
       throw new HttpsError('invalid-argument', 'Cocktail ID is required');
     }
 
-    const cocktail = await cocktailService.getCocktail(id);
-
-    return {
-      success: true,
-      data: cocktail,
-    };
+    return cocktailService.getCocktail(id);
   } catch (error) {
     console.error('Error getting cocktail:', error);
 

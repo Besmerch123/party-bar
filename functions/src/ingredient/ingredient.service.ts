@@ -9,7 +9,8 @@ import { IngredientRepository } from './ingredient.repository';
 
 import { AbstractService } from '../shared/abstract.service';
 
-import { Ingredient, CreateIngredientDto, UpdateIngredientDto } from './ingredient.model';
+import { Ingredient, CreateIngredientDto, UpdateIngredientDto, IngredientDocument } from './ingredient.model';
+import { DocumentSnapshot } from 'firebase-admin/firestore';
 
 export class IngredientService extends AbstractService {
   private readonly repository = new IngredientRepository();
@@ -17,7 +18,7 @@ export class IngredientService extends AbstractService {
   /**
    * Creates a new ingredient with validation
    */
-  async createIngredient(data: CreateIngredientDto) {
+  async createIngredient(data: CreateIngredientDto): Promise<Ingredient> {
     // Validate input
     this.validateIngredientData(data);
     
@@ -26,17 +27,19 @@ export class IngredientService extends AbstractService {
 
 
     // Create the ingredient
-    return this.repository.create({
+    const created = await this.repository.create({
       title: normalizedTitle,
       category: data.category,
       image,
     });
+
+    return this.docSnapshotToIngredient(created);
   }
 
   /**
    * Retrieves an ingredient by ID
    */
-  async getIngredient(id: string) {
+  async getIngredient(id: string): Promise<Ingredient> {
     if (!id || id.trim() === '') {
       throw new Error('Ingredient ID is required');
     }
@@ -47,27 +50,23 @@ export class IngredientService extends AbstractService {
       throw new Error('Ingredient not found');
     }
 
-    return ingredient;
+    return this.docSnapshotToIngredient(ingredient);
   }
 
-  async getIngredientsByIds(ids: string[]) {
+  async getIngredientsByIds(ids: string[]): Promise<Ingredient[]>  {
     if (!Array.isArray(ids) || ids.length === 0) {
       return [];
     }
 
-    const trimmedIds = ids
-      .map(id => {
-        const trimmed = id.trim();
-        // Extract ID from path format "ingredients/<id>" or use as-is
-        return trimmed.replace('ingredients/', '');
-      })
-      .filter(id => id !== '');
+    const normalizedIds = ids.map(id => this.normalizeId(id));
 
-    if (trimmedIds.length === 0) {
+    if (normalizedIds.length === 0) {
       return [];
     }
     
-    return this.repository.findByIds(trimmedIds);
+    const ingredients = await this.repository.findByIds(normalizedIds);
+
+    return ingredients.map(this.docSnapshotToIngredient);
   }
 
   /**
@@ -81,7 +80,7 @@ export class IngredientService extends AbstractService {
   /**
    * Updates an existing ingredient
    */
-  async updateIngredient(data: UpdateIngredientDto) {
+  async updateIngredient(data: UpdateIngredientDto): Promise<Ingredient> {
     if (!data.id || data.id.trim() === '') {
       throw new Error('Ingredient ID is required');
     }
@@ -115,7 +114,7 @@ export class IngredientService extends AbstractService {
       throw new Error('Ingredient not found');
     }
 
-    return updatedIngredient;
+    return this.docSnapshotToIngredient(updatedIngredient);
   }
 
   /**
@@ -126,10 +125,7 @@ export class IngredientService extends AbstractService {
       throw new Error('Ingredient ID is required');
     }
 
-    const deleted = await this.repository.delete(id.trim());
-    if (!deleted) {
-      throw new Error('Ingredient not found');
-    }
+    await this.repository.delete(id.trim());
   }
 
   /**
@@ -158,5 +154,16 @@ export class IngredientService extends AbstractService {
     if (trimmedCategory.length > 50) {
       throw new Error('Category cannot exceed 50 characters');
     }
+  }
+
+  private docSnapshotToIngredient(doc: DocumentSnapshot<IngredientDocument>): Ingredient {
+    const data = doc.data()!;
+
+    return { 
+      ...data, 
+      id: doc.id,
+      updatedAt: data?.updatedAt.toDate().toString(),
+      createdAt: data?.createdAt.toDate().toString()
+    };
   }
 }

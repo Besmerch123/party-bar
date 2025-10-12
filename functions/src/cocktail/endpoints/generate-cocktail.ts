@@ -7,9 +7,9 @@
 
 import { onCall, HttpsError } from 'firebase-functions/https';
 import { VertexAI } from '@google-cloud/vertexai';
-import * as admin from 'firebase-admin';
+import { firestore } from 'firebase-admin';
 
-import type { CreateCocktailDto } from '../cocktail.model';
+import type { Cocktail, CreateCocktailDto } from '../cocktail.model';
 import { COCKTAIL_CATEGORIES, type CocktailCategory } from '../cocktail.model';
 import type { IngredientDocument } from '../../ingredient/ingredient.model';
 import type { EquipmentDocument } from '../../equipment/equipment.model';
@@ -42,7 +42,7 @@ interface GeminiGeneratedCocktail {
 /**
  * Generates a cocktail recipe using AI
  */
-export const generateCocktail = onCall<GenerateCocktailRequest>(async (request) => {
+export const generateCocktail = onCall<GenerateCocktailRequest, Promise<Cocktail>>(async (request) => {
   const cocktailService = getCocktailService();
 
   try {
@@ -73,10 +73,10 @@ export const generateCocktail = onCall<GenerateCocktailRequest>(async (request) 
     const generativeModel = vertexAI.getGenerativeModel({ model });
 
     // Fetch available ingredients and equipment
-    const firestore = admin.firestore();
+    const fs = firestore();
     const [ingredientsSnapshot, equipmentSnapshot] = await Promise.all([
-      firestore.collection('ingredients').get(),
-      firestore.collection('equipment').get(),
+      fs.collection('ingredients').get(),
+      fs.collection('equipment').get(),
     ]);
 
     const availableIngredients = ingredientsSnapshot.docs.map(doc => {

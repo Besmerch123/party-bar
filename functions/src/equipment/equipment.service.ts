@@ -9,7 +9,8 @@ import { EquipmentRepository } from './equipment.repository';
 
 import { AbstractService } from '../shared/abstract.service';
 
-import { Equipment, CreateEquipmentDto, UpdateEquipmentDto } from './equipment.model';
+import { Equipment, CreateEquipmentDto, UpdateEquipmentDto, EquipmentDocument } from './equipment.model';
+import { DocumentSnapshot } from 'firebase-admin/firestore';
 
 export class EquipmentService extends AbstractService {
   private readonly repository = new EquipmentRepository();
@@ -17,7 +18,7 @@ export class EquipmentService extends AbstractService {
   /**
    * Creates a new equipment with validation
    */
-  async createEquipment(data: CreateEquipmentDto) {
+  async createEquipment(data: CreateEquipmentDto): Promise<Equipment> {
     // Validate input
     this.validateEquipmentData(data);
     
@@ -25,26 +26,29 @@ export class EquipmentService extends AbstractService {
     const normalizedTitle = this.normalizeI18nField(data.title);
 
     // Create the equipment
-    return this.repository.create({
+    const created = await this.repository.create({
       title: normalizedTitle,
       image,
     });
+
+    return this.docSnapshotToEquipment(created);
   }
 
   /**
    * Retrieves an equipment by ID
    */
-  async getEquipment(id: string) {
+  async getEquipment(id: string): Promise<Equipment> {
     if (!id || id.trim() === '') {
       throw new Error('Equipment ID is required');
     }
 
     const equipment = await this.repository.findById(id.trim());
+
     if (!equipment) {
       throw new Error('Equipment not found');
     }
 
-    return equipment;
+    return this.docSnapshotToEquipment(equipment);
   }
 
   /**
@@ -55,30 +59,26 @@ export class EquipmentService extends AbstractService {
     return [];
   }
 
-  async getEquipmentByIds(ids: string[]) {
+  async getEquipmentByIds(ids: string[]): Promise<Equipment[]> {
     if (!Array.isArray(ids) || ids.length === 0) {
       return [];
     }
 
-    const trimmedIds = ids
-      .map(id => {
-        const trimmed = id.trim();
-        // Extract ID from path format "equipment/<id>" or use as-is
-        return trimmed.replace('equipment/', '');
-      })
-      .filter(id => id !== '');
+    const normalizedIds = ids.map(id => this.normalizeId(id));
 
-    if (trimmedIds.length === 0) {
+    if (normalizedIds.length === 0) {
       return [];
     }
     
-    return this.repository.findByIds(trimmedIds);
+    const equipment = await this.repository.findByIds(normalizedIds);
+  
+    return equipment.map(doc => this.docSnapshotToEquipment(doc));
   }
 
   /**
    * Updates an existing equipment
    */
-  async updateEquipment(data: UpdateEquipmentDto) {
+  async updateEquipment(data: UpdateEquipmentDto): Promise<Equipment> {
     // Validate update data if provided
     if (data.title !== undefined) {
       this.validateI18nField(data.title);
@@ -103,7 +103,7 @@ export class EquipmentService extends AbstractService {
       throw new Error('Equipment not found');
     }
 
-    return updatedEquipment;
+    return this.docSnapshotToEquipment(updatedEquipment);
   }
 
   /**
@@ -115,6 +115,7 @@ export class EquipmentService extends AbstractService {
     }
 
     const deleted = await this.repository.delete(id.trim());
+
     if (!deleted) {
       throw new Error('Equipment not found');
     }
@@ -126,5 +127,19 @@ export class EquipmentService extends AbstractService {
   private validateEquipmentData(data: CreateEquipmentDto): void {
     this.validateI18nField(data.title);
     this.normalizeImage(data.image);
+  }
+
+  private docSnapshotToEquipment(doc: DocumentSnapshot<EquipmentDocument>): Equipment {
+    const data = doc.data();
+    if (!data) {
+      throw new Error('Document data is undefined');
+    }
+
+    return { 
+      ...data,
+      id: doc.id,
+      createdAt: data.createdAt.toDate().toString(),
+      updatedAt: data.updatedAt.toDate().toString() 
+    };
   }
 }

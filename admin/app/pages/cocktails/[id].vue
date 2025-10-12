@@ -9,7 +9,7 @@ const id = route.params.id as string;
 
 const locale = useLocale();
 
-const { data, error, isFetched, isPending } = useCocktail(id);
+const { data: cocktail, error, isFetched, isPending } = useCocktail(id);
 
 const cocktailForm = useTemplateRef('cocktailForm');
 </script>
@@ -20,7 +20,7 @@ const cocktailForm = useTemplateRef('cocktailForm');
       <DefaultPageToolbar>
         <template #title>
           <h1 class="text-lg font-medium">
-            {{ data?.cocktail.title[locale] }}
+            {{ cocktail?.title[locale] }}
           </h1>
           <h2 class="text-sm font-medium text-muted">
             ID: {{ id }}
@@ -66,9 +66,7 @@ const cocktailForm = useTemplateRef('cocktailForm');
           v-if="isFetched"
           ref="cocktailForm"
           :cocktail-id="id"
-          :cocktail-document="data?.cocktail"
-          :ingredients="data?.ingredients"
-          :equipments="data?.equipments"
+          :cocktail="cocktail"
         />
       </UContainer>
     </template>

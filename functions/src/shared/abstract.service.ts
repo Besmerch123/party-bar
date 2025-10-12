@@ -1,6 +1,39 @@
 import { I18nField } from './types';
 
 export abstract class AbstractService {
+  
+
+  /**
+   * Normalizes ID string by extracting the actual ID from path-like strings
+   * - Handles paths: "some-text/id" -> "id"
+   * - Handles direct IDs: "id" -> "id"
+   * - Trims whitespace and validates the result
+   */
+  protected normalizeId(id: string): string {
+    if (!id || typeof id !== 'string') {
+      throw new Error('ID must be a non-empty string');
+    }
+
+    const trimmedId = id.trim();
+
+    if (trimmedId.length === 0) {
+      throw new Error('ID cannot be empty');
+    }
+
+    // Extract the last segment after the last '/' if it exists
+    const lastSlashIndex = trimmedId.lastIndexOf('/');
+    const normalizedId = lastSlashIndex >= 0 
+      ? trimmedId.substring(lastSlashIndex + 1) 
+      : trimmedId;
+
+    // Validate the extracted ID
+    if (normalizedId.length === 0) {
+      throw new Error('ID cannot be empty after normalization');
+    }
+
+    return normalizedId;
+  }
+
   /**
    * Validates and normalizes the optional image path
    */

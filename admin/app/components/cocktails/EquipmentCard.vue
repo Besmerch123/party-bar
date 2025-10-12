@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useLocale } from '~/composables/useLocale';
-import type { EquipmentDocument } from '~/types';
+import type { Equipment } from '~/types';
 import ItemCard from './ItemCard.vue';
 
 const locale = useLocale();
 
-defineProps<{ equipment: EquipmentDocument; id: string }>();
+defineProps<{ equipment: Equipment; id: string }>();
 
 defineEmits<{ remove: [id: string] }>();
 </script>

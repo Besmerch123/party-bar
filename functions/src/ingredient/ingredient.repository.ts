@@ -6,11 +6,11 @@
  */
 
 import { firestore } from 'firebase-admin';
-import { CollectionReference, DocumentSnapshot, Timestamp } from 'firebase-admin/firestore';
+import { CollectionReference, DocumentSnapshot, Timestamp, FieldPath } from 'firebase-admin/firestore';
 
 import { AbstractRepository } from '../shared/abstract.repository';
 
-import { IngredientDocument, CreateIngredientDto, UpdateIngredientDto, Ingredient } from './ingredient.model';
+import { IngredientDocument, CreateIngredientDto, UpdateIngredientDto } from './ingredient.model';
 
 
 export class IngredientRepository extends AbstractRepository {
@@ -19,7 +19,7 @@ export class IngredientRepository extends AbstractRepository {
   /**
    * Creates a new ingredient in Firestore
    */
-  async create(ingredientData: CreateIngredientDto) {
+  async create(ingredientData: CreateIngredientDto): Promise<DocumentSnapshot<IngredientDocument>> {
     const englishTitle = ingredientData.title['en'];
 
     if (!englishTitle) {
@@ -42,7 +42,7 @@ export class IngredientRepository extends AbstractRepository {
 
     const createdDoc = await docRef.get();
 
-    return this.docSnapshotToIngredient(createdDoc);
+    return createdDoc;
   }
 
   /**
@@ -55,7 +55,7 @@ export class IngredientRepository extends AbstractRepository {
       return null;
     }
 
-    return doc; 
+    return doc;
   }
 
   /**
@@ -66,7 +66,7 @@ export class IngredientRepository extends AbstractRepository {
       return [];
     }
 
-    const snapshot = await this.collection.where(firestore.FieldPath.documentId(), 'in', ids).get();
+    const snapshot = await this.collection.where(FieldPath.documentId(), 'in', ids).get();
 
     return snapshot.docs;
   }
@@ -74,7 +74,7 @@ export class IngredientRepository extends AbstractRepository {
   /**
    * Updates an existing ingredient
    */
-  async update({ id, ...updateData }: UpdateIngredientDto) {
+  async update({ id, ...updateData }: UpdateIngredientDto): Promise<DocumentSnapshot<IngredientDocument>> {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
 
@@ -86,29 +86,20 @@ export class IngredientRepository extends AbstractRepository {
       updatedAt: Timestamp.now()
     });
 
-    const updatedDoc = await docRef.get();
-
-    return this.docSnapshotToIngredient(updatedDoc);
+    return docRef.get();
   }
 
   /**
    * Deletes an ingredient by ID
    */
-  async delete(id: string): Promise<boolean> {
+  async delete(id: string): Promise<void> {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
 
     if (!doc.exists) {
-      return false;
+      return;
     }
 
     await docRef.delete();
-    return true;
-  }
-
-  private docSnapshotToIngredient(doc: DocumentSnapshot<IngredientDocument>): Ingredient {
-    const data = doc.data()!;
-
-    return { ...data, id: doc.id, updatedAt: data?.updatedAt.toDate().toString(), createdAt: data?.createdAt.toDate().toString() };
   }
 }

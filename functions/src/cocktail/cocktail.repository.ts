@@ -31,7 +31,7 @@ class CocktailRepository extends AbstractRepository {
   /**
    * Creates a new cocktail in Firestore
    */
-  async create(cocktailData: CreateCocktailDto): Promise<CocktailDocument> {
+  async create(cocktailData: CreateCocktailDto): Promise<DocumentSnapshot<CocktailDocument>> {
     const englishTitle = cocktailData.title['en'];
 
     if (!englishTitle) {
@@ -57,7 +57,7 @@ class CocktailRepository extends AbstractRepository {
 
     await docRef.set(cocktailDoc);
 
-    return cocktailDoc;
+    return docRef.get();
   }
 
   /**

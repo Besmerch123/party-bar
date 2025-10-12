@@ -6,11 +6,11 @@
  */
 
 import { firestore } from 'firebase-admin';
-import { CollectionReference, DocumentSnapshot, Timestamp } from 'firebase-admin/firestore';
+import { CollectionReference, DocumentSnapshot, Timestamp, FieldPath } from 'firebase-admin/firestore';
 
 import { AbstractRepository } from '../shared/abstract.repository';
 
-import { EquipmentDocument, CreateEquipmentDto, UpdateEquipmentDto, Equipment } from './equipment.model';
+import { EquipmentDocument, CreateEquipmentDto, UpdateEquipmentDto } from './equipment.model';
 
 export class EquipmentRepository extends AbstractRepository {
   readonly collection = firestore().collection('equipment') as CollectionReference<EquipmentDocument>;
@@ -18,7 +18,7 @@ export class EquipmentRepository extends AbstractRepository {
   /**
    * Creates a new equipment in Firestore
    */
-  async create(equipmentData: CreateEquipmentDto) {
+  async create(equipmentData: CreateEquipmentDto): Promise<DocumentSnapshot<EquipmentDocument>> {
     const englishTitle = equipmentData.title['en'];
 
     if (!englishTitle) {
@@ -40,7 +40,7 @@ export class EquipmentRepository extends AbstractRepository {
 
     const equipment = await docRef.get();
 
-    return this.docSnapshotToEquipment(equipment);
+    return equipment;
   }
 
   /**
@@ -53,7 +53,7 @@ export class EquipmentRepository extends AbstractRepository {
       return null;
     }
 
-    return doc; 
+    return doc;
   }
 
   /**
@@ -64,7 +64,7 @@ export class EquipmentRepository extends AbstractRepository {
       return [];
     }
 
-    const snapshot = await this.collection.where(firestore.FieldPath.documentId(), 'in', ids).get();
+    const snapshot = await this.collection.where(FieldPath.documentId(), 'in', ids).get();
 
     return snapshot.docs;
   }
@@ -72,7 +72,7 @@ export class EquipmentRepository extends AbstractRepository {
   /**
    * Updates an existing equipment
    */
-  async update({ id, ...updateData }: UpdateEquipmentDto) {
+  async update({ id, ...updateData }: UpdateEquipmentDto): Promise<DocumentSnapshot<EquipmentDocument>> {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
 
@@ -86,7 +86,7 @@ export class EquipmentRepository extends AbstractRepository {
 
     const updatedDoc = await docRef.get();
 
-    return this.docSnapshotToEquipment(updatedDoc);
+    return updatedDoc;
   }
 
   /**
@@ -102,14 +102,5 @@ export class EquipmentRepository extends AbstractRepository {
 
     await docRef.delete();
     return true;
-  }
-
-  private docSnapshotToEquipment(doc: DocumentSnapshot<EquipmentDocument>): Equipment {
-    const data = doc.data();
-    if (!data) {
-      throw new Error('Document data is undefined');
-    }
-
-    return { ...data, id: doc.id, createdAt: data.createdAt.toDate().toString(), updatedAt: data.updatedAt.toDate().toString() };
   }
 }

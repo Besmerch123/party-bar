@@ -4,7 +4,6 @@
  * Exports all cocktail endpoints for easy importing.
  */
 
-export { createCocktail } from './create-cocktail';
 export { getCocktail } from './get-cocktail';
 export { searchCocktails } from './search-cocktails';
 export { updateCocktail } from './update-cocktail';

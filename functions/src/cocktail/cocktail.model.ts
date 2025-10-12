@@ -35,7 +35,7 @@ export interface Cocktail {
   title: I18nField;
 
   /** Detailed description, preparation notes, history, etc. */
-  description: I18nField;
+  description?: I18nField;
 
   /** Firestore document paths referencing ingredient records */
   ingredients: Ingredient[];
@@ -47,7 +47,7 @@ export interface Cocktail {
   categories: CocktailCategory[];
 
   /** Alcohol by volume percentage (0-100), optional */
-  abv?: number;
+  abv?: number | null;
 
   /** Step-by-step preparation instructions */
   preparationSteps: I18nArrayField;
@@ -78,7 +78,7 @@ export interface CreateCocktailDto {
   ingredients: string[];
   equipments: string[];
   categories: CocktailCategory[];
-  abv?: number;
+  abv?: number | null;
   preparationSteps: I18nArrayField;
   image?: string | null;
 }
@@ -90,14 +90,14 @@ export interface UpdateCocktailDto {
   ingredients?: string[];
   equipments?: string[];
   categories?: CocktailCategory[];
-  abv?: number;
+  abv?: number | null;
   preparationSteps?: I18nArrayField;
   image?: string | null;
 }
 
 export interface CocktailSearchDocument extends ElasticDocument, Omit<Cocktail, 'preparationSteps' | 'ingredients' | 'equipments'> {
   ingredients: IngredientSearchDocument[];
-  equipment: EquipmentSearchDocument[];
+  equipments: EquipmentSearchDocument[];
 }
 
 

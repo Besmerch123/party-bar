@@ -6,8 +6,8 @@
  */
 import type { DocumentSnapshot } from 'firebase-admin/firestore';
 
-import { type EquipmentDocument, EquipmentService } from '../equipment';
-import { type IngredientDocument, IngredientService } from '../ingredient';
+import { type Equipment, EquipmentService } from '../equipment';
+import { type Ingredient, IngredientService } from '../ingredient';
 import { AbstractService } from '../shared/abstract.service';
 
 import { getCocktailRepository } from './cocktail.repository';
@@ -19,6 +19,7 @@ import {
   CocktailsSearchSchema,
   CocktailDocument,
   CocktailSearchDocument,
+  Cocktail,
 } from './cocktail.model';
 
 class CocktailService extends AbstractService {
@@ -42,28 +43,35 @@ class CocktailService extends AbstractService {
   /**
    * Creates a new cocktail with validation
    */
-  async createCocktail(data: CreateCocktailDto) {
+  async createCocktail(data: CreateCocktailDto): Promise<Cocktail> {
     this.validateCocktailData(data);
 
     const normalized = this.normalizeCreateData(data);
 
-    return this.repository.create(normalized);
+    const cocktailDoc = await this.repository.create(normalized);
+
+    const { equipments, ingredients } = await this.loadCocktailRelations(cocktailDoc);
+
+    return this.toCocktail(cocktailDoc, equipments, ingredients);
   }
 
   /**
    * Retrieves a cocktail by ID
    */
-  async getCocktail(id: string) {
+  async getCocktail(id: string): Promise<Cocktail> {
     if (!id || id.trim() === '') {
       throw new Error('Cocktail ID is required');
     }
 
     const cocktail = await this.repository.findById(id.trim());
+
     if (!cocktail) {
       throw new Error('Cocktail not found');
     }
 
-    return cocktail;
+    const { equipments, ingredients } = await this.loadCocktailRelations(cocktail);
+
+    return this.toCocktail(cocktail, equipments, ingredients);
   }
 
   /**
@@ -76,7 +84,7 @@ class CocktailService extends AbstractService {
   /**
    * Updates an existing cocktail
    */
-  async updateCocktail(data: UpdateCocktailDto) {
+  async updateCocktail(data: UpdateCocktailDto): Promise<Cocktail> {
     const updatePayload: UpdateCocktailDto = {
       ...data
     };
@@ -117,11 +125,14 @@ class CocktailService extends AbstractService {
     }
 
     const updated = await this.repository.update(updatePayload);
+
     if (!updated) {
       throw new Error('Cocktail not found');
     }
 
-    return updated;
+    const { equipments, ingredients } = await this.loadCocktailRelations(updated);
+
+    return this.toCocktail(updated, equipments, ingredients);
   }
 
   /**
@@ -132,23 +143,29 @@ class CocktailService extends AbstractService {
       throw new Error('Cocktail ID is required');
     }
 
-    const deleted = await this.repository.delete(id.trim());
-    if (!deleted) {
-      throw new Error('Cocktail not found');
-    }
+    await this.repository.delete(id.trim());
   }
 
-  async insertCocktailToElasticIndex(coktailSnap: DocumentSnapshot<CocktailDocument>) {
-    const data = coktailSnap.data();
+  async insertCocktailToElasticIndex(cocktailSnap: DocumentSnapshot<CocktailDocument>) {
+    const { equipments, ingredients } = await this.loadCocktailRelations(cocktailSnap);
+
+    const cocktailSearchDoc = this.toCocktailSearchDocument(cocktailSnap, equipments, ingredients);
+
+    await this.repository.elastic.insertDocument<CocktailSearchDocument>('cocktails', cocktailSearchDoc);
+  }
+
+  private async loadCocktailRelations(cocktailSnap: DocumentSnapshot<CocktailDocument>) {
+    const data = cocktailSnap.data();
         
-    const [equipment, ingredients] =  await Promise.all([
+    const [equipments, ingredients] =  await Promise.all([
       this.equipmentService.getEquipmentByIds(data?.equipments || []),
       this.ingredientService.getIngredientsByIds(data?.ingredients || []),
     ]);
-    
-    const cocktailSearchDoc = this.toCocktailSearchDocument(coktailSnap, equipment, ingredients);
-    
-    await this.repository.elastic.insertDocument<CocktailSearchDocument>('cocktails', cocktailSearchDoc);
+
+    return {
+      equipments,
+      ingredients
+    };
   }
 
   private validateCocktailData(data: CreateCocktailDto): void {
@@ -290,17 +307,9 @@ class CocktailService extends AbstractService {
       equipments: this.normalizeReferenceArray(data.equipments),
       categories: this.normalizeCategories(data.categories),
       preparationSteps: this.normalizeI18nArrayField(data.preparationSteps),
+      abv: data.abv || null,
+      image: this.normalizeImage(data.image),
     };
-
-    if (data.abv !== undefined) {
-      normalized.abv = data.abv;
-    }
-
-    if (data.image !== undefined) {
-      normalized.image = data.image && typeof data.image === 'string' && data.image.trim().length > 0 
-        ? data.image.trim() 
-        : null;
-    }
 
     return normalized;
   }
@@ -331,34 +340,13 @@ class CocktailService extends AbstractService {
     return Array.from(unique.values());
   }
 
-  private toCocktailSearchDocument(
+  private toCocktail(
     cocktailDoc: DocumentSnapshot<CocktailDocument>,
-    equipmentSnapshots: DocumentSnapshot<EquipmentDocument>[],
-    ingredientSnapshots: DocumentSnapshot<IngredientDocument>[]
-  ): CocktailSearchDocument {
+    equipments: Equipment[] = [],
+    ingredients: Ingredient[] = []
+  ): Cocktail {
     const cocktailData = cocktailDoc.data();
-  
-    const ingredients: CocktailSearchDocument['ingredients'] = ingredientSnapshots.map((ingredient) => {
-      const data = ingredient.data();
-  
-      return {
-        id: ingredient.id,
-        title: data?.title || {},
-        category: data!.category,
-        image: data?.image,
-      };
-    });
-  
-    const equipment: CocktailSearchDocument['equipment'] = equipmentSnapshots.map((equip) => {
-      const data = equip.data();
-  
-      return {
-        id: equip.id,
-        title: data?.title || {},
-        image: data?.image,
-      };
-    });
-  
+
     return {
       id: cocktailDoc.id,
       title: cocktailData?.title || {}, 
@@ -366,10 +354,51 @@ class CocktailService extends AbstractService {
       description: cocktailData?.description || {},
       abv: cocktailData?.abv || 0,
       image: cocktailData?.image,
+      preparationSteps: cocktailData?.preparationSteps || {},
       ingredients,
-      equipment,
+      equipments,
       updatedAt: cocktailData?.updatedAt.toDate().toISOString() || new Date().toISOString(),
       createdAt: cocktailData?.createdAt.toDate().toISOString() || new Date().toISOString(),
+    };
+
+  }
+
+  private toCocktailSearchDocument(
+    cocktailDoc: DocumentSnapshot<CocktailDocument>,
+    equipmentSnapshots: Equipment[],
+    ingredientSnapshots: Ingredient[]
+  ): CocktailSearchDocument {
+    const cocktail = this.toCocktail(cocktailDoc, equipmentSnapshots, ingredientSnapshots);
+  
+    const ingredients: CocktailSearchDocument['ingredients'] = cocktail.ingredients.map((ingredient) => {
+      return {
+        id: ingredient.id,
+        title: ingredient?.title || {},
+        category: ingredient.category,
+        image: ingredient?.image,
+      };
+    });
+
+    const equipments: CocktailSearchDocument['equipments'] = cocktail.equipments.map((equip) => {
+      return {
+        id: equip.id,
+        title: equip?.title || {},
+        image: equip?.image,
+      };
+    });
+  
+
+    return {
+      id: cocktail.id,
+      title: cocktail.title,
+      categories: cocktail.categories,
+      description: cocktail.description,
+      abv: cocktail.abv,
+      image: cocktail.image,
+      ingredients,
+      equipments,
+      updatedAt: cocktail.updatedAt,
+      createdAt: cocktail.createdAt,
     };
   }
 }
