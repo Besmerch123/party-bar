@@ -22,6 +22,7 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
       id: '1',
       title: 'Mojito',
       description: 'Fresh mint, lime, and rum cocktail',
+      image: '',
       ingredients: [
         'ingredients/white_rum',
         'ingredients/fresh_mint',
@@ -42,6 +43,7 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
       id: '2',
       title: 'Margarita',
       description: 'Classic tequila cocktail with lime',
+      image: '',
       ingredients: [
         'ingredients/tequila',
         'ingredients/triple_sec',
@@ -61,6 +63,7 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
       id: '3',
       title: 'Old Fashioned',
       description: 'Classic whiskey cocktail',
+      image: '',
       ingredients: [
         'ingredients/bourbon',
         'ingredients/sugar',
@@ -80,6 +83,7 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
       id: '4',
       title: 'Piña Colada',
       description: 'Tropical coconut and pineapple cocktail',
+      image: '',
       ingredients: [
         'ingredients/white_rum',
         'ingredients/coconut_cream',
@@ -94,6 +98,7 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
       id: '5',
       title: 'Negroni',
       description: 'Bitter Italian cocktail',
+      image: '',
       ingredients: [
         'ingredients/gin',
         'ingredients/campari',
@@ -112,6 +117,7 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
       id: '6',
       title: 'Cosmopolitan',
       description: 'Pink vodka cocktail made famous in the 90s',
+      image: '',
       ingredients: [
         'ingredients/vodka',
         'ingredients/triple_sec',

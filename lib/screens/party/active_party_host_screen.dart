@@ -24,6 +24,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       id: '1',
       title: 'Mojito',
       description: 'Fresh mint, lime, and rum cocktail',
+      image: '',
       ingredients: [
         'ingredients/white_rum',
         'ingredients/fresh_mint',
@@ -44,6 +45,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       id: '2',
       title: 'Margarita',
       description: 'Classic tequila cocktail with lime',
+      image: '',
       ingredients: [
         'ingredients/tequila',
         'ingredients/triple_sec',
@@ -63,6 +65,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       id: '3',
       title: 'Old Fashioned',
       description: 'Classic whiskey cocktail',
+      image: '',
       ingredients: [
         'ingredients/bourbon',
         'ingredients/sugar_cube',

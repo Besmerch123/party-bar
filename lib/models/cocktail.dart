@@ -31,6 +31,9 @@ class Cocktail {
   /// Detailed description, preparation notes, history, etc. (already translated)
   final String description;
 
+  /// URL to an image representing the cocktail
+  final String image;
+
   /// Firestore document paths referencing ingredient records
   final List<String> ingredients;
 
@@ -50,6 +53,7 @@ class Cocktail {
     required this.id,
     required this.title,
     required this.description,
+    required this.image,
     required this.ingredients,
     required this.equipments,
     required this.categories,
@@ -61,6 +65,7 @@ class Cocktail {
     String? id,
     String? title,
     String? description,
+    String? image,
     List<String>? ingredients,
     List<String>? equipments,
     List<CocktailCategory>? categories,
@@ -71,6 +76,7 @@ class Cocktail {
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
+      image: image ?? this.image,
       ingredients: ingredients ?? this.ingredients,
       equipments: equipments ?? this.equipments,
       categories: categories ?? this.categories,
@@ -91,6 +97,9 @@ class CocktailDocument {
   /// I18n field containing translations for the cocktail description
   final I18nField description;
 
+  /// URL to an image representing the cocktail
+  final String image;
+
   /// Firestore document paths referencing ingredient records
   final List<String> ingredients;
 
@@ -109,6 +118,7 @@ class CocktailDocument {
   const CocktailDocument({
     required this.title,
     required this.description,
+    required this.image,
     required this.ingredients,
     required this.equipments,
     required this.categories,
@@ -126,6 +136,7 @@ class CocktailDocument {
     return CocktailDocument(
       title: Map<String, String>.from(map['title'] ?? {}),
       description: Map<String, String>.from(map['description'] ?? {}),
+      image: map['image'] ?? '',
       ingredients: List<String>.from(map['ingredients'] ?? []),
       equipments: List<String>.from(map['equipments'] ?? []),
       categories:
@@ -165,6 +176,7 @@ extension CocktailDocumentEntity on CocktailDocument {
       id: id,
       title: title.translate(locale),
       description: description.translate(locale),
+      image: image,
       ingredients: ingredients,
       equipments: equipments,
       categories: categories,
@@ -208,6 +220,7 @@ class CocktailTransformer
 class CreateCocktailDto {
   final String title;
   final String description;
+  final String image;
   final List<String> ingredients;
   final List<String> equipments;
   final List<CocktailCategory> categories;
@@ -215,6 +228,7 @@ class CreateCocktailDto {
   const CreateCocktailDto({
     required this.title,
     required this.description,
+    required this.image,
     required this.ingredients,
     required this.equipments,
     required this.categories,

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../models/models.dart';
 import '../../data/cocktail_repository.dart';
 import '../../providers/locale_provider.dart';
+import '../../widgets//common//image_widget.dart';
 
 class CocktailDetailsScreen extends StatefulWidget {
   final String cocktailId;
@@ -151,56 +152,26 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
   }
 
   Widget _buildSliverAppBar(Cocktail cocktail) {
-    final primaryCategory = cocktail.categories.isNotEmpty
-        ? cocktail.categories.first
-        : CocktailCategory.classic;
-
     return SliverAppBar(
       expandedHeight: 300,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
-        background: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                _getCategoryColor(primaryCategory).withOpacity(0.8),
-                _getCategoryColor(primaryCategory),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.local_bar,
-                  size: 80,
-                  color: Colors.white.withOpacity(0.9),
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            ImageWidget(imageUrl: cocktail.image),
+
+            // Gradient overlay for better text readability
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.transparent, Colors.black.withOpacity(0.3)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
-                const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Text(
-                    _getCategoryDisplayName(primaryCategory),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
       actions: [

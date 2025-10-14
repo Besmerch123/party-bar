@@ -40,6 +40,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
       id: '1',
       title: 'Mojito',
       description: 'Fresh mint, lime, and rum cocktail',
+      image: '',
       ingredients: [
         'ingredients/white_rum',
         'ingredients/fresh_mint',
@@ -60,6 +61,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
       id: '2',
       title: 'Margarita',
       description: 'Classic tequila cocktail with lime',
+      image: '',
       ingredients: [
         'ingredients/tequila',
         'ingredients/triple_sec',
@@ -79,6 +81,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
       id: '3',
       title: 'Old Fashioned',
       description: 'Classic whiskey cocktail',
+      image: '',
       ingredients: [
         'ingredients/bourbon',
         'ingredients/sugar',
@@ -98,6 +101,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
       id: '4',
       title: 'Piña Colada',
       description: 'Tropical coconut and pineapple cocktail',
+      image: '',
       ingredients: [
         'ingredients/white_rum',
         'ingredients/coconut_cream',
@@ -112,6 +116,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
       id: '5',
       title: 'Negroni',
       description: 'Bitter Italian cocktail',
+      image: '',
       ingredients: [
         'ingredients/gin',
         'ingredients/campari',
