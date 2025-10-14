@@ -41,13 +41,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
       title: 'Mojito',
       description: 'Fresh mint, lime, and rum cocktail',
       image: '',
-      ingredients: [
-        'ingredients/white_rum',
-        'ingredients/fresh_mint',
-        'ingredients/lime_juice',
-        'ingredients/sugar',
-        'ingredients/soda_water',
-      ],
+      ingredients: [],
       equipments: [
         'equipments/muddler',
         'equipments/highball_glass',
@@ -62,12 +56,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
       title: 'Margarita',
       description: 'Classic tequila cocktail with lime',
       image: '',
-      ingredients: [
-        'ingredients/tequila',
-        'ingredients/triple_sec',
-        'ingredients/lime_juice',
-        'ingredients/salt',
-      ],
+      ingredients: [],
       equipments: [
         'equipments/cocktail_shaker',
         'equipments/margarita_glass',
@@ -82,12 +71,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
       title: 'Old Fashioned',
       description: 'Classic whiskey cocktail',
       image: '',
-      ingredients: [
-        'ingredients/bourbon',
-        'ingredients/sugar',
-        'ingredients/angostura_bitters',
-        'ingredients/orange_peel',
-      ],
+      ingredients: [],
       equipments: [
         'equipments/mixing_glass',
         'equipments/bar_spoon',
@@ -102,11 +86,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
       title: 'Piña Colada',
       description: 'Tropical coconut and pineapple cocktail',
       image: '',
-      ingredients: [
-        'ingredients/white_rum',
-        'ingredients/coconut_cream',
-        'ingredients/pineapple_juice',
-      ],
+      ingredients: [],
       equipments: ['equipments/blender', 'equipments/hurricane_glass'],
       categories: [CocktailCategory.tiki, CocktailCategory.frozen],
       createdAt: DateTime.now().subtract(const Duration(days: 20)),
@@ -117,11 +97,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
       title: 'Negroni',
       description: 'Bitter Italian cocktail',
       image: '',
-      ingredients: [
-        'ingredients/gin',
-        'ingredients/campari',
-        'ingredients/sweet_vermouth',
-      ],
+      ingredients: [],
       equipments: [
         'equipments/mixing_glass',
         'equipments/bar_spoon',

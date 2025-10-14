@@ -25,13 +25,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       title: 'Mojito',
       description: 'Fresh mint, lime, and rum cocktail',
       image: '',
-      ingredients: [
-        'ingredients/white_rum',
-        'ingredients/fresh_mint',
-        'ingredients/lime_juice',
-        'ingredients/sugar',
-        'ingredients/soda_water',
-      ],
+      ingredients: [],
       equipments: [
         'equipment/shaker',
         'equipment/muddler',
@@ -46,12 +40,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       title: 'Margarita',
       description: 'Classic tequila cocktail with lime',
       image: '',
-      ingredients: [
-        'ingredients/tequila',
-        'ingredients/triple_sec',
-        'ingredients/lime_juice',
-        'ingredients/salt',
-      ],
+      ingredients: [],
       equipments: [
         'equipment/shaker',
         'equipment/strainer',
@@ -66,12 +55,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       title: 'Old Fashioned',
       description: 'Classic whiskey cocktail',
       image: '',
-      ingredients: [
-        'ingredients/bourbon',
-        'ingredients/sugar_cube',
-        'ingredients/angostura_bitters',
-        'ingredients/orange_peel',
-      ],
+      ingredients: [],
       equipments: [
         'equipment/mixing_glass',
         'equipment/muddler',

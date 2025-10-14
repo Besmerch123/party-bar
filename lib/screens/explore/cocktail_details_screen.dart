@@ -5,6 +5,8 @@ import '../../models/models.dart';
 import '../../data/cocktail_repository.dart';
 import '../../providers/locale_provider.dart';
 import '../../widgets//common//image_widget.dart';
+import '../../widgets/cocktails/cocktail_categories.dart';
+import '../../widgets/cocktails/cocktail_ingredients.dart';
 
 class CocktailDetailsScreen extends StatefulWidget {
   final String cocktailId;
@@ -136,9 +138,9 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
                 children: [
                   _buildHeader(cocktail),
                   const SizedBox(height: 24),
-                  _buildCategories(cocktail),
+                  CocktailCategories(categories: cocktail.categories),
                   const SizedBox(height: 24),
-                  _buildIngredients(cocktail),
+                  CocktailIngredients(ingredients: ingredients),
                   const SizedBox(height: 24),
                   _buildEquipment(),
                   const SizedBox(height: 80), // Bottom padding for FAB
@@ -176,13 +178,6 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
       ),
       actions: [
         IconButton(
-          icon: Icon(
-            isFavorite ? Icons.favorite : Icons.favorite_border,
-            color: isFavorite ? Colors.red : null,
-          ),
-          onPressed: () => _toggleFavorite(),
-        ),
-        IconButton(
           icon: const Icon(Icons.share),
           onPressed: () => _shareCocktail(),
         ),
@@ -208,129 +203,6 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildCategories(Cocktail cocktail) {
-    if (cocktail.categories.isEmpty) return const SizedBox.shrink();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Categories',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: cocktail.categories
-              .map(
-                (category) => Chip(
-                  label: Text(_getCategoryDisplayName(category)),
-                  avatar: Icon(
-                    Icons.local_bar,
-                    size: 18,
-                    color: _getCategoryColor(category),
-                  ),
-                  backgroundColor: _getCategoryColor(category).withOpacity(0.1),
-                  labelStyle: TextStyle(
-                    color: _getCategoryColor(category),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              )
-              .toList(),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildIngredients(Cocktail cocktail) {
-    if (ingredients.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Ingredients',
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            IconButton(
-              icon: const Icon(Icons.copy),
-              onPressed: () => _copyIngredients(),
-              tooltip: 'Copy ingredients list',
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: ingredients
-                  .map(
-                    (ingredient) => _buildIngredientItem(ingredient, cocktail),
-                  )
-                  .toList(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildIngredientItem(Ingredient ingredient, Cocktail cocktail) {
-    final primaryCategory = cocktail.categories.isNotEmpty
-        ? cocktail.categories.first
-        : CocktailCategory.classic;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Container(
-            width: 8,
-            height: 8,
-            decoration: BoxDecoration(
-              color: _getCategoryColor(primaryCategory),
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  ingredient.title,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
-                ),
-                Text(
-                  _getIngredientCategoryName(ingredient.category),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withOpacity(0.6),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -387,104 +259,6 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
     );
   }
 
-  Color _getCategoryColor(CocktailCategory category) {
-    switch (category) {
-      case CocktailCategory.classic:
-        return Colors.brown;
-      case CocktailCategory.signature:
-        return Colors.purple;
-      case CocktailCategory.seasonal:
-        return Colors.orange;
-      case CocktailCategory.frozen:
-        return Colors.blue;
-      case CocktailCategory.mocktail:
-        return Colors.green;
-      case CocktailCategory.shot:
-        return Colors.red;
-      case CocktailCategory.long:
-        return Colors.cyan;
-      case CocktailCategory.punch:
-        return Colors.pink;
-      case CocktailCategory.tiki:
-        return Colors.deepOrange;
-      case CocktailCategory.highball:
-        return Colors.teal;
-      case CocktailCategory.lowball:
-        return Colors.amber;
-    }
-  }
-
-  String _getCategoryDisplayName(CocktailCategory category) {
-    switch (category) {
-      case CocktailCategory.classic:
-        return 'Classic';
-      case CocktailCategory.signature:
-        return 'Signature';
-      case CocktailCategory.seasonal:
-        return 'Seasonal';
-      case CocktailCategory.frozen:
-        return 'Frozen';
-      case CocktailCategory.mocktail:
-        return 'Mocktail';
-      case CocktailCategory.shot:
-        return 'Shot';
-      case CocktailCategory.long:
-        return 'Long Drink';
-      case CocktailCategory.punch:
-        return 'Punch';
-      case CocktailCategory.tiki:
-        return 'Tiki';
-      case CocktailCategory.highball:
-        return 'Highball';
-      case CocktailCategory.lowball:
-        return 'Lowball';
-    }
-  }
-
-  String _getIngredientCategoryName(IngredientCategory category) {
-    switch (category) {
-      case IngredientCategory.spirit:
-        return 'Spirit';
-      case IngredientCategory.liqueur:
-        return 'Liqueur';
-      case IngredientCategory.mixer:
-        return 'Mixer';
-      case IngredientCategory.syrup:
-        return 'Syrup';
-      case IngredientCategory.bitters:
-        return 'Bitters';
-      case IngredientCategory.garnish:
-        return 'Garnish';
-      case IngredientCategory.fruit:
-        return 'Fruit';
-      case IngredientCategory.herb:
-        return 'Herb';
-      case IngredientCategory.spice:
-        return 'Spice';
-      case IngredientCategory.other:
-        return 'Other';
-    }
-  }
-
-  void _toggleFavorite() {
-    setState(() {
-      isFavorite = !isFavorite;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          isFavorite ? 'Added to favorites' : 'Removed from favorites',
-        ),
-        duration: const Duration(seconds: 2),
-        action: SnackBarAction(
-          label: 'Undo',
-          onPressed: () => _toggleFavorite(),
-        ),
-      ),
-    );
-  }
-
   void _shareCocktail() {
     // Get the translated cocktail for sharing
     final locale = context.read<LocaleProvider>().currentLocale;
@@ -493,7 +267,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
     final ingredientsList = ingredients.map((i) => '• ${i.title}').join('\n');
     final equipmentsList = equipments.map((e) => '• ${e.title}').join('\n');
     final categoriesList = cocktail.categories
-        .map((c) => _getCategoryDisplayName(c))
+        .map((c) => CocktailCategories.getCategoryDisplayName(c))
         .join(', ');
 
     final shareText =
@@ -517,18 +291,6 @@ Made with PartyBar App 🎉
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Recipe copied to clipboard!'),
-        duration: Duration(seconds: 2),
-      ),
-    );
-  }
-
-  void _copyIngredients() {
-    final ingredientsList = ingredients.map((i) => '• ${i.title}').join('\n');
-
-    Clipboard.setData(ClipboardData(text: ingredientsList));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Ingredients copied to clipboard!'),
         duration: Duration(seconds: 2),
       ),
     );

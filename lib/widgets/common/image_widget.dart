@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 
 class ImageWidget extends StatelessWidget {
-  final String imageUrl;
+  final String? imageUrl;
 
-  const ImageWidget({super.key, required this.imageUrl});
+  final double? width;
+  final double? height;
+
+  const ImageWidget({
+    super.key,
+    required this.imageUrl,
+    this.width,
+    this.height,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return imageUrl.isNotEmpty
+    return imageUrl?.isNotEmpty == true
         ? Image.network(
-            imageUrl,
+            imageUrl!,
             fit: BoxFit.cover,
+            width: width,
+            height: height,
             errorBuilder: (context, error, stackTrace) {
               // Fallback to icon if image fails to load
               return Container(
@@ -35,7 +45,13 @@ class ImageWidget extends StatelessWidget {
           )
         : Container(
             color: Colors.grey[300],
-            child: Icon(Icons.local_bar, size: 80, color: Colors.grey[600]),
+            width: width,
+            height: height,
+            child: Icon(
+              Icons.local_bar,
+              size: width ?? 80,
+              color: Colors.grey[600],
+            ),
           );
   }
 }
