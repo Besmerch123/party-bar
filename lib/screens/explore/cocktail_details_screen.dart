@@ -7,6 +7,7 @@ import '../../providers/locale_provider.dart';
 import '../../widgets/cocktails/cocktail_categories.dart';
 import '../../widgets/cocktails/cocktail_ingredients.dart';
 import '../../widgets/cocktails/preparation_steps.dart';
+import '../../widgets/cocktails/equipment_list.dart';
 
 class CocktailDetailsScreen extends StatefulWidget {
   final String cocktailId;
@@ -143,7 +144,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
                   const SizedBox(height: 24),
                   CocktailIngredients(ingredients: ingredients),
                   const SizedBox(height: 24),
-                  _buildEquipment(),
+                  EquipmentList(equipment: equipments),
                   const SizedBox(height: 80), // Bottom padding for FAB
                 ],
               ),
@@ -239,59 +240,6 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildEquipment() {
-    if (equipments.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Equipment',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: equipments
-                  .map((equipment) => _buildEquipmentItem(equipment))
-                  .toList(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildEquipmentItem(Equipment equipment) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Icon(
-            Icons.construction,
-            size: 20,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              equipment.title,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
-            ),
-          ),
-        ],
-      ),
     );
   }
 

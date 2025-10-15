@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../models/ingredient.dart';
+import '../../models/equipment.dart';
 
-class CocktailIngredients extends StatelessWidget {
-  final List<Ingredient> ingredients;
+class EquipmentList extends StatelessWidget {
+  final List<Equipment> equipment;
 
-  const CocktailIngredients({super.key, required this.ingredients});
+  const EquipmentList({super.key, required this.equipment});
 
   @override
   Widget build(BuildContext context) {
-    if (ingredients.isEmpty) {
+    if (equipment.isEmpty) {
       return const SizedBox.shrink();
     }
 
@@ -16,7 +16,7 @@ class CocktailIngredients extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Ingredients',
+          'Equipment',
           style: Theme.of(
             context,
           ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -32,16 +32,16 @@ class CocktailIngredients extends StatelessWidget {
             mainAxisSpacing: 12,
             childAspectRatio: 0.9,
           ),
-          itemCount: ingredients.length,
+          itemCount: equipment.length,
           itemBuilder: (context, index) {
-            return _buildIngredientItem(context, ingredients[index]);
+            return _buildEquipmentItem(context, equipment[index]);
           },
         ),
       ],
     );
   }
 
-  Widget _buildIngredientItem(BuildContext context, Ingredient ingredient) {
+  Widget _buildEquipmentItem(BuildContext context, Equipment equipment) {
     return Card(
       clipBehavior: Clip.hardEdge,
       child: Column(
@@ -50,9 +50,9 @@ class CocktailIngredients extends StatelessWidget {
           SizedBox(
             height: 80,
             child: Center(
-              child: ingredient.image?.isNotEmpty ?? false
+              child: equipment.image?.isNotEmpty ?? false
                   ? Image.network(
-                      ingredient.image!,
+                      equipment.image!,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     )
@@ -66,7 +66,7 @@ class CocktailIngredients extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8),
             child: Text(
-              ingredient.title,
+              equipment.title,
               style: Theme.of(
                 context,
               ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'shared_types.dart';
 import './ingredient.dart';
+import './equipment.dart';
 
 /// Common cocktail categories for validation
 enum CocktailCategory {
@@ -39,7 +40,7 @@ class Cocktail {
   final List<Ingredient> ingredients;
 
   /// Firestore document paths referencing equipment records
-  final List<String> equipments;
+  final List<Equipment> equipments;
 
   /// Categorization tags to aid discovery
   final List<CocktailCategory> categories;
@@ -71,7 +72,7 @@ class Cocktail {
     String? description,
     String? image,
     List<Ingredient>? ingredients,
-    List<String>? equipments,
+    List<Equipment>? equipments,
     List<CocktailCategory>? categories,
     List<String>? preparationSteps,
     DateTime? createdAt,
@@ -192,7 +193,7 @@ extension CocktailDocumentEntity on CocktailDocument {
       description: description.translate(locale),
       image: image,
       ingredients: [],
-      equipments: equipments,
+      equipments: [],
       categories: categories,
       preparationSteps: preparationSteps?.translate(locale),
       createdAt: createdAt.toDate(),
