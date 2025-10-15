@@ -44,6 +44,8 @@ class Cocktail {
   /// Categorization tags to aid discovery
   final List<CocktailCategory> categories;
 
+  final List<String>? preparationSteps;
+
   /// Timestamp when the cocktail was created
   final DateTime? createdAt;
 
@@ -58,6 +60,7 @@ class Cocktail {
     required this.ingredients,
     required this.equipments,
     required this.categories,
+    this.preparationSteps,
     this.createdAt,
     this.updatedAt,
   });
@@ -70,6 +73,7 @@ class Cocktail {
     List<Ingredient>? ingredients,
     List<String>? equipments,
     List<CocktailCategory>? categories,
+    List<String>? preparationSteps,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -81,6 +85,7 @@ class Cocktail {
       ingredients: ingredients ?? this.ingredients,
       equipments: equipments ?? this.equipments,
       categories: categories ?? this.categories,
+      preparationSteps: preparationSteps ?? this.preparationSteps,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -110,6 +115,8 @@ class CocktailDocument {
   /// Categorization tags to aid discovery
   final List<CocktailCategory> categories;
 
+  final I18nArrayField? preparationSteps;
+
   /// Firestore Timestamp when the cocktail was created
   final Timestamp createdAt;
 
@@ -123,6 +130,7 @@ class CocktailDocument {
     required this.ingredients,
     required this.equipments,
     required this.categories,
+    required this.preparationSteps,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -150,6 +158,11 @@ class CocktailDocument {
               )
               .toList() ??
           [],
+      preparationSteps: map['preparationSteps'] != null
+          ? (map['preparationSteps'] as Map<String, dynamic>).map(
+              (key, value) => MapEntry(key, List<String>.from(value as List)),
+            )
+          : null,
       createdAt: map['createdAt'] as Timestamp,
       updatedAt: map['updatedAt'] as Timestamp,
     );
@@ -181,6 +194,7 @@ extension CocktailDocumentEntity on CocktailDocument {
       ingredients: [],
       equipments: equipments,
       categories: categories,
+      preparationSteps: preparationSteps?.translate(locale),
       createdAt: createdAt.toDate(),
       updatedAt: updatedAt.toDate(),
     );

@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import '../../models/models.dart';
 import '../../data/cocktail_repository.dart';
 import '../../providers/locale_provider.dart';
-import '../../widgets//common//image_widget.dart';
 import '../../widgets/cocktails/cocktail_categories.dart';
 import '../../widgets/cocktails/cocktail_ingredients.dart';
+import '../../widgets/cocktails/preparation_steps.dart';
 
 class CocktailDetailsScreen extends StatefulWidget {
   final String cocktailId;
@@ -73,7 +73,6 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
         ingredients = results[0] as List<Ingredient>;
         equipments = results[1] as List<Equipment>;
         isLoading = false;
-        // TODO: Check favorites from user preferences/Firestore
         isFavorite = false;
       });
     } catch (e) {
@@ -140,6 +139,8 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
                   const SizedBox(height: 24),
                   CocktailCategories(categories: cocktail.categories),
                   const SizedBox(height: 24),
+                  PreparationSteps(steps: cocktail.preparationSteps),
+                  const SizedBox(height: 24),
                   CocktailIngredients(ingredients: ingredients),
                   const SizedBox(height: 24),
                   _buildEquipment(),
@@ -161,7 +162,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            ImageWidget(imageUrl: cocktail.image),
+            _buildCoverImage(cocktail.image),
 
             // Gradient overlay for better text readability
             Container(
@@ -185,6 +186,39 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
     );
   }
 
+  Widget _buildCoverImage(String? imageUrl) {
+    return imageUrl?.isNotEmpty == true
+        ? Image.network(
+            imageUrl!,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              // Fallback to icon if image fails to load
+              return Container(
+                color: Colors.grey[300],
+                child: Icon(Icons.local_bar, size: 80, color: Colors.grey[600]),
+              );
+            },
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Container(
+                color: Colors.grey[300],
+                child: Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                        : null,
+                  ),
+                ),
+              );
+            },
+          )
+        : Container(
+            color: Colors.grey[300],
+            child: Icon(Icons.local_bar, color: Colors.grey[600]),
+          );
+  }
+
   Widget _buildHeader(Cocktail cocktail) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,7 +233,9 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
         Text(
           cocktail.description,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: .8),
           ),
         ),
       ],

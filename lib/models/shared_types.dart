@@ -22,6 +22,24 @@ extension I18nFieldExtension on I18nField {
   }
 }
 
+/// I18n field type for arrays (e.g., list of strings in multiple languages)
+typedef I18nArrayField = Map<String, List<String>>;
+
+extension I18nArrayFieldExtension on I18nArrayField {
+  /// Get translated array for the given locale, falling back to English if not found
+  List<String> translate(SupportedLocale locale) {
+    final localeKey = locale.name;
+    return this[localeKey] ?? this['en'] ?? entries.firstOrNull?.value ?? [];
+  }
+
+  /// Get translated array for the current system locale
+  List<String> get translated {
+    // You can inject a locale provider here or use a global locale
+    // For now, defaulting to English
+    return this['en'] ?? entries.firstOrNull?.value ?? [];
+  }
+}
+
 /// Base class for Firestore document transformers
 abstract class FirestoreTransformer<TDocument, TEntity> {
   /// Convert Firestore document to domain entity
