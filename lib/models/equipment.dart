@@ -16,33 +16,13 @@ class Equipment {
   /// Google Cloud Storage path or URL to the equipment image
   final String? image;
 
-  /// Timestamp when the equipment was created
-  final DateTime? createdAt;
+  const Equipment({required this.id, required this.title, this.image});
 
-  /// Timestamp when the equipment was last updated
-  final DateTime? updatedAt;
-
-  const Equipment({
-    required this.id,
-    required this.title,
-    this.image,
-    this.createdAt,
-    this.updatedAt,
-  });
-
-  Equipment copyWith({
-    String? id,
-    String? title,
-    String? image,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) {
+  Equipment copyWith({String? id, String? title, String? image}) {
     return Equipment(
       id: id ?? this.id,
       title: title ?? this.title,
       image: image ?? this.image,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }
@@ -109,8 +89,6 @@ class EquipmentTransformer
       id: id,
       title: document.title.translate(locale),
       image: document.image,
-      createdAt: document.createdAt.toDate(),
-      updatedAt: document.updatedAt.toDate(),
     );
   }
 
@@ -124,8 +102,11 @@ class EquipmentTransformer
   }
 
   /// Convert Firestore DocumentSnapshot directly to Equipment entity
-  Equipment fromFirestore(DocumentSnapshot doc, SupportedLocale locale) {
-    final document = EquipmentDocument.fromFirestore(doc);
+  Equipment fromFirestore(
+    DocumentSnapshot<EquipmentDocument> doc,
+    SupportedLocale locale,
+  ) {
+    final document = doc.data()!;
     return fromDocument(document, doc.id, locale);
   }
 }

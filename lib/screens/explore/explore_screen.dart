@@ -287,10 +287,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   Widget _buildCocktailCard(Cocktail cocktail) {
-    final primaryCategory = cocktail.categories.isNotEmpty
-        ? cocktail.categories.first
-        : CocktailCategory.classic;
-
     return GestureDetector(
       onTap: () => context.push('${AppRoutes.cocktailDetails}/${cocktail.id}'),
       child: Card(
@@ -299,25 +295,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Image placeholder with category color
-            Container(
+            SizedBox(
               height: 120,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    _getCategoryColor(primaryCategory).withOpacity(0.8),
-                    _getCategoryColor(primaryCategory),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
               child: Center(
-                child: Icon(
-                  Icons.local_bar,
-                  size: 40,
-                  color: Colors.white.withOpacity(0.8),
-                ),
+                child: cocktail.image.isNotEmpty
+                    ? Image.network(
+                        cocktail.image,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )
+                    : Icon(
+                        Icons.local_bar,
+                        size: 40,
+                        color: Colors.white.withValues(alpha: .8),
+                      ),
               ),
             ),
             Expanded(

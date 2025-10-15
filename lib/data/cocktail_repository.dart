@@ -3,19 +3,28 @@ import 'package:party_bar/models/models.dart';
 
 /// Repository for managing cocktail data from Firestore
 class CocktailRepository {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CocktailTransformer _transformer = CocktailTransformer();
+
+  final CollectionReference<CocktailDocument> _collection = FirebaseFirestore
+      .instance
+      .collection('cocktails')
+      .withConverter<CocktailDocument>(
+        fromFirestore: (snapshot, _) =>
+            CocktailDocument.fromMap(snapshot.data()!),
+        toFirestore: (doc, _) => {}, // Not used for reading
+      );
+
+  final IngredientRepository _ingredientRepo = IngredientRepository();
+  final EquipmentRepository _equipmentRepo = EquipmentRepository();
 
   /// Fetch all cocktail documents (untranslated)
   /// Use this to fetch once and translate on-demand when locale changes
   Future<List<(String id, CocktailDocument doc)>>
   getAllCocktailDocuments() async {
     try {
-      final snapshot = await _firestore.collection('cocktails').get();
+      final snapshot = await _collection.get();
 
-      return snapshot.docs
-          .map((doc) => (doc.id, CocktailDocument.fromFirestore(doc)))
-          .toList();
+      return snapshot.docs.map((doc) => (doc.id, doc.data())).toList();
     } catch (e) {
       print('Error fetching cocktail documents: $e');
       return [];
@@ -28,7 +37,7 @@ class CocktailRepository {
     SupportedLocale locale = SupportedLocale.en,
   }) async {
     try {
-      final snapshot = await _firestore.collection('cocktails').get();
+      final snapshot = await _collection.get();
 
       return snapshot.docs
           .map((doc) => _transformer.fromFirestore(doc, locale))
@@ -39,52 +48,12 @@ class CocktailRepository {
     }
   }
 
-  /// Fetch cocktails by category with translation
-  Future<List<Cocktail>> getCocktailsByCategory(
-    CocktailCategory category, {
-    SupportedLocale locale = SupportedLocale.en,
-  }) async {
-    try {
-      final snapshot = await _firestore
-          .collection('cocktails')
-          .where('categories', arrayContains: category.name)
-          .get();
-
-      return snapshot.docs
-          .map((doc) => _transformer.fromFirestore(doc, locale))
-          .toList();
-    } catch (e) {
-      print('Error fetching cocktails by category: $e');
-      return [];
-    }
-  }
-
   /// Stream cocktail documents in real-time (untranslated)
   /// Use this to stream once and translate on-demand when locale changes
   Stream<List<(String id, CocktailDocument doc)>> streamCocktailDocuments() {
-    return _firestore
-        .collection('cocktails')
-        .snapshots()
-        .map(
-          (snapshot) => snapshot.docs
-              .map((doc) => (doc.id, CocktailDocument.fromFirestore(doc)))
-              .toList(),
-        );
-  }
-
-  /// Stream cocktails in real-time with translation
-  /// @deprecated Use streamCocktailDocuments() and translate on-demand for better performance
-  Stream<List<Cocktail>> streamCocktails({
-    SupportedLocale locale = SupportedLocale.en,
-  }) {
-    return _firestore
-        .collection('cocktails')
-        .snapshots()
-        .map(
-          (snapshot) => snapshot.docs
-              .map((doc) => _transformer.fromFirestore(doc, locale))
-              .toList(),
-        );
+    return _collection.snapshots().map(
+      (snapshot) => snapshot.docs.map((doc) => (doc.id, doc.data())).toList(),
+    );
   }
 
   /// Fetch a single cocktail document by ID (untranslated)
@@ -93,11 +62,11 @@ class CocktailRepository {
     String id,
   ) async {
     try {
-      final doc = await _firestore.collection('cocktails').doc(id).get();
+      final doc = await _collection.doc(id).get();
 
       if (!doc.exists) return null;
 
-      return (doc.id, CocktailDocument.fromFirestore(doc));
+      return (doc.id, doc.data()!);
     } catch (e) {
       print('Error fetching cocktail document: $e');
       return null;
@@ -111,21 +80,45 @@ class CocktailRepository {
     SupportedLocale locale = SupportedLocale.en,
   }) async {
     try {
-      final doc = await _firestore.collection('cocktails').doc(id).get();
+      final doc = await _collection.doc(id).get();
 
       if (!doc.exists) return null;
 
-      return _transformer.fromFirestore(doc, locale);
+      final docData = doc.data();
+
+      final relations = await _locadCocktailRelations(docData!);
+
+      return _transformer.fromFirestoreWithRelations(doc, relations, locale);
     } catch (e) {
       print('Error fetching cocktail: $e');
       return null;
     }
   }
+
+  Future<CocktailRelations> _locadCocktailRelations(
+    CocktailDocument cocktailDoc,
+  ) async {
+    final ingredients = await _ingredientRepo.getIngredientsByPaths(
+      cocktailDoc.ingredients,
+    );
+    final equipments = await _equipmentRepo.getEquipmentsByPaths(
+      cocktailDoc.equipments,
+    );
+
+    return CocktailRelations(ingredients: ingredients, equipments: equipments);
+  }
 }
 
 /// Repository for managing ingredient data from Firestore
 class IngredientRepository {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference<IngredientDocument> _collection = FirebaseFirestore
+      .instance
+      .collection('ingredients')
+      .withConverter<IngredientDocument>(
+        fromFirestore: (snapshot, _) =>
+            IngredientDocument.fromMap(snapshot.data()!),
+        toFirestore: (doc, _) => {}, // Not used for reading
+      );
   final IngredientTransformer _transformer = IngredientTransformer();
 
   /// Fetch multiple ingredients by their document paths
@@ -138,7 +131,7 @@ class IngredientRepository {
 
       for (final path in paths) {
         final id = path.split('/').last;
-        final doc = await _firestore.collection('ingredients').doc(id).get();
+        final doc = await _collection.doc(id).get();
 
         if (doc.exists) {
           ingredients.add(_transformer.fromFirestore(doc, locale));
@@ -155,7 +148,14 @@ class IngredientRepository {
 
 /// Repository for managing equipment data from Firestore
 class EquipmentRepository {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference<EquipmentDocument> _collection = FirebaseFirestore
+      .instance
+      .collection('equipment')
+      .withConverter<EquipmentDocument>(
+        fromFirestore: (snapshot, _) =>
+            EquipmentDocument.fromMap(snapshot.data()!),
+        toFirestore: (doc, _) => {}, // Not used for reading
+      );
   final EquipmentTransformer _transformer = EquipmentTransformer();
 
   /// Fetch multiple equipment by their document paths
@@ -168,7 +168,7 @@ class EquipmentRepository {
 
       for (final path in paths) {
         final id = path.split('/').last;
-        final doc = await _firestore.collection('equipments').doc(id).get();
+        final doc = await _collection.doc(id).get();
 
         if (doc.exists) {
           equipments.add(_transformer.fromFirestore(doc, locale));
