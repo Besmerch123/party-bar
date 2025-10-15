@@ -64,8 +64,8 @@ class ElasticService {
       final callable = _functions.httpsCallable('searchCocktails');
       final result = await callable.call(searchPayload);
 
-      // Parse the response
-      final data = result.data as Map<String, dynamic>;
+      // Parse the response - Firebase returns Object? types, need to convert properly
+      final data = Map<String, dynamic>.from(result.data as Map);
 
       return CocktailSearchResult.fromJson(data);
     } catch (e) {
@@ -97,17 +97,19 @@ class CocktailSearchResult {
 
   factory CocktailSearchResult.fromJson(Map<String, dynamic> json) {
     // Extract IDs from items array
-    final items = json['items'] as List<dynamic>? ?? [];
-    final cocktailIds = items
-        .map((item) => (item as Map<String, dynamic>)['id'] as String)
-        .toList();
+    final itemsList = json['items'] as List<dynamic>? ?? [];
+    final cocktailIds = itemsList.map((item) {
+      // Handle Firebase's Object? type conversion
+      final itemMap = Map<String, dynamic>.from(item as Map);
+      return itemMap['id'] as String;
+    }).toList();
 
     return CocktailSearchResult(
       cocktailIds: cocktailIds,
-      total: json['total'] as int? ?? 0,
-      page: json['page'] as int? ?? 1,
-      pageSize: json['pageSize'] as int? ?? 20,
-      totalPages: json['totalPages'] as int? ?? 1,
+      total: (json['total'] as num?)?.toInt() ?? 0,
+      page: (json['page'] as num?)?.toInt() ?? 1,
+      pageSize: (json['pageSize'] as num?)?.toInt() ?? 20,
+      totalPages: (json['totalPages'] as num?)?.toInt() ?? 1,
       hasNextPage: json['hasNextPage'] as bool? ?? false,
       hasPreviousPage: json['hasPreviousPage'] as bool? ?? false,
     );
