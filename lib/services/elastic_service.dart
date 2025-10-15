@@ -1,8 +1,30 @@
+import 'dart:convert';
+
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// Service for interacting with Elasticsearch through Firebase Cloud Functions
 class ElasticService {
-  final FirebaseFunctions _functions = FirebaseFunctions.instance;
+  final FirebaseFunctions _functions;
+  final Duration cacheDuration;
+  late final Box<String> _cacheBox;
+  bool _initialized = false;
+
+  ElasticService({FirebaseFunctions? functions})
+    : _functions = functions ?? FirebaseFunctions.instance,
+      cacheDuration = const Duration(hours: 12);
+
+  /// Initialize the cache store (call this once during app startup)
+  Future<void> initialize() async {
+    if (_initialized) return;
+
+    final cacheDir = await getApplicationDocumentsDirectory();
+    Hive.init('${cacheDir.path}/elastic_cache');
+
+    _cacheBox = await Hive.openBox<String>('elastic_search_cache');
+    _initialized = true;
+  }
 
   /// Search cocktails using Elasticsearch
   ///
@@ -18,6 +40,11 @@ class ElasticService {
     CocktailSearchFilters? filters,
     PaginationParams? pagination,
   }) async {
+    // Ensure the service is initialized
+    if (!_initialized) {
+      await initialize();
+    }
+
     try {
       // Build the search payload
       final Map<String, dynamic> searchPayload = {};
@@ -60,18 +87,110 @@ class ElasticService {
         };
       }
 
-      // Call the Firebase Cloud Function
+      // Generate cache key based on the payload (excluding locale since it's not in the payload)
+      final cacheKey = _generateCacheKey(searchPayload);
+
+      // Try to get from cache first
+      final cachedData = _getCachedResult(cacheKey);
+      if (cachedData != null) {
+        return cachedData;
+      }
+
+      // Cache miss - call Firebase Cloud Function
       final callable = _functions.httpsCallable('searchCocktails');
       final result = await callable.call(searchPayload);
 
       // Parse the response - Firebase returns Object? types, need to convert properly
       final data = Map<String, dynamic>.from(result.data as Map);
+      final searchResult = CocktailSearchResult.fromJson(data);
 
-      return CocktailSearchResult.fromJson(data);
+      // Store in cache for future requests
+      _cacheResult(cacheKey, searchResult);
+
+      return searchResult;
     } catch (e) {
       print('Error searching cocktails via Elasticsearch: $e');
       rethrow;
     }
+  }
+
+  /// Generate a consistent cache key from the search payload
+  String _generateCacheKey(Map<String, dynamic> payload) {
+    // Sort the payload to ensure consistent keys for the same parameters
+    final sortedPayload = _sortMapRecursively(payload);
+    return jsonEncode(sortedPayload);
+  }
+
+  /// Recursively sort map entries to ensure consistent JSON encoding
+  Map<String, dynamic> _sortMapRecursively(Map<String, dynamic> map) {
+    final sortedMap = <String, dynamic>{};
+    final sortedKeys = map.keys.toList()..sort();
+
+    for (final key in sortedKeys) {
+      final value = map[key];
+      if (value is Map<String, dynamic>) {
+        sortedMap[key] = _sortMapRecursively(value);
+      } else {
+        sortedMap[key] = value;
+      }
+    }
+
+    return sortedMap;
+  }
+
+  /// Get cached result if available and not expired
+  CocktailSearchResult? _getCachedResult(String cacheKey) {
+    final cachedJson = _cacheBox.get(cacheKey);
+    if (cachedJson == null) return null;
+
+    try {
+      final cached = jsonDecode(cachedJson) as Map<String, dynamic>;
+      final timestamp = DateTime.parse(cached['timestamp'] as String);
+
+      // Check if cache is expired
+      if (DateTime.now().difference(timestamp) > cacheDuration) {
+        _cacheBox.delete(cacheKey);
+        return null;
+      }
+
+      return CocktailSearchResult.fromJson(
+        cached['data'] as Map<String, dynamic>,
+      );
+    } catch (e) {
+      // If there's any error parsing cache, delete it
+      _cacheBox.delete(cacheKey);
+      return null;
+    }
+  }
+
+  /// Cache the search result
+  void _cacheResult(String cacheKey, CocktailSearchResult result) {
+    try {
+      final cacheData = {
+        'timestamp': DateTime.now().toIso8601String(),
+        'data': {
+          'items': result.cocktailIds.map((id) => {'id': id}).toList(),
+          'total': result.total,
+          'page': result.page,
+          'pageSize': result.pageSize,
+          'totalPages': result.totalPages,
+          'hasNextPage': result.hasNextPage,
+          'hasPreviousPage': result.hasPreviousPage,
+        },
+      };
+
+      _cacheBox.put(cacheKey, jsonEncode(cacheData));
+    } catch (e) {
+      print('Error caching search result: $e');
+      // Don't throw - caching failure shouldn't break the app
+    }
+  }
+
+  /// Clear the cache manually if needed
+  Future<void> clearCache() async {
+    if (!_initialized) return;
+
+    await _cacheBox.clear();
   }
 }
 
