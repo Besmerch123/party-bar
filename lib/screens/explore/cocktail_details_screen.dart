@@ -20,13 +20,8 @@ class CocktailDetailsScreen extends StatefulWidget {
 
 class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
   final CocktailRepository _cocktailRepo = CocktailRepository();
-  final IngredientRepository _ingredientRepo = IngredientRepository();
-  final EquipmentRepository _equipmentRepo = EquipmentRepository();
 
-  CocktailDocument? _cocktailDoc;
-  List<Ingredient> ingredients = [];
-  List<Equipment> equipments = [];
-  bool isFavorite = false;
+  Cocktail? _cocktail;
   bool isLoading = true;
   String? errorMessage;
 
@@ -38,7 +33,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
 
   Future<void> _loadCocktail() async {
     // Only show loading on first load or when explicitly refreshing
-    if (_cocktailDoc == null) {
+    if (_cocktail == null) {
       setState(() {
         isLoading = true;
         errorMessage = null;
@@ -49,11 +44,12 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
       final locale = context.read<LocaleProvider>().currentLocale;
 
       // Fetch cocktail document (untranslated)
-      final fetchedCocktailDoc = await _cocktailRepo.getCocktailDocument(
+      final fetchedCocktail = await _cocktailRepo.getCocktail(
         widget.cocktailId,
+        locale: locale,
       );
 
-      if (fetchedCocktailDoc == null) {
+      if (fetchedCocktail == null) {
         setState(() {
           errorMessage = 'Cocktail not found';
           isLoading = false;
@@ -61,20 +57,9 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
         return;
       }
 
-      final (id, doc) = fetchedCocktailDoc;
-
-      // Fetch related ingredients and equipment in parallel for better performance
-      final results = await Future.wait([
-        _ingredientRepo.getIngredientsByPaths(doc.ingredients, locale: locale),
-        _equipmentRepo.getEquipmentsByPaths(doc.equipments, locale: locale),
-      ]);
-
       setState(() {
-        _cocktailDoc = doc;
-        ingredients = results[0] as List<Ingredient>;
-        equipments = results[1] as List<Equipment>;
+        _cocktail = fetchedCocktail;
         isLoading = false;
-        isFavorite = false;
       });
     } catch (e) {
       setState(() {
@@ -93,7 +78,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
       );
     }
 
-    if (errorMessage != null || _cocktailDoc == null) {
+    if (errorMessage != null || _cocktail == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Cocktail Details')),
         body: Center(
@@ -122,9 +107,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
       );
     }
 
-    // Translate cocktail on-demand based on current locale
-    final locale = context.watch<LocaleProvider>().currentLocale;
-    final cocktail = _cocktailDoc!.toEntity(widget.cocktailId, locale);
+    final cocktail = _cocktail!;
 
     return Scaffold(
       body: CustomScrollView(
@@ -142,9 +125,9 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
                   const SizedBox(height: 24),
                   PreparationSteps(steps: cocktail.preparationSteps),
                   const SizedBox(height: 24),
-                  CocktailIngredients(ingredients: ingredients),
+                  CocktailIngredients(ingredients: cocktail.ingredients),
                   const SizedBox(height: 24),
-                  EquipmentList(equipment: equipments),
+                  EquipmentList(equipment: cocktail.equipments),
                   const SizedBox(height: 80), // Bottom padding for FAB
                 ],
               ),
@@ -244,12 +227,14 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
   }
 
   void _shareCocktail() {
-    // Get the translated cocktail for sharing
-    final locale = context.read<LocaleProvider>().currentLocale;
-    final cocktail = _cocktailDoc!.toEntity(widget.cocktailId, locale);
+    final cocktail = _cocktail!;
 
-    final ingredientsList = ingredients.map((i) => '• ${i.title}').join('\n');
-    final equipmentsList = equipments.map((e) => '• ${e.title}').join('\n');
+    final ingredientsList = cocktail.ingredients
+        .map((i) => '• ${i.title}')
+        .join('\n');
+    final equipmentsList = cocktail.equipments
+        .map((e) => '• ${e.title}')
+        .join('\n');
     final categoriesList = cocktail.categories
         .map((c) => CocktailCategories.getCategoryDisplayName(c))
         .join(', ');

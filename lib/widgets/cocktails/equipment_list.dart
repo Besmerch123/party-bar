@@ -8,10 +8,6 @@ class EquipmentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (equipment.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -22,21 +18,23 @@ class EquipmentList extends StatelessWidget {
           ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        GridView.builder(
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 0.9,
-          ),
-          itemCount: equipment.length,
-          itemBuilder: (context, index) {
-            return _buildEquipmentItem(context, equipment[index]);
-          },
-        ),
+        equipment.isEmpty
+            ? SizedBox.shrink()
+            : GridView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 0.9,
+                ),
+                itemCount: equipment.length,
+                itemBuilder: (context, index) {
+                  return _buildEquipmentItem(context, equipment[index]);
+                },
+              ),
       ],
     );
   }

@@ -28,8 +28,6 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       ingredients: [],
       equipments: [],
       categories: [CocktailCategory.classic, CocktailCategory.highball],
-      createdAt: DateTime.now().subtract(const Duration(days: 30)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 5)),
     ),
     Cocktail(
       id: '2',
@@ -39,8 +37,6 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       ingredients: [],
       equipments: [],
       categories: [CocktailCategory.classic],
-      createdAt: DateTime.now().subtract(const Duration(days: 25)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 3)),
     ),
     Cocktail(
       id: '3',
@@ -50,8 +46,6 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       ingredients: [],
       equipments: [],
       categories: [CocktailCategory.classic, CocktailCategory.lowball],
-      createdAt: DateTime.now().subtract(const Duration(days: 35)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 7)),
     ),
   ];
 

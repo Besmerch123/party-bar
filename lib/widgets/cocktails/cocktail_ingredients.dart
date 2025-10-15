@@ -8,10 +8,6 @@ class CocktailIngredients extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (ingredients.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -22,21 +18,23 @@ class CocktailIngredients extends StatelessWidget {
           ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        GridView.builder(
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 0.9,
-          ),
-          itemCount: ingredients.length,
-          itemBuilder: (context, index) {
-            return _buildIngredientItem(context, ingredients[index]);
-          },
-        ),
+        ingredients.isEmpty
+            ? SizedBox.shrink()
+            : GridView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 0.9,
+                ),
+                itemCount: ingredients.length,
+                itemBuilder: (context, index) {
+                  return _buildIngredientItem(context, ingredients[index]);
+                },
+              ),
       ],
     );
   }
