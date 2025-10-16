@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:party_bar/providers/locale_provider.dart';
+import 'package:provider/provider.dart';
 
 /// Supported locales in the app
 enum SupportedLocale { en, uk }
@@ -9,7 +12,8 @@ typedef I18nField = Map<String, String>;
 /// Extension to easily get translated text from I18nField
 extension I18nFieldExtension on I18nField {
   /// Get translation for the given locale, falling back to English if not found
-  String translate(SupportedLocale locale) {
+  String translate(BuildContext context) {
+    final locale = context.read<LocaleProvider>().currentLocale;
     final localeKey = locale.name;
     return this[localeKey] ?? this['en'] ?? entries.firstOrNull?.value ?? '';
   }
@@ -27,7 +31,8 @@ typedef I18nArrayField = Map<String, List<String>>;
 
 extension I18nArrayFieldExtension on I18nArrayField {
   /// Get translated array for the given locale, falling back to English if not found
-  List<String> translate(SupportedLocale locale) {
+  List<String> translate(BuildContext context) {
+    final locale = context.read<LocaleProvider>().currentLocale;
     final localeKey = locale.name;
     return this[localeKey] ?? this['en'] ?? entries.firstOrNull?.value ?? [];
   }

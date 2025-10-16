@@ -11,14 +11,14 @@ class Equipment {
   final String id;
 
   /// The name/title of the equipment (already translated)
-  final String title;
+  final I18nField title;
 
   /// Google Cloud Storage path or URL to the equipment image
   final String? image;
 
   const Equipment({required this.id, required this.title, this.image});
 
-  Equipment copyWith({String? id, String? title, String? image}) {
+  Equipment copyWith({String? id, I18nField? title, String? image}) {
     return Equipment(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -85,11 +85,7 @@ class EquipmentTransformer
     String id,
     SupportedLocale locale,
   ) {
-    return Equipment(
-      id: id,
-      title: document.title.translate(locale),
-      image: document.image,
-    );
+    return Equipment(id: id, title: document.title, image: document.image);
   }
 
   @override
