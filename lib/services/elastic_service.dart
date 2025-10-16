@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:party_bar/models/cocktail.dart';
+import 'package:party_bar/models/ingredient.dart';
+import 'package:party_bar/models/equipment.dart';
+import 'package:party_bar/models/shared_types.dart';
 
 /// Service for interacting with Elasticsearch through Firebase Cloud Functions
 class ElasticService {
@@ -169,7 +173,9 @@ class ElasticService {
       final cacheData = {
         'timestamp': DateTime.now().toIso8601String(),
         'data': {
-          'items': result.cocktailIds.map((id) => {'id': id}).toList(),
+          'items': result.cocktails
+              .map((cocktail) => _serializeCocktail(cocktail))
+              .toList(),
           'total': result.total,
           'page': result.page,
           'pageSize': result.pageSize,
@@ -186,6 +192,37 @@ class ElasticService {
     }
   }
 
+  /// Serialize a Cocktail object for caching
+  Map<String, dynamic> _serializeCocktail(Cocktail cocktail) {
+    return {
+      'id': cocktail.id,
+      'title': cocktail.title,
+      'description': cocktail.description,
+      'image': cocktail.image,
+      'categories': cocktail.categories.map((c) => c.name).toList(),
+      'preparationSteps': cocktail.preparationSteps,
+      'ingredients': cocktail.ingredients
+          .map(
+            (ingredient) => {
+              'id': ingredient.id,
+              'title': ingredient.title,
+              'category': ingredient.category.name,
+              'image': ingredient.image,
+            },
+          )
+          .toList(),
+      'equipments': cocktail.equipments
+          .map(
+            (equipment) => {
+              'id': equipment.id,
+              'title': equipment.title,
+              'image': equipment.image,
+            },
+          )
+          .toList(),
+    };
+  }
+
   /// Clear the cache manually if needed
   Future<void> clearCache() async {
     if (!_initialized) return;
@@ -194,9 +231,9 @@ class ElasticService {
   }
 }
 
-/// Search result containing cocktail IDs and pagination metadata
+/// Search result containing cocktails and pagination metadata
 class CocktailSearchResult {
-  final List<String> cocktailIds;
+  final List<Cocktail> cocktails;
   final int total;
   final int page;
   final int pageSize;
@@ -205,7 +242,7 @@ class CocktailSearchResult {
   final bool hasPreviousPage;
 
   const CocktailSearchResult({
-    required this.cocktailIds,
+    required this.cocktails,
     required this.total,
     required this.page,
     required this.pageSize,
@@ -215,22 +252,79 @@ class CocktailSearchResult {
   });
 
   factory CocktailSearchResult.fromJson(Map<String, dynamic> json) {
-    // Extract IDs from items array
+    // Extract cocktail objects from items array
     final itemsList = json['items'] as List<dynamic>? ?? [];
-    final cocktailIds = itemsList.map((item) {
+    final cocktails = itemsList.map((item) {
       // Handle Firebase's Object? type conversion
       final itemMap = Map<String, dynamic>.from(item as Map);
-      return itemMap['id'] as String;
+      return _parseCocktailFromElastic(itemMap);
     }).toList();
 
     return CocktailSearchResult(
-      cocktailIds: cocktailIds,
+      cocktails: cocktails,
       total: (json['total'] as num?)?.toInt() ?? 0,
       page: (json['page'] as num?)?.toInt() ?? 1,
       pageSize: (json['pageSize'] as num?)?.toInt() ?? 20,
       totalPages: (json['totalPages'] as num?)?.toInt() ?? 1,
       hasNextPage: json['hasNextPage'] as bool? ?? false,
       hasPreviousPage: json['hasPreviousPage'] as bool? ?? false,
+    );
+  }
+
+  /// Parse a Cocktail object from Elasticsearch result
+  static Cocktail _parseCocktailFromElastic(Map<String, dynamic> data) {
+    // Parse ingredients
+    final ingredientsList = data['ingredients'] as List<dynamic>? ?? [];
+    final ingredients = ingredientsList.map((item) {
+      final ingredientMap = Map<String, dynamic>.from(item as Map);
+      return Ingredient(
+        id: ingredientMap['id'] as String,
+        title: Map<String, String>.from(ingredientMap['title'] as Map? ?? {}),
+        category: IngredientCategory.values.firstWhere(
+          (e) => e.name == ingredientMap['category'],
+          orElse: () => IngredientCategory.other,
+        ),
+        image: ingredientMap['image'] as String?,
+      );
+    }).toList();
+
+    // Parse equipments
+    final equipmentsList = data['equipments'] as List<dynamic>? ?? [];
+    final equipments = equipmentsList.map((item) {
+      final equipmentMap = Map<String, dynamic>.from(item as Map);
+      return Equipment(
+        id: equipmentMap['id'] as String,
+        title: Map<String, String>.from(equipmentMap['title'] as Map? ?? {}),
+        image: equipmentMap['image'] as String?,
+      );
+    }).toList();
+
+    // Parse categories
+    final categoriesList = data['categories'] as List<dynamic>? ?? [];
+    final categories = categoriesList.map((cat) {
+      return CocktailCategory.values.firstWhere(
+        (c) => c.name == cat,
+        orElse: () => CocktailCategory.classic,
+      );
+    }).toList();
+
+    // Parse preparation steps if present
+    I18nArrayField? preparationSteps;
+    if (data['preparationSteps'] != null) {
+      preparationSteps = (data['preparationSteps'] as Map<String, dynamic>).map(
+        (key, value) => MapEntry(key, List<String>.from(value as List)),
+      );
+    }
+
+    return Cocktail(
+      id: data['id'] as String,
+      title: Map<String, String>.from(data['title'] as Map? ?? {}),
+      description: Map<String, String>.from(data['description'] as Map? ?? {}),
+      image: data['image'] as String? ?? '',
+      categories: categories,
+      preparationSteps: preparationSteps,
+      ingredients: ingredients,
+      equipments: equipments,
     );
   }
 }

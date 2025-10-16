@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import '../../models/models.dart';
 import '../../data/cocktail_repository.dart';
-import '../../providers/locale_provider.dart';
 import '../../utils/app_router.dart';
 import '../../services/elastic_service.dart';
 
@@ -49,8 +47,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
     });
 
     try {
-      final locale = context.read<LocaleProvider>().currentLocale;
-
       // Build filters
       CocktailSearchFilters? filters;
       if (_selectedCategory != null) {
@@ -61,7 +57,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
       final result = await _repository.searchCocktails(
         query: _searchQuery.isEmpty ? null : _searchQuery,
         filters: filters,
-        locale: locale,
       );
 
       setState(() {
@@ -75,6 +70,50 @@ class _ExploreScreenState extends State<ExploreScreen> {
         _isLoading = false;
         _isSearching = false;
       });
+    }
+  }
+
+  /// Refresh cocktails - keeps previous state if fetch fails
+  Future<void> _refreshCocktails() async {
+    setState(() {
+      _isSearching = true;
+      _error = null;
+    });
+
+    try {
+      // Build filters
+      CocktailSearchFilters? filters;
+      if (_selectedCategory != null) {
+        filters = CocktailSearchFilters(categories: [_selectedCategory!.name]);
+      }
+
+      await _repository.clearCache();
+      // Search using repository method (Elasticsearch + Firestore hybrid)
+      final result = await _repository.searchCocktails(
+        query: _searchQuery.isEmpty ? null : _searchQuery,
+        filters: filters,
+      );
+
+      setState(() {
+        _cocktails = result.cocktails;
+        _isSearching = false;
+      });
+    } catch (e) {
+      // Restore previous state on error
+      setState(() {
+        _isSearching = false;
+      });
+
+      // Show snackbar to inform user
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to refresh: $e'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
     }
   }
 
@@ -125,120 +164,140 @@ class _ExploreScreenState extends State<ExploreScreen> {
           ),
         ],
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _error != null
-          ? _buildErrorState()
-          : Column(
-              children: [
-                // Search Bar
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TextField(
-                    controller: _searchController,
-                    onChanged: _onSearchChanged,
-                    decoration: InputDecoration(
-                      hintText: 'Search cocktails...',
-                      prefixIcon: const Icon(Icons.search),
-                      suffixIcon: _isSearching
-                          ? const Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              ),
-                            )
-                          : _searchQuery.isNotEmpty
-                          ? IconButton(
-                              icon: const Icon(Icons.clear),
-                              onPressed: () {
-                                _searchController.clear();
-                                _onSearchChanged('');
-                              },
-                            )
-                          : null,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      filled: true,
-                      fillColor: Theme.of(context).colorScheme.surface,
-                    ),
-                  ),
-                ),
-
-                // Active Filters Display
-                if (_selectedCategory != null)
-                  Container(
-                    height: 50,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              if (_selectedCategory != null)
-                                _buildFilterChip(
-                                  _getCategoryDisplayName(_selectedCategory!),
-                                  () {
-                                    setState(() {
-                                      _selectedCategory = null;
-                                    });
-                                    _loadCocktails();
+      body: Stack(
+        children: [
+          // Main content
+          _error != null
+              ? _buildErrorState()
+              : Column(
+                  children: [
+                    // Search Bar
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: _onSearchChanged,
+                        decoration: InputDecoration(
+                          hintText: 'Search cocktails...',
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: _isSearching
+                              ? const Padding(
+                                  padding: EdgeInsets.all(12.0),
+                                  child: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                )
+                              : _searchQuery.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    _onSearchChanged('');
                                   },
-                                ),
-                            ],
+                                )
+                              : null,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
+                          filled: true,
+                          fillColor: Theme.of(context).colorScheme.surface,
                         ),
-                        TextButton(
-                          onPressed: _clearFilters,
-                          child: const Text('Clear All'),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
 
-                // Results Count
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  child: Text(
-                    '${_cocktails.length} cocktails found',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withOpacity(0.7),
-                    ),
-                  ),
-                ),
-
-                // Cocktails Grid
-                Expanded(
-                  child: _cocktails.isEmpty
-                      ? _buildEmptyState()
-                      : GridView.builder(
-                          padding: const EdgeInsets.all(16),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 16,
-                                mainAxisSpacing: 16,
-                                childAspectRatio: 0.75,
+                    // Active Filters Display
+                    if (_selectedCategory != null)
+                      Container(
+                        height: 50,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  if (_selectedCategory != null)
+                                    _buildFilterChip(
+                                      _getCategoryDisplayName(
+                                        _selectedCategory!,
+                                      ),
+                                      () {
+                                        setState(() {
+                                          _selectedCategory = null;
+                                        });
+                                        _loadCocktails();
+                                      },
+                                    ),
+                                ],
                               ),
-                          itemCount: _cocktails.length,
-                          itemBuilder: (context, index) {
-                            final cocktail = _cocktails[index];
-                            return _buildCocktailCard(cocktail);
-                          },
+                            ),
+                            TextButton(
+                              onPressed: _clearFilters,
+                              child: const Text('Clear All'),
+                            ),
+                          ],
                         ),
+                      ),
+
+                    // Results Count
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      child: Text(
+                        '${_cocktails.length} cocktails found',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withOpacity(0.7),
+                        ),
+                      ),
+                    ),
+
+                    // Cocktails Grid
+                    Expanded(
+                      child: _cocktails.isEmpty
+                          ? _buildEmptyState()
+                          : RefreshIndicator(
+                              onRefresh: _refreshCocktails,
+                              child: GridView.builder(
+                                padding: const EdgeInsets.all(16),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 16,
+                                      mainAxisSpacing: 16,
+                                      childAspectRatio: 0.75,
+                                    ),
+                                itemCount: _cocktails.length,
+                                itemBuilder: (context, index) {
+                                  final cocktail = _cocktails[index];
+                                  return _buildCocktailCard(cocktail);
+                                },
+                              ),
+                            ),
+                    ),
+                  ],
                 ),
-              ],
+
+          // Loading overlay
+          if (_isLoading)
+            Container(
+              color: Colors.black.withValues(alpha: .7),
+              child: const Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [CircularProgressIndicator()],
+                ),
+              ),
             ),
+        ],
+      ),
     );
   }
 

@@ -125,25 +125,17 @@ class CocktailRepository {
     String? query,
     CocktailSearchFilters? filters,
     PaginationParams? pagination,
-    SupportedLocale locale = SupportedLocale.en,
   }) async {
     try {
-      // Step 1: Query Elasticsearch for matching IDs
       final searchResult = await _elasticService.searchCocktails(
         query: query,
         filters: filters,
         pagination: pagination,
       );
 
-      // Step 2: Fetch full cocktail data from Firestore using the IDs
-      final cocktails = await _getCocktailsByIds(
-        searchResult.cocktailIds,
-        locale: locale,
-      );
-
       // Return combined result with full data and pagination metadata
       return CocktailSearchResultWithData(
-        cocktails: cocktails,
+        cocktails: searchResult.cocktails,
         total: searchResult.total,
         page: searchResult.page,
         pageSize: searchResult.pageSize,
@@ -157,53 +149,8 @@ class CocktailRepository {
     }
   }
 
-  /// Fetch multiple cocktails by their IDs from Firestore
-  ///
-  /// This method fetches cocktails from Firestore cache (offline-first),
-  /// preserving offline capabilities while using Elasticsearch for search
-  Future<List<Cocktail>> _getCocktailsByIds(
-    List<String> ids, {
-    SupportedLocale locale = SupportedLocale.en,
-  }) async {
-    if (ids.isEmpty) return [];
-
-    try {
-      final cocktails = <Cocktail>[];
-
-      // Firestore has a limit of 10 documents per 'in' query
-      // So we need to batch the requests if we have more than 10 IDs
-      const batchSize = 10;
-      for (var i = 0; i < ids.length; i += batchSize) {
-        final batchIds = ids.skip(i).take(batchSize).toList();
-
-        final snapshot = await _collection
-            .where(FieldPath.documentId, whereIn: batchIds)
-            .get();
-
-        for (final doc in snapshot.docs) {
-          final docData = doc.data();
-          final relations = await _locadCocktailRelations(docData);
-          cocktails.add(
-            _transformer.fromFirestoreWithRelations(doc, relations, locale),
-          );
-        }
-      }
-
-      // Maintain the order from Elasticsearch results
-      final orderedCocktails = <Cocktail>[];
-      for (final id in ids) {
-        final cocktail = cocktails.firstWhere(
-          (c) => c.id == id,
-          orElse: () => cocktails.first, // Fallback, should not happen
-        );
-        orderedCocktails.add(cocktail);
-      }
-
-      return orderedCocktails;
-    } catch (e) {
-      print('Error fetching cocktails by IDs: $e');
-      return [];
-    }
+  Future<void> clearCache() async {
+    await _elasticService.clearCache();
   }
 }
 
