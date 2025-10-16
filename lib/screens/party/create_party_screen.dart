@@ -17,62 +17,7 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
   bool _isCreating = false;
 
   // Mock available cocktails to choose from
-  final List<Cocktail> _allCocktails = [
-    Cocktail(
-      id: '1',
-      title: 'Mojito',
-      description: 'Fresh mint, lime, and rum cocktail',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.classic, CocktailCategory.long],
-    ),
-    Cocktail(
-      id: '2',
-      title: 'Margarita',
-      description: 'Classic tequila cocktail with lime',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.classic, CocktailCategory.lowball],
-    ),
-    Cocktail(
-      id: '3',
-      title: 'Old Fashioned',
-      description: 'Classic whiskey cocktail',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.classic, CocktailCategory.lowball],
-    ),
-    Cocktail(
-      id: '4',
-      title: 'Piña Colada',
-      description: 'Tropical coconut and pineapple cocktail',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.tiki, CocktailCategory.frozen],
-    ),
-    Cocktail(
-      id: '5',
-      title: 'Negroni',
-      description: 'Bitter Italian cocktail',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.classic, CocktailCategory.lowball],
-    ),
-    Cocktail(
-      id: '6',
-      title: 'Cosmopolitan',
-      description: 'Pink vodka cocktail made famous in the 90s',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.classic],
-    ),
-  ];
+  final List<Cocktail> _allCocktails = [];
 
   @override
   void dispose() {
@@ -456,7 +401,7 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      cocktail.title,
+                      cocktail.title.translate(context),
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

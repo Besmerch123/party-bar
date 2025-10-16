@@ -208,14 +208,14 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          cocktail.title,
+          cocktail.title.translate(context),
           style: Theme.of(
             context,
           ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Text(
-          cocktail.description,
+          cocktail.description.translate(context),
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             color: Theme.of(
               context,

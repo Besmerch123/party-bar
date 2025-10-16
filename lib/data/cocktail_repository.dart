@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:party_bar/models/models.dart';
+import 'package:party_bar/services/elastic_service.dart';
 
 /// Repository for managing cocktail data from Firestore
 class CocktailRepository {
   final CocktailTransformer _transformer = CocktailTransformer();
+  final ElasticService _elasticService = ElasticService();
 
   final CollectionReference<CocktailDocument> _collection = FirebaseFirestore
       .instance
@@ -107,6 +109,70 @@ class CocktailRepository {
 
     return CocktailRelations(ingredients: ingredients, equipments: equipments);
   }
+
+  /// Search cocktails using Elasticsearch and fetch results from Firestore
+  ///
+  /// This method uses a hybrid approach:
+  /// 1. Query Elasticsearch for matching cocktail IDs based on search criteria
+  /// 2. Fetch the full cocktail data from Firestore using those IDs
+  ///
+  /// This preserves offline capabilities since the final data comes from Firestore,
+  /// which maintains a local cache.
+  ///
+  /// Returns a [CocktailSearchResultWithData] containing full cocktail objects
+  /// and pagination metadata
+  Future<CocktailSearchResultWithData> searchCocktails({
+    String? query,
+    CocktailSearchFilters? filters,
+    PaginationParams? pagination,
+  }) async {
+    try {
+      final searchResult = await _elasticService.searchCocktails(
+        query: query,
+        filters: filters,
+        pagination: pagination,
+      );
+
+      // Return combined result with full data and pagination metadata
+      return CocktailSearchResultWithData(
+        cocktails: searchResult.cocktails,
+        total: searchResult.total,
+        page: searchResult.page,
+        pageSize: searchResult.pageSize,
+        totalPages: searchResult.totalPages,
+        hasNextPage: searchResult.hasNextPage,
+        hasPreviousPage: searchResult.hasPreviousPage,
+      );
+    } catch (e) {
+      print('Error searching cocktails: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> clearCache() async {
+    await _elasticService.clearCache();
+  }
+}
+
+/// Search result with full cocktail data and pagination metadata
+class CocktailSearchResultWithData {
+  final List<Cocktail> cocktails;
+  final int total;
+  final int page;
+  final int pageSize;
+  final int totalPages;
+  final bool hasNextPage;
+  final bool hasPreviousPage;
+
+  const CocktailSearchResultWithData({
+    required this.cocktails,
+    required this.total,
+    required this.page,
+    required this.pageSize,
+    required this.totalPages,
+    required this.hasNextPage,
+    required this.hasPreviousPage,
+  });
 }
 
 /// Repository for managing ingredient data from Firestore

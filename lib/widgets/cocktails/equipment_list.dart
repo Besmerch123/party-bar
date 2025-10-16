@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/equipment.dart';
+import 'package:party_bar/models/models.dart';
 
 class EquipmentList extends StatelessWidget {
   final List<Equipment> equipment;
@@ -64,7 +64,7 @@ class EquipmentList extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8),
             child: Text(
-              equipment.title,
+              equipment.title.translate(context),
               style: Theme.of(
                 context,
               ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),

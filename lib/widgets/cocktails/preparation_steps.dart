@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:party_bar/models/models.dart';
 
 class PreparationSteps extends StatelessWidget {
-  final List<String>? steps;
+  final I18nArrayField? steps;
 
   const PreparationSteps({super.key, required this.steps});
 
@@ -31,7 +32,7 @@ class PreparationSteps extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: steps!.asMap().entries.map((entry) {
+              children: steps!.translate(context).asMap().entries.map((entry) {
                 int index = entry.key + 1;
                 String step = entry.value;
                 return Padding(

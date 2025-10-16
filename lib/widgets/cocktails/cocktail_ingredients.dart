@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:party_bar/models/models.dart';
 import '../../models/ingredient.dart';
 
 class CocktailIngredients extends StatelessWidget {
@@ -64,7 +65,7 @@ class CocktailIngredients extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8),
             child: Text(
-              ingredient.title,
+              ingredient.title.translate(context),
               style: Theme.of(
                 context,
               ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),

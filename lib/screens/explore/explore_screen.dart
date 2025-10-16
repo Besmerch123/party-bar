@@ -1,10 +1,10 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import '../../models/models.dart';
 import '../../data/cocktail_repository.dart';
-import '../../providers/locale_provider.dart';
 import '../../utils/app_router.dart';
+import '../../services/elastic_service.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
@@ -15,12 +15,14 @@ class ExploreScreen extends StatefulWidget {
 
 class _ExploreScreenState extends State<ExploreScreen> {
   final CocktailRepository _repository = CocktailRepository();
+  final TextEditingController _searchController = TextEditingController();
+  Timer? _debounceTimer;
 
-  List<(String id, CocktailDocument doc)> _allCocktailDocs = [];
-  List<(String id, CocktailDocument doc)> _filteredCocktailDocs = [];
+  List<Cocktail> _cocktails = [];
   String _searchQuery = '';
   CocktailCategory? _selectedCategory;
   bool _isLoading = true;
+  bool _isSearching = false;
   String? _error;
 
   @override
@@ -29,52 +31,106 @@ class _ExploreScreenState extends State<ExploreScreen> {
     _loadCocktails();
   }
 
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _debounceTimer?.cancel();
+    super.dispose();
+  }
+
+  /// Load cocktails using Elasticsearch-powered search
   Future<void> _loadCocktails() async {
     setState(() {
       _isLoading = true;
+      _isSearching = true;
       _error = null;
     });
 
     try {
-      final cocktailDocs = await _repository.getAllCocktailDocuments();
+      // Build filters
+      CocktailSearchFilters? filters;
+      if (_selectedCategory != null) {
+        filters = CocktailSearchFilters(categories: [_selectedCategory!.name]);
+      }
+
+      // Search using repository method (Elasticsearch + Firestore hybrid)
+      final result = await _repository.searchCocktails(
+        query: _searchQuery.isEmpty ? null : _searchQuery,
+        filters: filters,
+      );
 
       setState(() {
-        _allCocktailDocs = cocktailDocs;
-        _filteredCocktailDocs = cocktailDocs;
+        _cocktails = result.cocktails;
         _isLoading = false;
+        _isSearching = false;
       });
     } catch (e) {
       setState(() {
         _error = 'Failed to load cocktails: $e';
         _isLoading = false;
+        _isSearching = false;
       });
     }
   }
 
-  void _filterCocktails() {
-    // Get current locale for search filtering
-    final locale = context.read<LocaleProvider>().currentLocale;
-
+  /// Refresh cocktails - keeps previous state if fetch fails
+  Future<void> _refreshCocktails() async {
     setState(() {
-      _filteredCocktailDocs = _allCocktailDocs.where((entry) {
-        final (id, doc) = entry;
-        final cocktail = doc.toEntity(id, locale);
+      _isSearching = true;
+      _error = null;
+    });
 
-        // Search query filter
-        bool matchesSearch =
-            _searchQuery.isEmpty ||
-            cocktail.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-            cocktail.description.toLowerCase().contains(
-              _searchQuery.toLowerCase(),
-            );
+    try {
+      // Build filters
+      CocktailSearchFilters? filters;
+      if (_selectedCategory != null) {
+        filters = CocktailSearchFilters(categories: [_selectedCategory!.name]);
+      }
 
-        // Category filter
-        bool matchesCategory =
-            _selectedCategory == null ||
-            doc.categories.contains(_selectedCategory);
+      await _repository.clearCache();
+      // Search using repository method (Elasticsearch + Firestore hybrid)
+      final result = await _repository.searchCocktails(
+        query: _searchQuery.isEmpty ? null : _searchQuery,
+        filters: filters,
+      );
 
-        return matchesSearch && matchesCategory;
-      }).toList();
+      setState(() {
+        _cocktails = result.cocktails;
+        _isSearching = false;
+      });
+    } catch (e) {
+      // Restore previous state on error
+      setState(() {
+        _isSearching = false;
+      });
+
+      // Show snackbar to inform user
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to refresh: $e'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
+  }
+
+  /// Debounced search - waits 1 second after user stops typing
+  void _onSearchChanged(String value) {
+    // Cancel previous timer
+    _debounceTimer?.cancel();
+
+    // Update search query immediately for UI feedback
+    setState(() {
+      _searchQuery = value;
+    });
+
+    // Set new timer
+    _debounceTimer = Timer(const Duration(seconds: 1), () {
+      // Perform search after debounce period
+      _loadCocktails();
     });
   }
 
@@ -82,8 +138,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
     setState(() {
       _selectedCategory = null;
       _searchQuery = '';
+      _searchController.clear();
     });
-    _filterCocktails();
+    _loadCocktails();
+  }
+
+  void _applyFilters() {
+    _loadCocktails();
   }
 
   @override
@@ -103,107 +164,140 @@ class _ExploreScreenState extends State<ExploreScreen> {
           ),
         ],
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _error != null
-          ? _buildErrorState()
-          : Column(
-              children: [
-                // Search Bar
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TextField(
-                    onChanged: (value) {
-                      _searchQuery = value;
-                      _filterCocktails();
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Search cocktails...',
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      filled: true,
-                      fillColor: Theme.of(context).colorScheme.surface,
-                    ),
-                  ),
-                ),
-
-                // Active Filters Display
-                if (_selectedCategory != null)
-                  Container(
-                    height: 50,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              if (_selectedCategory != null)
-                                _buildFilterChip(
-                                  _getCategoryDisplayName(_selectedCategory!),
-                                  () => setState(() {
-                                    _selectedCategory = null;
-                                    _filterCocktails();
-                                  }),
-                                ),
-                            ],
+      body: Stack(
+        children: [
+          // Main content
+          _error != null
+              ? _buildErrorState()
+              : Column(
+                  children: [
+                    // Search Bar
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: _onSearchChanged,
+                        decoration: InputDecoration(
+                          hintText: 'Search cocktails...',
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: _isSearching
+                              ? const Padding(
+                                  padding: EdgeInsets.all(12.0),
+                                  child: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                )
+                              : _searchQuery.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    _onSearchChanged('');
+                                  },
+                                )
+                              : null,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
+                          filled: true,
+                          fillColor: Theme.of(context).colorScheme.surface,
                         ),
-                        TextButton(
-                          onPressed: _clearFilters,
-                          child: const Text('Clear All'),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                // Results Count
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      '${_filteredCocktailDocs.length} cocktails found',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withOpacity(0.7),
                       ),
                     ),
-                  ),
+
+                    // Active Filters Display
+                    if (_selectedCategory != null)
+                      Container(
+                        height: 50,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  if (_selectedCategory != null)
+                                    _buildFilterChip(
+                                      _getCategoryDisplayName(
+                                        _selectedCategory!,
+                                      ),
+                                      () {
+                                        setState(() {
+                                          _selectedCategory = null;
+                                        });
+                                        _loadCocktails();
+                                      },
+                                    ),
+                                ],
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: _clearFilters,
+                              child: const Text('Clear All'),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                    // Results Count
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      child: Text(
+                        '${_cocktails.length} cocktails found',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withOpacity(0.7),
+                        ),
+                      ),
+                    ),
+
+                    // Cocktails Grid
+                    Expanded(
+                      child: _cocktails.isEmpty
+                          ? _buildEmptyState()
+                          : RefreshIndicator(
+                              onRefresh: _refreshCocktails,
+                              child: GridView.builder(
+                                padding: const EdgeInsets.all(16),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 16,
+                                      mainAxisSpacing: 16,
+                                      childAspectRatio: 0.75,
+                                    ),
+                                itemCount: _cocktails.length,
+                                itemBuilder: (context, index) {
+                                  final cocktail = _cocktails[index];
+                                  return _buildCocktailCard(cocktail);
+                                },
+                              ),
+                            ),
+                    ),
+                  ],
                 ),
 
-                // Cocktails Grid
-                Expanded(
-                  child: _filteredCocktailDocs.isEmpty
-                      ? _buildEmptyState()
-                      : GridView.builder(
-                          padding: const EdgeInsets.all(16),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 16,
-                                mainAxisSpacing: 16,
-                                childAspectRatio: 0.75,
-                              ),
-                          itemCount: _filteredCocktailDocs.length,
-                          itemBuilder: (context, index) {
-                            final (id, doc) = _filteredCocktailDocs[index];
-                            final locale = context
-                                .watch<LocaleProvider>()
-                                .currentLocale;
-                            final cocktail = doc.toEntity(id, locale);
-                            return _buildCocktailCard(cocktail);
-                          },
-                        ),
+          // Loading overlay
+          if (_isLoading)
+            Container(
+              color: Colors.black.withValues(alpha: .7),
+              child: const Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [CircularProgressIndicator()],
                 ),
-              ],
+              ),
             ),
+        ],
+      ),
     );
   }
 
@@ -318,7 +412,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      cocktail.title,
+                      cocktail.title.translate(context),
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -327,7 +421,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      cocktail.description,
+                      cocktail.description.translate(context),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(
                           context,
@@ -534,7 +628,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      _filterCocktails();
+                      _applyFilters();
                       Navigator.pop(context);
                     },
                     child: const Text('Apply Filters'),

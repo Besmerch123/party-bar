@@ -19,35 +19,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
   bool _partyActive = true;
 
   // Mock available cocktails (aligned with new Cocktail model)
-  final List<Cocktail> _availableCocktails = [
-    Cocktail(
-      id: '1',
-      title: 'Mojito',
-      description: 'Fresh mint, lime, and rum cocktail',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.classic, CocktailCategory.highball],
-    ),
-    Cocktail(
-      id: '2',
-      title: 'Margarita',
-      description: 'Classic tequila cocktail with lime',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.classic],
-    ),
-    Cocktail(
-      id: '3',
-      title: 'Old Fashioned',
-      description: 'Classic whiskey cocktail',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.classic, CocktailCategory.lowball],
-    ),
-  ];
+  final List<Cocktail> _availableCocktails = [];
 
   // Mock metadata for cocktails (since new model doesn't store these)
   final Map<String, int> _mockPrepTimes = {'1': 5, '2': 3, '3': 4};
@@ -487,7 +459,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        cocktail.title,
+                        cocktail.title.translate(context),
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -723,8 +695,8 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
         (c) => c.id == order.cocktailId,
         orElse: () => _availableCocktails.first,
       );
-      cocktailCounts[cocktail.title] =
-          (cocktailCounts[cocktail.title] ?? 0) + 1;
+      cocktailCounts[cocktail.title.translate(context)] =
+          (cocktailCounts[cocktail.title.translate(context)] ?? 0) + 1;
     }
     final sortedEntries = cocktailCounts.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
@@ -786,7 +758,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                 ),
                 child: Icon(Icons.local_bar, color: Colors.purple.shade600),
               ),
-              title: Text(cocktail.title),
+              title: Text(cocktail.title.translate(context)),
               subtitle: Text(
                 '${cocktail.categories.isNotEmpty ? cocktail.categories.first.name.substring(0, 1).toUpperCase() + cocktail.categories.first.name.substring(1) : 'Classic'} • ${_mockPrepTimes[cocktail.id] ?? 5} min',
               ),

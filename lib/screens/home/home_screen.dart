@@ -434,7 +434,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        cocktail.title,
+                        cocktail.title.translate(context),
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.bold),
                         maxLines: 1,
@@ -442,7 +442,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        cocktail.description,
+                        cocktail.description.translate(context),
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(
                             context,
@@ -631,7 +631,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      cocktail.title,
+                      cocktail.title.translate(context),
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),

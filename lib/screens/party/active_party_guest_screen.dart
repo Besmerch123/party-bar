@@ -35,53 +35,7 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
   );
 
   // Mock available cocktails for this party
-  final List<Cocktail> _availableCocktails = [
-    Cocktail(
-      id: '1',
-      title: 'Mojito',
-      description: 'Fresh mint, lime, and rum cocktail',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.classic, CocktailCategory.long],
-    ),
-    Cocktail(
-      id: '2',
-      title: 'Margarita',
-      description: 'Classic tequila cocktail with lime',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.classic, CocktailCategory.lowball],
-    ),
-    Cocktail(
-      id: '3',
-      title: 'Old Fashioned',
-      description: 'Classic whiskey cocktail',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.classic, CocktailCategory.lowball],
-    ),
-    Cocktail(
-      id: '4',
-      title: 'Piña Colada',
-      description: 'Tropical coconut and pineapple cocktail',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.tiki, CocktailCategory.frozen],
-    ),
-    Cocktail(
-      id: '5',
-      title: 'Negroni',
-      description: 'Bitter Italian cocktail',
-      image: '',
-      ingredients: [],
-      equipments: [],
-      categories: [CocktailCategory.classic, CocktailCategory.lowball],
-    ),
-  ];
+  final List<Cocktail> _availableCocktails = [];
 
   void _orderCocktail(Cocktail cocktail) async {
     setState(() {
@@ -247,7 +201,9 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          Expanded(child: Text(cocktail.title)),
+                          Expanded(
+                            child: Text(cocktail.title.translate(context)),
+                          ),
                           Text(
                             _getStatusText(order.status),
                             style: TextStyle(
@@ -327,14 +283,14 @@ class _ActivePartyGuestScreenState extends State<ActivePartyGuestScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        cocktail.title,
+                        cocktail.title.translate(context),
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        cocktail.description,
+                        cocktail.description.translate(context),
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey.shade600,

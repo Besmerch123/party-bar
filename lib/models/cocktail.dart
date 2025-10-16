@@ -38,10 +38,10 @@ class Cocktail extends CocktailRelations {
   final String id;
 
   /// Human-readable name/title of the cocktail (already translated)
-  final String title;
+  final I18nField title;
 
   /// Detailed description, preparation notes, history, etc. (already translated)
-  final String description;
+  final I18nField description;
 
   /// URL to an image representing the cocktail
   final String image;
@@ -49,7 +49,7 @@ class Cocktail extends CocktailRelations {
   /// Categorization tags to aid discovery
   final List<CocktailCategory> categories;
 
-  final List<String>? preparationSteps;
+  final I18nArrayField? preparationSteps;
 
   const Cocktail({
     required this.id,
@@ -70,13 +70,13 @@ class Cocktail extends CocktailRelations {
     final data = doc.data()!;
     return Cocktail(
       id: doc.id,
-      title: data.title.translate(locale),
-      description: data.description.translate(locale),
+      title: data.title,
+      description: data.description,
       image: data.image,
       ingredients: relations.ingredients,
       equipments: relations.equipments,
       categories: data.categories,
-      preparationSteps: data.preparationSteps?.translate(locale),
+      preparationSteps: data.preparationSteps,
     );
   }
 }
@@ -167,13 +167,13 @@ extension CocktailDocumentEntity on CocktailDocument {
   Cocktail toEntity(String id, SupportedLocale locale) {
     return Cocktail(
       id: id,
-      title: title.translate(locale),
-      description: description.translate(locale),
+      title: title,
+      description: description,
       image: image,
       ingredients: [],
       equipments: [],
       categories: categories,
-      preparationSteps: preparationSteps?.translate(locale),
+      preparationSteps: preparationSteps,
     );
   }
 }

@@ -25,7 +25,7 @@ class Ingredient {
   final String id;
 
   /// The name/title of the ingredient (already translated)
-  final String title;
+  final I18nField title;
 
   /// Category of the ingredient (e.g., "spirit", "mixer", "garnish", "liqueur")
   final IngredientCategory category;
@@ -42,7 +42,7 @@ class Ingredient {
 
   Ingredient copyWith({
     String? id,
-    String? title,
+    I18nField? title,
     IngredientCategory? category,
     String? image,
   }) {
@@ -114,7 +114,7 @@ class IngredientTransformer
   ) {
     return Ingredient(
       id: id,
-      title: document.title.translate(locale),
+      title: document.title,
       category: document.category,
       image: document.image,
     );
