@@ -1,45 +1,39 @@
 {
   "@@locale": "uk",
-  
   "appTitle": "PartyBar",
-  
   "skip": "Пропустити",
-  
   "getStarted": "Почати",
-  
   "next": "Далі",
-  
   "previous": "Назад",
-  
   "onboardingTitle1": "Відкрийте для себе чудові коктейлі",
-  
   "onboardingDescription1": "Переглядайте сотні рецептів коктейлів з детальними інструкціями та інгредієнтами.",
-  
   "onboardingTitle2": "Приєднуйтесь до вечірок",
-  
   "onboardingDescription2": "Вводьте коди вечірок, щоб приєднатися до подій і замовляти коктейлі безпосередньо у хоста.",
-  
   "onboardingTitle3": "Створюйте власні вечірки",
-  
   "onboardingDescription3": "Проводьте власні коктейльні вечірки та керуйте замовленнями ваших гостей.",
-  
   "onboardingTitle4": "Створіть свою колекцію",
-  
   "onboardingDescription4": "Створюйте персональні коктейль-бари та зберігайте улюблені рецепти.",
-  
   "profile": "Профіль",
-  
   "settings": "Налаштування",
-  
   "authentication": "Автентифікація",
-  
   "ingredients": "Інгредієнти",
-  
   "equipment": "Обладнання",
-  
   "preparationSteps": "Етапи приготування",
-  
   "categories": "Категорії",
+  "pageOfPages": "{current} з {total}",
+  "exploreCocktails": "Досліджуйте коктейлі",
+  "filterCocktails": "Фільтрувати коктейлі",
+  "filtersApply": "Застосувати фільтри",
+  "filtersClear": "Очистити всі",
   
-  "pageOfPages": "{current} з {total}"
+  "searchCocktailsHint": "Шукати коктейлі...",
+  "clearAll": "Очистити все",
+  "cocktailsFound": "Знайдено {count} коктейлів",
+  "noCocktailsFound": "Коктейлі не знайдено",
+  "tryAdjustingFilters": "Спробуйте змінити пошук або фільтри",
+  "clearFilters": "Очистити фільтри",
+  "errorLoadingCocktails": "Помилка завантаження коктейлів",
+  "unknownError": "Невідома помилка",
+  "retry": "Повторити",
+  "failedToRefresh": "Не вдалося оновити: {error}"
 }

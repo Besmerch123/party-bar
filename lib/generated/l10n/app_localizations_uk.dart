@@ -76,4 +76,50 @@ class AppLocalizationsUk extends AppLocalizations {
   String pageOfPages(int current, int total) {
     return '$current з $total';
   }
+
+  @override
+  String get exploreCocktails => 'Досліджуйте коктейлі';
+
+  @override
+  String get filterCocktails => 'Фільтрувати коктейлі';
+
+  @override
+  String get filtersApply => 'Застосувати фільтри';
+
+  @override
+  String get filtersClear => 'Очистити всі';
+
+  @override
+  String get searchCocktailsHint => 'Шукати коктейлі...';
+
+  @override
+  String get clearAll => 'Очистити все';
+
+  @override
+  String cocktailsFound(int count) {
+    return 'Знайдено $count коктейлів';
+  }
+
+  @override
+  String get noCocktailsFound => 'Коктейлі не знайдено';
+
+  @override
+  String get tryAdjustingFilters => 'Спробуйте змінити пошук або фільтри';
+
+  @override
+  String get clearFilters => 'Очистити фільтри';
+
+  @override
+  String get errorLoadingCocktails => 'Помилка завантаження коктейлів';
+
+  @override
+  String get unknownError => 'Невідома помилка';
+
+  @override
+  String get retry => 'Повторити';
+
+  @override
+  String failedToRefresh(String error) {
+    return 'Не вдалося оновити: $error';
+  }
 }

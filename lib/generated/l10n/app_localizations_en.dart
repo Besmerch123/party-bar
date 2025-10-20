@@ -76,4 +76,50 @@ class AppLocalizationsEn extends AppLocalizations {
   String pageOfPages(int current, int total) {
     return '$current of $total';
   }
+
+  @override
+  String get exploreCocktails => 'Explore Cocktails';
+
+  @override
+  String get filterCocktails => 'Filter Cocktails';
+
+  @override
+  String get filtersApply => 'Apply filters';
+
+  @override
+  String get filtersClear => 'Clear all';
+
+  @override
+  String get searchCocktailsHint => 'Search cocktails...';
+
+  @override
+  String get clearAll => 'Clear All';
+
+  @override
+  String cocktailsFound(int count) {
+    return '$count cocktails found';
+  }
+
+  @override
+  String get noCocktailsFound => 'No cocktails found';
+
+  @override
+  String get tryAdjustingFilters => 'Try adjusting your search or filters';
+
+  @override
+  String get clearFilters => 'Clear Filters';
+
+  @override
+  String get errorLoadingCocktails => 'Error Loading Cocktails';
+
+  @override
+  String get unknownError => 'Unknown error';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String failedToRefresh(String error) {
+    return 'Failed to refresh: $error';
+  }
 }

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:party_bar/utils/localization_helper.dart';
+import 'package:party_bar/widgets/cocktails/cocktail_categories.dart';
 import '../../models/models.dart';
 import '../../data/cocktail_repository.dart';
 import '../../utils/app_router.dart';
@@ -20,7 +22,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   List<Cocktail> _cocktails = [];
   String _searchQuery = '';
-  CocktailCategory? _selectedCategory;
+  List<CocktailCategory>? _selectedCategories;
   bool _isLoading = true;
   bool _isSearching = false;
   String? _error;
@@ -49,8 +51,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
     try {
       // Build filters
       CocktailSearchFilters? filters;
-      if (_selectedCategory != null) {
-        filters = CocktailSearchFilters(categories: [_selectedCategory!.name]);
+      if (_selectedCategories != null) {
+        filters = CocktailSearchFilters(
+          categories: _selectedCategories!.map((c) => c.name).toList(),
+        );
       }
 
       // Search using repository method (Elasticsearch + Firestore hybrid)
@@ -83,8 +87,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
     try {
       // Build filters
       CocktailSearchFilters? filters;
-      if (_selectedCategory != null) {
-        filters = CocktailSearchFilters(categories: [_selectedCategory!.name]);
+      if (_selectedCategories != null) {
+        filters = CocktailSearchFilters(
+          categories: _selectedCategories!.map((c) => c.name).toList(),
+        );
       }
 
       await _repository.clearCache();
@@ -108,7 +114,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to refresh: $e'),
+            content: Text(context.l10n.failedToRefresh(e.toString())),
             backgroundColor: Theme.of(context).colorScheme.error,
             duration: const Duration(seconds: 3),
           ),
@@ -136,7 +142,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   void _clearFilters() {
     setState(() {
-      _selectedCategory = null;
+      _selectedCategories = null;
       _searchQuery = '';
       _searchController.clear();
     });
@@ -151,16 +157,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Explore Cocktails'),
+        title: Text(context.l10n.exploreCocktails),
         centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list),
             onPressed: () => _showFiltersBottomSheet(),
-          ),
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadCocktails,
           ),
         ],
       ),
@@ -178,7 +180,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         controller: _searchController,
                         onChanged: _onSearchChanged,
                         decoration: InputDecoration(
-                          hintText: 'Search cocktails...',
+                          hintText: context.l10n.searchCocktailsHint,
                           prefixIcon: const Icon(Icons.search),
                           suffixIcon: _isSearching
                               ? const Padding(
@@ -210,7 +212,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     ),
 
                     // Active Filters Display
-                    if (_selectedCategory != null)
+                    if (_selectedCategories?.isNotEmpty ?? false)
                       Container(
                         height: 50,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -219,25 +221,27 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             Expanded(
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
-                                children: [
-                                  if (_selectedCategory != null)
-                                    _buildFilterChip(
-                                      _getCategoryDisplayName(
-                                        _selectedCategory!,
-                                      ),
-                                      () {
-                                        setState(() {
-                                          _selectedCategory = null;
-                                        });
-                                        _loadCocktails();
-                                      },
+                                children: _selectedCategories!.map((category) {
+                                  return _buildFilterChip(
+                                    CocktailCategories.getCategoryDisplayName(
+                                      category,
                                     ),
-                                ],
+                                    () {
+                                      setState(() {
+                                        _selectedCategories!.remove(category);
+                                        if (_selectedCategories!.isEmpty) {
+                                          _selectedCategories = null;
+                                        }
+                                      });
+                                      _loadCocktails();
+                                    },
+                                  );
+                                }).toList(),
                               ),
                             ),
                             TextButton(
                               onPressed: _clearFilters,
-                              child: const Text('Clear All'),
+                              child: Text(context.l10n.clearAll),
                             ),
                           ],
                         ),
@@ -250,11 +254,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         vertical: 8,
                       ),
                       child: Text(
-                        '${_cocktails.length} cocktails found',
+                        context.l10n.cocktailsFound(_cocktails.length),
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(
                             context,
-                          ).colorScheme.onSurface.withOpacity(0.7),
+                          ).colorScheme.onSurface.withValues(alpha: .7),
                         ),
                       ),
                     ),
@@ -328,14 +332,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            'No cocktails found',
+            context.l10n.noCocktailsFound,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Try adjusting your search or filters',
+            context.l10n.tryAdjustingFilters,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             ),
@@ -343,7 +347,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: _clearFilters,
-            child: const Text('Clear Filters'),
+            child: Text(context.l10n.clearFilters),
           ),
         ],
       ),
@@ -362,19 +366,22 @@ class _ExploreScreenState extends State<ExploreScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Error Loading Cocktails',
+            context.l10n.errorLoadingCocktails,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           const SizedBox(height: 8),
           Text(
-            _error ?? 'Unknown error',
+            _error ?? context.l10n.unknownError,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
             ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
-          ElevatedButton(onPressed: _loadCocktails, child: const Text('Retry')),
+          ElevatedButton(
+            onPressed: _loadCocktails,
+            child: Text(context.l10n.retry),
+          ),
         ],
       ),
     );
@@ -425,7 +432,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(
                           context,
-                        ).colorScheme.onSurface.withOpacity(0.7),
+                        ).colorScheme.onSurface.withValues(alpha: .7),
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -443,15 +450,19 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: _getCategoryColor(
+                              color: CocktailCategories.getCategoryColor(
                                 category,
-                              ).withOpacity(0.2),
+                              ).withValues(alpha: .2),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
-                              _getCategoryDisplayName(category),
+                              CocktailCategories.getCategoryDisplayName(
+                                category,
+                              ),
                               style: TextStyle(
-                                color: _getCategoryColor(category),
+                                color: CocktailCategories.getCategoryColor(
+                                  category,
+                                ),
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -467,60 +478,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
         ),
       ),
     );
-  }
-
-  Color _getCategoryColor(CocktailCategory category) {
-    switch (category) {
-      case CocktailCategory.classic:
-        return Colors.brown;
-      case CocktailCategory.signature:
-        return Colors.purple;
-      case CocktailCategory.seasonal:
-        return Colors.orange;
-      case CocktailCategory.frozen:
-        return Colors.lightBlue;
-      case CocktailCategory.mocktail:
-        return Colors.green;
-      case CocktailCategory.shot:
-        return Colors.red;
-      case CocktailCategory.long:
-        return Colors.amber;
-      case CocktailCategory.punch:
-        return Colors.pink;
-      case CocktailCategory.tiki:
-        return Colors.deepOrange;
-      case CocktailCategory.highball:
-        return Colors.cyan;
-      case CocktailCategory.lowball:
-        return Colors.teal;
-    }
-  }
-
-  String _getCategoryDisplayName(CocktailCategory category) {
-    switch (category) {
-      case CocktailCategory.classic:
-        return 'Classic';
-      case CocktailCategory.signature:
-        return 'Signature';
-      case CocktailCategory.seasonal:
-        return 'Seasonal';
-      case CocktailCategory.frozen:
-        return 'Frozen';
-      case CocktailCategory.mocktail:
-        return 'Mocktail';
-      case CocktailCategory.shot:
-        return 'Shot';
-      case CocktailCategory.long:
-        return 'Long';
-      case CocktailCategory.punch:
-        return 'Punch';
-      case CocktailCategory.tiki:
-        return 'Tiki';
-      case CocktailCategory.highball:
-        return 'Highball';
-      case CocktailCategory.lowball:
-        return 'Lowball';
-    }
   }
 
   void _showFiltersBottomSheet() {
@@ -556,7 +513,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 decoration: BoxDecoration(
                   color: Theme.of(
                     context,
-                  ).colorScheme.onSurface.withOpacity(0.3),
+                  ).colorScheme.onSurface.withValues(alpha: .3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -565,7 +522,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
             // Title
             Text(
-              'Filter Cocktails',
+              context.l10n.filterCocktails,
               style: Theme.of(
                 context,
               ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -578,7 +535,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 children: [
                   // Categories
                   Text(
-                    'Category',
+                    context.l10n.categories,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -588,21 +545,32 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     spacing: 8,
                     runSpacing: 8,
                     children: CocktailCategory.values.map((category) {
-                      final isSelected = _selectedCategory == category;
+                      final isSelected =
+                          _selectedCategories?.contains(category) ?? false;
                       return FilterChip(
-                        label: Text(_getCategoryDisplayName(category)),
+                        label: Text(
+                          CocktailCategories.getCategoryDisplayName(category),
+                        ),
                         selected: isSelected,
                         onSelected: (selected) {
                           setModalState(() {
-                            _selectedCategory = selected ? category : null;
+                            if (selected) {
+                              _selectedCategories ??= [];
+                              _selectedCategories!.add(category);
+                            } else {
+                              _selectedCategories?.remove(category);
+                              if (_selectedCategories!.isEmpty) {
+                                _selectedCategories = null;
+                              }
+                            }
                           });
                         },
-                        backgroundColor: _getCategoryColor(
+                        backgroundColor: CocktailCategories.getCategoryColor(
                           category,
-                        ).withOpacity(0.1),
-                        selectedColor: _getCategoryColor(
+                        ).withValues(alpha: .1),
+                        selectedColor: CocktailCategories.getCategoryColor(
                           category,
-                        ).withOpacity(0.3),
+                        ).withValues(alpha: .3),
                       );
                     }).toList(),
                   ),
@@ -618,10 +586,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   child: OutlinedButton(
                     onPressed: () {
                       setModalState(() {
-                        _selectedCategory = null;
+                        _selectedCategories = null;
                       });
                     },
-                    child: const Text('Clear All'),
+                    child: Text(context.l10n.filtersClear),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -631,7 +599,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       _applyFilters();
                       Navigator.pop(context);
                     },
-                    child: const Text('Apply Filters'),
+                    child: Text(context.l10n.filtersApply),
                   ),
                 ),
               ],

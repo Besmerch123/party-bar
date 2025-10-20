@@ -33,13 +33,13 @@ class CocktailCategories extends StatelessWidget {
                   avatar: Icon(
                     Icons.local_bar,
                     size: 18,
-                    color: _getCategoryColor(category),
+                    color: CocktailCategories.getCategoryColor(category),
                   ),
-                  backgroundColor: _getCategoryColor(
+                  backgroundColor: CocktailCategories.getCategoryColor(
                     category,
                   ).withValues(alpha: 0.1),
                   labelStyle: TextStyle(
-                    color: _getCategoryColor(category),
+                    color: CocktailCategories.getCategoryColor(category),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -55,7 +55,7 @@ class CocktailCategories extends StatelessWidget {
     return name[0].toUpperCase() + name.substring(1);
   }
 
-  Color _getCategoryColor(CocktailCategory category) {
+  static Color getCategoryColor(CocktailCategory category) {
     switch (category) {
       case CocktailCategory.classic:
         return Colors.lightGreen;

@@ -223,6 +223,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{current} of {total}'**
   String pageOfPages(int current, int total);
+
+  /// Explore screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Explore Cocktails'**
+  String get exploreCocktails;
+
+  /// Bottom sheet title to filter cocktails
+  ///
+  /// In en, this message translates to:
+  /// **'Filter Cocktails'**
+  String get filterCocktails;
+
+  /// Button text to apply selected filters
+  ///
+  /// In en, this message translates to:
+  /// **'Apply filters'**
+  String get filtersApply;
+
+  /// Button text to clear selected filters
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get filtersClear;
+
+  /// Hint text in the search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search cocktails...'**
+  String get searchCocktailsHint;
+
+  /// Button to clear all active filters
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All'**
+  String get clearAll;
+
+  /// Number of cocktails in search results
+  ///
+  /// In en, this message translates to:
+  /// **'{count} cocktails found'**
+  String cocktailsFound(int count);
+
+  /// Empty state title when no cocktails match the search
+  ///
+  /// In en, this message translates to:
+  /// **'No cocktails found'**
+  String get noCocktailsFound;
+
+  /// Empty state subtitle suggesting to modify filters
+  ///
+  /// In en, this message translates to:
+  /// **'Try adjusting your search or filters'**
+  String get tryAdjustingFilters;
+
+  /// Button to clear filters in empty state
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Filters'**
+  String get clearFilters;
+
+  /// Error state title
+  ///
+  /// In en, this message translates to:
+  /// **'Error Loading Cocktails'**
+  String get errorLoadingCocktails;
+
+  /// Fallback error message
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error'**
+  String get unknownError;
+
+  /// Button to retry a failed operation
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// Error message when refresh fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to refresh: {error}'**
+  String failedToRefresh(String error);
 }
 
 class _AppLocalizationsDelegate
