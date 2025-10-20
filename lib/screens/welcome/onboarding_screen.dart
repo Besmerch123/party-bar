@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../utils/app_router.dart';
+import '../../generated/l10n/app_localizations.dart';
 
 class OnboardingData {
-  final String title;
-  final String description;
+  final String Function(BuildContext) title;
+  final String Function(BuildContext) description;
   final IconData icon;
   final Color color;
 
@@ -27,36 +28,35 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  final List<OnboardingData> _pages = [
-    const OnboardingData(
-      title: 'Discover Amazing Cocktails',
-      description:
-          'Browse through hundreds of cocktail recipes with detailed instructions and ingredients.',
-      icon: Icons.local_bar,
-      color: Colors.blue,
-    ),
-    const OnboardingData(
-      title: 'Join Party Events',
-      description:
-          'Enter party codes to join events and order cocktails directly from the host.',
-      icon: Icons.celebration,
-      color: Colors.purple,
-    ),
-    const OnboardingData(
-      title: 'Create Your Own Parties',
-      description:
-          'Host your own cocktail parties and manage orders from your guests.',
-      icon: Icons.party_mode,
-      color: Colors.orange,
-    ),
-    const OnboardingData(
-      title: 'Build Your Collection',
-      description:
-          'Create personal cocktail bars and save your favorite recipes.',
-      icon: Icons.collections,
-      color: Colors.green,
-    ),
-  ];
+  List<OnboardingData> _getPages(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return [
+      OnboardingData(
+        title: (ctx) => l10n.onboardingTitle1,
+        description: (ctx) => l10n.onboardingDescription1,
+        icon: Icons.local_bar,
+        color: Colors.blue,
+      ),
+      OnboardingData(
+        title: (ctx) => l10n.onboardingTitle2,
+        description: (ctx) => l10n.onboardingDescription2,
+        icon: Icons.celebration,
+        color: Colors.purple,
+      ),
+      OnboardingData(
+        title: (ctx) => l10n.onboardingTitle3,
+        description: (ctx) => l10n.onboardingDescription3,
+        icon: Icons.party_mode,
+        color: Colors.orange,
+      ),
+      OnboardingData(
+        title: (ctx) => l10n.onboardingTitle4,
+        description: (ctx) => l10n.onboardingDescription4,
+        icon: Icons.collections,
+        color: Colors.green,
+      ),
+    ];
+  }
 
   @override
   void dispose() {
@@ -66,6 +66,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final pages = _getPages(context);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -79,7 +82,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   TextButton(
                     onPressed: () => context.go(AppRoutes.home),
                     child: Text(
-                      'Skip',
+                      l10n.skip,
                       style: TextStyle(
                         color: Theme.of(
                           context,
@@ -88,7 +91,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                   Text(
-                    '${_currentPage + 1}/${_pages.length}',
+                    l10n.pageOfPages(_currentPage + 1, pages.length),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(
                         context,
@@ -108,9 +111,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     _currentPage = index;
                   });
                 },
-                itemCount: _pages.length,
+                itemCount: pages.length,
                 itemBuilder: (context, index) {
-                  final page = _pages[index];
+                  final page = pages[index];
                   return Padding(
                     padding: const EdgeInsets.all(32.0),
                     child: Column(
@@ -131,7 +134,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                         // Title
                         Text(
-                          page.title,
+                          page.title(context),
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(fontWeight: FontWeight.bold),
@@ -141,7 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                         // Description
                         Text(
-                          page.description,
+                          page.description(context),
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyLarge
                               ?.copyWith(
@@ -161,7 +164,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                _pages.length,
+                pages.length,
                 (index) => Container(
                   margin: const EdgeInsets.symmetric(horizontal: 4),
                   width: _currentPage == index ? 24 : 8,
@@ -185,7 +188,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (_currentPage < _pages.length - 1) {
+                    if (_currentPage < pages.length - 1) {
                       _pageController.nextPage(
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
@@ -201,7 +204,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                   child: Text(
-                    _currentPage < _pages.length - 1 ? 'Next' : 'Get Started',
+                    _currentPage < pages.length - 1
+                        ? l10n.next
+                        : l10n.getStarted,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,

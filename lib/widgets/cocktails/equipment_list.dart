@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:party_bar/models/models.dart';
+import 'package:party_bar/utils/localization_helper.dart';
 
 class EquipmentList extends StatelessWidget {
   final List<Equipment> equipment;
@@ -12,7 +13,7 @@ class EquipmentList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Equipment',
+          context.l10n.equipment,
           style: Theme.of(
             context,
           ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),

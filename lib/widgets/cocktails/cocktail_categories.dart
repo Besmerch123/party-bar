@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:party_bar/utils/localization_helper.dart';
 import '../../models/cocktail.dart';
 
 class CocktailCategories extends StatelessWidget {
@@ -14,7 +15,7 @@ class CocktailCategories extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Categories',
+          context.l10n.categories, // 'Categories',
           style: Theme.of(
             context,
           ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),

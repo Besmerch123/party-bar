@@ -1,0 +1,118 @@
+{
+  "@@locale": "en",
+  
+  "appTitle": "PartyBar",
+  "@appTitle": {
+    "description": "Application title"
+  },
+
+  "skip": "Skip",
+  "@skip": {
+    "description": "Skip button text"
+  },
+
+  "getStarted": "Get Started",
+  "@getStarted": {
+    "description": "Button to start using the app"
+  },
+
+  "next": "Next",
+  "@next": {
+    "description": "Next button"
+  },
+
+  "previous": "Previous",
+  "@previous": {
+    "description": "Previous button"
+  },
+
+  "onboardingTitle1": "Discover Amazing Cocktails",
+  "@onboardingTitle1": {
+    "description": "First onboarding screen title"
+  },
+
+  "onboardingDescription1": "Browse through hundreds of cocktail recipes with detailed instructions and ingredients.",
+  "@onboardingDescription1": {
+    "description": "First onboarding screen description"
+  },
+
+  "onboardingTitle2": "Join Party Events",
+  "@onboardingTitle2": {
+    "description": "Second onboarding screen title"
+  },
+
+  "onboardingDescription2": "Enter party codes to join events and order cocktails directly from the host.",
+  "@onboardingDescription2": {
+    "description": "Second onboarding screen description"
+  },
+
+  "onboardingTitle3": "Create Your Own Parties",
+  "@onboardingTitle3": {
+    "description": "Third onboarding screen title"
+  },
+
+  "onboardingDescription3": "Host your own cocktail parties and manage orders from your guests.",
+  "@onboardingDescription3": {
+    "description": "Third onboarding screen description"
+  },
+
+  "onboardingTitle4": "Build Your Collection",
+  "@onboardingTitle4": {
+    "description": "Fourth onboarding screen title"
+  },
+
+  "onboardingDescription4": "Create personal cocktail bars and save your favorite recipes.",
+  "@onboardingDescription4": {
+    "description": "Fourth onboarding screen description"
+  },
+
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile screen title"
+  },
+
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings screen title"
+  },
+
+  "authentication": "Authentication",
+  "@authentication": {
+    "description": "Authentication screen title"
+  },
+
+  "ingredients": "Ingredients",
+  "@ingredients": {
+    "description": "Ingredients section header"
+  },
+
+  "equipment": "Equipment",
+  "@equipment": {
+    "description": "Equipment section header"
+  },
+
+  "preparationSteps": "Preparation Steps",
+  "@preparationSteps": {
+    "description": "Preparation steps section header"
+  },
+
+  "categories": "Categories",
+  "@categories": {
+    "description": "Categories section header"
+  },
+
+  "pageOfPages": "{current} of {total}",
+  "@pageOfPages": {
+    "description": "Page indicator",
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "1"
+      },
+      "total": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  }
+}

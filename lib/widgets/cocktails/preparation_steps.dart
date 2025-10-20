@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:party_bar/models/models.dart';
+import 'package:party_bar/utils/localization_helper.dart';
 
 class PreparationSteps extends StatelessWidget {
   final I18nArrayField? steps;
@@ -19,7 +20,7 @@ class PreparationSteps extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Preparation Steps',
+              context.l10n.preparationSteps,
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
