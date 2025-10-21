@@ -104,6 +104,42 @@ abstract class AppLocalizations {
   /// **'PartyBar'**
   String get appTitle;
 
+  /// Home navigation item
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navigationHome;
+
+  /// Explore navigation item
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get navigationExplore;
+
+  /// Party navigation item
+  ///
+  /// In en, this message translates to:
+  /// **'Party'**
+  String get navigationParty;
+
+  /// Settings navigation item
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get navigationSettings;
+
+  /// Profile navigation item
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navigationProfile;
+
+  /// Language setting label
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
   /// Skip button text
   ///
   /// In en, this message translates to:

@@ -12,6 +12,24 @@ class AppLocalizationsUk extends AppLocalizations {
   String get appTitle => 'PartyBar';
 
   @override
+  String get navigationHome => 'Головна';
+
+  @override
+  String get navigationExplore => 'Досліджувати';
+
+  @override
+  String get navigationParty => 'Вечірка';
+
+  @override
+  String get navigationSettings => 'Налаштування';
+
+  @override
+  String get navigationProfile => 'Профіль';
+
+  @override
+  String get language => 'Мова';
+
+  @override
   String get skip => 'Пропустити';
 
   @override

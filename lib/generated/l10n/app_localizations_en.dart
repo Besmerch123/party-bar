@@ -12,6 +12,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'PartyBar';
 
   @override
+  String get navigationHome => 'Home';
+
+  @override
+  String get navigationExplore => 'Explore';
+
+  @override
+  String get navigationParty => 'Party';
+
+  @override
+  String get navigationSettings => 'Settings';
+
+  @override
+  String get navigationProfile => 'Profile';
+
+  @override
+  String get language => 'Language';
+
+  @override
   String get skip => 'Skip';
 
   @override

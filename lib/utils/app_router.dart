@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:party_bar/utils/localization_helper.dart';
 import '../screens/screens.dart';
 
 class AppRoutes {
@@ -119,8 +120,7 @@ class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
     const HomeScreen(),
     const ExploreScreen(),
     const PartyHubScreen(),
-    const MyBarsScreen(),
-    const ProfileScreen(),
+    const SettingsScreen(),
   ];
 
   @override
@@ -140,31 +140,26 @@ class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
           context,
         ).colorScheme.onSurface.withValues(alpha: .6),
         backgroundColor: Theme.of(context).colorScheme.surface,
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home),
-            label: 'Home',
+            label: context.l10n.navigationHome,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_bar_outlined),
             activeIcon: Icon(Icons.local_bar),
-            label: 'Explore',
+            label: context.l10n.navigationExplore,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.celebration_outlined),
             activeIcon: Icon(Icons.celebration),
-            label: 'Party',
+            label: context.l10n.navigationParty,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.collections_outlined),
-            activeIcon: Icon(Icons.collections),
-            label: 'My Bars',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.settings_outlined),
+            activeIcon: Icon(Icons.settings),
+            label: context.l10n.navigationSettings,
           ),
         ],
       ),

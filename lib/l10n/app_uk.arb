@@ -1,6 +1,12 @@
 {
   "@@locale": "uk",
   "appTitle": "PartyBar",
+  "navigationHome": "Головна",
+  "navigationExplore": "Досліджувати",
+  "navigationParty": "Вечірка",
+  "navigationSettings": "Налаштування",
+  "navigationProfile": "Профіль",
+  "language": "Мова",
   "skip": "Пропустити",
   "getStarted": "Почати",
   "next": "Далі",
@@ -25,7 +31,6 @@
   "filterCocktails": "Фільтрувати коктейлі",
   "filtersApply": "Застосувати фільтри",
   "filtersClear": "Очистити всі",
-  
   "searchCocktailsHint": "Шукати коктейлі...",
   "clearAll": "Очистити все",
   "cocktailsFound": "Знайдено {count} коктейлів",

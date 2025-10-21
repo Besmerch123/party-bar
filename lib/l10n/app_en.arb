@@ -4,6 +4,30 @@
   "@appTitle": {
     "description": "Application title"
   },
+  "navigationHome": "Home",
+  "@navigationHome": {
+    "description": "Home navigation item"
+  },
+  "navigationExplore": "Explore",
+  "@navigationExplore": {
+    "description": "Explore navigation item"
+  },
+  "navigationParty": "Party",
+  "@navigationParty": {
+    "description": "Party navigation item"
+  },
+  "navigationSettings": "Settings",
+  "@navigationSettings": {
+    "description": "Settings navigation item"
+  },
+  "navigationProfile": "Profile",
+  "@navigationProfile": {
+    "description": "Profile navigation item"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language setting label"
+  },
   "skip": "Skip",
   "@skip": {
     "description": "Skip button text"
@@ -110,17 +134,14 @@
   "@filtersClear": {
     "description": "Button text to clear selected filters"
   },
-
   "searchCocktailsHint": "Search cocktails...",
   "@searchCocktailsHint": {
     "description": "Hint text in the search field"
   },
-
   "clearAll": "Clear All",
   "@clearAll": {
     "description": "Button to clear all active filters"
   },
-
   "cocktailsFound": "{count} cocktails found",
   "@cocktailsFound": {
     "description": "Number of cocktails in search results",
@@ -131,37 +152,30 @@
       }
     }
   },
-
   "noCocktailsFound": "No cocktails found",
   "@noCocktailsFound": {
     "description": "Empty state title when no cocktails match the search"
   },
-
   "tryAdjustingFilters": "Try adjusting your search or filters",
   "@tryAdjustingFilters": {
     "description": "Empty state subtitle suggesting to modify filters"
   },
-
   "clearFilters": "Clear Filters",
   "@clearFilters": {
     "description": "Button to clear filters in empty state"
   },
-
   "errorLoadingCocktails": "Error Loading Cocktails",
   "@errorLoadingCocktails": {
     "description": "Error state title"
   },
-
   "unknownError": "Unknown error",
   "@unknownError": {
     "description": "Fallback error message"
   },
-
   "retry": "Retry",
   "@retry": {
     "description": "Button to retry a failed operation"
   },
-
   "failedToRefresh": "Failed to refresh: {error}",
   "@failedToRefresh": {
     "description": "Error message when refresh fails",

@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:party_bar/utils/localization_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:party_bar/providers/locale_provider.dart';
 import 'package:party_bar/models/shared_types.dart';
 import '../../generated/l10n/app_localizations.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.profile), centerTitle: true),
+      appBar: AppBar(title: Text(l10n.navigationSettings), centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Language',
+            Text(
+              context.l10n.language,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            const LanguageSwitcher(),
+            const _LanguageSwitcher(),
           ],
         ),
       ),
@@ -31,8 +32,8 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-class LanguageSwitcher extends StatelessWidget {
-  const LanguageSwitcher({super.key});
+class _LanguageSwitcher extends StatelessWidget {
+  const _LanguageSwitcher();
 
   @override
   Widget build(BuildContext context) {
