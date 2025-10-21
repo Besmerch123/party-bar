@@ -152,4 +152,70 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get logoutError => 'Не вдалося вийти. Спробуйте ще раз.';
+
+  @override
+  String get signIn => 'Увійти';
+
+  @override
+  String get signUp => 'Зареєструватися';
+
+  @override
+  String get signInSuccess => 'Успішно увійшли';
+
+  @override
+  String get signUpSuccess => 'Обліковий запис створено успішно';
+
+  @override
+  String get email => 'Електронна пошта';
+
+  @override
+  String get emailHint => 'Введіть вашу електронну пошту';
+
+  @override
+  String get emailRequired => 'Електронна пошта обов\'язкова';
+
+  @override
+  String get emailInvalid => 'Будь ласка, введіть дійсну електронну пошту';
+
+  @override
+  String get password => 'Пароль';
+
+  @override
+  String get passwordHint => 'Введіть ваш пароль';
+
+  @override
+  String get passwordRequired => 'Пароль обов\'язковий';
+
+  @override
+  String get passwordTooShort => 'Пароль має містити не менше 6 символів';
+
+  @override
+  String get confirmPassword => 'Підтвердіть пароль';
+
+  @override
+  String get confirmPasswordHint => 'Введіть пароль ще раз';
+
+  @override
+  String get confirmPasswordRequired => 'Будь ласка, підтвердіть ваш пароль';
+
+  @override
+  String get passwordsDoNotMatch => 'Паролі не збігаються';
+
+  @override
+  String get createAccount => 'Створити обліковий запис';
+
+  @override
+  String get welcomeBack => 'З поверненням';
+
+  @override
+  String get signUpSubtitle => 'Створіть новий обліковий запис, щоб розпочати';
+
+  @override
+  String get signInSubtitle => 'Увійдіть у ваш обліковий запис';
+
+  @override
+  String get orContinueWith => 'Або продовжте з';
+
+  @override
+  String get continueWithGoogle => 'Продовжити через Google';
 }

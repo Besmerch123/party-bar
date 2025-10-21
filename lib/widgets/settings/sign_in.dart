@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../../utils/app_router.dart';
 import '../../utils/localization_helper.dart';
+import '../../providers/auth_provider.dart';
 
 /// A menu item widget for settings screen that handles user authentication.
 /// Shows "Log in" button when user is not authenticated, navigating to auth screen.
@@ -11,8 +13,9 @@ class SignInMenuItem extends StatelessWidget {
   const SignInMenuItem({super.key});
 
   Future<void> _handleLogout(BuildContext context) async {
+    final authProvider = context.read<AuthenticationProvider>();
     try {
-      await FirebaseAuth.instance.signOut();
+      await authProvider.signOut();
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -40,10 +43,12 @@ class SignInMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.read<AuthenticationProvider>();
+
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        final isLoggedIn = snapshot.hasData && snapshot.data != null;
+        final isLoggedIn = authProvider.isAuthenticated;
         final isLoading = snapshot.connectionState == ConnectionState.waiting;
 
         return Card(

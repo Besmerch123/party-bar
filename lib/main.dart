@@ -8,6 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'firebase_options.dart';
 import 'utils/app_router.dart';
 import 'providers/locale_provider.dart';
+import 'providers/auth_provider.dart' show AuthenticationProvider;
 import 'generated/l10n/app_localizations.dart';
 
 const _hasSeenWelcomeKey = 'has_seen_welcome';
@@ -42,8 +43,11 @@ class PartyBarApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => LocaleProvider()..initialize(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LocaleProvider()..initialize()),
+        ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
+      ],
       child: Consumer<LocaleProvider>(
         builder: (context, localeProvider, child) {
           return MaterialApp.router(

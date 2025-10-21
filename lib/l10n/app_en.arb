@@ -201,5 +201,93 @@
   "logoutError": "Failed to logout. Please try again.",
   "@logoutError": {
     "description": "Error message when logout fails"
+  },
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "Sign in tab and button text"
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "Sign up tab and button text"
+  },
+  "signInSuccess": "Successfully signed in",
+  "@signInSuccess": {
+    "description": "Success message after sign in"
+  },
+  "signUpSuccess": "Account created successfully",
+  "@signUpSuccess": {
+    "description": "Success message after sign up"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email field label"
+  },
+  "emailHint": "Enter your email",
+  "@emailHint": {
+    "description": "Email field hint"
+  },
+  "emailRequired": "Email is required",
+  "@emailRequired": {
+    "description": "Email validation error"
+  },
+  "emailInvalid": "Please enter a valid email",
+  "@emailInvalid": {
+    "description": "Email validation error"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password field label"
+  },
+  "passwordHint": "Enter your password",
+  "@passwordHint": {
+    "description": "Password field hint"
+  },
+  "passwordRequired": "Password is required",
+  "@passwordRequired": {
+    "description": "Password validation error"
+  },
+  "passwordTooShort": "Password must be at least 6 characters",
+  "@passwordTooShort": {
+    "description": "Password validation error"
+  },
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Confirm password field label"
+  },
+  "confirmPasswordHint": "Re-enter your password",
+  "@confirmPasswordHint": {
+    "description": "Confirm password field hint"
+  },
+  "confirmPasswordRequired": "Please confirm your password",
+  "@confirmPasswordRequired": {
+    "description": "Confirm password validation error"
+  },
+  "passwordsDoNotMatch": "Passwords do not match",
+  "@passwordsDoNotMatch": {
+    "description": "Password match validation error"
+  },
+  "createAccount": "Create Account",
+  "@createAccount": {
+    "description": "Sign up page title"
+  },
+  "welcomeBack": "Welcome Back",
+  "@welcomeBack": {
+    "description": "Sign in page title"
+  },
+  "signUpSubtitle": "Create a new account to get started",
+  "@signUpSubtitle": {
+    "description": "Sign up page subtitle"
+  },
+  "signInSubtitle": "Sign in to your account",
+  "@signInSubtitle": {
+    "description": "Sign in page subtitle"
+  },
+  "orContinueWith": "Or continue with",
+  "@orContinueWith": {
+    "description": "Divider text for social login"
+  },
+  "continueWithGoogle": "Continue with Google",
+  "@continueWithGoogle": {
+    "description": "Google sign in button text"
   }
 }
