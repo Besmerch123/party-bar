@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:party_bar/widgets/cocktails/cocktail_categories.dart';
 import 'package:provider/provider.dart';
 import '../../models/models.dart';
 import '../../data/cocktail_repository.dart';
@@ -80,26 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('PartyBar'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              // Navigate to explore screen
-              if (context.mounted) {
-                // We'll need to update this when we have proper tab navigation
-                // For now, this is a placeholder
-              }
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () => _showNotifications(),
-          ),
-        ],
-      ),
+      appBar: AppBar(title: const Text('PartyBar'), centerTitle: true),
       body: FutureBuilder<_HomeData>(
         future: _homeDataFuture,
         builder: (context, snapshot) {
@@ -162,7 +144,6 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
-      floatingActionButton: _buildFloatingActionButtons(),
     );
   }
 
@@ -375,8 +356,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      _getCategoryColor(category).withOpacity(0.8),
-                      _getCategoryColor(category),
+                      CocktailCategories.getCategoryColor(
+                        category,
+                      ).withValues(alpha: .8),
+                      CocktailCategories.getCategoryColor(category),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -454,7 +437,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Spacer(),
                       // Simplified - no prep time or difficulty in current model
                       Text(
-                        _getCategoryDisplayName(category),
+                        CocktailCategories.getCategoryDisplayName(category),
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w500,
@@ -514,8 +497,10 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              _getCategoryColor(category).withOpacity(0.8),
-              _getCategoryColor(category),
+              CocktailCategories.getCategoryColor(
+                category,
+              ).withValues(alpha: 0.8),
+              CocktailCategories.getCategoryColor(category),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -527,10 +512,14 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(_getCategoryIcon(category), color: Colors.white, size: 32),
+              Icon(
+                CocktailCategories.getCategoryIcon(category),
+                color: Colors.white,
+                size: 32,
+              ),
               const SizedBox(height: 8),
               Text(
-                _getCategoryDisplayName(category),
+                CocktailCategories.getCategoryDisplayName(category),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
@@ -613,8 +602,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      _getCategoryColor(category).withOpacity(0.8),
-                      _getCategoryColor(category),
+                      CocktailCategories.getCategoryColor(
+                        category,
+                      ).withValues(alpha: .8),
+                      CocktailCategories.getCategoryColor(category),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(8),
@@ -638,7 +629,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      _getCategoryDisplayName(category),
+                      CocktailCategories.getCategoryDisplayName(category),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(
                           context,
@@ -649,131 +640,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Icon(
-                _getCategoryIcon(category),
-                color: _getCategoryColor(category),
+                CocktailCategories.getCategoryIcon(category),
+                color: CocktailCategories.getCategoryColor(category),
                 size: 20,
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildFloatingActionButtons() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        FloatingActionButton(
-          heroTag: "create_party",
-          onPressed: () => context.push(AppRoutes.createParty),
-          backgroundColor: Colors.orange,
-          child: const Icon(Icons.party_mode),
-        ),
-        const SizedBox(height: 16),
-        FloatingActionButton(
-          heroTag: "join_party",
-          onPressed: () => context.push(AppRoutes.joinParty),
-          backgroundColor: Colors.purple,
-          child: const Icon(Icons.celebration),
-        ),
-      ],
-    );
-  }
-
-  Color _getCategoryColor(CocktailCategory category) {
-    switch (category) {
-      case CocktailCategory.classic:
-        return Colors.brown;
-      case CocktailCategory.signature:
-        return Colors.purple;
-      case CocktailCategory.seasonal:
-        return Colors.orange;
-      case CocktailCategory.frozen:
-        return Colors.blue;
-      case CocktailCategory.mocktail:
-        return Colors.green;
-      case CocktailCategory.shot:
-        return Colors.red;
-      case CocktailCategory.long:
-        return Colors.cyan;
-      case CocktailCategory.punch:
-        return Colors.pink;
-      case CocktailCategory.tiki:
-        return Colors.amber;
-      case CocktailCategory.highball:
-        return Colors.teal;
-      case CocktailCategory.lowball:
-        return Colors.deepOrange;
-    }
-  }
-
-  IconData _getCategoryIcon(CocktailCategory category) {
-    switch (category) {
-      case CocktailCategory.classic:
-        return Icons.history;
-      case CocktailCategory.signature:
-        return Icons.auto_awesome;
-      case CocktailCategory.seasonal:
-        return Icons.wb_sunny;
-      case CocktailCategory.frozen:
-        return Icons.ac_unit;
-      case CocktailCategory.mocktail:
-        return Icons.eco;
-      case CocktailCategory.shot:
-        return Icons.flash_on;
-      case CocktailCategory.long:
-        return Icons.height;
-      case CocktailCategory.punch:
-        return Icons.celebration;
-      case CocktailCategory.tiki:
-        return Icons.sailing;
-      case CocktailCategory.highball:
-        return Icons.wine_bar;
-      case CocktailCategory.lowball:
-        return Icons.local_bar;
-    }
-  }
-
-  String _getCategoryDisplayName(CocktailCategory category) {
-    switch (category) {
-      case CocktailCategory.classic:
-        return 'Classic';
-      case CocktailCategory.signature:
-        return 'Signature';
-      case CocktailCategory.seasonal:
-        return 'Seasonal';
-      case CocktailCategory.frozen:
-        return 'Frozen';
-      case CocktailCategory.mocktail:
-        return 'Mocktail';
-      case CocktailCategory.shot:
-        return 'Shot';
-      case CocktailCategory.long:
-        return 'Long';
-      case CocktailCategory.punch:
-        return 'Punch';
-      case CocktailCategory.tiki:
-        return 'Tiki';
-      case CocktailCategory.highball:
-        return 'Highball';
-      case CocktailCategory.lowball:
-        return 'Lowball';
-    }
-  }
-
-  void _showNotifications() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Notifications'),
-        content: const Text('No new notifications'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
       ),
     );
   }
