@@ -40,5 +40,9 @@
   "errorLoadingCocktails": "Помилка завантаження коктейлів",
   "unknownError": "Невідома помилка",
   "retry": "Повторити",
-  "failedToRefresh": "Не вдалося оновити: {error}"
+  "failedToRefresh": "Не вдалося оновити: {error}",
+  "login": "Увійти",
+  "logout": "Вийти",
+  "logoutSuccess": "Успішно вийшли з системи",
+  "logoutError": "Не вдалося вийти. Спробуйте ще раз."
 }

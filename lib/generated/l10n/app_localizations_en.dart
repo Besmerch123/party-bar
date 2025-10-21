@@ -140,4 +140,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String failedToRefresh(String error) {
     return 'Failed to refresh: $error';
   }
+
+  @override
+  String get login => 'Log in';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get logoutSuccess => 'Successfully logged out';
+
+  @override
+  String get logoutError => 'Failed to logout. Please try again.';
 }

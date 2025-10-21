@@ -343,6 +343,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to refresh: {error}'**
   String failedToRefresh(String error);
+
+  /// Login button text
+  ///
+  /// In en, this message translates to:
+  /// **'Log in'**
+  String get login;
+
+  /// Logout button text
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// Success message after logout
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully logged out'**
+  String get logoutSuccess;
+
+  /// Error message when logout fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to logout. Please try again.'**
+  String get logoutError;
 }
 
 class _AppLocalizationsDelegate

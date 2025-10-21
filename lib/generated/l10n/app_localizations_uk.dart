@@ -140,4 +140,16 @@ class AppLocalizationsUk extends AppLocalizations {
   String failedToRefresh(String error) {
     return 'Не вдалося оновити: $error';
   }
+
+  @override
+  String get login => 'Увійти';
+
+  @override
+  String get logout => 'Вийти';
+
+  @override
+  String get logoutSuccess => 'Успішно вийшли з системи';
+
+  @override
+  String get logoutError => 'Не вдалося вийти. Спробуйте ще раз.';
 }

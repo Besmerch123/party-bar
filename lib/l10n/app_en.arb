@@ -185,5 +185,21 @@
         "example": "Network error"
       }
     }
+  },
+  "login": "Log in",
+  "@login": {
+    "description": "Login button text"
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button text"
+  },
+  "logoutSuccess": "Successfully logged out",
+  "@logoutSuccess": {
+    "description": "Success message after logout"
+  },
+  "logoutError": "Failed to logout. Please try again.",
+  "@logoutError": {
+    "description": "Error message when logout fails"
   }
 }
