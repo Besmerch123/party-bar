@@ -333,5 +333,75 @@
   "partyQuickInfo": "Hosts can manage orders and guests can browse cocktails in real-time!",
   "@partyQuickInfo": {
     "description": "Quick info message about party features"
+  },
+  "createPartyTitle": "Create Party",
+  "@createPartyTitle": {
+    "description": "Create party screen title"
+  },
+  "createYourParty": "Create Your Party",
+  "@createYourParty": {
+    "description": "Create party screen header title"
+  },
+  "createPartyDescription": "Set up your cocktail party and invite guests",
+  "@createPartyDescription": {
+    "description": "Create party screen header description"
+  },
+  "partyDetails": "Party Details",
+  "@partyDetails": {
+    "description": "Party details section header"
+  },
+  "partyNameLabel": "Party Name *",
+  "@partyNameLabel": {
+    "description": "Party name input field label"
+  },
+  "partyNameHint": "e.g., Sarah's Birthday Bash",
+  "@partyNameHint": {
+    "description": "Party name input field hint"
+  },
+  "partyDescriptionLabel": "Description (Optional)",
+  "@partyDescriptionLabel": {
+    "description": "Party description input field label"
+  },
+  "partyDescriptionHint": "Tell guests about your party...",
+  "@partyDescriptionHint": {
+    "description": "Party description input field hint"
+  },
+  "selectAvailableCocktails": "Select Available Cocktails *",
+  "@selectAvailableCocktails": {
+    "description": "Cocktails selection section header"
+  },
+  "selectedCount": "{count} selected",
+  "@selectedCount": {
+    "description": "Number of selected cocktails",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "allClassic": "All Classic",
+  "@allClassic": {
+    "description": "Quick select button for classic cocktails"
+  },
+  "tikiAndFrozen": "Tiki & Frozen",
+  "@tikiAndFrozen": {
+    "description": "Quick select button for tiki and frozen cocktails"
+  },
+  "createPartyButton": "Create Party",
+  "@createPartyButton": {
+    "description": "Create party button text"
+  },
+  "pleaseEnterPartyName": "Please enter a party name",
+  "@pleaseEnterPartyName": {
+    "description": "Validation error for empty party name"
+  },
+  "pleaseSelectCocktail": "Please select at least one cocktail",
+  "@pleaseSelectCocktail": {
+    "description": "Validation error for no cocktails selected"
+  },
+  "cocktail": "Cocktail",
+  "@cocktail": {
+    "description": "Generic cocktail label"
   }
 }

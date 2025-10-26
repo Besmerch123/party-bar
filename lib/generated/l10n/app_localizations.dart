@@ -565,6 +565,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hosts can manage orders and guests can browse cocktails in real-time!'**
   String get partyQuickInfo;
+
+  /// Create party screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Create Party'**
+  String get createPartyTitle;
+
+  /// Create party screen header title
+  ///
+  /// In en, this message translates to:
+  /// **'Create Your Party'**
+  String get createYourParty;
+
+  /// Create party screen header description
+  ///
+  /// In en, this message translates to:
+  /// **'Set up your cocktail party and invite guests'**
+  String get createPartyDescription;
+
+  /// Party details section header
+  ///
+  /// In en, this message translates to:
+  /// **'Party Details'**
+  String get partyDetails;
+
+  /// Party name input field label
+  ///
+  /// In en, this message translates to:
+  /// **'Party Name *'**
+  String get partyNameLabel;
+
+  /// Party name input field hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Sarah\'s Birthday Bash'**
+  String get partyNameHint;
+
+  /// Party description input field label
+  ///
+  /// In en, this message translates to:
+  /// **'Description (Optional)'**
+  String get partyDescriptionLabel;
+
+  /// Party description input field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Tell guests about your party...'**
+  String get partyDescriptionHint;
+
+  /// Cocktails selection section header
+  ///
+  /// In en, this message translates to:
+  /// **'Select Available Cocktails *'**
+  String get selectAvailableCocktails;
+
+  /// Number of selected cocktails
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String selectedCount(int count);
+
+  /// Quick select button for classic cocktails
+  ///
+  /// In en, this message translates to:
+  /// **'All Classic'**
+  String get allClassic;
+
+  /// Quick select button for tiki and frozen cocktails
+  ///
+  /// In en, this message translates to:
+  /// **'Tiki & Frozen'**
+  String get tikiAndFrozen;
+
+  /// Create party button text
+  ///
+  /// In en, this message translates to:
+  /// **'Create Party'**
+  String get createPartyButton;
+
+  /// Validation error for empty party name
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a party name'**
+  String get pleaseEnterPartyName;
+
+  /// Validation error for no cocktails selected
+  ///
+  /// In en, this message translates to:
+  /// **'Please select at least one cocktail'**
+  String get pleaseSelectCocktail;
+
+  /// Generic cocktail label
+  ///
+  /// In en, this message translates to:
+  /// **'Cocktail'**
+  String get cocktail;
 }
 
 class _AppLocalizationsDelegate

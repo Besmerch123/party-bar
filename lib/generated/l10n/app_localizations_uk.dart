@@ -255,4 +255,56 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get partyQuickInfo =>
       'Хости можуть керувати замовленнями, а гості переглядати коктейлі в режимі реального часу!';
+
+  @override
+  String get createPartyTitle => 'Створити вечірку';
+
+  @override
+  String get createYourParty => 'Створіть свою вечірку';
+
+  @override
+  String get createPartyDescription =>
+      'Налаштуйте коктейльну вечірку та запросіть гостей';
+
+  @override
+  String get partyDetails => 'Деталі вечірки';
+
+  @override
+  String get partyNameLabel => 'Назва вечірки *';
+
+  @override
+  String get partyNameHint => 'напр., День народження Сари';
+
+  @override
+  String get partyDescriptionLabel => 'Опис (необов\'язково)';
+
+  @override
+  String get partyDescriptionHint => 'Розкажіть гостям про вашу вечірку...';
+
+  @override
+  String get selectAvailableCocktails => 'Виберіть доступні коктейлі *';
+
+  @override
+  String selectedCount(int count) {
+    return 'Обрано: $count';
+  }
+
+  @override
+  String get allClassic => 'Всі класичні';
+
+  @override
+  String get tikiAndFrozen => 'Тікі та заморожені';
+
+  @override
+  String get createPartyButton => 'Створити вечірку';
+
+  @override
+  String get pleaseEnterPartyName => 'Будь ласка, введіть назву вечірки';
+
+  @override
+  String get pleaseSelectCocktail =>
+      'Будь ласка, виберіть хоча б один коктейль';
+
+  @override
+  String get cocktail => 'Коктейль';
 }

@@ -77,5 +77,21 @@
   "joinPartySubtitle": "Введіть код вечірки, щоб приєднатися до веселощів",
   "createParty": "Створити вечірку",
   "createPartySubtitle": "Організуйте власну коктейльну вечірку",
-  "partyQuickInfo": "Хости можуть керувати замовленнями, а гості переглядати коктейлі в режимі реального часу!"
+  "partyQuickInfo": "Хости можуть керувати замовленнями, а гості переглядати коктейлі в режимі реального часу!",
+  "createPartyTitle": "Створити вечірку",
+  "createYourParty": "Створіть свою вечірку",
+  "createPartyDescription": "Налаштуйте коктейльну вечірку та запросіть гостей",
+  "partyDetails": "Деталі вечірки",
+  "partyNameLabel": "Назва вечірки *",
+  "partyNameHint": "напр., День народження Сари",
+  "partyDescriptionLabel": "Опис (необов'язково)",
+  "partyDescriptionHint": "Розкажіть гостям про вашу вечірку...",
+  "selectAvailableCocktails": "Виберіть доступні коктейлі *",
+  "selectedCount": "Обрано: {count}",
+  "allClassic": "Всі класичні",
+  "tikiAndFrozen": "Тікі та заморожені",
+  "createPartyButton": "Створити вечірку",
+  "pleaseEnterPartyName": "Будь ласка, введіть назву вечірки",
+  "pleaseSelectCocktail": "Будь ласка, виберіть хоча б один коктейль",
+  "cocktail": "Коктейль"
 }

@@ -254,4 +254,55 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get partyQuickInfo =>
       'Hosts can manage orders and guests can browse cocktails in real-time!';
+
+  @override
+  String get createPartyTitle => 'Create Party';
+
+  @override
+  String get createYourParty => 'Create Your Party';
+
+  @override
+  String get createPartyDescription =>
+      'Set up your cocktail party and invite guests';
+
+  @override
+  String get partyDetails => 'Party Details';
+
+  @override
+  String get partyNameLabel => 'Party Name *';
+
+  @override
+  String get partyNameHint => 'e.g., Sarah\'s Birthday Bash';
+
+  @override
+  String get partyDescriptionLabel => 'Description (Optional)';
+
+  @override
+  String get partyDescriptionHint => 'Tell guests about your party...';
+
+  @override
+  String get selectAvailableCocktails => 'Select Available Cocktails *';
+
+  @override
+  String selectedCount(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String get allClassic => 'All Classic';
+
+  @override
+  String get tikiAndFrozen => 'Tiki & Frozen';
+
+  @override
+  String get createPartyButton => 'Create Party';
+
+  @override
+  String get pleaseEnterPartyName => 'Please enter a party name';
+
+  @override
+  String get pleaseSelectCocktail => 'Please select at least one cocktail';
+
+  @override
+  String get cocktail => 'Cocktail';
 }
