@@ -15,7 +15,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get navigationHome => 'Головна';
 
   @override
-  String get navigationExplore => 'Досліджувати';
+  String get navigationExplore => 'Каталог';
 
   @override
   String get navigationParty => 'Вечірка';
