@@ -140,4 +140,92 @@ class AppLocalizationsEn extends AppLocalizations {
   String failedToRefresh(String error) {
     return 'Failed to refresh: $error';
   }
+
+  @override
+  String get login => 'Log in';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get logoutSuccess => 'Successfully logged out';
+
+  @override
+  String get logoutError => 'Failed to logout. Please try again.';
+
+  @override
+  String get signIn => 'Sign In';
+
+  @override
+  String get signUp => 'Sign Up';
+
+  @override
+  String get signInSuccess => 'Successfully signed in';
+
+  @override
+  String get signUpSuccess => 'Account created successfully';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get emailHint => 'Enter your email';
+
+  @override
+  String get emailRequired => 'Email is required';
+
+  @override
+  String get emailInvalid => 'Please enter a valid email';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get passwordHint => 'Enter your password';
+
+  @override
+  String get passwordRequired => 'Password is required';
+
+  @override
+  String get passwordTooShort => 'Password must be at least 6 characters';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get confirmPasswordHint => 'Re-enter your password';
+
+  @override
+  String get confirmPasswordRequired => 'Please confirm your password';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get createAccount => 'Create Account';
+
+  @override
+  String get welcomeBack => 'Welcome Back';
+
+  @override
+  String get signUpSubtitle => 'Create a new account to get started';
+
+  @override
+  String get signInSubtitle => 'Sign in to your account';
+
+  @override
+  String get orContinueWith => 'Or continue with';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get authenticationRequired => 'Authentication Required';
+
+  @override
+  String get authenticationRequiredMessage =>
+      'This feature is available only for authenticated users. Please sign in to continue.';
+
+  @override
+  String get signInToContinue => 'Sign In to Continue';
 }

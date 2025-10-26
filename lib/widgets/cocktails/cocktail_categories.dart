@@ -81,4 +81,31 @@ class CocktailCategories extends StatelessWidget {
         return Colors.amber;
     }
   }
+
+  static IconData getCategoryIcon(CocktailCategory category) {
+    switch (category) {
+      case CocktailCategory.classic:
+        return Icons.history;
+      case CocktailCategory.signature:
+        return Icons.auto_awesome;
+      case CocktailCategory.seasonal:
+        return Icons.wb_sunny;
+      case CocktailCategory.frozen:
+        return Icons.ac_unit;
+      case CocktailCategory.mocktail:
+        return Icons.eco;
+      case CocktailCategory.shot:
+        return Icons.flash_on;
+      case CocktailCategory.long:
+        return Icons.height;
+      case CocktailCategory.punch:
+        return Icons.celebration;
+      case CocktailCategory.tiki:
+        return Icons.sailing;
+      case CocktailCategory.highball:
+        return Icons.wine_bar;
+      case CocktailCategory.lowball:
+        return Icons.local_bar;
+    }
+  }
 }

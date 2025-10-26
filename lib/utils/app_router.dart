@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:party_bar/utils/localization_helper.dart';
 import '../screens/screens.dart';
+import '../widgets/auth/auth_guard.dart';
 
 class AppRoutes {
   static const String welcome = '/welcome';
@@ -13,9 +14,6 @@ class AppRoutes {
   static const String joinParty = '/party/join';
   static const String createParty = '/party/create';
   static const String partyDetails = '/party/details';
-  static const String myBars = '/bars';
-  static const String createBar = '/bars/create';
-  static const String barDetails = '/bars/details';
   static const String profile = '/profile';
   static const String settings = '/settings';
   static const String auth = '/auth';
@@ -55,33 +53,30 @@ GoRouter createAppRouter({required bool showWelcome}) {
         },
       ),
 
-      // Party Routes
+      // Party Routes (Protected)
       GoRoute(
         path: AppRoutes.joinParty,
-        builder: (context, state) => const JoinPartyScreen(),
+        builder: (context, state) => AuthGuard(
+          redirectPath: AppRoutes.joinParty,
+          child: const JoinPartyScreen(),
+        ),
       ),
       GoRoute(
         path: AppRoutes.createParty,
-        builder: (context, state) => const CreatePartyScreen(),
+        builder: (context, state) => AuthGuard(
+          redirectPath: AppRoutes.createParty,
+          child: const CreatePartyScreen(),
+        ),
       ),
       GoRoute(
         path: '${AppRoutes.partyDetails}/:id',
         builder: (context, state) {
           final partyId = state.pathParameters['id']!;
-          return PartyDetailsScreen(partyId: partyId);
-        },
-      ),
-
-      // Bar Routes
-      GoRoute(
-        path: AppRoutes.createBar,
-        builder: (context, state) => const CreateBarScreen(),
-      ),
-      GoRoute(
-        path: '${AppRoutes.barDetails}/:id',
-        builder: (context, state) {
-          final barId = state.pathParameters['id']!;
-          return BarDetailsScreen(barId: barId);
+          final partyDetailsPath = '${AppRoutes.partyDetails}/$partyId';
+          return AuthGuard(
+            redirectPath: partyDetailsPath,
+            child: PartyDetailsScreen(partyId: partyId),
+          );
         },
       ),
 
@@ -92,7 +87,10 @@ GoRouter createAppRouter({required bool showWelcome}) {
       ),
       GoRoute(
         path: AppRoutes.auth,
-        builder: (context, state) => const AuthScreen(),
+        builder: (context, state) {
+          final redirectPath = state.uri.queryParameters['redirect'];
+          return AuthScreen(redirectPath: redirectPath);
+        },
       ),
     ],
   );

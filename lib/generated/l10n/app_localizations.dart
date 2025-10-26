@@ -343,6 +343,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to refresh: {error}'**
   String failedToRefresh(String error);
+
+  /// Login button text
+  ///
+  /// In en, this message translates to:
+  /// **'Log in'**
+  String get login;
+
+  /// Logout button text
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// Success message after logout
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully logged out'**
+  String get logoutSuccess;
+
+  /// Error message when logout fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to logout. Please try again.'**
+  String get logoutError;
+
+  /// Sign in tab and button text
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signIn;
+
+  /// Sign up tab and button text
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUp;
+
+  /// Success message after sign in
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully signed in'**
+  String get signInSuccess;
+
+  /// Success message after sign up
+  ///
+  /// In en, this message translates to:
+  /// **'Account created successfully'**
+  String get signUpSuccess;
+
+  /// Email field label
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// Email field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get emailHint;
+
+  /// Email validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required'**
+  String get emailRequired;
+
+  /// Email validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email'**
+  String get emailInvalid;
+
+  /// Password field label
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// Password field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get passwordHint;
+
+  /// Password validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Password is required'**
+  String get passwordRequired;
+
+  /// Password validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get passwordTooShort;
+
+  /// Confirm password field label
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
+  /// Confirm password field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Re-enter your password'**
+  String get confirmPasswordHint;
+
+  /// Confirm password validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm your password'**
+  String get confirmPasswordRequired;
+
+  /// Password match validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatch;
+
+  /// Sign up page title
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccount;
+
+  /// Sign in page title
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back'**
+  String get welcomeBack;
+
+  /// Sign up page subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new account to get started'**
+  String get signUpSubtitle;
+
+  /// Sign in page subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to your account'**
+  String get signInSubtitle;
+
+  /// Divider text for social login
+  ///
+  /// In en, this message translates to:
+  /// **'Or continue with'**
+  String get orContinueWith;
+
+  /// Google sign in button text
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogle;
+
+  /// Title for authentication barrier screen
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication Required'**
+  String get authenticationRequired;
+
+  /// Message explaining authentication requirement
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is available only for authenticated users. Please sign in to continue.'**
+  String get authenticationRequiredMessage;
+
+  /// Button text to navigate to login
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In to Continue'**
+  String get signInToContinue;
 }
 
 class _AppLocalizationsDelegate

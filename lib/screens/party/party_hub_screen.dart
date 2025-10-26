@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'create_party_screen.dart';
-import 'join_party_screen.dart';
+import 'package:go_router/go_router.dart';
+import '../../utils/app_router.dart';
 
 class PartyHubScreen extends StatelessWidget {
   const PartyHubScreen({super.key});
@@ -24,7 +23,7 @@ class PartyHubScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: .1),
                       blurRadius: 20,
                       offset: const Offset(0, 5),
                     ),
@@ -73,12 +72,7 @@ class PartyHubScreen extends StatelessWidget {
                       icon: Icons.people,
                       color: Colors.blue,
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const JoinPartyScreen(),
-                          ),
-                        );
+                        context.push(AppRoutes.joinParty);
                       },
                     ),
 
@@ -92,12 +86,7 @@ class PartyHubScreen extends StatelessWidget {
                       icon: Icons.add_circle,
                       color: Colors.deepPurple,
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CreatePartyScreen(),
-                          ),
-                        );
+                        context.push(AppRoutes.createParty);
                       },
                     ),
 
@@ -163,7 +152,7 @@ class PartyHubScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: .1),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),
@@ -174,7 +163,7 @@ class PartyHubScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
+                color: color.withValues(alpha: .1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(icon, size: 32, color: color),
