@@ -32,7 +32,7 @@ class PartyService {
       'hostName': _currentUser!.displayName ?? 'Anonymous',
       'availableCocktailIds': [],
       'joinCode': joinCode,
-      'status': PartyStatus.active.name,
+      'status': PartyStatus.paused.name,
       'createdAt': FieldValue.serverTimestamp(),
       'endedAt': null,
       'totalOrders': 0,
@@ -131,6 +131,27 @@ class PartyService {
       await _partiesCollection.doc(partyId).update(updates);
     } catch (e) {
       throw Exception('Failed to update party status: $e');
+    }
+  }
+
+  /// Update party information (name and description)
+  Future<void> updateParty(
+    String partyId, {
+    String? name,
+    String? description,
+  }) async {
+    try {
+      final updates = <String, dynamic>{};
+      if (name != null) updates['name'] = name;
+      if (description != null) {
+        updates['description'] = description;
+      }
+
+      if (updates.isNotEmpty) {
+        await _partiesCollection.doc(partyId).update(updates);
+      }
+    } catch (e) {
+      throw Exception('Failed to update party: $e');
     }
   }
 

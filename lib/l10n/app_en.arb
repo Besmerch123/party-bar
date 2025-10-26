@@ -403,5 +403,113 @@
   "cocktail": "Cocktail",
   "@cocktail": {
     "description": "Generic cocktail label"
+  },
+  "invitationCode": "Invitation Code",
+  "@invitationCode": {
+    "description": "Label for party invitation code"
+  },
+  "shareCode": "Share Code",
+  "@shareCode": {
+    "description": "Button to share invitation code"
+  },
+  "copyCode": "Copy Code",
+  "@copyCode": {
+    "description": "Button to copy invitation code"
+  },
+  "codeCopied": "Code copied to clipboard!",
+  "@codeCopied": {
+    "description": "Confirmation message after copying code"
+  },
+  "partyCocktails": "Party Cocktails",
+  "@partyCocktails": {
+    "description": "Header for party cocktails list"
+  },
+  "addCocktails": "Add Cocktails",
+  "@addCocktails": {
+    "description": "Button to add new cocktails to party"
+  },
+  "removeCocktail": "Remove",
+  "@removeCocktail": {
+    "description": "Button to remove cocktail from party"
+  },
+  "noCocktailsAdded": "No cocktails added yet",
+  "@noCocktailsAdded": {
+    "description": "Empty state message for cocktail list"
+  },
+  "editPartyInfo": "Edit Party Info",
+  "@editPartyInfo": {
+    "description": "Button to edit party information"
+  },
+  "saveChanges": "Save Changes",
+  "@saveChanges": {
+    "description": "Button to save changes"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  "partyStatus": "Party Status",
+  "@partyStatus": {
+    "description": "Label for party status section"
+  },
+  "startParty": "Start Party",
+  "@startParty": {
+    "description": "Button to start the party"
+  },
+  "pauseParty": "Pause Party",
+  "@pauseParty": {
+    "description": "Button to pause the party"
+  },
+  "resumeParty": "Resume Party",
+  "@resumeParty": {
+    "description": "Button to resume the party"
+  },
+  "endParty": "End Party",
+  "@endParty": {
+    "description": "Button to end the party"
+  },
+  "partyActive": "Active",
+  "@partyActive": {
+    "description": "Status label for active party"
+  },
+  "partyPaused": "Paused",
+  "@partyPaused": {
+    "description": "Status label for paused party"
+  },
+  "partyEnded": "Ended",
+  "@partyEnded": {
+    "description": "Status label for ended party"
+  },
+  "confirmEndParty": "Are you sure you want to end the party?",
+  "@confirmEndParty": {
+    "description": "Confirmation dialog for ending party"
+  },
+  "confirmEndPartyMessage": "This action cannot be undone. All party data will be archived.",
+  "@confirmEndPartyMessage": {
+    "description": "Confirmation dialog message for ending party"
+  },
+  "partyAdminPanel": "Party Admin",
+  "@partyAdminPanel": {
+    "description": "Header for party admin panel"
+  },
+  "myHostedParties": "My Hosted Parties",
+  "@myHostedParties": {
+    "description": "Title for hosted parties bottom sheet"
+  },
+  "viewMyParties": "View My Parties",
+  "@viewMyParties": {
+    "description": "Button text to view hosted parties"
+  },
+  "noHostedParties": "You haven't hosted any parties yet",
+  "@noHostedParties": {
+    "description": "Message when user has no hosted parties"
+  },
+  "createFirstParty": "Create your first party to get started!",
+  "@createFirstParty": {
+    "description": "Encouragement message to create first party"
+  },
+  "viewDetails": "View Details",
+  "@viewDetails": {
+    "description": "Button text to view party details"
   }
 }

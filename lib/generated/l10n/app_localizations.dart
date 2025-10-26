@@ -661,6 +661,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cocktail'**
   String get cocktail;
+
+  /// Label for party invitation code
+  ///
+  /// In en, this message translates to:
+  /// **'Invitation Code'**
+  String get invitationCode;
+
+  /// Button to share invitation code
+  ///
+  /// In en, this message translates to:
+  /// **'Share Code'**
+  String get shareCode;
+
+  /// Button to copy invitation code
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Code'**
+  String get copyCode;
+
+  /// Confirmation message after copying code
+  ///
+  /// In en, this message translates to:
+  /// **'Code copied to clipboard!'**
+  String get codeCopied;
+
+  /// Header for party cocktails list
+  ///
+  /// In en, this message translates to:
+  /// **'Party Cocktails'**
+  String get partyCocktails;
+
+  /// Button to add new cocktails to party
+  ///
+  /// In en, this message translates to:
+  /// **'Add Cocktails'**
+  String get addCocktails;
+
+  /// Button to remove cocktail from party
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeCocktail;
+
+  /// Empty state message for cocktail list
+  ///
+  /// In en, this message translates to:
+  /// **'No cocktails added yet'**
+  String get noCocktailsAdded;
+
+  /// Button to edit party information
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Party Info'**
+  String get editPartyInfo;
+
+  /// Button to save changes
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// Cancel button
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Label for party status section
+  ///
+  /// In en, this message translates to:
+  /// **'Party Status'**
+  String get partyStatus;
+
+  /// Button to start the party
+  ///
+  /// In en, this message translates to:
+  /// **'Start Party'**
+  String get startParty;
+
+  /// Button to pause the party
+  ///
+  /// In en, this message translates to:
+  /// **'Pause Party'**
+  String get pauseParty;
+
+  /// Button to resume the party
+  ///
+  /// In en, this message translates to:
+  /// **'Resume Party'**
+  String get resumeParty;
+
+  /// Button to end the party
+  ///
+  /// In en, this message translates to:
+  /// **'End Party'**
+  String get endParty;
+
+  /// Status label for active party
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get partyActive;
+
+  /// Status label for paused party
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get partyPaused;
+
+  /// Status label for ended party
+  ///
+  /// In en, this message translates to:
+  /// **'Ended'**
+  String get partyEnded;
+
+  /// Confirmation dialog for ending party
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to end the party?'**
+  String get confirmEndParty;
+
+  /// Confirmation dialog message for ending party
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone. All party data will be archived.'**
+  String get confirmEndPartyMessage;
+
+  /// Header for party admin panel
+  ///
+  /// In en, this message translates to:
+  /// **'Party Admin'**
+  String get partyAdminPanel;
+
+  /// Title for hosted parties bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'My Hosted Parties'**
+  String get myHostedParties;
+
+  /// Button text to view hosted parties
+  ///
+  /// In en, this message translates to:
+  /// **'View My Parties'**
+  String get viewMyParties;
+
+  /// Message when user has no hosted parties
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t hosted any parties yet'**
+  String get noHostedParties;
+
+  /// Encouragement message to create first party
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first party to get started!'**
+  String get createFirstParty;
+
+  /// Button text to view party details
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get viewDetails;
 }
 
 class _AppLocalizationsDelegate

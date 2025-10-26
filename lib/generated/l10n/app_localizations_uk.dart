@@ -307,4 +307,86 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get cocktail => 'Коктейль';
+
+  @override
+  String get invitationCode => 'Код запрошення';
+
+  @override
+  String get shareCode => 'Поділитися кодом';
+
+  @override
+  String get copyCode => 'Копіювати код';
+
+  @override
+  String get codeCopied => 'Код скопійовано';
+
+  @override
+  String get partyCocktails => 'Коктейлі вечірки';
+
+  @override
+  String get addCocktails => 'Додати коктейлі';
+
+  @override
+  String get removeCocktail => 'Видалити коктейль';
+
+  @override
+  String get noCocktailsAdded => 'Коктейлі не додані';
+
+  @override
+  String get editPartyInfo => 'Редагувати інформацію про вечірку';
+
+  @override
+  String get saveChanges => 'Зберегти зміни';
+
+  @override
+  String get cancel => 'Скасувати';
+
+  @override
+  String get partyStatus => 'Статус вечірки';
+
+  @override
+  String get startParty => 'Почати вечірку';
+
+  @override
+  String get pauseParty => 'Призупинити вечірку';
+
+  @override
+  String get resumeParty => 'Відновити вечірку';
+
+  @override
+  String get endParty => 'Завершити вечірку';
+
+  @override
+  String get partyActive => 'Вечірка активна';
+
+  @override
+  String get partyPaused => 'Вечірка призупинена';
+
+  @override
+  String get partyEnded => 'Вечірка завершена';
+
+  @override
+  String get confirmEndParty => 'Підтвердити завершення вечірки';
+
+  @override
+  String get confirmEndPartyMessage =>
+      'Ви впевнені, що хочете завершити цю вечірку? Цю дію не можна скасувати.';
+
+  @override
+  String get partyAdminPanel => 'Панель адміністратора вечірки';
+
+  @override
+  String get myHostedParties => 'Мої вечірки';
+
+  @override
+  String get viewMyParties => 'Переглянути мої вечірки';
+
+  @override
+  String get noHostedParties => 'Ви ще не організували жодної вечірки';
+
+  @override
+  String get createFirstParty => 'Створіть свою першу вечірку, щоб почати!';
+
+  @override
+  String get viewDetails => 'Переглянути деталі';
 }

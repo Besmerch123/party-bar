@@ -305,4 +305,86 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cocktail => 'Cocktail';
+
+  @override
+  String get invitationCode => 'Invitation Code';
+
+  @override
+  String get shareCode => 'Share Code';
+
+  @override
+  String get copyCode => 'Copy Code';
+
+  @override
+  String get codeCopied => 'Code copied to clipboard!';
+
+  @override
+  String get partyCocktails => 'Party Cocktails';
+
+  @override
+  String get addCocktails => 'Add Cocktails';
+
+  @override
+  String get removeCocktail => 'Remove';
+
+  @override
+  String get noCocktailsAdded => 'No cocktails added yet';
+
+  @override
+  String get editPartyInfo => 'Edit Party Info';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get partyStatus => 'Party Status';
+
+  @override
+  String get startParty => 'Start Party';
+
+  @override
+  String get pauseParty => 'Pause Party';
+
+  @override
+  String get resumeParty => 'Resume Party';
+
+  @override
+  String get endParty => 'End Party';
+
+  @override
+  String get partyActive => 'Active';
+
+  @override
+  String get partyPaused => 'Paused';
+
+  @override
+  String get partyEnded => 'Ended';
+
+  @override
+  String get confirmEndParty => 'Are you sure you want to end the party?';
+
+  @override
+  String get confirmEndPartyMessage =>
+      'This action cannot be undone. All party data will be archived.';
+
+  @override
+  String get partyAdminPanel => 'Party Admin';
+
+  @override
+  String get myHostedParties => 'My Hosted Parties';
+
+  @override
+  String get viewMyParties => 'View My Parties';
+
+  @override
+  String get noHostedParties => 'You haven\'t hosted any parties yet';
+
+  @override
+  String get createFirstParty => 'Create your first party to get started!';
+
+  @override
+  String get viewDetails => 'View Details';
 }
