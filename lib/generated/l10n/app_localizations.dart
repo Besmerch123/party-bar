@@ -499,6 +499,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue with Google'**
   String get continueWithGoogle;
+
+  /// Title for authentication barrier screen
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication Required'**
+  String get authenticationRequired;
+
+  /// Message explaining authentication requirement
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is available only for authenticated users. Please sign in to continue.'**
+  String get authenticationRequiredMessage;
+
+  /// Button text to navigate to login
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In to Continue'**
+  String get signInToContinue;
 }
 
 class _AppLocalizationsDelegate

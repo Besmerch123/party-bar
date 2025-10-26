@@ -218,4 +218,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get authenticationRequired => 'Authentication Required';
+
+  @override
+  String get authenticationRequiredMessage =>
+      'This feature is available only for authenticated users. Please sign in to continue.';
+
+  @override
+  String get signInToContinue => 'Sign In to Continue';
 }

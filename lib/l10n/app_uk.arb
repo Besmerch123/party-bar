@@ -66,5 +66,8 @@
   "signUpSubtitle": "Створіть новий обліковий запис, щоб розпочати",
   "signInSubtitle": "Увійдіть у ваш обліковий запис",
   "orContinueWith": "Або продовжте з",
-  "continueWithGoogle": "Продовжити через Google"
+  "continueWithGoogle": "Продовжити через Google",
+  "authenticationRequired": "Потрібна автентифікація",
+  "authenticationRequiredMessage": "Ця функція доступна лише для автентифікованих користувачів. Будь ласка, увійдіть, щоб продовжити.",
+  "signInToContinue": "Увійти, щоб продовжити"
 }

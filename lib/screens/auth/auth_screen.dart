@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import '../../providers/auth_provider.dart';
 import '../../utils/localization_helper.dart';
 
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+  const AuthScreen({super.key, this.redirectPath});
+
+  /// Path to redirect to after successful authentication
+  final String? redirectPath;
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -59,17 +63,7 @@ class _AuthScreenState extends State<AuthScreen>
 
     if (mounted) {
       if (success) {
-        Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              _isSignUp
-                  ? context.l10n.signUpSuccess
-                  : context.l10n.signInSuccess,
-            ),
-            backgroundColor: Colors.green,
-          ),
-        );
+        _handleSuccessfulAuth(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -87,13 +81,7 @@ class _AuthScreenState extends State<AuthScreen>
 
     if (mounted) {
       if (success) {
-        Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(context.l10n.signInSuccess),
-            backgroundColor: Colors.green,
-          ),
-        );
+        _handleSuccessfulAuth(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -136,6 +124,27 @@ class _AuthScreenState extends State<AuthScreen>
       }
     }
     return null;
+  }
+
+  void _handleSuccessfulAuth(BuildContext context) {
+    // Show success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          _isSignUp ? context.l10n.signUpSuccess : context.l10n.signInSuccess,
+        ),
+        backgroundColor: Colors.green,
+      ),
+    );
+
+    // Handle redirect or go back
+    if (widget.redirectPath != null) {
+      // Replace the current route with the redirect path
+      context.go(widget.redirectPath!);
+    } else {
+      // Just go back to the previous screen
+      Navigator.of(context).pop();
+    }
   }
 
   @override

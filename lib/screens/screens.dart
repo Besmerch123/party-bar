@@ -14,4 +14,5 @@ export 'bars/create_bar_screen.dart';
 export 'bars/bar_details_screen.dart';
 export 'settings/profile_screen.dart';
 export 'settings/settings_screen.dart';
-export 'settings/auth_screen.dart';
+export 'auth/auth_screen.dart';
+export 'auth/auth_barrier_screen.dart';

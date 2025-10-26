@@ -289,5 +289,17 @@
   "continueWithGoogle": "Continue with Google",
   "@continueWithGoogle": {
     "description": "Google sign in button text"
+  },
+  "authenticationRequired": "Authentication Required",
+  "@authenticationRequired": {
+    "description": "Title for authentication barrier screen"
+  },
+  "authenticationRequiredMessage": "This feature is available only for authenticated users. Please sign in to continue.",
+  "@authenticationRequiredMessage": {
+    "description": "Message explaining authentication requirement"
+  },
+  "signInToContinue": "Sign In to Continue",
+  "@signInToContinue": {
+    "description": "Button text to navigate to login"
   }
 }

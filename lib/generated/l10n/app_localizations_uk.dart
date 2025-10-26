@@ -218,4 +218,14 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get continueWithGoogle => 'Продовжити через Google';
+
+  @override
+  String get authenticationRequired => 'Потрібна автентифікація';
+
+  @override
+  String get authenticationRequiredMessage =>
+      'Ця функція доступна лише для автентифікованих користувачів. Будь ласка, увійдіть, щоб продовжити.';
+
+  @override
+  String get signInToContinue => 'Увійти, щоб продовжити';
 }
