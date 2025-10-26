@@ -301,5 +301,37 @@
   "signInToContinue": "Sign In to Continue",
   "@signInToContinue": {
     "description": "Button text to navigate to login"
+  },
+  "partyHub": "Party Hub",
+  "@partyHub": {
+    "description": "Party Hub screen title"
+  },
+  "welcomeToPartyBar": "Welcome to PartyBar!",
+  "@welcomeToPartyBar": {
+    "description": "Welcome message on Party Hub screen"
+  },
+  "joinOrCreateParty": "Join a party or create your own cocktail experience",
+  "@joinOrCreateParty": {
+    "description": "Subtitle on Party Hub screen"
+  },
+  "joinParty": "Join Party",
+  "@joinParty": {
+    "description": "Join party button title"
+  },
+  "joinPartySubtitle": "Enter a party code to join the fun",
+  "@joinPartySubtitle": {
+    "description": "Join party button subtitle"
+  },
+  "createParty": "Create Party",
+  "@createParty": {
+    "description": "Create party button title"
+  },
+  "createPartySubtitle": "Host your own cocktail party",
+  "@createPartySubtitle": {
+    "description": "Create party button subtitle"
+  },
+  "partyQuickInfo": "Hosts can manage orders and guests can browse cocktails in real-time!",
+  "@partyQuickInfo": {
+    "description": "Quick info message about party features"
   }
 }

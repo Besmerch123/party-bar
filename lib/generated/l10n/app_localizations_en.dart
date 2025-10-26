@@ -228,4 +228,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInToContinue => 'Sign In to Continue';
+
+  @override
+  String get partyHub => 'Party Hub';
+
+  @override
+  String get welcomeToPartyBar => 'Welcome to PartyBar!';
+
+  @override
+  String get joinOrCreateParty =>
+      'Join a party or create your own cocktail experience';
+
+  @override
+  String get joinParty => 'Join Party';
+
+  @override
+  String get joinPartySubtitle => 'Enter a party code to join the fun';
+
+  @override
+  String get createParty => 'Create Party';
+
+  @override
+  String get createPartySubtitle => 'Host your own cocktail party';
+
+  @override
+  String get partyQuickInfo =>
+      'Hosts can manage orders and guests can browse cocktails in real-time!';
 }

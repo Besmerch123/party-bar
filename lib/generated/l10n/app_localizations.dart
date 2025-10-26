@@ -517,6 +517,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign In to Continue'**
   String get signInToContinue;
+
+  /// Party Hub screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Party Hub'**
+  String get partyHub;
+
+  /// Welcome message on Party Hub screen
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to PartyBar!'**
+  String get welcomeToPartyBar;
+
+  /// Subtitle on Party Hub screen
+  ///
+  /// In en, this message translates to:
+  /// **'Join a party or create your own cocktail experience'**
+  String get joinOrCreateParty;
+
+  /// Join party button title
+  ///
+  /// In en, this message translates to:
+  /// **'Join Party'**
+  String get joinParty;
+
+  /// Join party button subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a party code to join the fun'**
+  String get joinPartySubtitle;
+
+  /// Create party button title
+  ///
+  /// In en, this message translates to:
+  /// **'Create Party'**
+  String get createParty;
+
+  /// Create party button subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Host your own cocktail party'**
+  String get createPartySubtitle;
+
+  /// Quick info message about party features
+  ///
+  /// In en, this message translates to:
+  /// **'Hosts can manage orders and guests can browse cocktails in real-time!'**
+  String get partyQuickInfo;
 }
 
 class _AppLocalizationsDelegate

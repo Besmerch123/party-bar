@@ -228,4 +228,31 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get signInToContinue => 'Увійти, щоб продовжити';
+
+  @override
+  String get partyHub => 'Центр вечірок';
+
+  @override
+  String get welcomeToPartyBar => 'Ласкаво просимо до PartyBar!';
+
+  @override
+  String get joinOrCreateParty =>
+      'Приєднайтесь до вечірки або створіть свій власний коктейльний досвід';
+
+  @override
+  String get joinParty => 'Приєднатися до вечірки';
+
+  @override
+  String get joinPartySubtitle =>
+      'Введіть код вечірки, щоб приєднатися до веселощів';
+
+  @override
+  String get createParty => 'Створити вечірку';
+
+  @override
+  String get createPartySubtitle => 'Організуйте власну коктейльну вечірку';
+
+  @override
+  String get partyQuickInfo =>
+      'Хости можуть керувати замовленнями, а гості переглядати коктейлі в режимі реального часу!';
 }
