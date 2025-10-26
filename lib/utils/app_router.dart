@@ -14,9 +14,6 @@ class AppRoutes {
   static const String joinParty = '/party/join';
   static const String createParty = '/party/create';
   static const String partyDetails = '/party/details';
-  static const String myBars = '/bars';
-  static const String createBar = '/bars/create';
-  static const String barDetails = '/bars/details';
   static const String profile = '/profile';
   static const String settings = '/settings';
   static const String auth = '/auth';
@@ -80,19 +77,6 @@ GoRouter createAppRouter({required bool showWelcome}) {
             redirectPath: partyDetailsPath,
             child: PartyDetailsScreen(partyId: partyId),
           );
-        },
-      ),
-
-      // Bar Routes
-      GoRoute(
-        path: AppRoutes.createBar,
-        builder: (context, state) => const CreateBarScreen(),
-      ),
-      GoRoute(
-        path: '${AppRoutes.barDetails}/:id',
-        builder: (context, state) {
-          final barId = state.pathParameters['id']!;
-          return BarDetailsScreen(barId: barId);
         },
       ),
 
