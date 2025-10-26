@@ -11,7 +11,6 @@ class CocktailOrder {
   final DateTime createdAt;
   final DateTime? preparedAt;
   final DateTime? deliveredAt;
-  final int priority;
 
   const CocktailOrder({
     required this.id,
@@ -24,7 +23,6 @@ class CocktailOrder {
     required this.createdAt,
     this.preparedAt,
     this.deliveredAt,
-    this.priority = 0,
   });
 
   Map<String, dynamic> toMap() {
@@ -39,7 +37,6 @@ class CocktailOrder {
       'createdAt': createdAt.millisecondsSinceEpoch,
       'preparedAt': preparedAt?.millisecondsSinceEpoch,
       'deliveredAt': deliveredAt?.millisecondsSinceEpoch,
-      'priority': priority,
     };
   }
 
@@ -62,7 +59,6 @@ class CocktailOrder {
       deliveredAt: map['deliveredAt'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['deliveredAt'])
           : null,
-      priority: map['priority']?.toInt() ?? 0,
     );
   }
 
@@ -77,7 +73,6 @@ class CocktailOrder {
     DateTime? createdAt,
     DateTime? preparedAt,
     DateTime? deliveredAt,
-    int? priority,
   }) {
     return CocktailOrder(
       id: id ?? this.id,
@@ -90,7 +85,6 @@ class CocktailOrder {
       createdAt: createdAt ?? this.createdAt,
       preparedAt: preparedAt ?? this.preparedAt,
       deliveredAt: deliveredAt ?? this.deliveredAt,
-      priority: priority ?? this.priority,
     );
   }
 }
