@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../generated/l10n/app_localizations.dart';
 import '../../models/models.dart';
 import '../../widgets/party/create_party_form.dart';
-import 'active_party_host_screen.dart';
 
 class CreatePartyScreen extends StatelessWidget {
   const CreatePartyScreen({super.key});
 
   void _onPartyCreated(BuildContext context, Party party) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ActivePartyHostScreen(party: party),
-      ),
-    );
+    // Use GoRouter's navigation instead of imperative Navigator
+    context.go('/party/details/${party.id}');
   }
 
   @override

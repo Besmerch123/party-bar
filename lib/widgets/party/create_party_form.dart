@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../generated/l10n/app_localizations.dart';
 import '../../models/models.dart';
+import '../../services/party_service.dart';
 
 class CreatePartyForm extends StatefulWidget {
   final Function(Party) onPartyCreated;
@@ -14,7 +15,9 @@ class CreatePartyForm extends StatefulWidget {
 class _CreatePartyFormState extends State<CreatePartyForm> {
   final TextEditingController _partyNameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final PartyService _partyService = PartyService();
   bool _isCreating = false;
+  String? _errorMessage;
 
   @override
   void dispose() {
@@ -36,39 +39,40 @@ class _CreatePartyFormState extends State<CreatePartyForm> {
 
     setState(() {
       _isCreating = true;
+      _errorMessage = null;
     });
 
-    // Simulate party creation
-    await Future.delayed(const Duration(seconds: 2));
-
-    if (mounted) {
-      final party = Party(
-        id: 'party_${DateTime.now().millisecondsSinceEpoch}',
+    try {
+      // Create party using PartyService
+      final party = await _partyService.createParty(
         name: _partyNameController.text.trim(),
-        hostId: 'current_user_id',
-        hostName: 'Current User',
-        availableCocktailIds: [],
-        joinCode: _generateJoinCode(),
-        createdAt: DateTime.now(),
         description: _descriptionController.text.trim().isEmpty
             ? null
             : _descriptionController.text.trim(),
       );
 
-      setState(() {
-        _isCreating = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isCreating = false;
+        });
 
-      widget.onPartyCreated(party);
+        widget.onPartyCreated(party);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isCreating = false;
+          _errorMessage = e.toString().replaceFirst('Exception: ', '');
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_errorMessage ?? 'Failed to create party'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
-  }
-
-  String _generateJoinCode() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    final random = DateTime.now().millisecondsSinceEpoch;
-    return String.fromCharCodes(
-      Iterable.generate(6, (_) => chars.codeUnitAt(random % chars.length)),
-    );
   }
 
   @override
