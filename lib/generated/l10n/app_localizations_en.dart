@@ -393,4 +393,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewDetails => 'View Details';
+
+  @override
+  String cocktailsSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cocktails selected',
+      one: '1 cocktail selected',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get selectCocktails => 'Select Cocktails';
+
+  @override
+  String addSelectedCocktails(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Save $count Cocktails',
+      one: 'Save 1 Cocktail',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cocktailsAlreadyAdded =>
+      'All selected cocktails are already added';
+
+  @override
+  String cocktailsAddedSuccess(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cocktails added successfully',
+      one: '1 cocktail added successfully',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failedToAddCocktails(String error) {
+    return 'Failed to add cocktails: $error';
+  }
 }

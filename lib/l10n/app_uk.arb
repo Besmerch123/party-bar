@@ -122,5 +122,53 @@
   "partyIdle": "Не розпочата",
   "confirmEndParty": "Підтвердити завершення вечірки",
   "confirmEndPartyMessage": "Ви впевнені, що хочете завершити цю вечірку? Цю дію не можна скасувати.",
-  "partyAdminPanel": "Панель адміністратора вечірки"
+  "partyAdminPanel": "Панель адміністратора вечірки",
+  "cocktailsSelected": "{count, plural, =1{Обрано 1 коктейль} few{Обрано {count} коктейлі} other{Обрано {count} коктейлів}}",
+  "@cocktailsSelected": {
+    "description": "Message showing number of selected cocktails",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "selectCocktails": "Оберіть коктейлі",
+  "@selectCocktails": {
+    "description": "Button text when no cocktails are selected"
+  },
+  "addSelectedCocktails": "{count, plural, =1{Зберегти 1 коктейль} few{Зберегти {count} коктейлі} other{Зберегти {count} коктейлів}}",
+  "@addSelectedCocktails": {
+    "description": "Button text to confirm adding selected cocktails",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "cocktailsAlreadyAdded": "Всі обрані коктейлі вже додані",
+  "@cocktailsAlreadyAdded": {
+    "description": "Message when user tries to add cocktails that are already in the party"
+  },
+  "cocktailsAddedSuccess": "{count, plural, =1{1 коктейль успішно додано} few{{count} коктейлі успішно додано} other{{count} коктейлів успішно додано}}",
+  "@cocktailsAddedSuccess": {
+    "description": "Success message after adding cocktails",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "failedToAddCocktails": "Не вдалося додати коктейлі: {error}",
+  "@failedToAddCocktails": {
+    "description": "Error message when adding cocktails fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Помилка мережі"
+      }
+    }
+  }
 }

@@ -519,5 +519,53 @@
   "viewDetails": "View Details",
   "@viewDetails": {
     "description": "Button text to view party details"
+  },
+  "cocktailsSelected": "{count, plural, =1{1 cocktail selected} other{{count} cocktails selected}}",
+  "@cocktailsSelected": {
+    "description": "Message showing number of selected cocktails",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "selectCocktails": "Select Cocktails",
+  "@selectCocktails": {
+    "description": "Button text when no cocktails are selected"
+  },
+  "addSelectedCocktails": "{count, plural, =1{Save 1 Cocktail} other{Save {count} Cocktails}}",
+  "@addSelectedCocktails": {
+    "description": "Button text to confirm adding selected cocktails",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "cocktailsAlreadyAdded": "All selected cocktails are already added",
+  "@cocktailsAlreadyAdded": {
+    "description": "Message when user tries to add cocktails that are already in the party"
+  },
+  "cocktailsAddedSuccess": "{count, plural, =1{1 cocktail added successfully} other{{count} cocktails added successfully}}",
+  "@cocktailsAddedSuccess": {
+    "description": "Success message after adding cocktails",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "failedToAddCocktails": "Failed to add cocktails: {error}",
+  "@failedToAddCocktails": {
+    "description": "Error message when adding cocktails fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
   }
 }

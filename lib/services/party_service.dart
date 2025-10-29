@@ -112,6 +112,53 @@ class PartyService {
     }
   }
 
+  /// Add cocktails to a party (appends to existing cocktails)
+  Future<void> addCocktailsToParty(
+    String partyId,
+    List<String> newCocktailIds,
+  ) async {
+    try {
+      // Get current party data
+      final party = await _repository.getPartyById(partyId);
+      if (party == null) {
+        throw Exception('Party not found');
+      }
+
+      // Merge with existing cocktails (avoid duplicates)
+      final existingIds = party.availableCocktailIds.toSet();
+      final updatedIds = {...existingIds, ...newCocktailIds}.toList();
+
+      // Update in repository
+      await _repository.updateAvailableCocktails(partyId, updatedIds);
+    } catch (e) {
+      throw Exception('Failed to add cocktails to party: $e');
+    }
+  }
+
+  /// Remove a cocktail from a party
+  Future<void> removeCocktailFromParty(
+    String partyId,
+    String cocktailId,
+  ) async {
+    try {
+      // Get current party data
+      final party = await _repository.getPartyById(partyId);
+      if (party == null) {
+        throw Exception('Party not found');
+      }
+
+      // Remove the cocktail
+      final updatedIds = party.availableCocktailIds
+          .where((id) => id != cocktailId)
+          .toList();
+
+      // Update in repository
+      await _repository.updateAvailableCocktails(partyId, updatedIds);
+    } catch (e) {
+      throw Exception('Failed to remove cocktail from party: $e');
+    }
+  }
+
   /// Join a party by join code
   Future<Party?> joinPartyByCode(String joinCode) async {
     try {

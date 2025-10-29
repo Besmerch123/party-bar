@@ -395,4 +395,51 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get viewDetails => 'Переглянути деталі';
+
+  @override
+  String cocktailsSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Обрано $count коктейлів',
+      few: 'Обрано $count коктейлі',
+      one: 'Обрано 1 коктейль',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get selectCocktails => 'Оберіть коктейлі';
+
+  @override
+  String addSelectedCocktails(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Зберегти $count коктейлів',
+      few: 'Зберегти $count коктейлі',
+      one: 'Зберегти 1 коктейль',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cocktailsAlreadyAdded => 'Всі обрані коктейлі вже додані';
+
+  @override
+  String cocktailsAddedSuccess(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count коктейлів успішно додано',
+      few: '$count коктейлі успішно додано',
+      one: '1 коктейль успішно додано',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failedToAddCocktails(String error) {
+    return 'Не вдалося додати коктейлі: $error';
+  }
 }

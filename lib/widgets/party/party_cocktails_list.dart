@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 /// Widget to display and manage party cocktails list
 class PartyCocktailsList extends StatelessWidget {
-  final List<String> cocktailIds;
   final List<Cocktail> cocktails;
   final Function(String cocktailId) onRemove;
   final VoidCallback onAddCocktails;
@@ -13,7 +12,6 @@ class PartyCocktailsList extends StatelessWidget {
 
   const PartyCocktailsList({
     super.key,
-    required this.cocktailIds,
     required this.cocktails,
     required this.onRemove,
     required this.onAddCocktails,

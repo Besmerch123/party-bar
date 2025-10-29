@@ -835,6 +835,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View Details'**
   String get viewDetails;
+
+  /// Message showing number of selected cocktails
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 cocktail selected} other{{count} cocktails selected}}'**
+  String cocktailsSelected(int count);
+
+  /// Button text when no cocktails are selected
+  ///
+  /// In en, this message translates to:
+  /// **'Select Cocktails'**
+  String get selectCocktails;
+
+  /// Button text to confirm adding selected cocktails
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Save 1 Cocktail} other{Save {count} Cocktails}}'**
+  String addSelectedCocktails(int count);
+
+  /// Message when user tries to add cocktails that are already in the party
+  ///
+  /// In en, this message translates to:
+  /// **'All selected cocktails are already added'**
+  String get cocktailsAlreadyAdded;
+
+  /// Success message after adding cocktails
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 cocktail added successfully} other{{count} cocktails added successfully}}'**
+  String cocktailsAddedSuccess(int count);
+
+  /// Error message when adding cocktails fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add cocktails: {error}'**
+  String failedToAddCocktails(String error);
 }
 
 class _AppLocalizationsDelegate

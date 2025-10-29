@@ -6,6 +6,7 @@ import 'package:party_bar/widgets/party/party_invitation_code.dart';
 import 'package:party_bar/widgets/party/party_cocktails_list.dart';
 import 'package:party_bar/widgets/party/party_info_editor.dart';
 import 'package:party_bar/widgets/party/party_status_control.dart';
+import 'package:party_bar/widgets/party/add_cocktails_bottom_sheet.dart';
 
 class PartyDetailsScreen extends StatefulWidget {
   final String partyId;
@@ -139,46 +140,91 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen> {
     setState(() => _isUpdating = true);
 
     try {
-      final updatedIds = List<String>.from(_party!.availableCocktailIds)
-        ..remove(cocktailId);
-
-      await _partyService.updateAvailableCocktails(widget.partyId, updatedIds);
+      await _partyService.removeCocktailFromParty(widget.partyId, cocktailId);
 
       setState(() {
-        _party = _party!.copyWith(availableCocktailIds: updatedIds);
         _cocktails.removeWhere((c) => c.id == cocktailId);
+        _isUpdating = false;
+      });
+    } catch (e) {
+      setState(() => _isUpdating = false);
+    }
+  }
+
+  void _addCocktails() async {
+    // Get the IDs of already added cocktails
+    final alreadyAddedIds = _cocktails.map((c) => c.id).toList();
+
+    // Show the bottom sheet and wait for the result
+    final selectedCocktails = await AddCocktailsBottomSheet.show(
+      context,
+      alreadyAddedCocktailIds: alreadyAddedIds,
+    );
+
+    // If user cancelled or no cocktails selected, do nothing
+    if (selectedCocktails == null || selectedCocktails.isEmpty) {
+      return;
+    }
+
+    // Filter out cocktails that are already added
+    final newCocktails = selectedCocktails
+        .where((cocktail) => !alreadyAddedIds.contains(cocktail.id))
+        .toList();
+
+    if (newCocktails.isEmpty) {
+      // All selected cocktails are already added
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(context.l10n.cocktailsAlreadyAdded),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+      return;
+    }
+
+    setState(() {
+      _isUpdating = true;
+    });
+
+    try {
+      // Add cocktails to the party
+      await _partyService.addCocktailsToParty(
+        widget.partyId,
+        newCocktails.map((c) => c.id).toList(),
+      );
+
+      // Update local state
+      setState(() {
+        _cocktails.addAll(newCocktails);
         _isUpdating = false;
       });
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Cocktail removed'),
+          SnackBar(
+            content: Text(
+              context.l10n.cocktailsAddedSuccess(newCocktails.length),
+            ),
             backgroundColor: Colors.green,
           ),
         );
       }
     } catch (e) {
-      setState(() => _isUpdating = false);
+      setState(() {
+        _isUpdating = false;
+      });
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error: ${e.toString()}'),
+            content: Text(context.l10n.failedToAddCocktails(e.toString())),
             backgroundColor: Colors.red,
           ),
         );
       }
     }
-  }
-
-  void _addCocktails() {
-    // TODO: Navigate to cocktail selection screen
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Add cocktails - Coming Soon!'),
-        backgroundColor: Colors.blue,
-      ),
-    );
   }
 
   @override
@@ -256,7 +302,6 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen> {
 
                 // Party Cocktails List Widget
                 PartyCocktailsList(
-                  cocktailIds: _party!.availableCocktailIds,
                   cocktails: _cocktails,
                   onRemove: _removeCocktail,
                   onAddCocktails: _addCocktails,
