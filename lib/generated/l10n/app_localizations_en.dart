@@ -377,6 +377,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'This action cannot be undone. All party data will be archived.';
 
   @override
+  String get goToHostDashboard => 'Go to Host Dashboard';
+
+  @override
+  String get goToPartyMenu => 'Go to Party Menu';
+
+  @override
   String get partyAdminPanel => 'Party Admin';
 
   @override
@@ -437,5 +443,147 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String failedToAddCocktails(String error) {
     return 'Failed to add cocktails: $error';
+  }
+
+  @override
+  String get noPendingOrders => 'No pending orders';
+
+  @override
+  String get ordersWillAppear => 'Orders will appear here as guests place them';
+
+  @override
+  String get unknownCocktail => 'Unknown Cocktail';
+
+  @override
+  String forGuest(String guestName) {
+    return 'For: $guestName';
+  }
+
+  @override
+  String ordered(String time) {
+    return 'Ordered: $time';
+  }
+
+  @override
+  String get justNow => 'Just now';
+
+  @override
+  String minutesAgo(int minutes) {
+    return '${minutes}m ago';
+  }
+
+  @override
+  String hoursAgo(int hours) {
+    return '${hours}h ago';
+  }
+
+  @override
+  String get startPreparing => 'Start Preparing';
+
+  @override
+  String get markReady => 'Mark Ready';
+
+  @override
+  String get markDelivered => 'Mark Delivered';
+
+  @override
+  String get newOrders => 'New Orders';
+
+  @override
+  String get preparing => 'Preparing';
+
+  @override
+  String get readyForPickup => 'Ready for Pickup';
+
+  @override
+  String get orders => 'Orders';
+
+  @override
+  String ordersCount(int count) {
+    return 'Orders ($count)';
+  }
+
+  @override
+  String get stats => 'Stats';
+
+  @override
+  String get menu => 'Menu';
+
+  @override
+  String get totalOrders => 'Total Orders';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get pending => 'Pending';
+
+  @override
+  String get activeTime => 'Active Time';
+
+  @override
+  String get partyOverview => 'Party Overview';
+
+  @override
+  String get popularCocktails => 'Popular Cocktails';
+
+  @override
+  String get noOrdersYet => 'No orders yet';
+
+  @override
+  String availableCocktails(int count) {
+    return 'Available Cocktails ($count)';
+  }
+
+  @override
+  String get noCocktailsAvailable => 'No cocktails available';
+
+  @override
+  String get addCocktailsToMenu => 'Add cocktails to the party menu';
+
+  @override
+  String get errorLoadingCocktailsList => 'Error loading cocktails';
+
+  @override
+  String get partyCopiedToClipboard => 'Party code copied to clipboard!';
+
+  @override
+  String get partyQRCode => 'Party QR Code';
+
+  @override
+  String get qrCodeMock => 'QR CODE\n(Mock)';
+
+  @override
+  String code(String code) {
+    return 'Code: $code';
+  }
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get partyResumed => 'Party resumed';
+
+  @override
+  String get partyPausedMessage => 'Party paused';
+
+  @override
+  String failedToUpdateOrder(String error) {
+    return 'Failed to update order: $error';
+  }
+
+  @override
+  String failedToUpdatePartyStatus(String error) {
+    return 'Failed to update party status: $error';
+  }
+
+  @override
+  String orderMarkedAs(String cocktail, String guest, String status) {
+    return '$cocktail for $guest marked as $status';
+  }
+
+  @override
+  String errorWithMessage(String message) {
+    return 'Error: $message';
   }
 }

@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../generated/l10n/app_localizations.dart';
 import '../../models/models.dart';
+import '../../services/order_service.dart';
+import '../../services/party_service.dart';
+import '../../data/cocktail_repository.dart';
+import '../../widgets/party/order_card.dart';
+import '../../widgets/party/order_section.dart';
+import '../../widgets/party/party_host_status_banner.dart';
+import '../../widgets/party/empty_orders_placeholder.dart';
+import '../../widgets/party/party_stats_card.dart';
+import '../../widgets/party/popular_cocktails_list.dart';
 
 class ActivePartyHostScreen extends StatefulWidget {
   final Party party;
@@ -15,20 +25,20 @@ class ActivePartyHostScreen extends StatefulWidget {
 class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  final List<CocktailOrder> _orders = [];
-  bool _partyActive = true;
+  final OrderService _orderService = OrderService();
+  final PartyService _partyService = PartyService();
+  final CocktailRepository _cocktailRepository = CocktailRepository();
 
-  // Mock available cocktails (aligned with new Cocktail model)
-  final List<Cocktail> _availableCocktails = [];
-
-  // Mock metadata for cocktails (since new model doesn't store these)
-  final Map<String, int> _mockPrepTimes = {'1': 5, '2': 3, '3': 4};
+  List<CocktailOrder> _orders = [];
+  List<Cocktail> _availableCocktails = [];
+  bool _isLoadingCocktails = true;
+  String? _error;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    _generateMockOrders();
+    _loadAvailableCocktails();
   }
 
   @override
@@ -37,79 +47,98 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
     super.dispose();
   }
 
-  void _generateMockOrders() {
-    // Generate some mock orders for demonstration
-    final mockOrders = [
-      CocktailOrder(
-        id: 'order1',
-        partyId: widget.party.id,
-        cocktailId: '1',
-        guestName: 'Alice',
-        createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
-        status: OrderStatus.pending,
-        specialRequests: 'Extra lime please',
-      ),
-      CocktailOrder(
-        id: 'order2',
-        partyId: widget.party.id,
-        cocktailId: '2',
-        guestName: 'Bob',
-        createdAt: DateTime.now().subtract(const Duration(minutes: 3)),
-        status: OrderStatus.preparing,
-      ),
-      CocktailOrder(
-        id: 'order3',
-        partyId: widget.party.id,
-        cocktailId: '1',
-        guestName: 'Charlie',
-        createdAt: DateTime.now().subtract(const Duration(minutes: 1)),
-        status: OrderStatus.ready,
-      ),
-    ];
-
+  /// Load all available cocktails for this party
+  Future<void> _loadAvailableCocktails() async {
     setState(() {
-      _orders.addAll(mockOrders);
+      _isLoadingCocktails = true;
+      _error = null;
     });
+
+    try {
+      final cocktails = <Cocktail>[];
+
+      // Fetch each cocktail by ID
+      for (final cocktailId in widget.party.availableCocktailIds) {
+        final cocktail = await _cocktailRepository.getCocktail(cocktailId);
+        if (cocktail != null) {
+          cocktails.add(cocktail);
+        }
+      }
+
+      setState(() {
+        _availableCocktails = cocktails;
+        _isLoadingCocktails = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+        _isLoadingCocktails = false;
+      });
+    }
   }
 
-  void _updateOrderStatus(CocktailOrder order, OrderStatus newStatus) {
-    setState(() {
-      final index = _orders.indexWhere((o) => o.id == order.id);
-      if (index != -1) {
-        _orders[index] = order.copyWith(status: newStatus);
+  /// Update order status
+  Future<void> _updateOrderStatus(
+    CocktailOrder order,
+    OrderStatus newStatus,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+
+    try {
+      await _orderService.updateOrderStatus(
+        widget.party.id,
+        order.id,
+        newStatus,
+      );
+
+      final cocktail = _availableCocktails.firstWhere(
+        (c) => c.id == order.cocktailId,
+        orElse: () => _availableCocktails.first,
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n.orderMarkedAs(
+                cocktail.title.translate(context),
+                order.guestName,
+                newStatus.name,
+              ),
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
       }
-    });
-
-    final cocktail = _availableCocktails.firstWhere(
-      (c) => c.id == order.cocktailId,
-      orElse: () => _availableCocktails.first,
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          '${cocktail.title} for ${order.guestName} marked as ${newStatus.name}',
-        ),
-        backgroundColor: Colors.green,
-      ),
-    );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.failedToUpdateOrder(e.toString())),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   void _sharePartyCode() {
+    final l10n = AppLocalizations.of(context);
     Clipboard.setData(ClipboardData(text: widget.party.joinCode));
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Party code copied to clipboard!'),
+      SnackBar(
+        content: Text(l10n.partyCopiedToClipboard),
         backgroundColor: Colors.green,
       ),
     );
   }
 
   void _showQRCode() {
+    final l10n = AppLocalizations.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Party QR Code'),
+        title: Text(l10n.partyQRCode),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -120,17 +149,20 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                 color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'QR CODE\n(Mock)',
+                  l10n.qrCodeMock,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 16),
             Text(
-              'Code: ${widget.party.joinCode}',
+              l10n.code(widget.party.joinCode),
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ],
@@ -138,76 +170,90 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+            child: Text(l10n.close),
           ),
           ElevatedButton(
             onPressed: _sharePartyCode,
-            child: const Text('Share Code'),
+            child: Text(l10n.shareCode),
           ),
         ],
       ),
     );
   }
 
-  void _toggleParty() {
-    setState(() {
-      _partyActive = !_partyActive;
-    });
+  /// Toggle party status between active and paused
+  Future<void> _toggleParty() async {
+    final l10n = AppLocalizations.of(context);
+    final newStatus = widget.party.status == PartyStatus.active
+        ? PartyStatus.paused
+        : PartyStatus.active;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Party ${_partyActive ? 'resumed' : 'paused'}'),
-        backgroundColor: _partyActive ? Colors.green : Colors.orange,
-      ),
-    );
+    try {
+      await _partyService.updatePartyStatus(widget.party.id, newStatus);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              newStatus == PartyStatus.active
+                  ? l10n.partyResumed
+                  : l10n.partyPausedMessage,
+            ),
+            backgroundColor: newStatus == PartyStatus.active
+                ? Colors.green
+                : Colors.orange,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.failedToUpdatePartyStatus(e.toString())),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.party.name),
-            Text(
-              'Host Dashboard',
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-          ],
+          children: [Text(widget.party.name)],
         ),
         actions: [
-          IconButton(
-            onPressed: _showQRCode,
-            icon: const Icon(Icons.qr_code),
-            tooltip: 'Show QR Code',
-          ),
-          IconButton(
-            onPressed: _sharePartyCode,
-            icon: const Icon(Icons.share),
-            tooltip: 'Share Party Code',
-          ),
           PopupMenuButton(
             itemBuilder: (context) => [
               PopupMenuItem(
                 onTap: _toggleParty,
                 child: Row(
                   children: [
-                    Icon(_partyActive ? Icons.pause : Icons.play_arrow),
+                    Icon(
+                      widget.party.status == PartyStatus.active
+                          ? Icons.pause
+                          : Icons.play_arrow,
+                    ),
                     const SizedBox(width: 8),
-                    Text(_partyActive ? 'Pause Party' : 'Resume Party'),
+                    Text(
+                      widget.party.status == PartyStatus.active
+                          ? l10n.pauseParty
+                          : l10n.resumeParty,
+                    ),
                   ],
                 ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 child: Row(
                   children: [
-                    Icon(Icons.stop),
-                    SizedBox(width: 8),
-                    Text('End Party'),
+                    const Icon(Icons.stop),
+                    const SizedBox(width: 8),
+                    Text(l10n.endParty),
                   ],
                 ),
               ),
@@ -218,48 +264,71 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
           controller: _tabController,
           tabs: [
             Tab(
+              child: StreamBuilder<List<CocktailOrder>>(
+                stream: _orderService.streamPartyOrders(widget.party.id),
+                builder: (context, snapshot) {
+                  final activeOrders = (snapshot.data ?? [])
+                      .where((o) => o.status != OrderStatus.delivered)
+                      .length;
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.receipt_long),
+                      const SizedBox(width: 4),
+                      Text(l10n.ordersCount(activeOrders)),
+                    ],
+                  );
+                },
+              ),
+            ),
+            Tab(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.receipt_long),
+                  const Icon(Icons.analytics),
                   const SizedBox(width: 4),
-                  Text(
-                    'Orders (${_orders.where((o) => o.status != OrderStatus.delivered).length})',
-                  ),
+                  Text(l10n.stats),
                 ],
               ),
             ),
-            const Tab(
+            Tab(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.analytics),
-                  SizedBox(width: 4),
-                  Text('Stats'),
-                ],
-              ),
-            ),
-            const Tab(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.local_bar),
-                  SizedBox(width: 4),
-                  Text('Menu'),
+                  const Icon(Icons.local_bar),
+                  const SizedBox(width: 4),
+                  Text(l10n.menu),
                 ],
               ),
             ),
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [_buildOrdersTab(), _buildStatsTab(), _buildMenuTab()],
+      body: StreamBuilder<List<CocktailOrder>>(
+        stream: _orderService.streamPartyOrders(widget.party.id),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(l10n.errorWithMessage(snapshot.error.toString())),
+            );
+          }
+
+          // Update orders list for use in other tabs
+          if (snapshot.hasData) {
+            _orders = snapshot.data!;
+          }
+
+          return TabBarView(
+            controller: _tabController,
+            children: [_buildOrdersTab(), _buildStatsTab(), _buildMenuTab()],
+          );
+        },
       ),
     );
   }
 
   Widget _buildOrdersTab() {
+    final l10n = AppLocalizations.of(context);
     final pendingOrders = _orders
         .where((o) => o.status == OrderStatus.pending)
         .toList();
@@ -273,308 +342,97 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        // Party Status
-        Container(
-          padding: const EdgeInsets.all(16),
-          margin: const EdgeInsets.only(bottom: 20),
-          decoration: BoxDecoration(
-            color: _partyActive ? Colors.green.shade50 : Colors.orange.shade50,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: _partyActive
-                  ? Colors.green.shade200
-                  : Colors.orange.shade200,
-            ),
-          ),
-          child: Row(
-            children: [
-              Icon(
-                _partyActive ? Icons.celebration : Icons.pause_circle,
-                color: _partyActive
-                    ? Colors.green.shade600
-                    : Colors.orange.shade600,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _partyActive ? 'Party Active' : 'Party Paused',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: _partyActive
-                            ? Colors.green.shade800
-                            : Colors.orange.shade800,
-                      ),
-                    ),
-                    Text(
-                      'Code: ${widget.party.joinCode}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: _partyActive
-                            ? Colors.green.shade700
-                            : Colors.orange.shade700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              ElevatedButton.icon(
-                onPressed: _sharePartyCode,
-                icon: const Icon(Icons.share, size: 16),
-                label: const Text('Share'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _partyActive
-                      ? Colors.green.shade600
-                      : Colors.orange.shade600,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                ),
-              ),
-            ],
-          ),
+        // Party Status Banner
+        PartyHostStatusBanner(
+          party: widget.party,
+          onShareCode: _sharePartyCode,
+          onShowQRCode: _showQRCode,
         ),
+        const SizedBox(height: 20),
 
         // Pending Orders
         if (pendingOrders.isNotEmpty) ...[
-          _buildOrderSection('New Orders', pendingOrders, Colors.orange),
+          OrderSection(
+            title: l10n.newOrders,
+            count: pendingOrders.length,
+            color: Colors.orange,
+            children: pendingOrders
+                .map(
+                  (order) => _buildOrderCardWithCocktail(order, Colors.orange),
+                )
+                .toList(),
+          ),
           const SizedBox(height: 20),
         ],
 
         // Preparing Orders
         if (preparingOrders.isNotEmpty) ...[
-          _buildOrderSection('Preparing', preparingOrders, Colors.blue),
+          OrderSection(
+            title: l10n.preparing,
+            count: preparingOrders.length,
+            color: Colors.blue,
+            children: preparingOrders
+                .map((order) => _buildOrderCardWithCocktail(order, Colors.blue))
+                .toList(),
+          ),
           const SizedBox(height: 20),
         ],
 
         // Ready Orders
         if (readyOrders.isNotEmpty) ...[
-          _buildOrderSection('Ready for Pickup', readyOrders, Colors.green),
+          OrderSection(
+            title: l10n.readyForPickup,
+            count: readyOrders.length,
+            color: Colors.green,
+            children: readyOrders
+                .map(
+                  (order) => _buildOrderCardWithCocktail(order, Colors.green),
+                )
+                .toList(),
+          ),
           const SizedBox(height: 20),
         ],
 
         // No orders message
         if (_orders.where((o) => o.status != OrderStatus.delivered).isEmpty)
-          Container(
-            padding: const EdgeInsets.all(40),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade50,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              children: [
-                Icon(
-                  Icons.hourglass_empty,
-                  size: 60,
-                  color: Colors.grey.shade400,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'No pending orders',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade600,
-                  ),
-                ),
-                Text(
-                  'Orders will appear here as guests place them',
-                  style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
-                ),
-              ],
-            ),
-          ),
+          const EmptyOrdersPlaceholder(),
       ],
     );
   }
 
-  Widget _buildOrderSection(
-    String title,
-    List<CocktailOrder> orders,
-    MaterialColor color,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Icon(Icons.circle, color: color, size: 12),
-            const SizedBox(width: 8),
-            Text(
-              '$title (${orders.length})',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: color.shade800,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        ...orders.map((order) => _buildOrderCard(order, color)),
-      ],
-    );
-  }
-
-  Widget _buildOrderCard(CocktailOrder order, MaterialColor accentColor) {
-    final cocktail = _availableCocktails.firstWhere(
-      (c) => c.id == order.cocktailId,
-      orElse: () => _availableCocktails.first,
-    );
-
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: accentColor.shade200, width: 1),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: accentColor.shade100,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    Icons.local_bar,
-                    color: accentColor.shade700,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        cocktail.title.translate(context),
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'For: ${order.guestName}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                      Text(
-                        'Ordered: ${_formatTime(order.createdAt)}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey.shade500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  '${_mockPrepTimes[cocktail.id] ?? 5} min',
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
-                ),
-              ],
-            ),
-            if (order.specialRequests?.isNotEmpty == true) ...[
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.amber.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.amber.shade200),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.note, color: Colors.amber.shade700, size: 16),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        order.specialRequests!,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.amber.shade800,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            const SizedBox(height: 12),
-            Row(children: [...(_getNextStatusButtons(order, accentColor))]),
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _getNextStatusButtons(
+  /// Build an order card with the cocktail data
+  Widget _buildOrderCardWithCocktail(
     CocktailOrder order,
     MaterialColor accentColor,
   ) {
-    switch (order.status) {
-      case OrderStatus.pending:
-        return [
-          Expanded(
-            child: ElevatedButton.icon(
-              onPressed: () => _updateOrderStatus(order, OrderStatus.preparing),
-              icon: const Icon(Icons.play_arrow, size: 16),
-              label: const Text('Start Preparing'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue.shade600,
-                foregroundColor: Colors.white,
-              ),
-            ),
-          ),
-        ];
-      case OrderStatus.preparing:
-        return [
-          Expanded(
-            child: ElevatedButton.icon(
-              onPressed: () => _updateOrderStatus(order, OrderStatus.ready),
-              icon: const Icon(Icons.check, size: 16),
-              label: const Text('Mark Ready'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green.shade600,
-                foregroundColor: Colors.white,
-              ),
-            ),
-          ),
-        ];
-      case OrderStatus.ready:
-        return [
-          Expanded(
-            child: ElevatedButton.icon(
-              onPressed: () => _updateOrderStatus(order, OrderStatus.delivered),
-              icon: const Icon(Icons.local_shipping, size: 16),
-              label: const Text('Mark Delivered'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey.shade600,
-                foregroundColor: Colors.white,
-              ),
-            ),
-          ),
-        ];
-      default:
-        return [];
+    Cocktail? cocktail;
+    try {
+      cocktail = _availableCocktails.firstWhere(
+        (c) => c.id == order.cocktailId,
+      );
+    } catch (_) {
+      // Cocktail not found in available list
+      cocktail = null;
     }
+
+    return OrderCard(
+      order: order,
+      cocktail: cocktail,
+      accentColor: accentColor,
+      onStartPreparing: order.status == OrderStatus.pending
+          ? () => _updateOrderStatus(order, OrderStatus.preparing)
+          : null,
+      onMarkReady: order.status == OrderStatus.preparing
+          ? () => _updateOrderStatus(order, OrderStatus.ready)
+          : null,
+      onMarkDelivered: order.status == OrderStatus.ready
+          ? () => _updateOrderStatus(order, OrderStatus.delivered)
+          : null,
+    );
   }
 
   Widget _buildStatsTab() {
+    final l10n = AppLocalizations.of(context);
     final totalOrders = _orders.length;
     final completedOrders = _orders
         .where((o) => o.status == OrderStatus.delivered)
@@ -594,7 +452,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Party Overview',
+                  l10n.partyOverview,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -602,32 +460,32 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    _buildStatCard(
-                      'Total Orders',
-                      totalOrders.toString(),
-                      Colors.blue,
+                    PartyStatsCard(
+                      label: l10n.totalOrders,
+                      value: totalOrders.toString(),
+                      color: Colors.blue,
                     ),
                     const SizedBox(width: 16),
-                    _buildStatCard(
-                      'Completed',
-                      completedOrders.toString(),
-                      Colors.green,
+                    PartyStatsCard(
+                      label: l10n.completed,
+                      value: completedOrders.toString(),
+                      color: Colors.green,
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    _buildStatCard(
-                      'Pending',
-                      pendingOrders.toString(),
-                      Colors.orange,
+                    PartyStatsCard(
+                      label: l10n.pending,
+                      value: pendingOrders.toString(),
+                      color: Colors.orange,
                     ),
                     const SizedBox(width: 16),
-                    _buildStatCard(
-                      'Active Time',
-                      _getActiveTime(),
-                      Colors.purple,
+                    PartyStatsCard(
+                      label: l10n.activeTime,
+                      value: _getActiveTime(),
+                      color: Colors.purple,
                     ),
                   ],
                 ),
@@ -645,15 +503,13 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Popular Cocktails',
+                  l10n.popularCocktails,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 16),
-                ...(_getPopularCocktails().map(
-                  (entry) => _buildPopularCocktailItem(entry),
-                )),
+                PopularCocktailsList(popularCocktails: _getPopularCocktails()),
               ],
             ),
           ),
@@ -662,75 +518,68 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
     );
   }
 
-  Widget _buildStatCard(String label, String value, MaterialColor color) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: color.shade50,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.shade200),
-        ),
-        child: Column(
-          children: [
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: color.shade700,
-              ),
-            ),
-            Text(label, style: TextStyle(fontSize: 12, color: color.shade600)),
-          ],
-        ),
-      ),
-    );
-  }
-
   List<MapEntry<String, int>> _getPopularCocktails() {
     final cocktailCounts = <String, int>{};
     for (final order in _orders) {
-      final cocktail = _availableCocktails.firstWhere(
-        (c) => c.id == order.cocktailId,
-        orElse: () => _availableCocktails.first,
-      );
-      cocktailCounts[cocktail.title.translate(context)] =
-          (cocktailCounts[cocktail.title.translate(context)] ?? 0) + 1;
+      Cocktail? cocktail;
+      try {
+        cocktail = _availableCocktails.firstWhere(
+          (c) => c.id == order.cocktailId,
+        );
+      } catch (_) {
+        continue;
+      }
+
+      final name = cocktail.title.translate(context);
+      cocktailCounts[name] = (cocktailCounts[name] ?? 0) + 1;
     }
     final sortedEntries = cocktailCounts.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
     return sortedEntries.take(3).toList();
   }
 
-  Widget _buildPopularCocktailItem(MapEntry<String, int> entry) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Icon(Icons.local_bar, color: Colors.grey.shade600),
-          const SizedBox(width: 12),
-          Expanded(child: Text(entry.key)),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.blue.shade100,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              '${entry.value}',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.blue.shade700,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildMenuTab() {
+    final l10n = AppLocalizations.of(context);
+
+    if (_isLoadingCocktails) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_error != null) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline, size: 48, color: Colors.red.shade400),
+              const SizedBox(height: 16),
+              Text(
+                l10n.errorLoadingCocktailsList,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red.shade700,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                _error!,
+                style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: _loadAvailableCocktails,
+                icon: const Icon(Icons.refresh),
+                label: Text(l10n.retry),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     final availableCocktails = _availableCocktails
         .where((c) => widget.party.availableCocktailIds.contains(c.id))
         .toList();
@@ -739,51 +588,67 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       padding: const EdgeInsets.all(16),
       children: [
         Text(
-          'Available Cocktails (${availableCocktails.length})',
+          l10n.availableCocktails(availableCocktails.length),
           style: Theme.of(
             context,
           ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
-        ...availableCocktails.map(
-          (cocktail) => Card(
-            margin: const EdgeInsets.only(bottom: 12),
-            child: ListTile(
-              leading: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Colors.purple.shade100,
-                  borderRadius: BorderRadius.circular(8),
+        if (availableCocktails.isEmpty)
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(40),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.local_bar_outlined,
+                    size: 60,
+                    color: Colors.grey.shade400,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.noCocktailsAvailable,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                  Text(
+                    l10n.addCocktailsToMenu,
+                    style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
+                  ),
+                ],
+              ),
+            ),
+          )
+        else
+          ...availableCocktails.map(
+            (cocktail) => Card(
+              margin: const EdgeInsets.only(bottom: 12),
+              child: ListTile(
+                leading: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.purple.shade100,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(Icons.local_bar, color: Colors.purple.shade600),
                 ),
-                child: Icon(Icons.local_bar, color: Colors.purple.shade600),
-              ),
-              title: Text(cocktail.title.translate(context)),
-              subtitle: Text(
-                '${cocktail.categories.isNotEmpty ? cocktail.categories.first.name.substring(0, 1).toUpperCase() + cocktail.categories.first.name.substring(1) : 'Classic'} • ${_mockPrepTimes[cocktail.id] ?? 5} min',
-              ),
-              trailing: Text(
-                '${_orders.where((o) => o.cocktailId == cocktail.id).length} orders',
-                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                title: Text(cocktail.title.translate(context)),
+                subtitle: Text(
+                  '${cocktail.categories.isNotEmpty ? cocktail.categories.first.name.substring(0, 1).toUpperCase() + cocktail.categories.first.name.substring(1) : 'Classic'} • ~5 min',
+                ),
+                trailing: Text(
+                  '${_orders.where((o) => o.cocktailId == cocktail.id).length} orders',
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                ),
               ),
             ),
           ),
-        ),
       ],
     );
-  }
-
-  String _formatTime(DateTime dateTime) {
-    final now = DateTime.now();
-    final difference = now.difference(dateTime);
-
-    if (difference.inMinutes < 1) {
-      return 'Just now';
-    } else if (difference.inMinutes < 60) {
-      return '${difference.inMinutes}m ago';
-    } else {
-      return '${difference.inHours}h ago';
-    }
   }
 
   String _getActiveTime() {

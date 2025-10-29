@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:party_bar/models/models.dart';
 import 'package:party_bar/services/party_service.dart';
+import 'package:party_bar/services/auth_service.dart';
 import 'package:party_bar/utils/localization_helper.dart';
 import 'package:party_bar/widgets/party/party_invitation_code.dart';
 import 'package:party_bar/widgets/party/party_cocktails_list.dart';
@@ -19,6 +20,7 @@ class PartyDetailsScreen extends StatefulWidget {
 
 class _PartyDetailsScreenState extends State<PartyDetailsScreen> {
   final PartyService _partyService = PartyService();
+  final AuthService _authService = AuthService();
   Party? _party;
   List<Cocktail> _cocktails = [];
   bool _isLoading = true;
@@ -294,7 +296,8 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen> {
 
                 // Party Status Control Widget
                 PartyStatusControl(
-                  currentStatus: _party!.status,
+                  party: _party!,
+                  currentUserId: _authService.currentUser?.uid ?? '',
                   onStatusChange: _updatePartyStatus,
                   isUpdating: _isUpdating,
                 ),

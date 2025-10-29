@@ -379,6 +379,12 @@ class AppLocalizationsUk extends AppLocalizations {
       'Ви впевнені, що хочете завершити цю вечірку? Цю дію не можна скасувати.';
 
   @override
+  String get goToHostDashboard => 'Перейти до панелі господаря';
+
+  @override
+  String get goToPartyMenu => 'Перейти до меню вечірки';
+
+  @override
   String get partyAdminPanel => 'Панель адміністратора вечірки';
 
   @override
@@ -441,5 +447,148 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String failedToAddCocktails(String error) {
     return 'Не вдалося додати коктейлі: $error';
+  }
+
+  @override
+  String get noPendingOrders => 'Немає очікуючих замовлень';
+
+  @override
+  String get ordersWillAppear =>
+      'Замовлення з\'являться тут, коли гості їх розмістять';
+
+  @override
+  String get unknownCocktail => 'Невідомий коктейль';
+
+  @override
+  String forGuest(String guestName) {
+    return 'Для: $guestName';
+  }
+
+  @override
+  String ordered(String time) {
+    return 'Замовлено: $time';
+  }
+
+  @override
+  String get justNow => 'Щойно';
+
+  @override
+  String minutesAgo(int minutes) {
+    return '$minutesхв тому';
+  }
+
+  @override
+  String hoursAgo(int hours) {
+    return '$hoursгод тому';
+  }
+
+  @override
+  String get startPreparing => 'Почати готувати';
+
+  @override
+  String get markReady => 'Позначити готовим';
+
+  @override
+  String get markDelivered => 'Позначити доставленим';
+
+  @override
+  String get newOrders => 'Нові замовлення';
+
+  @override
+  String get preparing => 'Готується';
+
+  @override
+  String get readyForPickup => 'Готово до видачі';
+
+  @override
+  String get orders => 'Замовлення';
+
+  @override
+  String ordersCount(int count) {
+    return 'Замовлення ($count)';
+  }
+
+  @override
+  String get stats => 'Статистика';
+
+  @override
+  String get menu => 'Меню';
+
+  @override
+  String get totalOrders => 'Всього замовлень';
+
+  @override
+  String get completed => 'Виконано';
+
+  @override
+  String get pending => 'Очікує';
+
+  @override
+  String get activeTime => 'Час активності';
+
+  @override
+  String get partyOverview => 'Огляд вечірки';
+
+  @override
+  String get popularCocktails => 'Популярні коктейлі';
+
+  @override
+  String get noOrdersYet => 'Ще немає замовлень';
+
+  @override
+  String availableCocktails(int count) {
+    return 'Доступні коктейлі ($count)';
+  }
+
+  @override
+  String get noCocktailsAvailable => 'Немає доступних коктейлів';
+
+  @override
+  String get addCocktailsToMenu => 'Додайте коктейлі до меню вечірки';
+
+  @override
+  String get errorLoadingCocktailsList => 'Помилка завантаження коктейлів';
+
+  @override
+  String get partyCopiedToClipboard => 'Код вечірки скопійовано!';
+
+  @override
+  String get partyQRCode => 'QR-код вечірки';
+
+  @override
+  String get qrCodeMock => 'QR-КОД\n(Макет)';
+
+  @override
+  String code(String code) {
+    return 'Код: $code';
+  }
+
+  @override
+  String get close => 'Закрити';
+
+  @override
+  String get partyResumed => 'Вечірку відновлено';
+
+  @override
+  String get partyPausedMessage => 'Вечірку призупинено';
+
+  @override
+  String failedToUpdateOrder(String error) {
+    return 'Не вдалося оновити замовлення: $error';
+  }
+
+  @override
+  String failedToUpdatePartyStatus(String error) {
+    return 'Не вдалося оновити статус вечірки: $error';
+  }
+
+  @override
+  String orderMarkedAs(String cocktail, String guest, String status) {
+    return '$cocktail для $guest позначено як $status';
+  }
+
+  @override
+  String errorWithMessage(String message) {
+    return 'Помилка: $message';
   }
 }

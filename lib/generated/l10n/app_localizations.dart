@@ -800,6 +800,18 @@ abstract class AppLocalizations {
   /// **'This action cannot be undone. All party data will be archived.'**
   String get confirmEndPartyMessage;
 
+  /// Button to navigate to host dashboard for active party
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Host Dashboard'**
+  String get goToHostDashboard;
+
+  /// Button to navigate to party menu for guests
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Party Menu'**
+  String get goToPartyMenu;
+
   /// Header for party admin panel
   ///
   /// In en, this message translates to:
@@ -871,6 +883,246 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to add cocktails: {error}'**
   String failedToAddCocktails(String error);
+
+  /// Empty state title when there are no pending orders
+  ///
+  /// In en, this message translates to:
+  /// **'No pending orders'**
+  String get noPendingOrders;
+
+  /// Empty state message for orders placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Orders will appear here as guests place them'**
+  String get ordersWillAppear;
+
+  /// Fallback text when cocktail name is not found
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown Cocktail'**
+  String get unknownCocktail;
+
+  /// Label showing which guest the order is for
+  ///
+  /// In en, this message translates to:
+  /// **'For: {guestName}'**
+  String forGuest(String guestName);
+
+  /// Label showing when the order was placed
+  ///
+  /// In en, this message translates to:
+  /// **'Ordered: {time}'**
+  String ordered(String time);
+
+  /// Time indicator for very recent actions
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get justNow;
+
+  /// Time indicator for minutes ago
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes}m ago'**
+  String minutesAgo(int minutes);
+
+  /// Time indicator for hours ago
+  ///
+  /// In en, this message translates to:
+  /// **'{hours}h ago'**
+  String hoursAgo(int hours);
+
+  /// Button to start preparing an order
+  ///
+  /// In en, this message translates to:
+  /// **'Start Preparing'**
+  String get startPreparing;
+
+  /// Button to mark order as ready for pickup
+  ///
+  /// In en, this message translates to:
+  /// **'Mark Ready'**
+  String get markReady;
+
+  /// Button to mark order as delivered
+  ///
+  /// In en, this message translates to:
+  /// **'Mark Delivered'**
+  String get markDelivered;
+
+  /// Section title for new/pending orders
+  ///
+  /// In en, this message translates to:
+  /// **'New Orders'**
+  String get newOrders;
+
+  /// Section title for orders being prepared
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing'**
+  String get preparing;
+
+  /// Section title for orders ready for pickup
+  ///
+  /// In en, this message translates to:
+  /// **'Ready for Pickup'**
+  String get readyForPickup;
+
+  /// Orders tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get orders;
+
+  /// Orders tab label with count
+  ///
+  /// In en, this message translates to:
+  /// **'Orders ({count})'**
+  String ordersCount(int count);
+
+  /// Stats tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Stats'**
+  String get stats;
+
+  /// Menu tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get menu;
+
+  /// Label for total orders statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Total Orders'**
+  String get totalOrders;
+
+  /// Label for completed orders statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// Label for pending orders statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pending;
+
+  /// Label for party active time statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Active Time'**
+  String get activeTime;
+
+  /// Title for party statistics overview section
+  ///
+  /// In en, this message translates to:
+  /// **'Party Overview'**
+  String get partyOverview;
+
+  /// Title for popular cocktails section
+  ///
+  /// In en, this message translates to:
+  /// **'Popular Cocktails'**
+  String get popularCocktails;
+
+  /// Message when there are no orders in statistics
+  ///
+  /// In en, this message translates to:
+  /// **'No orders yet'**
+  String get noOrdersYet;
+
+  /// Title for available cocktails list with count
+  ///
+  /// In en, this message translates to:
+  /// **'Available Cocktails ({count})'**
+  String availableCocktails(int count);
+
+  /// Empty state title when no cocktails are available
+  ///
+  /// In en, this message translates to:
+  /// **'No cocktails available'**
+  String get noCocktailsAvailable;
+
+  /// Empty state message suggesting to add cocktails
+  ///
+  /// In en, this message translates to:
+  /// **'Add cocktails to the party menu'**
+  String get addCocktailsToMenu;
+
+  /// Error message when cocktails fail to load
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading cocktails'**
+  String get errorLoadingCocktailsList;
+
+  /// Success message when party code is copied
+  ///
+  /// In en, this message translates to:
+  /// **'Party code copied to clipboard!'**
+  String get partyCopiedToClipboard;
+
+  /// Title for QR code dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Party QR Code'**
+  String get partyQRCode;
+
+  /// Mock placeholder for QR code
+  ///
+  /// In en, this message translates to:
+  /// **'QR CODE\n(Mock)'**
+  String get qrCodeMock;
+
+  /// Label showing party code
+  ///
+  /// In en, this message translates to:
+  /// **'Code: {code}'**
+  String code(String code);
+
+  /// Close button text
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// Success message when party is resumed
+  ///
+  /// In en, this message translates to:
+  /// **'Party resumed'**
+  String get partyResumed;
+
+  /// Success message when party is paused
+  ///
+  /// In en, this message translates to:
+  /// **'Party paused'**
+  String get partyPausedMessage;
+
+  /// Error message when order update fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update order: {error}'**
+  String failedToUpdateOrder(String error);
+
+  /// Error message when party status update fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update party status: {error}'**
+  String failedToUpdatePartyStatus(String error);
+
+  /// Success message when order status is updated
+  ///
+  /// In en, this message translates to:
+  /// **'{cocktail} for {guest} marked as {status}'**
+  String orderMarkedAs(String cocktail, String guest, String status);
+
+  /// Generic error message with details
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {message}'**
+  String errorWithMessage(String message);
 }
 
 class _AppLocalizationsDelegate

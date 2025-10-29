@@ -496,6 +496,14 @@
   "@confirmEndPartyMessage": {
     "description": "Confirmation dialog message for ending party"
   },
+  "goToHostDashboard": "Go to Host Dashboard",
+  "@goToHostDashboard": {
+    "description": "Button to navigate to host dashboard for active party"
+  },
+  "goToPartyMenu": "Go to Party Menu",
+  "@goToPartyMenu": {
+    "description": "Button to navigate to party menu for guests"
+  },
   "partyAdminPanel": "Party Admin",
   "@partyAdminPanel": {
     "description": "Header for party admin panel"
@@ -565,6 +573,240 @@
       "error": {
         "type": "String",
         "example": "Network error"
+      }
+    }
+  },
+  "noPendingOrders": "No pending orders",
+  "@noPendingOrders": {
+    "description": "Empty state title when there are no pending orders"
+  },
+  "ordersWillAppear": "Orders will appear here as guests place them",
+  "@ordersWillAppear": {
+    "description": "Empty state message for orders placeholder"
+  },
+  "unknownCocktail": "Unknown Cocktail",
+  "@unknownCocktail": {
+    "description": "Fallback text when cocktail name is not found"
+  },
+  "forGuest": "For: {guestName}",
+  "@forGuest": {
+    "description": "Label showing which guest the order is for",
+    "placeholders": {
+      "guestName": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "ordered": "Ordered: {time}",
+  "@ordered": {
+    "description": "Label showing when the order was placed",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "5m ago"
+      }
+    }
+  },
+  "justNow": "Just now",
+  "@justNow": {
+    "description": "Time indicator for very recent actions"
+  },
+  "minutesAgo": "{minutes}m ago",
+  "@minutesAgo": {
+    "description": "Time indicator for minutes ago",
+    "placeholders": {
+      "minutes": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "hoursAgo": "{hours}h ago",
+  "@hoursAgo": {
+    "description": "Time indicator for hours ago",
+    "placeholders": {
+      "hours": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "startPreparing": "Start Preparing",
+  "@startPreparing": {
+    "description": "Button to start preparing an order"
+  },
+  "markReady": "Mark Ready",
+  "@markReady": {
+    "description": "Button to mark order as ready for pickup"
+  },
+  "markDelivered": "Mark Delivered",
+  "@markDelivered": {
+    "description": "Button to mark order as delivered"
+  },
+  "newOrders": "New Orders",
+  "@newOrders": {
+    "description": "Section title for new/pending orders"
+  },
+  "preparing": "Preparing",
+  "@preparing": {
+    "description": "Section title for orders being prepared"
+  },
+  "readyForPickup": "Ready for Pickup",
+  "@readyForPickup": {
+    "description": "Section title for orders ready for pickup"
+  },
+  "orders": "Orders",
+  "@orders": {
+    "description": "Orders tab label"
+  },
+  "ordersCount": "Orders ({count})",
+  "@ordersCount": {
+    "description": "Orders tab label with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "stats": "Stats",
+  "@stats": {
+    "description": "Stats tab label"
+  },
+  "menu": "Menu",
+  "@menu": {
+    "description": "Menu tab label"
+  },
+  "totalOrders": "Total Orders",
+  "@totalOrders": {
+    "description": "Label for total orders statistic"
+  },
+  "completed": "Completed",
+  "@completed": {
+    "description": "Label for completed orders statistic"
+  },
+  "pending": "Pending",
+  "@pending": {
+    "description": "Label for pending orders statistic"
+  },
+  "activeTime": "Active Time",
+  "@activeTime": {
+    "description": "Label for party active time statistic"
+  },
+  "partyOverview": "Party Overview",
+  "@partyOverview": {
+    "description": "Title for party statistics overview section"
+  },
+  "popularCocktails": "Popular Cocktails",
+  "@popularCocktails": {
+    "description": "Title for popular cocktails section"
+  },
+  "noOrdersYet": "No orders yet",
+  "@noOrdersYet": {
+    "description": "Message when there are no orders in statistics"
+  },
+  "availableCocktails": "Available Cocktails ({count})",
+  "@availableCocktails": {
+    "description": "Title for available cocktails list with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "8"
+      }
+    }
+  },
+  "noCocktailsAvailable": "No cocktails available",
+  "@noCocktailsAvailable": {
+    "description": "Empty state title when no cocktails are available"
+  },
+  "addCocktailsToMenu": "Add cocktails to the party menu",
+  "@addCocktailsToMenu": {
+    "description": "Empty state message suggesting to add cocktails"
+  },
+  "errorLoadingCocktailsList": "Error loading cocktails",
+  "@errorLoadingCocktailsList": {
+    "description": "Error message when cocktails fail to load"
+  },
+  "partyCopiedToClipboard": "Party code copied to clipboard!",
+  "@partyCopiedToClipboard": {
+    "description": "Success message when party code is copied"
+  },
+  "partyQRCode": "Party QR Code",
+  "@partyQRCode": {
+    "description": "Title for QR code dialog"
+  },
+  "qrCodeMock": "QR CODE\n(Mock)",
+  "@qrCodeMock": {
+    "description": "Mock placeholder for QR code"
+  },
+  "code": "Code: {code}",
+  "@code": {
+    "description": "Label showing party code",
+    "placeholders": {
+      "code": {
+        "type": "String",
+        "example": "ABC123"
+      }
+    }
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Close button text"
+  },
+  "partyResumed": "Party resumed",
+  "@partyResumed": {
+    "description": "Success message when party is resumed"
+  },
+  "partyPausedMessage": "Party paused",
+  "@partyPausedMessage": {
+    "description": "Success message when party is paused"
+  },
+  "failedToUpdateOrder": "Failed to update order: {error}",
+  "@failedToUpdateOrder": {
+    "description": "Error message when order update fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "failedToUpdatePartyStatus": "Failed to update party status: {error}",
+  "@failedToUpdatePartyStatus": {
+    "description": "Error message when party status update fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "orderMarkedAs": "{cocktail} for {guest} marked as {status}",
+  "@orderMarkedAs": {
+    "description": "Success message when order status is updated",
+    "placeholders": {
+      "cocktail": {
+        "type": "String",
+        "example": "Mojito"
+      },
+      "guest": {
+        "type": "String",
+        "example": "John"
+      },
+      "status": {
+        "type": "String",
+        "example": "preparing"
+      }
+    }
+  },
+  "errorWithMessage": "Error: {message}",
+  "@errorWithMessage": {
+    "description": "Generic error message with details",
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Connection failed"
       }
     }
   }

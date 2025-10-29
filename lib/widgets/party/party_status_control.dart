@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:party_bar/models/models.dart';
 import 'package:party_bar/utils/localization_helper.dart';
+import 'package:go_router/go_router.dart';
+import 'package:party_bar/utils/app_router.dart';
 
 /// Widget to control party status (Start/Pause/End)
 class PartyStatusControl extends StatelessWidget {
-  final PartyStatus currentStatus;
+  final Party party;
+  final String currentUserId;
   final Function(PartyStatus newStatus) onStatusChange;
   final bool isUpdating;
 
   const PartyStatusControl({
     super.key,
-    required this.currentStatus,
+    required this.party,
+    required this.currentUserId,
     required this.onStatusChange,
     this.isUpdating = false,
   });
 
-  static Color getStatusColor(PartyStatus status) {
+  static MaterialColor getStatusColor(PartyStatus status) {
     switch (status) {
       case PartyStatus.active:
         return Colors.green;
@@ -92,6 +96,26 @@ class PartyStatusControl extends StatelessWidget {
     );
   }
 
+  void _navigateToActiveParty(BuildContext context) {
+    final bool isHost = currentUserId == party.hostId;
+
+    if (isHost) {
+      // Navigate to host dashboard
+      context.push('${AppRoutes.activePartyHost}/${party.id}', extra: party);
+    } else {
+      // Navigate to guest screen
+      // For guests, we need the party code and guest name
+      // You might want to pass guest name from somewhere or prompt for it
+      context.push(
+        AppRoutes.activePartyGuest,
+        extra: {
+          'partyCode': party.joinCode,
+          'guestName': 'Guest', // TODO: Get actual guest name from user profile
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -119,11 +143,11 @@ class PartyStatusControl extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: PartyStatusControl.getStatusColor(
-                  currentStatus,
+                  party.status,
                 ).withValues(alpha: .1),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: PartyStatusControl.getStatusColor(currentStatus),
+                  color: PartyStatusControl.getStatusColor(party.status),
                   width: 2,
                 ),
               ),
@@ -131,15 +155,15 @@ class PartyStatusControl extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    PartyStatusControl.getStatusIcon(currentStatus),
-                    color: PartyStatusControl.getStatusColor(currentStatus),
+                    PartyStatusControl.getStatusIcon(party.status),
+                    color: PartyStatusControl.getStatusColor(party.status),
                     size: 20,
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    PartyStatusControl.getStatusLabel(context, currentStatus),
+                    PartyStatusControl.getStatusLabel(context, party.status),
                     style: TextStyle(
-                      color: PartyStatusControl.getStatusColor(currentStatus),
+                      color: PartyStatusControl.getStatusColor(party.status),
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -161,7 +185,7 @@ class PartyStatusControl extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  if (currentStatus == PartyStatus.paused)
+                  if (party.status == PartyStatus.paused)
                     ElevatedButton.icon(
                       onPressed: () => onStatusChange(PartyStatus.active),
                       icon: const Icon(Icons.play_arrow),
@@ -171,7 +195,7 @@ class PartyStatusControl extends StatelessWidget {
                         foregroundColor: Colors.white,
                       ),
                     ),
-                  if (currentStatus == PartyStatus.active)
+                  if (party.status == PartyStatus.active)
                     OutlinedButton.icon(
                       onPressed: () => onStatusChange(PartyStatus.paused),
                       icon: const Icon(Icons.pause),
@@ -180,7 +204,7 @@ class PartyStatusControl extends StatelessWidget {
                         foregroundColor: Colors.orange,
                       ),
                     ),
-                  if (currentStatus != PartyStatus.ended)
+                  if (party.status != PartyStatus.ended)
                     OutlinedButton.icon(
                       onPressed: () => _showEndPartyConfirmation(context),
                       icon: const Icon(Icons.stop),
@@ -191,6 +215,31 @@ class PartyStatusControl extends StatelessWidget {
                     ),
                 ],
               ),
+            // Navigation Button
+            if (party.status == PartyStatus.active) ...[
+              const Divider(height: 32),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () => _navigateToActiveParty(context),
+                  icon: Icon(
+                    currentUserId == party.hostId
+                        ? Icons.dashboard
+                        : Icons.local_bar,
+                  ),
+                  label: Text(
+                    currentUserId == party.hostId
+                        ? context.l10n.goToHostDashboard
+                        : context.l10n.goToPartyMenu,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
       ),
