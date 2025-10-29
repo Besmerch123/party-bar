@@ -70,6 +70,9 @@ class AppLocalizationsUk extends AppLocalizations {
       'Створюйте персональні коктейль-бари та зберігайте улюблені рецепти.';
 
   @override
+  String get loading => 'Завантаження...';
+
+  @override
   String get profile => 'Профіль';
 
   @override
@@ -364,6 +367,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get partyEnded => 'Вечірка завершена';
+
+  @override
+  String get partyIdle => 'Не розпочата';
 
   @override
   String get confirmEndParty => 'Підтвердити завершення вечірки';

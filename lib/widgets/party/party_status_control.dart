@@ -15,36 +15,42 @@ class PartyStatusControl extends StatelessWidget {
     this.isUpdating = false,
   });
 
-  Color _getStatusColor(BuildContext context) {
-    switch (currentStatus) {
+  static Color getStatusColor(PartyStatus status) {
+    switch (status) {
       case PartyStatus.active:
         return Colors.green;
       case PartyStatus.paused:
         return Colors.orange;
       case PartyStatus.ended:
         return Colors.red;
+      case PartyStatus.idle:
+        return Colors.blue;
     }
   }
 
-  String _getStatusLabel(BuildContext context) {
-    switch (currentStatus) {
+  static String getStatusLabel(BuildContext context, PartyStatus status) {
+    switch (status) {
       case PartyStatus.active:
         return context.l10n.partyActive;
       case PartyStatus.paused:
         return context.l10n.partyPaused;
       case PartyStatus.ended:
         return context.l10n.partyEnded;
+      case PartyStatus.idle:
+        return context.l10n.partyIdle;
     }
   }
 
-  IconData _getStatusIcon() {
-    switch (currentStatus) {
+  static IconData getStatusIcon(PartyStatus status) {
+    switch (status) {
       case PartyStatus.active:
         return Icons.play_circle_filled;
       case PartyStatus.paused:
         return Icons.pause_circle_filled;
       case PartyStatus.ended:
         return Icons.stop_circle;
+      case PartyStatus.idle:
+        return Icons.hourglass_empty;
     }
   }
 
@@ -97,10 +103,7 @@ class PartyStatusControl extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
-                  Icons.power_settings_new,
-                  color: Theme.of(context).primaryColor,
-                ),
+                Icon(Icons.power_settings_new),
                 const SizedBox(width: 8),
                 Text(
                   context.l10n.partyStatus,
@@ -115,23 +118,28 @@ class PartyStatusControl extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: _getStatusColor(context).withOpacity(0.1),
+                color: PartyStatusControl.getStatusColor(
+                  currentStatus,
+                ).withValues(alpha: .1),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: _getStatusColor(context), width: 2),
+                border: Border.all(
+                  color: PartyStatusControl.getStatusColor(currentStatus),
+                  width: 2,
+                ),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    _getStatusIcon(),
-                    color: _getStatusColor(context),
+                    PartyStatusControl.getStatusIcon(currentStatus),
+                    color: PartyStatusControl.getStatusColor(currentStatus),
                     size: 20,
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    _getStatusLabel(context),
+                    PartyStatusControl.getStatusLabel(context, currentStatus),
                     style: TextStyle(
-                      color: _getStatusColor(context),
+                      color: PartyStatusControl.getStatusColor(currentStatus),
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),

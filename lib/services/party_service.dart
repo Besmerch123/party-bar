@@ -1,16 +1,13 @@
 import 'dart:math';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import '../data/party_repository.dart';
 import '../models/models.dart';
 
-/// Service class for handling Party-related Firebase operations.
+/// Service class for handling Party-related business logic.
+/// Database operations are delegated to PartyRepository.
 class PartyService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final PartyRepository _repository = PartyRepository();
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
-
-  /// Collection reference for parties
-  CollectionReference get _partiesCollection =>
-      _firestore.collection('parties');
 
   /// Get current user
   auth.User? get _currentUser => _auth.currentUser;
@@ -25,36 +22,23 @@ class PartyService {
     // Generate a unique join code
     final joinCode = _generateJoinCode();
 
-    // Create party data without ID (Firebase will generate it)
-    final partyData = {
-      'name': name,
-      'hostId': _currentUser!.uid,
-      'hostName': _currentUser!.displayName ?? 'Anonymous',
-      'availableCocktailIds': [],
-      'joinCode': joinCode,
-      'status': PartyStatus.paused.name,
-      'createdAt': FieldValue.serverTimestamp(),
-      'endedAt': null,
-      'totalOrders': 0,
-      'description': description,
-    };
-
     try {
-      // Add document and let Firebase generate the ID
-      final docRef = await _partiesCollection.add(partyData);
+      // Create party in repository
+      final partyId = await _repository.createParty(
+        name: name,
+        hostId: _currentUser!.uid,
+        hostName: _currentUser!.displayName ?? 'Anonymous',
+        joinCode: joinCode,
+        description: description,
+      );
 
-      // Update the document to include its own ID
-      await docRef.update({'id': docRef.id});
+      // Fetch and return the created party
+      final party = await _repository.getPartyById(partyId);
+      if (party == null) {
+        throw Exception('Failed to fetch created party');
+      }
 
-      // Fetch the created party
-      final snapshot = await docRef.get();
-      final data = snapshot.data() as Map<String, dynamic>;
-
-      return Party.fromMap({
-        ...data,
-        'id': docRef.id,
-        'createdAt': (data['createdAt'] as Timestamp).millisecondsSinceEpoch,
-      });
+      return party;
     } catch (e) {
       throw Exception('Failed to create party: $e');
     }
@@ -75,19 +59,7 @@ class PartyService {
   /// Get a party by ID
   Future<Party?> getPartyById(String partyId) async {
     try {
-      final snapshot = await _partiesCollection.doc(partyId).get();
-      if (!snapshot.exists) {
-        return null;
-      }
-
-      final data = snapshot.data() as Map<String, dynamic>;
-      return Party.fromMap({
-        ...data,
-        'id': snapshot.id,
-        'createdAt': (data['createdAt'] as Timestamp).millisecondsSinceEpoch,
-        if (data['endedAt'] != null)
-          'endedAt': (data['endedAt'] as Timestamp).millisecondsSinceEpoch,
-      });
+      return await _repository.getPartyById(partyId);
     } catch (e) {
       throw Exception('Failed to get party: $e');
     }
@@ -99,36 +71,13 @@ class PartyService {
       return Stream.value([]);
     }
 
-    return _partiesCollection
-        .where('hostId', isEqualTo: _currentUser!.uid)
-        .orderBy('createdAt', descending: true)
-        .snapshots()
-        .map((snapshot) {
-          return snapshot.docs.map((doc) {
-            final data = doc.data() as Map<String, dynamic>;
-            return Party.fromMap({
-              ...data,
-              'id': doc.id,
-              'createdAt':
-                  (data['createdAt'] as Timestamp).millisecondsSinceEpoch,
-              if (data['endedAt'] != null)
-                'endedAt':
-                    (data['endedAt'] as Timestamp).millisecondsSinceEpoch,
-            });
-          }).toList();
-        });
+    return _repository.getPartiesByHostId(_currentUser!.uid);
   }
 
   /// Update party status
   Future<void> updatePartyStatus(String partyId, PartyStatus status) async {
     try {
-      final updates = {
-        'status': status.name,
-        if (status == PartyStatus.ended)
-          'endedAt': FieldValue.serverTimestamp(),
-      };
-
-      await _partiesCollection.doc(partyId).update(updates);
+      await _repository.updatePartyStatus(partyId, status);
     } catch (e) {
       throw Exception('Failed to update party status: $e');
     }
@@ -141,15 +90,11 @@ class PartyService {
     String? description,
   }) async {
     try {
-      final updates = <String, dynamic>{};
-      if (name != null) updates['name'] = name;
-      if (description != null) {
-        updates['description'] = description;
-      }
-
-      if (updates.isNotEmpty) {
-        await _partiesCollection.doc(partyId).update(updates);
-      }
+      await _repository.updateParty(
+        partyId,
+        name: name,
+        description: description,
+      );
     } catch (e) {
       throw Exception('Failed to update party: $e');
     }
@@ -161,9 +106,7 @@ class PartyService {
     List<String> cocktailIds,
   ) async {
     try {
-      await _partiesCollection.doc(partyId).update({
-        'availableCocktailIds': cocktailIds,
-      });
+      await _repository.updateAvailableCocktails(partyId, cocktailIds);
     } catch (e) {
       throw Exception('Failed to update available cocktails: $e');
     }
@@ -172,25 +115,7 @@ class PartyService {
   /// Join a party by join code
   Future<Party?> joinPartyByCode(String joinCode) async {
     try {
-      final snapshot = await _partiesCollection
-          .where('joinCode', isEqualTo: joinCode.toUpperCase())
-          .where('status', isEqualTo: PartyStatus.active.name)
-          .limit(1)
-          .get();
-
-      if (snapshot.docs.isEmpty) {
-        return null;
-      }
-
-      final doc = snapshot.docs.first;
-      final data = doc.data() as Map<String, dynamic>;
-      return Party.fromMap({
-        ...data,
-        'id': doc.id,
-        'createdAt': (data['createdAt'] as Timestamp).millisecondsSinceEpoch,
-        if (data['endedAt'] != null)
-          'endedAt': (data['endedAt'] as Timestamp).millisecondsSinceEpoch,
-      });
+      return await _repository.findPartyByJoinCode(joinCode);
     } catch (e) {
       throw Exception('Failed to join party: $e');
     }
@@ -204,7 +129,7 @@ class PartyService {
 
     try {
       // Verify the user is the host
-      final party = await getPartyById(partyId);
+      final party = await _repository.getPartyById(partyId);
       if (party == null) {
         throw Exception('Party not found');
       }
@@ -213,7 +138,7 @@ class PartyService {
         throw Exception('Only the host can delete the party');
       }
 
-      await _partiesCollection.doc(partyId).delete();
+      await _repository.deleteParty(partyId);
     } catch (e) {
       throw Exception('Failed to delete party: $e');
     }

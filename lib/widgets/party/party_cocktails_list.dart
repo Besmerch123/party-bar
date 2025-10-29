@@ -34,10 +34,7 @@ class PartyCocktailsList extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(
-                      Icons.local_bar,
-                      color: Theme.of(context).primaryColor,
-                    ),
+                    Icon(Icons.local_bar),
                     const SizedBox(width: 8),
                     Text(
                       context.l10n.partyCocktails,

@@ -70,6 +70,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Create personal cocktail bars and save your favorite recipes.';
 
   @override
+  String get loading => 'Loading...';
+
+  @override
   String get profile => 'Profile';
 
   @override
@@ -362,6 +365,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partyEnded => 'Ended';
+
+  @override
+  String get partyIdle => 'Not started';
 
   @override
   String get confirmEndParty => 'Are you sure you want to end the party?';

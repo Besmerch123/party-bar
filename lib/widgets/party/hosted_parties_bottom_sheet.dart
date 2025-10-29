@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../../generated/l10n/app_localizations.dart';
 import '../../models/models.dart';
 import '../../services/party_service.dart';
+import './party_status_control.dart';
 
 class HostedPartiesBottomSheet extends StatelessWidget {
   const HostedPartiesBottomSheet({super.key});
@@ -180,8 +181,8 @@ class HostedPartiesBottomSheet extends StatelessWidget {
     Party party,
     AppLocalizations l10n,
   ) {
-    final statusColor = _getStatusColor(party.status);
-    final statusIcon = _getStatusIcon(party.status);
+    final statusColor = PartyStatusControl.getStatusColor(party.status);
+    final statusIcon = PartyStatusControl.getStatusIcon(party.status);
     final dateFormat = DateFormat('MMM d, y');
     final timeFormat = DateFormat('h:mm a');
 
@@ -231,7 +232,10 @@ class HostedPartiesBottomSheet extends StatelessWidget {
                         Icon(statusIcon, size: 14, color: statusColor),
                         const SizedBox(width: 4),
                         Text(
-                          _getStatusText(party.status, l10n),
+                          PartyStatusControl.getStatusLabel(
+                            context,
+                            party.status,
+                          ),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -302,7 +306,7 @@ class HostedPartiesBottomSheet extends StatelessWidget {
                   icon: const Icon(Icons.arrow_forward, size: 16),
                   label: Text(l10n.viewDetails),
                   style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).primaryColor,
+                    foregroundColor: Theme.of(context).primaryColorLight,
                   ),
                 ),
               ),
@@ -328,38 +332,5 @@ class HostedPartiesBottomSheet extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Color _getStatusColor(PartyStatus status) {
-    switch (status) {
-      case PartyStatus.active:
-        return Colors.green;
-      case PartyStatus.paused:
-        return Colors.orange;
-      case PartyStatus.ended:
-        return Colors.grey;
-    }
-  }
-
-  IconData _getStatusIcon(PartyStatus status) {
-    switch (status) {
-      case PartyStatus.active:
-        return Icons.celebration;
-      case PartyStatus.paused:
-        return Icons.pause_circle;
-      case PartyStatus.ended:
-        return Icons.check_circle;
-    }
-  }
-
-  String _getStatusText(PartyStatus status, AppLocalizations l10n) {
-    switch (status) {
-      case PartyStatus.active:
-        return l10n.partyActive;
-      case PartyStatus.paused:
-        return l10n.partyPaused;
-      case PartyStatus.ended:
-        return l10n.partyEnded;
-    }
   }
 }

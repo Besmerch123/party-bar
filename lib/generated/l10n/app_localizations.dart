@@ -212,6 +212,12 @@ abstract class AppLocalizations {
   /// **'Create personal cocktail bars and save your favorite recipes.'**
   String get onboardingDescription4;
 
+  /// Loading indicator text
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
   /// Profile screen title
   ///
   /// In en, this message translates to:
@@ -775,6 +781,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ended'**
   String get partyEnded;
+
+  /// Status label for idle party
+  ///
+  /// In en, this message translates to:
+  /// **'Not started'**
+  String get partyIdle;
 
   /// Confirmation dialog for ending party
   ///

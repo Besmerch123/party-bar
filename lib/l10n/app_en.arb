@@ -76,6 +76,10 @@
   "@onboardingDescription4": {
     "description": "Fourth onboarding screen description"
   },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading indicator text"
+  },
   "profile": "Profile",
   "@profile": {
     "description": "Profile screen title"
@@ -479,6 +483,10 @@
   "partyEnded": "Ended",
   "@partyEnded": {
     "description": "Status label for ended party"
+  },
+  "partyIdle": "Not started",
+  "@partyIdle": {
+    "description": "Status label for idle party"
   },
   "confirmEndParty": "Are you sure you want to end the party?",
   "@confirmEndParty": {

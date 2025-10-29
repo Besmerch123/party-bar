@@ -1,4 +1,4 @@
-enum PartyStatus { active, paused, ended }
+enum PartyStatus { active, paused, ended, idle }
 
 class Party {
   final String id;
