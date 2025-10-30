@@ -1123,6 +1123,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error: {message}'**
   String errorWithMessage(String message);
+
+  /// Join party screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Join Party'**
+  String get joinPartyTitle;
+
+  /// Join party screen header title
+  ///
+  /// In en, this message translates to:
+  /// **'Join the Party!'**
+  String get joinTheParty;
+
+  /// Join party screen header description
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the party code to start ordering cocktails'**
+  String get enterPartyCodeToOrder;
+
+  /// Guest name input field label
+  ///
+  /// In en, this message translates to:
+  /// **'Your Name'**
+  String get yourName;
+
+  /// Guest name input field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name'**
+  String get enterYourName;
+
+  /// Party code input field label
+  ///
+  /// In en, this message translates to:
+  /// **'Party Code'**
+  String get partyCode;
+
+  /// Party code input field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter 6-digit party code'**
+  String get enterPartyCode;
+
+  /// Button to scan QR code
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR Code'**
+  String get scanQRCode;
+
+  /// Success message after scanning QR code
+  ///
+  /// In en, this message translates to:
+  /// **'QR Code scanned successfully!'**
+  String get qrCodeScannedSuccess;
+
+  /// Validation error for missing name or code
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter both party code and your name'**
+  String get pleaseEnterNameAndCode;
+
+  /// Help text explaining how to get party code
+  ///
+  /// In en, this message translates to:
+  /// **'Ask the party host for the 6-digit party code or scan their QR code'**
+  String get askHostForCode;
+
+  /// Error message when party doesn't exist
+  ///
+  /// In en, this message translates to:
+  /// **'Party not found. Please check the code and try again.'**
+  String get partyNotFound;
+
+  /// Loading message while joining party
+  ///
+  /// In en, this message translates to:
+  /// **'Joining party...'**
+  String get joiningParty;
 }
 
 class _AppLocalizationsDelegate

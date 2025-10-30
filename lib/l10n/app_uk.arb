@@ -170,5 +170,18 @@
   "failedToUpdateOrder": "Не вдалося оновити замовлення: {error}",
   "failedToUpdatePartyStatus": "Не вдалося оновити статус вечірки: {error}",
   "orderMarkedAs": "{cocktail} для {guest} позначено як {status}",
-  "errorWithMessage": "Помилка: {message}"
+  "errorWithMessage": "Помилка: {message}",
+  "joinPartyTitle": "Приєднатися до вечірки",
+  "joinTheParty": "Приєднайтеся до вечірки!",
+  "enterPartyCodeToOrder": "Введіть код вечірки, щоб почати замовляти коктейлі",
+  "yourName": "Ваше ім'я",
+  "enterYourName": "Введіть ваше ім'я",
+  "partyCode": "Код вечірки",
+  "enterPartyCode": "Введіть 6-значний код вечірки",
+  "scanQRCode": "Сканувати QR-код",
+  "qrCodeScannedSuccess": "QR-код успішно відсканований!",
+  "pleaseEnterNameAndCode": "Будь ласка, введіть код вечірки та ваше ім'я",
+  "askHostForCode": "Попросіть господаря вечірки надати 6-значний код або відскануйте їхній QR-код",
+  "partyNotFound": "Вечірку не знайдено. Перевірте код і спробуйте ще раз.",
+  "joiningParty": "Приєднання до вечірки..."
 }

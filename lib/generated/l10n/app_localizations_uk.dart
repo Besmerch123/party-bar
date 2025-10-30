@@ -591,4 +591,47 @@ class AppLocalizationsUk extends AppLocalizations {
   String errorWithMessage(String message) {
     return 'Помилка: $message';
   }
+
+  @override
+  String get joinPartyTitle => 'Приєднатися до вечірки';
+
+  @override
+  String get joinTheParty => 'Приєднайтеся до вечірки!';
+
+  @override
+  String get enterPartyCodeToOrder =>
+      'Введіть код вечірки, щоб почати замовляти коктейлі';
+
+  @override
+  String get yourName => 'Ваше ім\'я';
+
+  @override
+  String get enterYourName => 'Введіть ваше ім\'я';
+
+  @override
+  String get partyCode => 'Код вечірки';
+
+  @override
+  String get enterPartyCode => 'Введіть 6-значний код вечірки';
+
+  @override
+  String get scanQRCode => 'Сканувати QR-код';
+
+  @override
+  String get qrCodeScannedSuccess => 'QR-код успішно відсканований!';
+
+  @override
+  String get pleaseEnterNameAndCode =>
+      'Будь ласка, введіть код вечірки та ваше ім\'я';
+
+  @override
+  String get askHostForCode =>
+      'Попросіть господаря вечірки надати 6-значний код або відскануйте їхній QR-код';
+
+  @override
+  String get partyNotFound =>
+      'Вечірку не знайдено. Перевірте код і спробуйте ще раз.';
+
+  @override
+  String get joiningParty => 'Приєднання до вечірки...';
 }

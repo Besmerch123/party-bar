@@ -809,5 +809,57 @@
         "example": "Connection failed"
       }
     }
+  },
+  "joinPartyTitle": "Join Party",
+  "@joinPartyTitle": {
+    "description": "Join party screen title"
+  },
+  "joinTheParty": "Join the Party!",
+  "@joinTheParty": {
+    "description": "Join party screen header title"
+  },
+  "enterPartyCodeToOrder": "Enter the party code to start ordering cocktails",
+  "@enterPartyCodeToOrder": {
+    "description": "Join party screen header description"
+  },
+  "yourName": "Your Name",
+  "@yourName": {
+    "description": "Guest name input field label"
+  },
+  "enterYourName": "Enter your name",
+  "@enterYourName": {
+    "description": "Guest name input field hint"
+  },
+  "partyCode": "Party Code",
+  "@partyCode": {
+    "description": "Party code input field label"
+  },
+  "enterPartyCode": "Enter 6-digit party code",
+  "@enterPartyCode": {
+    "description": "Party code input field hint"
+  },
+  "scanQRCode": "Scan QR Code",
+  "@scanQRCode": {
+    "description": "Button to scan QR code"
+  },
+  "qrCodeScannedSuccess": "QR Code scanned successfully!",
+  "@qrCodeScannedSuccess": {
+    "description": "Success message after scanning QR code"
+  },
+  "pleaseEnterNameAndCode": "Please enter both party code and your name",
+  "@pleaseEnterNameAndCode": {
+    "description": "Validation error for missing name or code"
+  },
+  "askHostForCode": "Ask the party host for the 6-digit party code or scan their QR code",
+  "@askHostForCode": {
+    "description": "Help text explaining how to get party code"
+  },
+  "partyNotFound": "Party not found. Please check the code and try again.",
+  "@partyNotFound": {
+    "description": "Error message when party doesn't exist"
+  },
+  "joiningParty": "Joining party...",
+  "@joiningParty": {
+    "description": "Loading message while joining party"
   }
 }

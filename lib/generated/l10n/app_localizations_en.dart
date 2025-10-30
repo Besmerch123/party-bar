@@ -586,4 +586,47 @@ class AppLocalizationsEn extends AppLocalizations {
   String errorWithMessage(String message) {
     return 'Error: $message';
   }
+
+  @override
+  String get joinPartyTitle => 'Join Party';
+
+  @override
+  String get joinTheParty => 'Join the Party!';
+
+  @override
+  String get enterPartyCodeToOrder =>
+      'Enter the party code to start ordering cocktails';
+
+  @override
+  String get yourName => 'Your Name';
+
+  @override
+  String get enterYourName => 'Enter your name';
+
+  @override
+  String get partyCode => 'Party Code';
+
+  @override
+  String get enterPartyCode => 'Enter 6-digit party code';
+
+  @override
+  String get scanQRCode => 'Scan QR Code';
+
+  @override
+  String get qrCodeScannedSuccess => 'QR Code scanned successfully!';
+
+  @override
+  String get pleaseEnterNameAndCode =>
+      'Please enter both party code and your name';
+
+  @override
+  String get askHostForCode =>
+      'Ask the party host for the 6-digit party code or scan their QR code';
+
+  @override
+  String get partyNotFound =>
+      'Party not found. Please check the code and try again.';
+
+  @override
+  String get joiningParty => 'Joining party...';
 }
