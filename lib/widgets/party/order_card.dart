@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../generated/l10n/app_localizations.dart';
 import '../../models/models.dart';
+import '../../utils/localization_helper.dart';
 
 /// Card widget displaying a single cocktail order
 class OrderCard extends StatelessWidget {
@@ -22,23 +22,20 @@ class OrderCard extends StatelessWidget {
   });
 
   String _formatTime(BuildContext context, DateTime dateTime) {
-    final l10n = AppLocalizations.of(context);
     final now = DateTime.now();
     final difference = now.difference(dateTime);
 
     if (difference.inMinutes < 1) {
-      return l10n.justNow;
+      return context.l10n.justNow;
     } else if (difference.inMinutes < 60) {
-      return l10n.minutesAgo(difference.inMinutes);
+      return context.l10n.minutesAgo(difference.inMinutes);
     } else {
-      return l10n.hoursAgo(difference.inHours);
+      return context.l10n.hoursAgo(difference.inHours);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 2,
@@ -72,21 +69,23 @@ class OrderCard extends StatelessWidget {
                     children: [
                       Text(
                         cocktail?.title.translate(context) ??
-                            l10n.unknownCocktail,
+                            context.l10n.unknownCocktail,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        l10n.forGuest(order.guestName),
+                        context.l10n.forGuest(order.guestName),
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey.shade600,
                         ),
                       ),
                       Text(
-                        l10n.ordered(_formatTime(context, order.createdAt)),
+                        context.l10n.ordered(
+                          _formatTime(context, order.createdAt),
+                        ),
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey.shade500,
@@ -132,8 +131,6 @@ class OrderCard extends StatelessWidget {
   }
 
   List<Widget> _buildActionButtons(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
     switch (order.status) {
       case OrderStatus.pending:
         return [
@@ -142,7 +139,7 @@ class OrderCard extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: onStartPreparing,
                 icon: const Icon(Icons.play_arrow, size: 16),
-                label: Text(l10n.startPreparing),
+                label: Text(context.l10n.startPreparing),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue.shade600,
                   foregroundColor: Colors.white,
@@ -157,7 +154,7 @@ class OrderCard extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: onMarkReady,
                 icon: const Icon(Icons.check, size: 16),
-                label: Text(l10n.markReady),
+                label: Text(context.l10n.markReady),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green.shade600,
                   foregroundColor: Colors.white,
@@ -172,7 +169,7 @@ class OrderCard extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: onMarkDelivered,
                 icon: const Icon(Icons.local_shipping, size: 16),
-                label: Text(l10n.markDelivered),
+                label: Text(context.l10n.markDelivered),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey.shade600,
                   foregroundColor: Colors.white,

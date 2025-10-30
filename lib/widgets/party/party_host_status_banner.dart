@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:party_bar/widgets/party/party_status_control.dart';
-import '../../generated/l10n/app_localizations.dart';
 import '../../models/models.dart';
+import '../../utils/localization_helper.dart';
 
 /// Banner widget showing party status and quick actions for host
 class PartyHostStatusBanner extends StatelessWidget {
@@ -18,7 +18,6 @@ class PartyHostStatusBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final color = PartyStatusControl.getStatusColor(party.status);
 
     return Container(
@@ -48,7 +47,7 @@ class PartyHostStatusBanner extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  l10n.code(party.joinCode),
+                  context.l10n.code(party.joinCode),
                   style: TextStyle(fontSize: 14, color: color.shade700),
                 ),
               ],

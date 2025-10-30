@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../generated/l10n/app_localizations.dart';
 import '../../models/models.dart';
+import '../../utils/localization_helper.dart';
 import '../../services/order_service.dart';
 import '../../services/party_service.dart';
 import '../../data/cocktail_repository.dart';
@@ -82,8 +82,6 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
     CocktailOrder order,
     OrderStatus newStatus,
   ) async {
-    final l10n = AppLocalizations.of(context);
-
     try {
       await _orderService.updateOrderStatus(
         widget.party.id,
@@ -100,7 +98,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              l10n.orderMarkedAs(
+              context.l10n.orderMarkedAs(
                 cocktail.title.translate(context),
                 order.guestName,
                 newStatus.name,
@@ -114,7 +112,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(l10n.failedToUpdateOrder(e.toString())),
+            content: Text(context.l10n.failedToUpdateOrder(e.toString())),
             backgroundColor: Colors.red,
           ),
         );
@@ -123,22 +121,20 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
   }
 
   void _sharePartyCode() {
-    final l10n = AppLocalizations.of(context);
     Clipboard.setData(ClipboardData(text: widget.party.joinCode));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(l10n.partyCopiedToClipboard),
+        content: Text(context.l10n.partyCopiedToClipboard),
         backgroundColor: Colors.green,
       ),
     );
   }
 
   void _showQRCode() {
-    final l10n = AppLocalizations.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(l10n.partyQRCode),
+        title: Text(context.l10n.partyQRCode),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -151,7 +147,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
               ),
               child: Center(
                 child: Text(
-                  l10n.qrCodeMock,
+                  context.l10n.qrCodeMock,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 18,
@@ -162,7 +158,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
             ),
             const SizedBox(height: 16),
             Text(
-              l10n.code(widget.party.joinCode),
+              context.l10n.code(widget.party.joinCode),
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ],
@@ -170,11 +166,11 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(l10n.close),
+            child: Text(context.l10n.close),
           ),
           ElevatedButton(
             onPressed: _sharePartyCode,
-            child: Text(l10n.shareCode),
+            child: Text(context.l10n.shareCode),
           ),
         ],
       ),
@@ -183,7 +179,6 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
 
   /// Toggle party status between active and paused
   Future<void> _toggleParty() async {
-    final l10n = AppLocalizations.of(context);
     final newStatus = widget.party.status == PartyStatus.active
         ? PartyStatus.paused
         : PartyStatus.active;
@@ -196,8 +191,8 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
           SnackBar(
             content: Text(
               newStatus == PartyStatus.active
-                  ? l10n.partyResumed
-                  : l10n.partyPausedMessage,
+                  ? context.l10n.partyResumed
+                  : context.l10n.partyPausedMessage,
             ),
             backgroundColor: newStatus == PartyStatus.active
                 ? Colors.green
@@ -209,7 +204,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(l10n.failedToUpdatePartyStatus(e.toString())),
+            content: Text(context.l10n.failedToUpdatePartyStatus(e.toString())),
             backgroundColor: Colors.red,
           ),
         );
@@ -219,8 +214,6 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -242,8 +235,8 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                     const SizedBox(width: 8),
                     Text(
                       widget.party.status == PartyStatus.active
-                          ? l10n.pauseParty
-                          : l10n.resumeParty,
+                          ? context.l10n.pauseParty
+                          : context.l10n.resumeParty,
                     ),
                   ],
                 ),
@@ -253,7 +246,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                   children: [
                     const Icon(Icons.stop),
                     const SizedBox(width: 8),
-                    Text(l10n.endParty),
+                    Text(context.l10n.endParty),
                   ],
                 ),
               ),
@@ -275,7 +268,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                     children: [
                       const Icon(Icons.receipt_long),
                       const SizedBox(width: 4),
-                      Text(l10n.ordersCount(activeOrders)),
+                      Text(context.l10n.ordersCount(activeOrders)),
                     ],
                   );
                 },
@@ -287,7 +280,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                 children: [
                   const Icon(Icons.analytics),
                   const SizedBox(width: 4),
-                  Text(l10n.stats),
+                  Text(context.l10n.stats),
                 ],
               ),
             ),
@@ -297,7 +290,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                 children: [
                   const Icon(Icons.local_bar),
                   const SizedBox(width: 4),
-                  Text(l10n.menu),
+                  Text(context.l10n.menu),
                 ],
               ),
             ),
@@ -309,7 +302,9 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
-              child: Text(l10n.errorWithMessage(snapshot.error.toString())),
+              child: Text(
+                context.l10n.errorWithMessage(snapshot.error.toString()),
+              ),
             );
           }
 
@@ -328,7 +323,6 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
   }
 
   Widget _buildOrdersTab() {
-    final l10n = AppLocalizations.of(context);
     final pendingOrders = _orders
         .where((o) => o.status == OrderStatus.pending)
         .toList();
@@ -353,7 +347,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
         // Pending Orders
         if (pendingOrders.isNotEmpty) ...[
           OrderSection(
-            title: l10n.newOrders,
+            title: context.l10n.newOrders,
             count: pendingOrders.length,
             color: Colors.orange,
             children: pendingOrders
@@ -368,7 +362,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
         // Preparing Orders
         if (preparingOrders.isNotEmpty) ...[
           OrderSection(
-            title: l10n.preparing,
+            title: context.l10n.preparing,
             count: preparingOrders.length,
             color: Colors.blue,
             children: preparingOrders
@@ -381,7 +375,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
         // Ready Orders
         if (readyOrders.isNotEmpty) ...[
           OrderSection(
-            title: l10n.readyForPickup,
+            title: context.l10n.readyForPickup,
             count: readyOrders.length,
             color: Colors.green,
             children: readyOrders
@@ -432,7 +426,6 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
   }
 
   Widget _buildStatsTab() {
-    final l10n = AppLocalizations.of(context);
     final totalOrders = _orders.length;
     final completedOrders = _orders
         .where((o) => o.status == OrderStatus.delivered)
@@ -452,7 +445,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  l10n.partyOverview,
+                  context.l10n.partyOverview,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -461,13 +454,13 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                 Row(
                   children: [
                     PartyStatsCard(
-                      label: l10n.totalOrders,
+                      label: context.l10n.totalOrders,
                       value: totalOrders.toString(),
                       color: Colors.blue,
                     ),
                     const SizedBox(width: 16),
                     PartyStatsCard(
-                      label: l10n.completed,
+                      label: context.l10n.completed,
                       value: completedOrders.toString(),
                       color: Colors.green,
                     ),
@@ -477,13 +470,13 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                 Row(
                   children: [
                     PartyStatsCard(
-                      label: l10n.pending,
+                      label: context.l10n.pending,
                       value: pendingOrders.toString(),
                       color: Colors.orange,
                     ),
                     const SizedBox(width: 16),
                     PartyStatsCard(
-                      label: l10n.activeTime,
+                      label: context.l10n.activeTime,
                       value: _getActiveTime(),
                       color: Colors.purple,
                     ),
@@ -503,7 +496,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  l10n.popularCocktails,
+                  context.l10n.popularCocktails,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -539,8 +532,6 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
   }
 
   Widget _buildMenuTab() {
-    final l10n = AppLocalizations.of(context);
-
     if (_isLoadingCocktails) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -555,7 +546,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
               Icon(Icons.error_outline, size: 48, color: Colors.red.shade400),
               const SizedBox(height: 16),
               Text(
-                l10n.errorLoadingCocktailsList,
+                context.l10n.errorLoadingCocktailsList,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -572,7 +563,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
               ElevatedButton.icon(
                 onPressed: _loadAvailableCocktails,
                 icon: const Icon(Icons.refresh),
-                label: Text(l10n.retry),
+                label: Text(context.l10n.retry),
               ),
             ],
           ),
@@ -588,7 +579,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
       padding: const EdgeInsets.all(16),
       children: [
         Text(
-          l10n.availableCocktails(availableCocktails.length),
+          context.l10n.availableCocktails(availableCocktails.length),
           style: Theme.of(
             context,
           ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -607,7 +598,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    l10n.noCocktailsAvailable,
+                    context.l10n.noCocktailsAvailable,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -615,7 +606,7 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                     ),
                   ),
                   Text(
-                    l10n.addCocktailsToMenu,
+                    context.l10n.addCocktailsToMenu,
                     style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
                   ),
                 ],

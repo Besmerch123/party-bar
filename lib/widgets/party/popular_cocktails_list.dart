@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../generated/l10n/app_localizations.dart';
+import '../../utils/localization_helper.dart';
 
 /// Widget displaying popular cocktails in a list
 class PopularCocktailsList extends StatelessWidget {
@@ -9,13 +9,11 @@ class PopularCocktailsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
     if (popularCocktails.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Text(
-          l10n.noOrdersYet,
+          context.l10n.noOrdersYet,
           style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
         ),
       );
