@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import '../../models/models.dart';
 import '../../data/cocktail_repository.dart';
-import '../../providers/locale_provider.dart';
 import '../../widgets/cocktails/cocktail_categories.dart';
 import '../../widgets/cocktails/cocktail_ingredients.dart';
 import '../../widgets/cocktails/preparation_steps.dart';
@@ -41,12 +39,9 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
     }
 
     try {
-      final locale = context.read<LocaleProvider>().currentLocale;
-
       // Fetch cocktail document (untranslated)
       final fetchedCocktail = await _cocktailRepo.getCocktail(
         widget.cocktailId,
-        locale: locale,
       );
 
       if (fetchedCocktail == null) {

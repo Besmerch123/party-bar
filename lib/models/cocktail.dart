@@ -65,7 +65,6 @@ class Cocktail extends CocktailRelations {
   factory Cocktail.fromDocumentWithRelations(
     DocumentSnapshot<CocktailDocument> doc,
     CocktailRelations relations,
-    SupportedLocale locale,
   ) {
     final data = doc.data()!;
     return Cocktail(
@@ -212,8 +211,7 @@ class CocktailTransformer
   Cocktail fromFirestoreWithRelations(
     DocumentSnapshot<CocktailDocument> doc,
     CocktailRelations relations,
-    SupportedLocale locale,
   ) {
-    return Cocktail.fromDocumentWithRelations(doc, relations, locale);
+    return Cocktail.fromDocumentWithRelations(doc, relations);
   }
 }
