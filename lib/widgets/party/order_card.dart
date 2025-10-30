@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/models.dart';
 import '../../utils/localization_helper.dart';
+import '../../models/models.dart';
 
 /// Card widget displaying a single cocktail order
 class OrderCard extends StatelessWidget {

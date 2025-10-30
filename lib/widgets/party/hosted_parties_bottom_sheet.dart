@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import '../../generated/l10n/app_localizations.dart';
+import '../../utils/localization_helper.dart';
 import '../../models/models.dart';
 import '../../services/party_service.dart';
 import './party_status_control.dart';
@@ -20,8 +20,6 @@ class HostedPartiesBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
     return DraggableScrollableSheet(
       initialChildSize: 0.7,
       minChildSize: 0.5,
@@ -62,7 +60,7 @@ class HostedPartiesBottomSheet extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      l10n.myHostedParties,
+                      context.l10n.myHostedParties,
                       style: Theme.of(context).textTheme.headlineSmall
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
@@ -101,7 +99,7 @@ class HostedPartiesBottomSheet extends StatelessWidget {
                     final parties = snapshot.data ?? [];
 
                     if (parties.isEmpty) {
-                      return _buildEmptyState(context, l10n);
+                      return _buildEmptyState(context);
                     }
 
                     return ListView.builder(
@@ -113,7 +111,7 @@ class HostedPartiesBottomSheet extends StatelessWidget {
                       itemCount: parties.length,
                       itemBuilder: (context, index) {
                         final party = parties[index];
-                        return _buildPartyCard(context, party, l10n);
+                        return _buildPartyCard(context, party);
                       },
                     );
                   },
@@ -126,7 +124,7 @@ class HostedPartiesBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState(BuildContext context, AppLocalizations l10n) {
+  Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -140,7 +138,7 @@ class HostedPartiesBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              l10n.noHostedParties,
+              context.l10n.noHostedParties,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: Colors.grey.shade700,
                 fontWeight: FontWeight.bold,
@@ -149,7 +147,7 @@ class HostedPartiesBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              l10n.createFirstParty,
+              context.l10n.createFirstParty,
               style: Theme.of(
                 context,
               ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade600),
@@ -162,7 +160,7 @@ class HostedPartiesBottomSheet extends StatelessWidget {
                 context.push('/party/create');
               },
               icon: const Icon(Icons.add_circle_outline),
-              label: Text(l10n.createParty),
+              label: Text(context.l10n.createParty),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
@@ -176,11 +174,7 @@ class HostedPartiesBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildPartyCard(
-    BuildContext context,
-    Party party,
-    AppLocalizations l10n,
-  ) {
+  Widget _buildPartyCard(BuildContext context, Party party) {
     final statusColor = PartyStatusControl.getStatusColor(party.status);
     final statusIcon = PartyStatusControl.getStatusIcon(party.status);
     final dateFormat = DateFormat('MMM d, y');
@@ -304,7 +298,7 @@ class HostedPartiesBottomSheet extends StatelessWidget {
                     context.push('/party/details/${party.id}');
                   },
                   icon: const Icon(Icons.arrow_forward, size: 16),
-                  label: Text(l10n.viewDetails),
+                  label: Text(context.l10n.viewDetails),
                   style: TextButton.styleFrom(
                     foregroundColor: Theme.of(context).primaryColorLight,
                   ),

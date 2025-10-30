@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:party_bar/widgets/party/party_status_control.dart';
-import '../../models/models.dart';
 import '../../utils/localization_helper.dart';
+import '../../models/models.dart';
 
 /// Banner widget showing party status and quick actions for host
 class PartyHostStatusBanner extends StatelessWidget {

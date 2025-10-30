@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../generated/l10n/app_localizations.dart';
 import '../../models/models.dart';
 import '../../services/party_service.dart';
+import '../../utils/localization_helper.dart';
 
 class CreatePartyForm extends StatefulWidget {
   final Function(Party) onPartyCreated;
@@ -30,7 +30,7 @@ class _CreatePartyFormState extends State<CreatePartyForm> {
     if (_partyNameController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context).pleaseEnterPartyName),
+          content: Text(context.l10n.pleaseEnterPartyName),
           backgroundColor: Colors.red,
         ),
       );
@@ -77,14 +77,12 @@ class _CreatePartyFormState extends State<CreatePartyForm> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       children: [
         // Party Name
         Text(
-          l10n.partyDetails,
+          context.l10n.partyDetails,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
@@ -103,8 +101,8 @@ class _CreatePartyFormState extends State<CreatePartyForm> {
           child: TextField(
             controller: _partyNameController,
             decoration: InputDecoration(
-              labelText: l10n.partyNameLabel,
-              hintText: l10n.partyNameHint,
+              labelText: context.l10n.partyNameLabel,
+              hintText: context.l10n.partyNameHint,
               prefixIcon: Icon(
                 Icons.celebration,
                 color: Colors.deepPurple.shade400,
@@ -138,8 +136,8 @@ class _CreatePartyFormState extends State<CreatePartyForm> {
             controller: _descriptionController,
             maxLines: 3,
             decoration: InputDecoration(
-              labelText: l10n.partyDescriptionLabel,
-              hintText: l10n.partyDescriptionHint,
+              labelText: context.l10n.partyDescriptionLabel,
+              hintText: context.l10n.partyDescriptionHint,
               prefixIcon: Icon(
                 Icons.description,
                 color: Colors.deepPurple.shade400,
@@ -180,7 +178,7 @@ class _CreatePartyFormState extends State<CreatePartyForm> {
                     ),
                   )
                 : Text(
-                    l10n.createPartyButton,
+                    context.l10n.createPartyButton,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

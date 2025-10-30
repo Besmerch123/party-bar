@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../generated/l10n/app_localizations.dart';
+import '../../utils/localization_helper.dart';
 
 class PartyHubHeader extends StatelessWidget {
   const PartyHubHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -27,7 +25,7 @@ class PartyHubHeader extends StatelessWidget {
           Icon(Icons.celebration, size: 60, color: Colors.deepPurple.shade400),
           const SizedBox(height: 16),
           Text(
-            l10n.welcomeToPartyBar,
+            context.l10n.welcomeToPartyBar,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: Colors.deepPurple.shade300,
@@ -36,7 +34,7 @@ class PartyHubHeader extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            l10n.joinOrCreateParty,
+            context.l10n.joinOrCreateParty,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               color: Theme.of(
                 context,

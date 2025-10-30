@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../generated/l10n/app_localizations.dart';
 import '../../models/models.dart';
+import '../../utils/localization_helper.dart';
 import '../../widgets/party/create_party_form.dart';
 
 class CreatePartyScreen extends StatelessWidget {
@@ -14,10 +14,8 @@ class CreatePartyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.createPartyTitle)),
+      appBar: AppBar(title: Text(context.l10n.createPartyTitle)),
       body: SafeArea(
         child: Column(
           children: [
@@ -45,7 +43,7 @@ class CreatePartyScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    l10n.createYourParty,
+                    context.l10n.createYourParty,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -54,7 +52,7 @@ class CreatePartyScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    l10n.createPartyDescription,
+                    context.l10n.createPartyDescription,
                     style: TextStyle(
                       fontSize: 16,
                       color: Theme.of(context).textTheme.bodyMedium?.color,

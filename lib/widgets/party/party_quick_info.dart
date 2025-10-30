@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../generated/l10n/app_localizations.dart';
+import '../../utils/localization_helper.dart';
 import 'hosted_parties_bottom_sheet.dart';
 
 class PartyQuickInfo extends StatelessWidget {
@@ -7,8 +7,6 @@ class PartyQuickInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -28,7 +26,7 @@ class PartyQuickInfo extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  l10n.partyQuickInfo,
+                  context.l10n.partyQuickInfo,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(
                       context,
@@ -45,7 +43,7 @@ class PartyQuickInfo extends StatelessWidget {
             child: OutlinedButton.icon(
               onPressed: () => HostedPartiesBottomSheet.show(context),
               icon: const Icon(Icons.history, size: 18),
-              label: Text(l10n.viewMyParties),
+              label: Text(context.l10n.viewMyParties),
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.amber.shade700,
                 side: BorderSide(color: Colors.amber.withValues(alpha: .5)),

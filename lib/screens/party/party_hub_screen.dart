@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../generated/l10n/app_localizations.dart';
 import '../../utils/app_router.dart';
+import '../../utils/localization_helper.dart';
 import '../../widgets/party/party_hub_header.dart';
 import '../../widgets/party/party_action_card.dart';
 import '../../widgets/party/party_quick_info.dart';
@@ -11,10 +11,8 @@ class PartyHubScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.partyHub), centerTitle: true),
+      appBar: AppBar(title: Text(context.l10n.partyHub), centerTitle: true),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
@@ -25,8 +23,8 @@ class PartyHubScreen extends StatelessWidget {
 
               // Join Party Card
               PartyActionCard(
-                title: l10n.joinParty,
-                subtitle: l10n.joinPartySubtitle,
+                title: context.l10n.joinParty,
+                subtitle: context.l10n.joinPartySubtitle,
                 icon: Icons.people,
                 color: Colors.blue,
                 onTap: () {
@@ -38,8 +36,8 @@ class PartyHubScreen extends StatelessWidget {
 
               // Create Party Card
               PartyActionCard(
-                title: l10n.createParty,
-                subtitle: l10n.createPartySubtitle,
+                title: context.l10n.createParty,
+                subtitle: context.l10n.createPartySubtitle,
                 icon: Icons.add_circle,
                 color: Colors.deepPurple,
                 onTap: () {
