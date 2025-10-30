@@ -12,6 +12,7 @@ import '../../widgets/party/party_host_status_banner.dart';
 import '../../widgets/party/empty_orders_placeholder.dart';
 import '../../widgets/party/party_stats_card.dart';
 import '../../widgets/party/popular_cocktails_list.dart';
+import '../../widgets/party/party_menu_tab.dart';
 
 class ActivePartyHostScreen extends StatefulWidget {
   final Party party;
@@ -268,7 +269,12 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                     children: [
                       const Icon(Icons.receipt_long),
                       const SizedBox(width: 4),
-                      Text(context.l10n.ordersCount(activeOrders)),
+                      Flexible(
+                        child: Text(
+                          context.l10n.ordersCount(activeOrders),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   );
                 },
@@ -280,7 +286,12 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                 children: [
                   const Icon(Icons.analytics),
                   const SizedBox(width: 4),
-                  Text(context.l10n.stats),
+                  Flexible(
+                    child: Text(
+                      context.l10n.stats,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -290,7 +301,12 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
                 children: [
                   const Icon(Icons.local_bar),
                   const SizedBox(width: 4),
-                  Text(context.l10n.menu),
+                  Flexible(
+                    child: Text(
+                      context.l10n.menu,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -532,113 +548,13 @@ class _ActivePartyHostScreenState extends State<ActivePartyHostScreen>
   }
 
   Widget _buildMenuTab() {
-    if (_isLoadingCocktails) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (_error != null) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.error_outline, size: 48, color: Colors.red.shade400),
-              const SizedBox(height: 16),
-              Text(
-                context.l10n.errorLoadingCocktailsList,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red.shade700,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                _error!,
-                style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton.icon(
-                onPressed: _loadAvailableCocktails,
-                icon: const Icon(Icons.refresh),
-                label: Text(context.l10n.retry),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    final availableCocktails = _availableCocktails
-        .where((c) => widget.party.availableCocktailIds.contains(c.id))
-        .toList();
-
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        Text(
-          context.l10n.availableCocktails(availableCocktails.length),
-          style: Theme.of(
-            context,
-          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 16),
-        if (availableCocktails.isEmpty)
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(40),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.local_bar_outlined,
-                    size: 60,
-                    color: Colors.grey.shade400,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    context.l10n.noCocktailsAvailable,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey.shade600,
-                    ),
-                  ),
-                  Text(
-                    context.l10n.addCocktailsToMenu,
-                    style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
-                  ),
-                ],
-              ),
-            ),
-          )
-        else
-          ...availableCocktails.map(
-            (cocktail) => Card(
-              margin: const EdgeInsets.only(bottom: 12),
-              child: ListTile(
-                leading: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.purple.shade100,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(Icons.local_bar, color: Colors.purple.shade600),
-                ),
-                title: Text(cocktail.title.translate(context)),
-                subtitle: Text(
-                  '${cocktail.categories.isNotEmpty ? cocktail.categories.first.name.substring(0, 1).toUpperCase() + cocktail.categories.first.name.substring(1) : 'Classic'} • ~5 min',
-                ),
-                trailing: Text(
-                  '${_orders.where((o) => o.cocktailId == cocktail.id).length} orders',
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-                ),
-              ),
-            ),
-          ),
-      ],
+    return PartyMenuTab(
+      availableCocktails: _availableCocktails,
+      availableCocktailIds: widget.party.availableCocktailIds,
+      orders: _orders,
+      isLoading: _isLoadingCocktails,
+      error: _error,
+      onRetry: _loadAvailableCocktails,
     );
   }
 

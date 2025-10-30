@@ -3,8 +3,8 @@ import 'package:party_bar/models/models.dart';
 import 'package:party_bar/services/cocktail_service.dart';
 import 'package:party_bar/services/party_service.dart';
 import 'package:party_bar/utils/localization_helper.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:party_bar/widgets/party/add_cocktails_bottom_sheet.dart';
+import 'package:party_bar/widgets/cocktails/cocktail_list_item.dart';
 
 /// Widget to display and manage party cocktails list
 class PartyCocktailsList extends StatefulWidget {
@@ -252,7 +252,7 @@ class _PartyCocktailsListState extends State<PartyCocktailsList> {
                 separatorBuilder: (context, index) => const Divider(height: 1),
                 itemBuilder: (context, index) {
                   final cocktail = _cocktails[index];
-                  return _CocktailListItem(
+                  return CocktailListItem(
                     cocktail: cocktail,
                     onRemove: () => _removeCocktail(cocktail.id),
                     isUpdating: _isUpdating,
@@ -261,108 +261,6 @@ class _PartyCocktailsListState extends State<PartyCocktailsList> {
               ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _CocktailListItem extends StatelessWidget {
-  final Cocktail cocktail;
-  final VoidCallback onRemove;
-  final bool isUpdating;
-
-  const _CocktailListItem({
-    required this.cocktail,
-    required this.onRemove,
-    this.isUpdating = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          // Cocktail Image
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: cocktail.image.isNotEmpty
-                ? CachedNetworkImage(
-                    imageUrl: cocktail.image,
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      width: 60,
-                      height: 60,
-                      color: Colors.grey.shade200,
-                      child: const Center(
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      width: 60,
-                      height: 60,
-                      color: Colors.grey.shade200,
-                      child: Icon(Icons.local_bar, color: Colors.grey.shade400),
-                    ),
-                  )
-                : Container(
-                    width: 60,
-                    height: 60,
-                    color: Colors.grey.shade200,
-                    child: Icon(Icons.local_bar, color: Colors.grey.shade400),
-                  ),
-          ),
-          const SizedBox(width: 12),
-          // Cocktail Info
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  cocktail.title.translate(context),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  cocktail.description.translate(context),
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                if (cocktail.categories.isNotEmpty) ...[
-                  const SizedBox(height: 4),
-                  Wrap(
-                    spacing: 4,
-                    children: cocktail.categories.take(2).map((category) {
-                      return Chip(
-                        label: Text(
-                          category.name[0].toUpperCase() +
-                              category.name.substring(1),
-                          style: const TextStyle(fontSize: 11),
-                        ),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        padding: EdgeInsets.zero,
-                        visualDensity: VisualDensity.compact,
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ],
-            ),
-          ),
-          // Remove Button
-          IconButton(
-            onPressed: isUpdating ? null : onRemove,
-            icon: const Icon(Icons.remove_circle_outline),
-            color: Colors.red,
-            tooltip: context.l10n.removeCocktail,
-          ),
-        ],
       ),
     );
   }
