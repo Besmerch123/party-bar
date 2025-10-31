@@ -77,10 +77,7 @@ class CocktailRepository {
 
   /// Fetch a single cocktail by ID with translation
   /// @deprecated Use getCocktailDocument() and translate on-demand for better performance
-  Future<Cocktail?> getCocktail(
-    String id, {
-    SupportedLocale locale = SupportedLocale.en,
-  }) async {
+  Future<Cocktail?> getCocktail(String id) async {
     try {
       final doc = await _collection.doc(id).get();
 
@@ -90,10 +87,44 @@ class CocktailRepository {
 
       final relations = await _locadCocktailRelations(docData!);
 
-      return _transformer.fromFirestoreWithRelations(doc, relations, locale);
+      return _transformer.fromFirestoreWithRelations(doc, relations);
     } catch (e) {
       print('Error fetching cocktail: $e');
       return null;
+    }
+  }
+
+  /// Fetch multiple cocktails by their IDs (without relations for performance)
+  /// Uses Firestore's whereIn query to batch fetch documents efficiently
+  /// Firestore limits whereIn to 10 items, so this method chunks larger lists
+  Future<List<Cocktail>> getCocktailsByIds(
+    List<String> ids, {
+    SupportedLocale locale = SupportedLocale.en,
+  }) async {
+    if (ids.isEmpty) return [];
+
+    try {
+      final cocktails = <Cocktail>[];
+
+      // Firestore whereIn has a limit of 10 items
+      const chunkSize = 10;
+
+      for (var i = 0; i < ids.length; i += chunkSize) {
+        final chunk = ids.skip(i).take(chunkSize).toList();
+
+        final snapshot = await _collection
+            .where(FieldPath.documentId, whereIn: chunk)
+            .get();
+
+        cocktails.addAll(
+          snapshot.docs.map((doc) => _transformer.fromFirestore(doc, locale)),
+        );
+      }
+
+      return cocktails;
+    } catch (e) {
+      print('Error fetching cocktails by IDs: $e');
+      return [];
     }
   }
 

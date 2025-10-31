@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:party_bar/utils/localization_helper.dart';
-import '../../generated/l10n/app_localizations.dart';
 import '../../widgets/settings/lang_settings.dart';
 import '../../widgets/settings/sign_in.dart';
 
@@ -9,10 +8,11 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.navigationSettings), centerTitle: true),
+      appBar: AppBar(
+        title: Text(context.l10n.navigationSettings),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -26,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
             const LangSettings(),
             const SizedBox(height: 16),
             Text(
-              l10n.authentication,
+              context.l10n.authentication,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),

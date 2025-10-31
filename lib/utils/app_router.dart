@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:party_bar/utils/localization_helper.dart';
 import '../screens/screens.dart';
 import '../widgets/auth/auth_guard.dart';
+import '../models/models.dart';
 
 class AppRoutes {
   static const String welcome = '/welcome';
@@ -14,6 +15,8 @@ class AppRoutes {
   static const String joinParty = '/party/join';
   static const String createParty = '/party/create';
   static const String partyDetails = '/party/details';
+  static const String activePartyHost = '/party/active/host';
+  static const String activePartyGuest = '/party/active/guest';
   static const String profile = '/profile';
   static const String settings = '/settings';
   static const String auth = '/auth';
@@ -76,6 +79,30 @@ GoRouter createAppRouter({required bool showWelcome}) {
           return AuthGuard(
             redirectPath: partyDetailsPath,
             child: PartyDetailsScreen(partyId: partyId),
+          );
+        },
+      ),
+      GoRoute(
+        path: '${AppRoutes.activePartyHost}/:id',
+        builder: (context, state) {
+          final partyId = state.pathParameters['id']!;
+          final party = state.extra as Party;
+          return AuthGuard(
+            redirectPath: '${AppRoutes.activePartyHost}/$partyId',
+            child: ActivePartyHostScreen(party: party),
+          );
+        },
+      ),
+      GoRoute(
+        path: '${AppRoutes.activePartyGuest}/:id',
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>;
+          final guestName = extras['guestName']! as String;
+          final party = extras['party'] as Party;
+          final partyId = state.pathParameters['id']!;
+          return AuthGuard(
+            redirectPath: '${AppRoutes.activePartyGuest}/$partyId',
+            child: ActivePartyGuestScreen(party: party, guestName: guestName),
           );
         },
       ),

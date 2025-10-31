@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../utils/app_router.dart';
-import '../../generated/l10n/app_localizations.dart';
+import '../../utils/localization_helper.dart';
 
 class OnboardingData {
   final String Function(BuildContext) title;
@@ -29,29 +29,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int _currentPage = 0;
 
   List<OnboardingData> _getPages(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     return [
       OnboardingData(
-        title: (ctx) => l10n.onboardingTitle1,
-        description: (ctx) => l10n.onboardingDescription1,
+        title: (ctx) => context.l10n.onboardingTitle1,
+        description: (ctx) => context.l10n.onboardingDescription1,
         icon: Icons.local_bar,
         color: Colors.blue,
       ),
       OnboardingData(
-        title: (ctx) => l10n.onboardingTitle2,
-        description: (ctx) => l10n.onboardingDescription2,
+        title: (ctx) => context.l10n.onboardingTitle2,
+        description: (ctx) => context.l10n.onboardingDescription2,
         icon: Icons.celebration,
         color: Colors.purple,
       ),
       OnboardingData(
-        title: (ctx) => l10n.onboardingTitle3,
-        description: (ctx) => l10n.onboardingDescription3,
+        title: (ctx) => context.l10n.onboardingTitle3,
+        description: (ctx) => context.l10n.onboardingDescription3,
         icon: Icons.party_mode,
         color: Colors.orange,
       ),
       OnboardingData(
-        title: (ctx) => l10n.onboardingTitle4,
-        description: (ctx) => l10n.onboardingDescription4,
+        title: (ctx) => context.l10n.onboardingTitle4,
+        description: (ctx) => context.l10n.onboardingDescription4,
         icon: Icons.collections,
         color: Colors.green,
       ),
@@ -66,7 +65,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final pages = _getPages(context);
 
     return Scaffold(
@@ -82,7 +80,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   TextButton(
                     onPressed: () => context.go(AppRoutes.home),
                     child: Text(
-                      l10n.skip,
+                      context.l10n.skip,
                       style: TextStyle(
                         color: Theme.of(
                           context,
@@ -91,7 +89,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                   Text(
-                    l10n.pageOfPages(_currentPage + 1, pages.length),
+                    context.l10n.pageOfPages(_currentPage + 1, pages.length),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(
                         context,
@@ -205,8 +203,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                   child: Text(
                     _currentPage < pages.length - 1
-                        ? l10n.next
-                        : l10n.getStarted,
+                        ? context.l10n.next
+                        : context.l10n.getStarted,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,

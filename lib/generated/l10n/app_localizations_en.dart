@@ -70,6 +70,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Create personal cocktail bars and save your favorite recipes.';
 
   @override
+  String get loading => 'Loading...';
+
+  @override
   String get profile => 'Profile';
 
   @override
@@ -228,4 +231,472 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInToContinue => 'Sign In to Continue';
+
+  @override
+  String get partyHub => 'Party Hub';
+
+  @override
+  String get welcomeToPartyBar => 'Welcome to PartyBar!';
+
+  @override
+  String get joinOrCreateParty =>
+      'Join a party or create your own cocktail experience';
+
+  @override
+  String get joinParty => 'Join Party';
+
+  @override
+  String get joinPartySubtitle => 'Enter a party code to join the fun';
+
+  @override
+  String get createParty => 'Create Party';
+
+  @override
+  String get createPartySubtitle => 'Host your own cocktail party';
+
+  @override
+  String get partyQuickInfo =>
+      'Hosts can manage orders and guests can browse cocktails in real-time!';
+
+  @override
+  String get createPartyTitle => 'Create Party';
+
+  @override
+  String get createYourParty => 'Create Your Party';
+
+  @override
+  String get createPartyDescription =>
+      'Set up your cocktail party and invite guests';
+
+  @override
+  String get partyDetails => 'Party Details';
+
+  @override
+  String get partyNameLabel => 'Party Name *';
+
+  @override
+  String get partyNameHint => 'e.g., Sarah\'s Birthday Bash';
+
+  @override
+  String get partyDescriptionLabel => 'Description (Optional)';
+
+  @override
+  String get partyDescriptionHint => 'Tell guests about your party...';
+
+  @override
+  String get selectAvailableCocktails => 'Select Available Cocktails *';
+
+  @override
+  String selectedCount(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String get allClassic => 'All Classic';
+
+  @override
+  String get tikiAndFrozen => 'Tiki & Frozen';
+
+  @override
+  String get createPartyButton => 'Create Party';
+
+  @override
+  String get pleaseEnterPartyName => 'Please enter a party name';
+
+  @override
+  String get pleaseSelectCocktail => 'Please select at least one cocktail';
+
+  @override
+  String get cocktail => 'Cocktail';
+
+  @override
+  String get invitationCode => 'Invitation Code';
+
+  @override
+  String get shareCode => 'Share Code';
+
+  @override
+  String get copyCode => 'Copy Code';
+
+  @override
+  String get codeCopied => 'Code copied to clipboard!';
+
+  @override
+  String get partyCocktails => 'Party Cocktails';
+
+  @override
+  String get addCocktails => 'Add Cocktails';
+
+  @override
+  String get removeCocktail => 'Remove';
+
+  @override
+  String get noCocktailsAdded => 'No cocktails added yet';
+
+  @override
+  String get editPartyInfo => 'Edit Party Info';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get partyStatus => 'Party Status';
+
+  @override
+  String get startParty => 'Start Party';
+
+  @override
+  String get pauseParty => 'Pause Party';
+
+  @override
+  String get resumeParty => 'Resume Party';
+
+  @override
+  String get endParty => 'End Party';
+
+  @override
+  String get partyActive => 'Active';
+
+  @override
+  String get partyPaused => 'Paused';
+
+  @override
+  String get partyEnded => 'Ended';
+
+  @override
+  String get partyIdle => 'Not started';
+
+  @override
+  String get confirmEndParty => 'Are you sure you want to end the party?';
+
+  @override
+  String get confirmEndPartyMessage =>
+      'This action cannot be undone. All party data will be archived.';
+
+  @override
+  String get goToHostDashboard => 'Go to Host Dashboard';
+
+  @override
+  String get goToPartyMenu => 'Go to Party Menu';
+
+  @override
+  String get partyAdminPanel => 'Party Admin';
+
+  @override
+  String get myHostedParties => 'My Hosted Parties';
+
+  @override
+  String get viewMyParties => 'View My Parties';
+
+  @override
+  String get noHostedParties => 'You haven\'t hosted any parties yet';
+
+  @override
+  String get createFirstParty => 'Create your first party to get started!';
+
+  @override
+  String get viewDetails => 'View Details';
+
+  @override
+  String cocktailsSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cocktails selected',
+      one: '1 cocktail selected',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get selectCocktails => 'Select Cocktails';
+
+  @override
+  String addSelectedCocktails(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Save $count Cocktails',
+      one: 'Save 1 Cocktail',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cocktailsAlreadyAdded =>
+      'All selected cocktails are already added';
+
+  @override
+  String cocktailsAddedSuccess(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cocktails added successfully',
+      one: '1 cocktail added successfully',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failedToAddCocktails(String error) {
+    return 'Failed to add cocktails: $error';
+  }
+
+  @override
+  String get noPendingOrders => 'No pending orders';
+
+  @override
+  String get ordersWillAppear => 'Orders will appear here as guests place them';
+
+  @override
+  String get unknownCocktail => 'Unknown Cocktail';
+
+  @override
+  String forGuest(String guestName) {
+    return 'For: $guestName';
+  }
+
+  @override
+  String ordered(String time) {
+    return 'Ordered: $time';
+  }
+
+  @override
+  String get justNow => 'Just now';
+
+  @override
+  String minutesAgo(int minutes) {
+    return '${minutes}m ago';
+  }
+
+  @override
+  String hoursAgo(int hours) {
+    return '${hours}h ago';
+  }
+
+  @override
+  String get startPreparing => 'Start Preparing';
+
+  @override
+  String get markReady => 'Mark Ready';
+
+  @override
+  String get markDelivered => 'Mark Delivered';
+
+  @override
+  String get newOrders => 'New Orders';
+
+  @override
+  String get preparing => 'Preparing';
+
+  @override
+  String get readyForPickup => 'Ready for Pickup';
+
+  @override
+  String get orders => 'Orders';
+
+  @override
+  String ordersCount(int count) {
+    return 'Orders ($count)';
+  }
+
+  @override
+  String get stats => 'Stats';
+
+  @override
+  String get menu => 'Menu';
+
+  @override
+  String get totalOrders => 'Total Orders';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get pending => 'Pending';
+
+  @override
+  String get activeTime => 'Active Time';
+
+  @override
+  String get partyOverview => 'Party Overview';
+
+  @override
+  String get popularCocktails => 'Popular Cocktails';
+
+  @override
+  String get noOrdersYet => 'No orders yet';
+
+  @override
+  String availableCocktails(int count) {
+    return 'Available Cocktails ($count)';
+  }
+
+  @override
+  String get noCocktailsAvailable => 'No cocktails available';
+
+  @override
+  String get addCocktailsToMenu => 'Add cocktails to the party menu';
+
+  @override
+  String get errorLoadingCocktailsList => 'Error loading cocktails';
+
+  @override
+  String get partyCopiedToClipboard => 'Party code copied to clipboard!';
+
+  @override
+  String get partyQRCode => 'Party QR Code';
+
+  @override
+  String get qrCodeMock => 'QR CODE\n(Mock)';
+
+  @override
+  String code(String code) {
+    return 'Code: $code';
+  }
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get partyResumed => 'Party resumed';
+
+  @override
+  String get partyPausedMessage => 'Party paused';
+
+  @override
+  String failedToUpdateOrder(String error) {
+    return 'Failed to update order: $error';
+  }
+
+  @override
+  String failedToUpdatePartyStatus(String error) {
+    return 'Failed to update party status: $error';
+  }
+
+  @override
+  String orderMarkedAs(String cocktail, String guest, String status) {
+    return '$cocktail for $guest marked as $status';
+  }
+
+  @override
+  String errorWithMessage(String message) {
+    return 'Error: $message';
+  }
+
+  @override
+  String get joinPartyTitle => 'Join Party';
+
+  @override
+  String get joinTheParty => 'Join the Party!';
+
+  @override
+  String get enterPartyCodeToOrder =>
+      'Enter the party code to start ordering cocktails';
+
+  @override
+  String get yourName => 'Your Name';
+
+  @override
+  String get enterYourName => 'Enter your name';
+
+  @override
+  String get partyCode => 'Party Code';
+
+  @override
+  String get enterPartyCode => 'Enter 6-digit party code';
+
+  @override
+  String get scanQRCode => 'Scan QR Code';
+
+  @override
+  String get qrCodeScannedSuccess => 'QR Code scanned successfully!';
+
+  @override
+  String get pleaseEnterNameAndCode =>
+      'Please enter both party code and your name';
+
+  @override
+  String get askHostForCode =>
+      'Ask the party host for the 6-digit party code or scan their QR code';
+
+  @override
+  String get partyNotFound =>
+      'Party not found. Please check the code and try again.';
+
+  @override
+  String get joiningParty => 'Joining party...';
+
+  @override
+  String get orderCocktail => 'Order Cocktail';
+
+  @override
+  String get specialRequests => 'Special Requests';
+
+  @override
+  String get specialRequestsHint => 'e.g., extra lime, no sugar...';
+
+  @override
+  String get optional => '(optional)';
+
+  @override
+  String orderConfirmation(String cocktailName) {
+    return 'Order $cocktailName';
+  }
+
+  @override
+  String orderConfirmMessage(String cocktailName) {
+    return 'Are you sure you want to order $cocktailName?';
+  }
+
+  @override
+  String cocktailOrderedSuccess(String cocktailName) {
+    return '$cocktailName ordered successfully!';
+  }
+
+  @override
+  String failedToOrderCocktail(String error) {
+    return 'Failed to order cocktail: $error';
+  }
+
+  @override
+  String get myOrders => 'My Orders';
+
+  @override
+  String get myStats => 'My Stats';
+
+  @override
+  String get ordersPlaced => 'Orders Placed';
+
+  @override
+  String get cocktailsTried => 'Cocktails Tried';
+
+  @override
+  String get favoriteCocktail => 'Favorite Cocktail';
+
+  @override
+  String get noFavoriteYet => 'No favorite yet';
+
+  @override
+  String get youHaventOrderedYet => 'You haven\'t ordered any cocktails yet';
+
+  @override
+  String get startOrderingFromMenu => 'Start ordering from the menu!';
+
+  @override
+  String get alreadyTried => 'Already tried';
+
+  @override
+  String welcome(String name) {
+    return 'Welcome, $name!';
+  }
+
+  @override
+  String get viewRecipe => 'View Recipe';
+
+  @override
+  String get orderNow => 'Order Now';
 }

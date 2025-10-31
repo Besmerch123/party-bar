@@ -76,6 +76,10 @@
   "@onboardingDescription4": {
     "description": "Fourth onboarding screen description"
   },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading indicator text"
+  },
   "profile": "Profile",
   "@profile": {
     "description": "Profile screen title"
@@ -301,5 +305,671 @@
   "signInToContinue": "Sign In to Continue",
   "@signInToContinue": {
     "description": "Button text to navigate to login"
+  },
+  "partyHub": "Party Hub",
+  "@partyHub": {
+    "description": "Party Hub screen title"
+  },
+  "welcomeToPartyBar": "Welcome to PartyBar!",
+  "@welcomeToPartyBar": {
+    "description": "Welcome message on Party Hub screen"
+  },
+  "joinOrCreateParty": "Join a party or create your own cocktail experience",
+  "@joinOrCreateParty": {
+    "description": "Subtitle on Party Hub screen"
+  },
+  "joinParty": "Join Party",
+  "@joinParty": {
+    "description": "Join party button title"
+  },
+  "joinPartySubtitle": "Enter a party code to join the fun",
+  "@joinPartySubtitle": {
+    "description": "Join party button subtitle"
+  },
+  "createParty": "Create Party",
+  "@createParty": {
+    "description": "Create party button title"
+  },
+  "createPartySubtitle": "Host your own cocktail party",
+  "@createPartySubtitle": {
+    "description": "Create party button subtitle"
+  },
+  "partyQuickInfo": "Hosts can manage orders and guests can browse cocktails in real-time!",
+  "@partyQuickInfo": {
+    "description": "Quick info message about party features"
+  },
+  "createPartyTitle": "Create Party",
+  "@createPartyTitle": {
+    "description": "Create party screen title"
+  },
+  "createYourParty": "Create Your Party",
+  "@createYourParty": {
+    "description": "Create party screen header title"
+  },
+  "createPartyDescription": "Set up your cocktail party and invite guests",
+  "@createPartyDescription": {
+    "description": "Create party screen header description"
+  },
+  "partyDetails": "Party Details",
+  "@partyDetails": {
+    "description": "Party details section header"
+  },
+  "partyNameLabel": "Party Name *",
+  "@partyNameLabel": {
+    "description": "Party name input field label"
+  },
+  "partyNameHint": "e.g., Sarah's Birthday Bash",
+  "@partyNameHint": {
+    "description": "Party name input field hint"
+  },
+  "partyDescriptionLabel": "Description (Optional)",
+  "@partyDescriptionLabel": {
+    "description": "Party description input field label"
+  },
+  "partyDescriptionHint": "Tell guests about your party...",
+  "@partyDescriptionHint": {
+    "description": "Party description input field hint"
+  },
+  "selectAvailableCocktails": "Select Available Cocktails *",
+  "@selectAvailableCocktails": {
+    "description": "Cocktails selection section header"
+  },
+  "selectedCount": "{count} selected",
+  "@selectedCount": {
+    "description": "Number of selected cocktails",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "allClassic": "All Classic",
+  "@allClassic": {
+    "description": "Quick select button for classic cocktails"
+  },
+  "tikiAndFrozen": "Tiki & Frozen",
+  "@tikiAndFrozen": {
+    "description": "Quick select button for tiki and frozen cocktails"
+  },
+  "createPartyButton": "Create Party",
+  "@createPartyButton": {
+    "description": "Create party button text"
+  },
+  "pleaseEnterPartyName": "Please enter a party name",
+  "@pleaseEnterPartyName": {
+    "description": "Validation error for empty party name"
+  },
+  "pleaseSelectCocktail": "Please select at least one cocktail",
+  "@pleaseSelectCocktail": {
+    "description": "Validation error for no cocktails selected"
+  },
+  "cocktail": "Cocktail",
+  "@cocktail": {
+    "description": "Generic cocktail label"
+  },
+  "invitationCode": "Invitation Code",
+  "@invitationCode": {
+    "description": "Label for party invitation code"
+  },
+  "shareCode": "Share Code",
+  "@shareCode": {
+    "description": "Button to share invitation code"
+  },
+  "copyCode": "Copy Code",
+  "@copyCode": {
+    "description": "Button to copy invitation code"
+  },
+  "codeCopied": "Code copied to clipboard!",
+  "@codeCopied": {
+    "description": "Confirmation message after copying code"
+  },
+  "partyCocktails": "Party Cocktails",
+  "@partyCocktails": {
+    "description": "Header for party cocktails list"
+  },
+  "addCocktails": "Add Cocktails",
+  "@addCocktails": {
+    "description": "Button to add new cocktails to party"
+  },
+  "removeCocktail": "Remove",
+  "@removeCocktail": {
+    "description": "Button to remove cocktail from party"
+  },
+  "noCocktailsAdded": "No cocktails added yet",
+  "@noCocktailsAdded": {
+    "description": "Empty state message for cocktail list"
+  },
+  "editPartyInfo": "Edit Party Info",
+  "@editPartyInfo": {
+    "description": "Button to edit party information"
+  },
+  "saveChanges": "Save Changes",
+  "@saveChanges": {
+    "description": "Button to save changes"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  "partyStatus": "Party Status",
+  "@partyStatus": {
+    "description": "Label for party status section"
+  },
+  "startParty": "Start Party",
+  "@startParty": {
+    "description": "Button to start the party"
+  },
+  "pauseParty": "Pause Party",
+  "@pauseParty": {
+    "description": "Button to pause the party"
+  },
+  "resumeParty": "Resume Party",
+  "@resumeParty": {
+    "description": "Button to resume the party"
+  },
+  "endParty": "End Party",
+  "@endParty": {
+    "description": "Button to end the party"
+  },
+  "partyActive": "Active",
+  "@partyActive": {
+    "description": "Status label for active party"
+  },
+  "partyPaused": "Paused",
+  "@partyPaused": {
+    "description": "Status label for paused party"
+  },
+  "partyEnded": "Ended",
+  "@partyEnded": {
+    "description": "Status label for ended party"
+  },
+  "partyIdle": "Not started",
+  "@partyIdle": {
+    "description": "Status label for idle party"
+  },
+  "confirmEndParty": "Are you sure you want to end the party?",
+  "@confirmEndParty": {
+    "description": "Confirmation dialog for ending party"
+  },
+  "confirmEndPartyMessage": "This action cannot be undone. All party data will be archived.",
+  "@confirmEndPartyMessage": {
+    "description": "Confirmation dialog message for ending party"
+  },
+  "goToHostDashboard": "Go to Host Dashboard",
+  "@goToHostDashboard": {
+    "description": "Button to navigate to host dashboard for active party"
+  },
+  "goToPartyMenu": "Go to Party Menu",
+  "@goToPartyMenu": {
+    "description": "Button to navigate to party menu for guests"
+  },
+  "partyAdminPanel": "Party Admin",
+  "@partyAdminPanel": {
+    "description": "Header for party admin panel"
+  },
+  "myHostedParties": "My Hosted Parties",
+  "@myHostedParties": {
+    "description": "Title for hosted parties bottom sheet"
+  },
+  "viewMyParties": "View My Parties",
+  "@viewMyParties": {
+    "description": "Button text to view hosted parties"
+  },
+  "noHostedParties": "You haven't hosted any parties yet",
+  "@noHostedParties": {
+    "description": "Message when user has no hosted parties"
+  },
+  "createFirstParty": "Create your first party to get started!",
+  "@createFirstParty": {
+    "description": "Encouragement message to create first party"
+  },
+  "viewDetails": "View Details",
+  "@viewDetails": {
+    "description": "Button text to view party details"
+  },
+  "cocktailsSelected": "{count, plural, =1{1 cocktail selected} other{{count} cocktails selected}}",
+  "@cocktailsSelected": {
+    "description": "Message showing number of selected cocktails",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "selectCocktails": "Select Cocktails",
+  "@selectCocktails": {
+    "description": "Button text when no cocktails are selected"
+  },
+  "addSelectedCocktails": "{count, plural, =1{Save 1 Cocktail} other{Save {count} Cocktails}}",
+  "@addSelectedCocktails": {
+    "description": "Button text to confirm adding selected cocktails",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "cocktailsAlreadyAdded": "All selected cocktails are already added",
+  "@cocktailsAlreadyAdded": {
+    "description": "Message when user tries to add cocktails that are already in the party"
+  },
+  "cocktailsAddedSuccess": "{count, plural, =1{1 cocktail added successfully} other{{count} cocktails added successfully}}",
+  "@cocktailsAddedSuccess": {
+    "description": "Success message after adding cocktails",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "failedToAddCocktails": "Failed to add cocktails: {error}",
+  "@failedToAddCocktails": {
+    "description": "Error message when adding cocktails fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "noPendingOrders": "No pending orders",
+  "@noPendingOrders": {
+    "description": "Empty state title when there are no pending orders"
+  },
+  "ordersWillAppear": "Orders will appear here as guests place them",
+  "@ordersWillAppear": {
+    "description": "Empty state message for orders placeholder"
+  },
+  "unknownCocktail": "Unknown Cocktail",
+  "@unknownCocktail": {
+    "description": "Fallback text when cocktail name is not found"
+  },
+  "forGuest": "For: {guestName}",
+  "@forGuest": {
+    "description": "Label showing which guest the order is for",
+    "placeholders": {
+      "guestName": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "ordered": "Ordered: {time}",
+  "@ordered": {
+    "description": "Label showing when the order was placed",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "5m ago"
+      }
+    }
+  },
+  "justNow": "Just now",
+  "@justNow": {
+    "description": "Time indicator for very recent actions"
+  },
+  "minutesAgo": "{minutes}m ago",
+  "@minutesAgo": {
+    "description": "Time indicator for minutes ago",
+    "placeholders": {
+      "minutes": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "hoursAgo": "{hours}h ago",
+  "@hoursAgo": {
+    "description": "Time indicator for hours ago",
+    "placeholders": {
+      "hours": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "startPreparing": "Start Preparing",
+  "@startPreparing": {
+    "description": "Button to start preparing an order"
+  },
+  "markReady": "Mark Ready",
+  "@markReady": {
+    "description": "Button to mark order as ready for pickup"
+  },
+  "markDelivered": "Mark Delivered",
+  "@markDelivered": {
+    "description": "Button to mark order as delivered"
+  },
+  "newOrders": "New Orders",
+  "@newOrders": {
+    "description": "Section title for new/pending orders"
+  },
+  "preparing": "Preparing",
+  "@preparing": {
+    "description": "Section title for orders being prepared"
+  },
+  "readyForPickup": "Ready for Pickup",
+  "@readyForPickup": {
+    "description": "Section title for orders ready for pickup"
+  },
+  "orders": "Orders",
+  "@orders": {
+    "description": "Orders tab label"
+  },
+  "ordersCount": "Orders ({count})",
+  "@ordersCount": {
+    "description": "Orders tab label with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "stats": "Stats",
+  "@stats": {
+    "description": "Stats tab label"
+  },
+  "menu": "Menu",
+  "@menu": {
+    "description": "Menu tab label"
+  },
+  "totalOrders": "Total Orders",
+  "@totalOrders": {
+    "description": "Label for total orders statistic"
+  },
+  "completed": "Completed",
+  "@completed": {
+    "description": "Label for completed orders statistic"
+  },
+  "pending": "Pending",
+  "@pending": {
+    "description": "Label for pending orders statistic"
+  },
+  "activeTime": "Active Time",
+  "@activeTime": {
+    "description": "Label for party active time statistic"
+  },
+  "partyOverview": "Party Overview",
+  "@partyOverview": {
+    "description": "Title for party statistics overview section"
+  },
+  "popularCocktails": "Popular Cocktails",
+  "@popularCocktails": {
+    "description": "Title for popular cocktails section"
+  },
+  "noOrdersYet": "No orders yet",
+  "@noOrdersYet": {
+    "description": "Message when there are no orders in statistics"
+  },
+  "availableCocktails": "Available Cocktails ({count})",
+  "@availableCocktails": {
+    "description": "Title for available cocktails list with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "8"
+      }
+    }
+  },
+  "noCocktailsAvailable": "No cocktails available",
+  "@noCocktailsAvailable": {
+    "description": "Empty state title when no cocktails are available"
+  },
+  "addCocktailsToMenu": "Add cocktails to the party menu",
+  "@addCocktailsToMenu": {
+    "description": "Empty state message suggesting to add cocktails"
+  },
+  "errorLoadingCocktailsList": "Error loading cocktails",
+  "@errorLoadingCocktailsList": {
+    "description": "Error message when cocktails fail to load"
+  },
+  "partyCopiedToClipboard": "Party code copied to clipboard!",
+  "@partyCopiedToClipboard": {
+    "description": "Success message when party code is copied"
+  },
+  "partyQRCode": "Party QR Code",
+  "@partyQRCode": {
+    "description": "Title for QR code dialog"
+  },
+  "qrCodeMock": "QR CODE\n(Mock)",
+  "@qrCodeMock": {
+    "description": "Mock placeholder for QR code"
+  },
+  "code": "Code: {code}",
+  "@code": {
+    "description": "Label showing party code",
+    "placeholders": {
+      "code": {
+        "type": "String",
+        "example": "ABC123"
+      }
+    }
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Close button text"
+  },
+  "partyResumed": "Party resumed",
+  "@partyResumed": {
+    "description": "Success message when party is resumed"
+  },
+  "partyPausedMessage": "Party paused",
+  "@partyPausedMessage": {
+    "description": "Success message when party is paused"
+  },
+  "failedToUpdateOrder": "Failed to update order: {error}",
+  "@failedToUpdateOrder": {
+    "description": "Error message when order update fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "failedToUpdatePartyStatus": "Failed to update party status: {error}",
+  "@failedToUpdatePartyStatus": {
+    "description": "Error message when party status update fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "orderMarkedAs": "{cocktail} for {guest} marked as {status}",
+  "@orderMarkedAs": {
+    "description": "Success message when order status is updated",
+    "placeholders": {
+      "cocktail": {
+        "type": "String",
+        "example": "Mojito"
+      },
+      "guest": {
+        "type": "String",
+        "example": "John"
+      },
+      "status": {
+        "type": "String",
+        "example": "preparing"
+      }
+    }
+  },
+  "errorWithMessage": "Error: {message}",
+  "@errorWithMessage": {
+    "description": "Generic error message with details",
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Connection failed"
+      }
+    }
+  },
+  "joinPartyTitle": "Join Party",
+  "@joinPartyTitle": {
+    "description": "Join party screen title"
+  },
+  "joinTheParty": "Join the Party!",
+  "@joinTheParty": {
+    "description": "Join party screen header title"
+  },
+  "enterPartyCodeToOrder": "Enter the party code to start ordering cocktails",
+  "@enterPartyCodeToOrder": {
+    "description": "Join party screen header description"
+  },
+  "yourName": "Your Name",
+  "@yourName": {
+    "description": "Guest name input field label"
+  },
+  "enterYourName": "Enter your name",
+  "@enterYourName": {
+    "description": "Guest name input field hint"
+  },
+  "partyCode": "Party Code",
+  "@partyCode": {
+    "description": "Party code input field label"
+  },
+  "enterPartyCode": "Enter 6-digit party code",
+  "@enterPartyCode": {
+    "description": "Party code input field hint"
+  },
+  "scanQRCode": "Scan QR Code",
+  "@scanQRCode": {
+    "description": "Button to scan QR code"
+  },
+  "qrCodeScannedSuccess": "QR Code scanned successfully!",
+  "@qrCodeScannedSuccess": {
+    "description": "Success message after scanning QR code"
+  },
+  "pleaseEnterNameAndCode": "Please enter both party code and your name",
+  "@pleaseEnterNameAndCode": {
+    "description": "Validation error for missing name or code"
+  },
+  "askHostForCode": "Ask the party host for the 6-digit party code or scan their QR code",
+  "@askHostForCode": {
+    "description": "Help text explaining how to get party code"
+  },
+  "partyNotFound": "Party not found. Please check the code and try again.",
+  "@partyNotFound": {
+    "description": "Error message when party doesn't exist"
+  },
+  "joiningParty": "Joining party...",
+  "@joiningParty": {
+    "description": "Loading message while joining party"
+  },
+  "orderCocktail": "Order Cocktail",
+  "@orderCocktail": {
+    "description": "Button to order a cocktail"
+  },
+  "specialRequests": "Special Requests",
+  "@specialRequests": {
+    "description": "Label for special requests field"
+  },
+  "specialRequestsHint": "e.g., extra lime, no sugar...",
+  "@specialRequestsHint": {
+    "description": "Hint text for special requests field"
+  },
+  "optional": "(optional)",
+  "@optional": {
+    "description": "Indicator that a field is optional"
+  },
+  "orderConfirmation": "Order {cocktailName}",
+  "@orderConfirmation": {
+    "description": "Order confirmation dialog title",
+    "placeholders": {
+      "cocktailName": {
+        "type": "String",
+        "example": "Mojito"
+      }
+    }
+  },
+  "orderConfirmMessage": "Are you sure you want to order {cocktailName}?",
+  "@orderConfirmMessage": {
+    "description": "Order confirmation message",
+    "placeholders": {
+      "cocktailName": {
+        "type": "String",
+        "example": "Mojito"
+      }
+    }
+  },
+  "cocktailOrderedSuccess": "{cocktailName} ordered successfully!",
+  "@cocktailOrderedSuccess": {
+    "description": "Success message after ordering a cocktail",
+    "placeholders": {
+      "cocktailName": {
+        "type": "String",
+        "example": "Mojito"
+      }
+    }
+  },
+  "failedToOrderCocktail": "Failed to order cocktail: {error}",
+  "@failedToOrderCocktail": {
+    "description": "Error message when ordering fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "myOrders": "My Orders",
+  "@myOrders": {
+    "description": "Title for guest's personal orders section"
+  },
+  "myStats": "My Stats",
+  "@myStats": {
+    "description": "Title for guest's personal statistics"
+  },
+  "ordersPlaced": "Orders Placed",
+  "@ordersPlaced": {
+    "description": "Label for number of orders placed by guest"
+  },
+  "cocktailsTried": "Cocktails Tried",
+  "@cocktailsTried": {
+    "description": "Label for number of different cocktails tried"
+  },
+  "favoriteCocktail": "Favorite Cocktail",
+  "@favoriteCocktail": {
+    "description": "Label for guest's most ordered cocktail"
+  },
+  "noFavoriteYet": "No favorite yet",
+  "@noFavoriteYet": {
+    "description": "Message when guest hasn't ordered anything"
+  },
+  "youHaventOrderedYet": "You haven't ordered any cocktails yet",
+  "@youHaventOrderedYet": {
+    "description": "Empty state message for guest with no orders"
+  },
+  "startOrderingFromMenu": "Start ordering from the menu!",
+  "@startOrderingFromMenu": {
+    "description": "Encouragement message to order cocktails"
+  },
+  "alreadyTried": "Already tried",
+  "@alreadyTried": {
+    "description": "Label for cocktails the guest has already ordered"
+  },
+  "welcome": "Welcome, {name}!",
+  "@welcome": {
+    "description": "Welcome message for guest",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "viewRecipe": "View Recipe",
+  "@viewRecipe": {
+    "description": "Button to view cocktail recipe"
+  },
+  "orderNow": "Order Now",
+  "@orderNow": {
+    "description": "Button to order a cocktail"
   }
 }
