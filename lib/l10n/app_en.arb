@@ -861,5 +861,115 @@
   "joiningParty": "Joining party...",
   "@joiningParty": {
     "description": "Loading message while joining party"
+  },
+  "orderCocktail": "Order Cocktail",
+  "@orderCocktail": {
+    "description": "Button to order a cocktail"
+  },
+  "specialRequests": "Special Requests",
+  "@specialRequests": {
+    "description": "Label for special requests field"
+  },
+  "specialRequestsHint": "e.g., extra lime, no sugar...",
+  "@specialRequestsHint": {
+    "description": "Hint text for special requests field"
+  },
+  "optional": "(optional)",
+  "@optional": {
+    "description": "Indicator that a field is optional"
+  },
+  "orderConfirmation": "Order {cocktailName}",
+  "@orderConfirmation": {
+    "description": "Order confirmation dialog title",
+    "placeholders": {
+      "cocktailName": {
+        "type": "String",
+        "example": "Mojito"
+      }
+    }
+  },
+  "orderConfirmMessage": "Are you sure you want to order {cocktailName}?",
+  "@orderConfirmMessage": {
+    "description": "Order confirmation message",
+    "placeholders": {
+      "cocktailName": {
+        "type": "String",
+        "example": "Mojito"
+      }
+    }
+  },
+  "cocktailOrderedSuccess": "{cocktailName} ordered successfully!",
+  "@cocktailOrderedSuccess": {
+    "description": "Success message after ordering a cocktail",
+    "placeholders": {
+      "cocktailName": {
+        "type": "String",
+        "example": "Mojito"
+      }
+    }
+  },
+  "failedToOrderCocktail": "Failed to order cocktail: {error}",
+  "@failedToOrderCocktail": {
+    "description": "Error message when ordering fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "myOrders": "My Orders",
+  "@myOrders": {
+    "description": "Title for guest's personal orders section"
+  },
+  "myStats": "My Stats",
+  "@myStats": {
+    "description": "Title for guest's personal statistics"
+  },
+  "ordersPlaced": "Orders Placed",
+  "@ordersPlaced": {
+    "description": "Label for number of orders placed by guest"
+  },
+  "cocktailsTried": "Cocktails Tried",
+  "@cocktailsTried": {
+    "description": "Label for number of different cocktails tried"
+  },
+  "favoriteCocktail": "Favorite Cocktail",
+  "@favoriteCocktail": {
+    "description": "Label for guest's most ordered cocktail"
+  },
+  "noFavoriteYet": "No favorite yet",
+  "@noFavoriteYet": {
+    "description": "Message when guest hasn't ordered anything"
+  },
+  "youHaventOrderedYet": "You haven't ordered any cocktails yet",
+  "@youHaventOrderedYet": {
+    "description": "Empty state message for guest with no orders"
+  },
+  "startOrderingFromMenu": "Start ordering from the menu!",
+  "@startOrderingFromMenu": {
+    "description": "Encouragement message to order cocktails"
+  },
+  "alreadyTried": "Already tried",
+  "@alreadyTried": {
+    "description": "Label for cocktails the guest has already ordered"
+  },
+  "welcome": "Welcome, {name}!",
+  "@welcome": {
+    "description": "Welcome message for guest",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "viewRecipe": "View Recipe",
+  "@viewRecipe": {
+    "description": "Button to view cocktail recipe"
+  },
+  "orderNow": "Order Now",
+  "@orderNow": {
+    "description": "Button to order a cocktail"
   }
 }

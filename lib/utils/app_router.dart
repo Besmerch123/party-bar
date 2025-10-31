@@ -94,17 +94,15 @@ GoRouter createAppRouter({required bool showWelcome}) {
         },
       ),
       GoRoute(
-        path: AppRoutes.activePartyGuest,
+        path: '${AppRoutes.activePartyGuest}/:id',
         builder: (context, state) {
-          final extras = state.extra as Map<String, String>;
-          final partyCode = extras['partyCode']!;
-          final guestName = extras['guestName']!;
+          final extras = state.extra as Map<String, dynamic>;
+          final guestName = extras['guestName']! as String;
+          final party = extras['party'] as Party;
+          final partyId = state.pathParameters['id']!;
           return AuthGuard(
-            redirectPath: AppRoutes.activePartyGuest,
-            child: ActivePartyGuestScreen(
-              partyCode: partyCode,
-              guestName: guestName,
-            ),
+            redirectPath: '${AppRoutes.activePartyGuest}/$partyId',
+            child: ActivePartyGuestScreen(party: party, guestName: guestName),
           );
         },
       ),

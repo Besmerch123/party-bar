@@ -1201,6 +1201,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Joining party...'**
   String get joiningParty;
+
+  /// Button to order a cocktail
+  ///
+  /// In en, this message translates to:
+  /// **'Order Cocktail'**
+  String get orderCocktail;
+
+  /// Label for special requests field
+  ///
+  /// In en, this message translates to:
+  /// **'Special Requests'**
+  String get specialRequests;
+
+  /// Hint text for special requests field
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., extra lime, no sugar...'**
+  String get specialRequestsHint;
+
+  /// Indicator that a field is optional
+  ///
+  /// In en, this message translates to:
+  /// **'(optional)'**
+  String get optional;
+
+  /// Order confirmation dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Order {cocktailName}'**
+  String orderConfirmation(String cocktailName);
+
+  /// Order confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to order {cocktailName}?'**
+  String orderConfirmMessage(String cocktailName);
+
+  /// Success message after ordering a cocktail
+  ///
+  /// In en, this message translates to:
+  /// **'{cocktailName} ordered successfully!'**
+  String cocktailOrderedSuccess(String cocktailName);
+
+  /// Error message when ordering fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to order cocktail: {error}'**
+  String failedToOrderCocktail(String error);
+
+  /// Title for guest's personal orders section
+  ///
+  /// In en, this message translates to:
+  /// **'My Orders'**
+  String get myOrders;
+
+  /// Title for guest's personal statistics
+  ///
+  /// In en, this message translates to:
+  /// **'My Stats'**
+  String get myStats;
+
+  /// Label for number of orders placed by guest
+  ///
+  /// In en, this message translates to:
+  /// **'Orders Placed'**
+  String get ordersPlaced;
+
+  /// Label for number of different cocktails tried
+  ///
+  /// In en, this message translates to:
+  /// **'Cocktails Tried'**
+  String get cocktailsTried;
+
+  /// Label for guest's most ordered cocktail
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite Cocktail'**
+  String get favoriteCocktail;
+
+  /// Message when guest hasn't ordered anything
+  ///
+  /// In en, this message translates to:
+  /// **'No favorite yet'**
+  String get noFavoriteYet;
+
+  /// Empty state message for guest with no orders
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t ordered any cocktails yet'**
+  String get youHaventOrderedYet;
+
+  /// Encouragement message to order cocktails
+  ///
+  /// In en, this message translates to:
+  /// **'Start ordering from the menu!'**
+  String get startOrderingFromMenu;
+
+  /// Label for cocktails the guest has already ordered
+  ///
+  /// In en, this message translates to:
+  /// **'Already tried'**
+  String get alreadyTried;
+
+  /// Welcome message for guest
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {name}!'**
+  String welcome(String name);
+
+  /// Button to view cocktail recipe
+  ///
+  /// In en, this message translates to:
+  /// **'View Recipe'**
+  String get viewRecipe;
+
+  /// Button to order a cocktail
+  ///
+  /// In en, this message translates to:
+  /// **'Order Now'**
+  String get orderNow;
 }
 
 class _AppLocalizationsDelegate

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../models/models.dart';
+import 'package:go_router/go_router.dart';
+import 'package:party_bar/utils/app_router.dart';
 import '../../services/party_service.dart';
 import '../../utils/localization_helper.dart';
 
 class JoinPartyForm extends StatefulWidget {
-  final Function(Party, String guestName) onPartyJoined;
-
-  const JoinPartyForm({super.key, required this.onPartyJoined});
+  const JoinPartyForm({super.key});
 
   @override
   State<JoinPartyForm> createState() => _JoinPartyFormState();
@@ -69,7 +68,13 @@ class _JoinPartyFormState extends State<JoinPartyForm> {
           _isLoading = false;
         });
 
-        widget.onPartyJoined(party, _guestNameController.text.trim());
+        context.push(
+          '${AppRoutes.activePartyGuest}/${party.id}',
+          extra: {
+            'party': party,
+            'guestName': _guestNameController.text.trim(),
+          },
+        );
       }
     } catch (e) {
       if (mounted) {

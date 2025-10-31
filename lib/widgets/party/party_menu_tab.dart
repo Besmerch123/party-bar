@@ -13,6 +13,7 @@ class PartyMenuTab extends StatelessWidget {
   final bool isLoading;
   final String? error;
   final VoidCallback onRetry;
+  final Widget? Function(Cocktail)? renderItemTrailing;
 
   const PartyMenuTab({
     super.key,
@@ -22,6 +23,7 @@ class PartyMenuTab extends StatelessWidget {
     required this.isLoading,
     this.error,
     required this.onRetry,
+    this.renderItemTrailing,
   });
 
   @override
@@ -111,7 +113,10 @@ class PartyMenuTab extends StatelessWidget {
           ...filteredCocktails.map(
             (cocktail) => Card(
               margin: const EdgeInsets.only(bottom: 12),
-              child: CocktailListItem(cocktail: cocktail),
+              child: CocktailListItem(
+                cocktail: cocktail,
+                trailing: renderItemTrailing?.call(cocktail),
+              ),
             ),
           ),
       ],

@@ -634,4 +634,74 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get joiningParty => 'Приєднання до вечірки...';
+
+  @override
+  String get orderCocktail => 'Замовити коктейль';
+
+  @override
+  String get specialRequests => 'Особливі побажання';
+
+  @override
+  String get specialRequestsHint => 'наприклад, більше лайма, без цукру...';
+
+  @override
+  String get optional => '(необов\'язково)';
+
+  @override
+  String orderConfirmation(String cocktailName) {
+    return 'Замовити $cocktailName';
+  }
+
+  @override
+  String orderConfirmMessage(String cocktailName) {
+    return 'Ви впевнені, що хочете замовити $cocktailName?';
+  }
+
+  @override
+  String cocktailOrderedSuccess(String cocktailName) {
+    return '$cocktailName успішно замовлено!';
+  }
+
+  @override
+  String failedToOrderCocktail(String error) {
+    return 'Не вдалося замовити коктейль: $error';
+  }
+
+  @override
+  String get myOrders => 'Мої замовлення';
+
+  @override
+  String get myStats => 'Моя статистика';
+
+  @override
+  String get ordersPlaced => 'Зроблено замовлень';
+
+  @override
+  String get cocktailsTried => 'Спробовано коктейлів';
+
+  @override
+  String get favoriteCocktail => 'Улюблений коктейль';
+
+  @override
+  String get noFavoriteYet => 'Ще немає улюбленого';
+
+  @override
+  String get youHaventOrderedYet => 'Ви ще не замовили жодного коктейлю';
+
+  @override
+  String get startOrderingFromMenu => 'Почніть замовляти з меню!';
+
+  @override
+  String get alreadyTried => 'Вже спробували';
+
+  @override
+  String welcome(String name) {
+    return 'Ласкаво просимо, $name!';
+  }
+
+  @override
+  String get viewRecipe => 'Переглянути рецепт';
+
+  @override
+  String get orderNow => 'Замовити зараз';
 }

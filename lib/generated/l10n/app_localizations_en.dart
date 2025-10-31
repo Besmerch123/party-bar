@@ -629,4 +629,74 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get joiningParty => 'Joining party...';
+
+  @override
+  String get orderCocktail => 'Order Cocktail';
+
+  @override
+  String get specialRequests => 'Special Requests';
+
+  @override
+  String get specialRequestsHint => 'e.g., extra lime, no sugar...';
+
+  @override
+  String get optional => '(optional)';
+
+  @override
+  String orderConfirmation(String cocktailName) {
+    return 'Order $cocktailName';
+  }
+
+  @override
+  String orderConfirmMessage(String cocktailName) {
+    return 'Are you sure you want to order $cocktailName?';
+  }
+
+  @override
+  String cocktailOrderedSuccess(String cocktailName) {
+    return '$cocktailName ordered successfully!';
+  }
+
+  @override
+  String failedToOrderCocktail(String error) {
+    return 'Failed to order cocktail: $error';
+  }
+
+  @override
+  String get myOrders => 'My Orders';
+
+  @override
+  String get myStats => 'My Stats';
+
+  @override
+  String get ordersPlaced => 'Orders Placed';
+
+  @override
+  String get cocktailsTried => 'Cocktails Tried';
+
+  @override
+  String get favoriteCocktail => 'Favorite Cocktail';
+
+  @override
+  String get noFavoriteYet => 'No favorite yet';
+
+  @override
+  String get youHaventOrderedYet => 'You haven\'t ordered any cocktails yet';
+
+  @override
+  String get startOrderingFromMenu => 'Start ordering from the menu!';
+
+  @override
+  String get alreadyTried => 'Already tried';
+
+  @override
+  String welcome(String name) {
+    return 'Welcome, $name!';
+  }
+
+  @override
+  String get viewRecipe => 'View Recipe';
+
+  @override
+  String get orderNow => 'Order Now';
 }
