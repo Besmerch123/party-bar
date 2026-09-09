@@ -10,6 +10,7 @@ import 'package:party_bar/models/onboarding.dart';
 import 'package:party_bar/providers/onboarding_provider.dart';
 import 'package:party_bar/theme/theme.dart';
 import 'package:party_bar/widgets/onboarding/bottles_step.dart';
+import 'package:party_bar/widgets/onboarding/onboarding_chrome.dart';
 import 'package:party_bar/widgets/onboarding/onboarding_step.dart';
 import 'package:party_bar/widgets/onboarding/value_bar_step.dart';
 import 'package:party_bar/widgets/onboarding/value_orders_step.dart';
@@ -79,6 +80,23 @@ void main() {
       });
     }
   }
+
+  // A loose Stack sizes itself to its widest non-positioned child, which
+  // once left the hero stopping halfway across the screen.
+  testWidgets('heroes reach both screen edges', (tester) async {
+    const width = 390.0;
+
+    for (final stepName in ['02 value: your bar', '03 value: they order']) {
+      await pumpStep(tester, steps[stepName]!, const Size(width, 844));
+
+      final hero = find.descendant(
+        of: find.byType(OnboardingHero),
+        matching: find.byType(Image),
+      );
+      expect(hero, findsOneWidget, reason: stepName);
+      expect(tester.getSize(hero).width, width, reason: stepName);
+    }
+  });
 
   testWidgets('vibes are optional and toggle', (tester) async {
     await pumpStep(tester, steps['04 pick a vibe']!, _sizes['iPhone 14 Pro']!);

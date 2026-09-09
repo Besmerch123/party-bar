@@ -18,6 +18,7 @@ class ValueOrdersStep extends StatelessWidget {
     final l10n = context.l10n;
 
     return Stack(
+      fit: StackFit.expand,
       children: [
         const OnboardingHero(
           image: 'assets/images/onboarding/cosmopolitan.jpg',

@@ -81,7 +81,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       body: GestureDetector(
         onTap: _advance,
         behavior: HitTestBehavior.opaque,
+        // Expand, or the Stack sizes itself to the widest line of copy
+        // and the hero stops short of the screen edge.
         child: Stack(
+          fit: StackFit.expand,
           children: [
             const OnboardingHero(
               image: _heroImage,
