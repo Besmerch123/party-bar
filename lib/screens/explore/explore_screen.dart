@@ -7,6 +7,9 @@ import '../../models/models.dart';
 import '../../data/cocktail_repository.dart';
 import '../../utils/app_router.dart';
 import '../../services/elastic_service.dart';
+import '../../widgets/common/app_bottom_nav.dart';
+import '../../widgets/common/app_chip.dart';
+import '../../theme/theme.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
@@ -202,11 +205,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   },
                                 )
                               : null,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          filled: true,
-                          fillColor: Theme.of(context).colorScheme.surface,
                         ),
                       ),
                     ),
@@ -270,7 +268,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           : RefreshIndicator(
                               onRefresh: _refreshCocktails,
                               child: GridView.builder(
-                                padding: const EdgeInsets.all(16),
+                                padding: EdgeInsets.fromLTRB(
+                                  16,
+                                  16,
+                                  16,
+                                  AppBottomNav.insetOf(context),
+                                ),
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
@@ -308,15 +311,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Widget _buildFilterChip(String label, VoidCallback onRemove) {
     return Container(
       margin: const EdgeInsets.only(right: 8),
-      child: Chip(
-        label: Text(label),
-        deleteIcon: const Icon(Icons.close, size: 18),
-        onDeleted: onRemove,
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        labelStyle: TextStyle(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-        ),
-      ),
+      child: TagChip(label: label, selected: true, onDeleted: onRemove),
     );
   }
 
@@ -446,25 +441,22 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         children: cocktail.categories.take(2).map((category) {
                           return Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 2,
+                              horizontal: 8,
+                              vertical: 4,
                             ),
-                            decoration: BoxDecoration(
-                              color: CocktailCategories.getCategoryColor(
-                                category,
-                              ).withValues(alpha: .2),
-                              borderRadius: BorderRadius.circular(8),
+                            decoration: const BoxDecoration(
+                              color: AppColors.fillMuted,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
                             ),
                             child: Text(
                               CocktailCategories.getCategoryDisplayName(
                                 category,
-                              ),
-                              style: TextStyle(
-                                color: CocktailCategories.getCategoryColor(
-                                  category,
-                                ),
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
+                              ).toUpperCase(),
+                              style: AppTypography.label.copyWith(
+                                fontSize: 9.5,
+                                color: AppColors.inkMeta,
                               ),
                             ),
                           );
@@ -547,30 +539,25 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     children: CocktailCategory.values.map((category) {
                       final isSelected =
                           _selectedCategories?.contains(category) ?? false;
-                      return FilterChip(
-                        label: Text(
-                          CocktailCategories.getCategoryDisplayName(category),
+                      return TagChip(
+                        label: CocktailCategories.getCategoryDisplayName(
+                          category,
                         ),
+                        icon: CocktailCategories.getCategoryIcon(category),
                         selected: isSelected,
-                        onSelected: (selected) {
+                        onTap: () {
                           setModalState(() {
-                            if (selected) {
-                              _selectedCategories ??= [];
-                              _selectedCategories!.add(category);
-                            } else {
+                            if (isSelected) {
                               _selectedCategories?.remove(category);
                               if (_selectedCategories!.isEmpty) {
                                 _selectedCategories = null;
                               }
+                            } else {
+                              _selectedCategories ??= [];
+                              _selectedCategories!.add(category);
                             }
                           });
                         },
-                        backgroundColor: CocktailCategories.getCategoryColor(
-                          category,
-                        ).withValues(alpha: .1),
-                        selectedColor: CocktailCategories.getCategoryColor(
-                          category,
-                        ).withValues(alpha: .3),
                       );
                     }).toList(),
                   ),

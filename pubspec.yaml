@@ -74,6 +74,7 @@ dependencies:
   path_provider: ^2.1.5
   flutter_localizations:
     sdk: flutter
+  google_fonts: ^8.1.0
 
 dev_dependencies:
   flutter_test:

@@ -10,6 +10,7 @@ import 'utils/app_router.dart';
 import 'providers/locale_provider.dart';
 import 'providers/auth_provider.dart' show AuthenticationProvider;
 import 'generated/l10n/app_localizations.dart';
+import 'theme/theme.dart';
 
 const _hasSeenWelcomeKey = 'has_seen_welcome';
 
@@ -64,15 +65,8 @@ class PartyBarApp extends StatelessWidget {
               Locale('uk'), // Ukrainian
             ],
             locale: localeProvider.locale,
-            theme: ThemeData(
-              brightness: Brightness.dark,
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: Colors.blueAccent,
-                brightness: Brightness.dark,
-                primary: Colors.blue,
-              ),
-              useMaterial3: true,
-            ),
+            theme: AppTheme.dark,
+            themeMode: ThemeMode.dark,
             routerConfig: _router,
           );
         },

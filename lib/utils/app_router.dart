@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:party_bar/utils/localization_helper.dart';
 import '../screens/screens.dart';
 import '../widgets/auth/auth_guard.dart';
+import '../widgets/common/app_bottom_nav.dart';
 import '../models/models.dart';
 
 class AppRoutes {
@@ -151,39 +152,34 @@ class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
+      extendBody: true,
+      body: IndexedStack(index: _selectedIndex, children: _screens),
+      bottomNavigationBar: AppBottomNav(
         currentIndex: _selectedIndex,
-        onTap: (index) {
+        onDestinationSelected: (index) {
           setState(() {
             _selectedIndex = index;
           });
         },
-        selectedItemColor: Theme.of(context).colorScheme.primary,
-        unselectedItemColor: Theme.of(
-          context,
-        ).colorScheme.onSurface.withValues(alpha: .6),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
+        destinations: [
+          AppNavDestination(
+            icon: Icons.nightlife_outlined,
+            activeIcon: Icons.nightlife,
             label: context.l10n.navigationHome,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_bar_outlined),
-            activeIcon: Icon(Icons.local_bar),
+          AppNavDestination(
+            icon: Icons.local_bar_outlined,
+            activeIcon: Icons.local_bar,
             label: context.l10n.navigationExplore,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.celebration_outlined),
-            activeIcon: Icon(Icons.celebration),
+          AppNavDestination(
+            icon: Icons.celebration_outlined,
+            activeIcon: Icons.celebration,
             label: context.l10n.navigationParty,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined),
-            activeIcon: Icon(Icons.settings),
+          AppNavDestination(
+            icon: Icons.settings_outlined,
+            activeIcon: Icons.settings,
             label: context.l10n.navigationSettings,
           ),
         ],

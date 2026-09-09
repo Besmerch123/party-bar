@@ -5,6 +5,7 @@ import 'package:party_bar/models/models.dart';
 import 'package:party_bar/utils/localization_helper.dart';
 import 'package:party_bar/widgets/cocktails/cocktail_categories.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:party_bar/theme/theme.dart';
 
 /// Bottom sheet for adding cocktails to a party
 ///
@@ -479,23 +480,20 @@ class _CocktailSelectionItem extends StatelessWidget {
                       children: cocktail.categories.take(2).map((category) {
                         return Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
+                            horizontal: 8,
+                            vertical: 4,
                           ),
-                          decoration: BoxDecoration(
-                            color: CocktailCategories.getCategoryColor(
-                              category,
-                            ).withValues(alpha: .2),
-                            borderRadius: BorderRadius.circular(8),
+                          decoration: const BoxDecoration(
+                            color: AppColors.fillMuted,
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
                           ),
                           child: Text(
-                            CocktailCategories.getCategoryDisplayName(category),
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: CocktailCategories.getCategoryColor(
-                                category,
-                              ),
-                              fontWeight: FontWeight.w600,
+                            CocktailCategories.getCategoryDisplayName(
+                              category,
+                            ).toUpperCase(),
+                            style: AppTypography.label.copyWith(
+                              fontSize: 9.5,
+                              color: AppColors.inkMeta,
                             ),
                           ),
                         );
