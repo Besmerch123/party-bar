@@ -699,4 +699,181 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get orderNow => 'Order Now';
+
+  @override
+  String get later => 'Later';
+
+  @override
+  String get continueLabel => 'Continue';
+
+  @override
+  String get splashTagline => 'Your shelf. Their orders.\nOne bar, all night.';
+
+  @override
+  String get onboardingBarEyebrow => 'What you own';
+
+  @override
+  String get onboardingBarTitle => 'Your shelf\nbecomes a menu';
+
+  @override
+  String get onboardingBarBody =>
+      'Tell PartyBar which bottles you have. It works out every cocktail you can already pour — and the one lime that unlocks eleven more.';
+
+  @override
+  String get onboardingBarStatShelf => 'Gin, vodka, tonic';
+
+  @override
+  String get onboardingBarStatPourable => 'You can pour';
+
+  @override
+  String get onboardingBarStatUnlock => 'Add one lime';
+
+  @override
+  String get onboardingOrdersEyebrow => 'What they do';
+
+  @override
+  String get onboardingOrdersTitle => 'They order.\nYou get a queue.';
+
+  @override
+  String get onboardingOrdersBody =>
+      'Guests scan a code and order from their own phone. No app, no account. You just work down the list.';
+
+  @override
+  String get onboardingOrdersCta => 'Set up my bar';
+
+  @override
+  String get onboardingSampleGinTonic => 'Gin & Tonic';
+
+  @override
+  String get onboardingSampleCosmopolitan => 'Cosmopolitan';
+
+  @override
+  String get onboardingSampleOrderNote => 'Marta · heavy on the lime';
+
+  @override
+  String get onboardingSampleOrderWaiting => 'Danylo · waiting 2 min';
+
+  @override
+  String get orderStatusNew => 'New';
+
+  @override
+  String get orderStatusQueued => 'Queued';
+
+  @override
+  String get onboardingVibeTitle => 'What do you\ndrink like?';
+
+  @override
+  String get onboardingVibeBody =>
+      'Pick two or three. It only sorts your feed — nothing gets hidden.';
+
+  @override
+  String get vibeSharpCitrus => 'Sharp & citrus';
+
+  @override
+  String get vibeDarkStirred => 'Dark & stirred';
+
+  @override
+  String get vibeLongFizzy => 'Long & fizzy';
+
+  @override
+  String get vibeSpicy => 'Spicy';
+
+  @override
+  String get vibeZeroProof => 'Zero proof';
+
+  @override
+  String get vibeThreeIngredients => 'Three ingredients max';
+
+  @override
+  String get onboardingBottlesTitle => 'Five bottles\nand you\'re open';
+
+  @override
+  String get onboardingBottlesBody =>
+      'Tap what\'s actually on your shelf. Everything else can wait.';
+
+  @override
+  String get onboardingBottlesSearchHint => 'Search bottles & mixers';
+
+  @override
+  String get onboardingBottlesSection => 'Most home bars have these';
+
+  @override
+  String get onboardingBottlesNoMatch => 'Nothing matched that search.';
+
+  @override
+  String get onboardingOpenBar => 'Open my bar';
+
+  @override
+  String bottleInCocktails(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count cocktails',
+      one: 'in $count cocktail',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bottleUnlocksMore(int count) {
+    return 'unlocks $count more';
+  }
+
+  @override
+  String onboardingBottlesAdded(int count, int total) {
+    return '$count of $total added';
+  }
+
+  @override
+  String onboardingDrinksUnlocked(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count drinks unlocked',
+      one: '$count drink unlocked',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bottleGin => 'Gin';
+
+  @override
+  String get bottleVodka => 'Vodka';
+
+  @override
+  String get bottleTonic => 'Tonic water';
+
+  @override
+  String get bottleLime => 'Lime';
+
+  @override
+  String get bottleWhiteRum => 'White rum';
+
+  @override
+  String get bottleSweetVermouth => 'Sweet vermouth';
+
+  @override
+  String get bottleWhiskey => 'Whiskey';
+
+  @override
+  String get bottleTequila => 'Tequila';
+
+  @override
+  String get bottleTripleSec => 'Triple sec';
+
+  @override
+  String get bottleLemon => 'Lemon';
+
+  @override
+  String get bottleSimpleSyrup => 'Simple syrup';
+
+  @override
+  String get bottleSodaWater => 'Soda water';
+
+  @override
+  String get bottleAngostura => 'Angostura bitters';
+
+  @override
+  String get bottleMint => 'Mint';
 }

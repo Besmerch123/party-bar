@@ -1321,6 +1321,312 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Order Now'**
   String get orderNow;
+
+  /// Defer action in the top-right of onboarding step 05
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get later;
+
+  /// Advance button on the vibe picker
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueLabel;
+
+  /// Two-line tagline under the wordmark on the splash
+  ///
+  /// In en, this message translates to:
+  /// **'Your shelf. Their orders.\nOne bar, all night.'**
+  String get splashTagline;
+
+  /// Overline on onboarding step 02
+  ///
+  /// In en, this message translates to:
+  /// **'What you own'**
+  String get onboardingBarEyebrow;
+
+  /// Headline on onboarding step 02
+  ///
+  /// In en, this message translates to:
+  /// **'Your shelf\nbecomes a menu'**
+  String get onboardingBarTitle;
+
+  /// Body copy on onboarding step 02
+  ///
+  /// In en, this message translates to:
+  /// **'Tell PartyBar which bottles you have. It works out every cocktail you can already pour — and the one lime that unlocks eleven more.'**
+  String get onboardingBarBody;
+
+  /// Example shelf contents row on onboarding step 02
+  ///
+  /// In en, this message translates to:
+  /// **'Gin, vodka, tonic'**
+  String get onboardingBarStatShelf;
+
+  /// Example pourable-drinks row on onboarding step 02
+  ///
+  /// In en, this message translates to:
+  /// **'You can pour'**
+  String get onboardingBarStatPourable;
+
+  /// Example unlock suggestion row on onboarding step 02
+  ///
+  /// In en, this message translates to:
+  /// **'Add one lime'**
+  String get onboardingBarStatUnlock;
+
+  /// Overline on onboarding step 03
+  ///
+  /// In en, this message translates to:
+  /// **'What they do'**
+  String get onboardingOrdersEyebrow;
+
+  /// Headline on onboarding step 03
+  ///
+  /// In en, this message translates to:
+  /// **'They order.\nYou get a queue.'**
+  String get onboardingOrdersTitle;
+
+  /// Body copy on onboarding step 03
+  ///
+  /// In en, this message translates to:
+  /// **'Guests scan a code and order from their own phone. No app, no account. You just work down the list.'**
+  String get onboardingOrdersBody;
+
+  /// Advance button on onboarding step 03
+  ///
+  /// In en, this message translates to:
+  /// **'Set up my bar'**
+  String get onboardingOrdersCta;
+
+  /// Sample cocktail name in the onboarding order illustration
+  ///
+  /// In en, this message translates to:
+  /// **'Gin & Tonic'**
+  String get onboardingSampleGinTonic;
+
+  /// Sample cocktail name in the onboarding order illustration
+  ///
+  /// In en, this message translates to:
+  /// **'Cosmopolitan'**
+  String get onboardingSampleCosmopolitan;
+
+  /// Sample guest and note in the onboarding order illustration
+  ///
+  /// In en, this message translates to:
+  /// **'Marta · heavy on the lime'**
+  String get onboardingSampleOrderNote;
+
+  /// Sample guest and wait time in the onboarding order illustration
+  ///
+  /// In en, this message translates to:
+  /// **'Danylo · waiting 2 min'**
+  String get onboardingSampleOrderWaiting;
+
+  /// Status chip on a newly placed order
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get orderStatusNew;
+
+  /// Status chip on an order waiting its turn
+  ///
+  /// In en, this message translates to:
+  /// **'Queued'**
+  String get orderStatusQueued;
+
+  /// Headline on onboarding step 04
+  ///
+  /// In en, this message translates to:
+  /// **'What do you\ndrink like?'**
+  String get onboardingVibeTitle;
+
+  /// Body copy on onboarding step 04
+  ///
+  /// In en, this message translates to:
+  /// **'Pick two or three. It only sorts your feed — nothing gets hidden.'**
+  String get onboardingVibeBody;
+
+  /// Flavour direction: bright, sour, citrus-forward drinks
+  ///
+  /// In en, this message translates to:
+  /// **'Sharp & citrus'**
+  String get vibeSharpCitrus;
+
+  /// Flavour direction: spirit-forward stirred drinks
+  ///
+  /// In en, this message translates to:
+  /// **'Dark & stirred'**
+  String get vibeDarkStirred;
+
+  /// Flavour direction: tall carbonated drinks
+  ///
+  /// In en, this message translates to:
+  /// **'Long & fizzy'**
+  String get vibeLongFizzy;
+
+  /// Flavour direction: drinks with heat
+  ///
+  /// In en, this message translates to:
+  /// **'Spicy'**
+  String get vibeSpicy;
+
+  /// Flavour direction: drinks without alcohol
+  ///
+  /// In en, this message translates to:
+  /// **'Zero proof'**
+  String get vibeZeroProof;
+
+  /// Flavour direction: short, simple recipes
+  ///
+  /// In en, this message translates to:
+  /// **'Three ingredients max'**
+  String get vibeThreeIngredients;
+
+  /// Headline on onboarding step 05
+  ///
+  /// In en, this message translates to:
+  /// **'Five bottles\nand you\'re open'**
+  String get onboardingBottlesTitle;
+
+  /// Body copy on onboarding step 05
+  ///
+  /// In en, this message translates to:
+  /// **'Tap what\'s actually on your shelf. Everything else can wait.'**
+  String get onboardingBottlesBody;
+
+  /// Placeholder in the bottle search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search bottles & mixers'**
+  String get onboardingBottlesSearchHint;
+
+  /// Section label above the suggested starter bottles
+  ///
+  /// In en, this message translates to:
+  /// **'Most home bars have these'**
+  String get onboardingBottlesSection;
+
+  /// Empty state when a bottle search returns nothing
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matched that search.'**
+  String get onboardingBottlesNoMatch;
+
+  /// Button that finishes onboarding and opens Explore
+  ///
+  /// In en, this message translates to:
+  /// **'Open my bar'**
+  String get onboardingOpenBar;
+
+  /// How many cocktails a bottle appears in
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{in {count} cocktail} other{in {count} cocktails}}'**
+  String bottleInCocktails(int count);
+
+  /// How many extra drinks a bottle would unlock
+  ///
+  /// In en, this message translates to:
+  /// **'unlocks {count} more'**
+  String bottleUnlocksMore(int count);
+
+  /// Progress towards the starter shelf target
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of {total} added'**
+  String onboardingBottlesAdded(int count, int total);
+
+  /// Drinks the current shelf can already make
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} drink unlocked} other{{count} drinks unlocked}}'**
+  String onboardingDrinksUnlocked(int count);
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Gin'**
+  String get bottleGin;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Vodka'**
+  String get bottleVodka;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Tonic water'**
+  String get bottleTonic;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Lime'**
+  String get bottleLime;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'White rum'**
+  String get bottleWhiteRum;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Sweet vermouth'**
+  String get bottleSweetVermouth;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Whiskey'**
+  String get bottleWhiskey;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Tequila'**
+  String get bottleTequila;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Triple sec'**
+  String get bottleTripleSec;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Lemon'**
+  String get bottleLemon;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Simple syrup'**
+  String get bottleSimpleSyrup;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Soda water'**
+  String get bottleSodaWater;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Angostura bitters'**
+  String get bottleAngostura;
+
+  /// Starter bottle name in the onboarding shelf picker
+  ///
+  /// In en, this message translates to:
+  /// **'Mint'**
+  String get bottleMint;
 }
 
 class _AppLocalizationsDelegate
