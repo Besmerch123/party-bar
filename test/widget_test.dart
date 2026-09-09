@@ -1,23 +1,23 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:party_bar/main.dart';
 
 void main() {
-  testWidgets('App launches and shows welcome screen', (
-    WidgetTester tester,
-  ) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(PartyBarApp(showWelcome: true));
+  setUp(() {
+    GoogleFonts.config.allowRuntimeFetching = false;
+    SharedPreferences.setMockInitialValues({});
+  });
 
-    // Verify that our app loads without errors
+  testWidgets('App launches on the splash', (WidgetTester tester) async {
+    await tester.pumpWidget(PartyBarApp(showWelcome: true));
+    await tester.pump();
+
     expect(find.text('PartyBar'), findsOneWidget);
-    expect(find.text('Get Started'), findsOneWidget);
+    expect(
+      find.text('Your shelf. Their orders.\nOne bar, all night.'),
+      findsOneWidget,
+    );
   });
 }

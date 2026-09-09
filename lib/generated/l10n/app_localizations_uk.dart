@@ -704,4 +704,186 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get orderNow => 'Замовити зараз';
+
+  @override
+  String get later => 'Пізніше';
+
+  @override
+  String get continueLabel => 'Продовжити';
+
+  @override
+  String get splashTagline =>
+      'Ваша полиця. Їхні замовлення.\nОдин бар на весь вечір.';
+
+  @override
+  String get onboardingBarEyebrow => 'Що у вас є';
+
+  @override
+  String get onboardingBarTitle => 'Ваша полиця\nстає меню';
+
+  @override
+  String get onboardingBarBody =>
+      'Скажіть PartyBar, які пляшки у вас є. Він визначить усі коктейлі, які ви вже можете налити — і той один лайм, що відкриє ще одинадцять.';
+
+  @override
+  String get onboardingBarStatShelf => 'Джин, горілка, тонік';
+
+  @override
+  String get onboardingBarStatPourable => 'Можна налити';
+
+  @override
+  String get onboardingBarStatUnlock => 'Додайте один лайм';
+
+  @override
+  String get onboardingOrdersEyebrow => 'Що роблять вони';
+
+  @override
+  String get onboardingOrdersTitle => 'Вони замовляють.\nВи отримуєте чергу.';
+
+  @override
+  String get onboardingOrdersBody =>
+      'Гості сканують код і замовляють зі свого телефону. Без додатка, без акаунту. Ви просто виконуєте список.';
+
+  @override
+  String get onboardingOrdersCta => 'Налаштувати мій бар';
+
+  @override
+  String get onboardingSampleGinTonic => 'Джин-тонік';
+
+  @override
+  String get onboardingSampleCosmopolitan => 'Космополітен';
+
+  @override
+  String get onboardingSampleOrderNote => 'Марта · більше лайма';
+
+  @override
+  String get onboardingSampleOrderWaiting => 'Данило · чекає 2 хв';
+
+  @override
+  String get orderStatusNew => 'Нове';
+
+  @override
+  String get orderStatusQueued => 'У черзі';
+
+  @override
+  String get onboardingVibeTitle => 'Що ви\nлюбите пити?';
+
+  @override
+  String get onboardingVibeBody =>
+      'Оберіть два-три. Це лише сортує стрічку — нічого не приховується.';
+
+  @override
+  String get vibeSharpCitrus => 'Різкі й цитрусові';
+
+  @override
+  String get vibeDarkStirred => 'Темні й змішані';
+
+  @override
+  String get vibeLongFizzy => 'Довгі й газовані';
+
+  @override
+  String get vibeSpicy => 'Гострі';
+
+  @override
+  String get vibeZeroProof => 'Безалкогольні';
+
+  @override
+  String get vibeThreeIngredients => 'Максимум три інгредієнти';
+
+  @override
+  String get onboardingBottlesTitle => 'П\'ять пляшок —\nбар відкрито';
+
+  @override
+  String get onboardingBottlesBody =>
+      'Оберіть те, що справді є на полиці. Решта може почекати.';
+
+  @override
+  String get onboardingBottlesSearchHint => 'Пошук пляшок і міксерів';
+
+  @override
+  String get onboardingBottlesSection => 'Зазвичай є в кожному барі';
+
+  @override
+  String get onboardingBottlesNoMatch => 'За цим запитом нічого не знайдено.';
+
+  @override
+  String get onboardingOpenBar => 'Відкрити мій бар';
+
+  @override
+  String bottleInCocktails(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'у $count коктейлях',
+      many: 'у $count коктейлях',
+      few: 'у $count коктейлях',
+      one: 'у $count коктейлі',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String bottleUnlocksMore(int count) {
+    return 'відкриває ще $count';
+  }
+
+  @override
+  String onboardingBottlesAdded(int count, int total) {
+    return 'Додано $count з $total';
+  }
+
+  @override
+  String onboardingDrinksUnlocked(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Відкрито $count напоїв',
+      many: 'Відкрито $count напоїв',
+      few: 'Відкрито $count напої',
+      one: 'Відкрито $count напій',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get bottleGin => 'Джин';
+
+  @override
+  String get bottleVodka => 'Горілка';
+
+  @override
+  String get bottleTonic => 'Тонік';
+
+  @override
+  String get bottleLime => 'Лайм';
+
+  @override
+  String get bottleWhiteRum => 'Білий ром';
+
+  @override
+  String get bottleSweetVermouth => 'Солодкий вермут';
+
+  @override
+  String get bottleWhiskey => 'Віскі';
+
+  @override
+  String get bottleTequila => 'Текіла';
+
+  @override
+  String get bottleTripleSec => 'Трипл-сек';
+
+  @override
+  String get bottleLemon => 'Лимон';
+
+  @override
+  String get bottleSimpleSyrup => 'Цукровий сироп';
+
+  @override
+  String get bottleSodaWater => 'Содова вода';
+
+  @override
+  String get bottleAngostura => 'Ангостура біттер';
+
+  @override
+  String get bottleMint => 'М\'ята';
 }

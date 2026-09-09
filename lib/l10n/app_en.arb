@@ -971,5 +971,237 @@
   "orderNow": "Order Now",
   "@orderNow": {
     "description": "Button to order a cocktail"
+  },
+  "later": "Later",
+  "@later": {
+    "description": "Defer action in the top-right of onboarding step 05"
+  },
+  "continueLabel": "Continue",
+  "@continueLabel": {
+    "description": "Advance button on the vibe picker"
+  },
+  "splashTagline": "Your shelf. Their orders.\nOne bar, all night.",
+  "@splashTagline": {
+    "description": "Two-line tagline under the wordmark on the splash"
+  },
+  "onboardingBarEyebrow": "What you own",
+  "@onboardingBarEyebrow": {
+    "description": "Overline on onboarding step 02"
+  },
+  "onboardingBarTitle": "Your shelf\nbecomes a menu",
+  "@onboardingBarTitle": {
+    "description": "Headline on onboarding step 02"
+  },
+  "onboardingBarBody": "Tell PartyBar which bottles you have. It works out every cocktail you can already pour — and the one lime that unlocks eleven more.",
+  "@onboardingBarBody": {
+    "description": "Body copy on onboarding step 02"
+  },
+  "onboardingBarStatShelf": "Gin, vodka, tonic",
+  "@onboardingBarStatShelf": {
+    "description": "Example shelf contents row on onboarding step 02"
+  },
+  "onboardingBarStatPourable": "You can pour",
+  "@onboardingBarStatPourable": {
+    "description": "Example pourable-drinks row on onboarding step 02"
+  },
+  "onboardingBarStatUnlock": "Add one lime",
+  "@onboardingBarStatUnlock": {
+    "description": "Example unlock suggestion row on onboarding step 02"
+  },
+  "onboardingOrdersEyebrow": "What they do",
+  "@onboardingOrdersEyebrow": {
+    "description": "Overline on onboarding step 03"
+  },
+  "onboardingOrdersTitle": "They order.\nYou get a queue.",
+  "@onboardingOrdersTitle": {
+    "description": "Headline on onboarding step 03"
+  },
+  "onboardingOrdersBody": "Guests scan a code and order from their own phone. No app, no account. You just work down the list.",
+  "@onboardingOrdersBody": {
+    "description": "Body copy on onboarding step 03"
+  },
+  "onboardingOrdersCta": "Set up my bar",
+  "@onboardingOrdersCta": {
+    "description": "Advance button on onboarding step 03"
+  },
+  "onboardingSampleGinTonic": "Gin & Tonic",
+  "@onboardingSampleGinTonic": {
+    "description": "Sample cocktail name in the onboarding order illustration"
+  },
+  "onboardingSampleCosmopolitan": "Cosmopolitan",
+  "@onboardingSampleCosmopolitan": {
+    "description": "Sample cocktail name in the onboarding order illustration"
+  },
+  "onboardingSampleOrderNote": "Marta · heavy on the lime",
+  "@onboardingSampleOrderNote": {
+    "description": "Sample guest and note in the onboarding order illustration"
+  },
+  "onboardingSampleOrderWaiting": "Danylo · waiting 2 min",
+  "@onboardingSampleOrderWaiting": {
+    "description": "Sample guest and wait time in the onboarding order illustration"
+  },
+  "orderStatusNew": "New",
+  "@orderStatusNew": {
+    "description": "Status chip on a newly placed order"
+  },
+  "orderStatusQueued": "Queued",
+  "@orderStatusQueued": {
+    "description": "Status chip on an order waiting its turn"
+  },
+  "onboardingVibeTitle": "What do you\ndrink like?",
+  "@onboardingVibeTitle": {
+    "description": "Headline on onboarding step 04"
+  },
+  "onboardingVibeBody": "Pick two or three. It only sorts your feed — nothing gets hidden.",
+  "@onboardingVibeBody": {
+    "description": "Body copy on onboarding step 04"
+  },
+  "vibeSharpCitrus": "Sharp & citrus",
+  "@vibeSharpCitrus": {
+    "description": "Flavour direction: bright, sour, citrus-forward drinks"
+  },
+  "vibeDarkStirred": "Dark & stirred",
+  "@vibeDarkStirred": {
+    "description": "Flavour direction: spirit-forward stirred drinks"
+  },
+  "vibeLongFizzy": "Long & fizzy",
+  "@vibeLongFizzy": {
+    "description": "Flavour direction: tall carbonated drinks"
+  },
+  "vibeSpicy": "Spicy",
+  "@vibeSpicy": {
+    "description": "Flavour direction: drinks with heat"
+  },
+  "vibeZeroProof": "Zero proof",
+  "@vibeZeroProof": {
+    "description": "Flavour direction: drinks without alcohol"
+  },
+  "vibeThreeIngredients": "Three ingredients max",
+  "@vibeThreeIngredients": {
+    "description": "Flavour direction: short, simple recipes"
+  },
+  "onboardingBottlesTitle": "Five bottles\nand you're open",
+  "@onboardingBottlesTitle": {
+    "description": "Headline on onboarding step 05"
+  },
+  "onboardingBottlesBody": "Tap what's actually on your shelf. Everything else can wait.",
+  "@onboardingBottlesBody": {
+    "description": "Body copy on onboarding step 05"
+  },
+  "onboardingBottlesSearchHint": "Search bottles & mixers",
+  "@onboardingBottlesSearchHint": {
+    "description": "Placeholder in the bottle search field"
+  },
+  "onboardingBottlesSection": "Most home bars have these",
+  "@onboardingBottlesSection": {
+    "description": "Section label above the suggested starter bottles"
+  },
+  "onboardingBottlesNoMatch": "Nothing matched that search.",
+  "@onboardingBottlesNoMatch": {
+    "description": "Empty state when a bottle search returns nothing"
+  },
+  "onboardingOpenBar": "Open my bar",
+  "@onboardingOpenBar": {
+    "description": "Button that finishes onboarding and opens Explore"
+  },
+  "bottleInCocktails": "{count, plural, one{in {count} cocktail} other{in {count} cocktails}}",
+  "@bottleInCocktails": {
+    "description": "How many cocktails a bottle appears in",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "34"
+      }
+    }
+  },
+  "bottleUnlocksMore": "unlocks {count} more",
+  "@bottleUnlocksMore": {
+    "description": "How many extra drinks a bottle would unlock",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "11"
+      }
+    }
+  },
+  "onboardingBottlesAdded": "{count} of {total} added",
+  "@onboardingBottlesAdded": {
+    "description": "Progress towards the starter shelf target",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      },
+      "total": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "onboardingDrinksUnlocked": "{count, plural, one{{count} drink unlocked} other{{count} drinks unlocked}}",
+  "@onboardingDrinksUnlocked": {
+    "description": "Drinks the current shelf can already make",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "14"
+      }
+    }
+  },
+  "bottleGin": "Gin",
+  "@bottleGin": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleVodka": "Vodka",
+  "@bottleVodka": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleTonic": "Tonic water",
+  "@bottleTonic": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleLime": "Lime",
+  "@bottleLime": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleWhiteRum": "White rum",
+  "@bottleWhiteRum": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleSweetVermouth": "Sweet vermouth",
+  "@bottleSweetVermouth": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleWhiskey": "Whiskey",
+  "@bottleWhiskey": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleTequila": "Tequila",
+  "@bottleTequila": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleTripleSec": "Triple sec",
+  "@bottleTripleSec": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleLemon": "Lemon",
+  "@bottleLemon": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleSimpleSyrup": "Simple syrup",
+  "@bottleSimpleSyrup": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleSodaWater": "Soda water",
+  "@bottleSodaWater": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleAngostura": "Angostura bitters",
+  "@bottleAngostura": {
+    "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "bottleMint": "Mint",
+  "@bottleMint": {
+    "description": "Starter bottle name in the onboarding shelf picker"
   }
 }

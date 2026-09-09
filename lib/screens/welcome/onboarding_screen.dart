@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../theme/theme.dart';
 import '../../utils/app_router.dart';
-import '../../utils/localization_helper.dart';
+import '../../widgets/onboarding/bottles_step.dart';
+import '../../widgets/onboarding/onboarding_step.dart';
+import '../../widgets/onboarding/value_bar_step.dart';
+import '../../widgets/onboarding/value_orders_step.dart';
+import '../../widgets/onboarding/vibe_step.dart';
 
-class OnboardingData {
-  final String Function(BuildContext) title;
-  final String Function(BuildContext) description;
-  final IconData icon;
-  final Color color;
-
-  const OnboardingData({
-    required this.title,
-    required this.description,
-    required this.icon,
-    required this.color,
-  });
-}
-
+/// Flow 01 · steps 02–05.
+///
+/// The forty seconds between install and the first cocktail on screen. No
+/// account is asked for anywhere here: a vibe and five bottles are kept on
+/// the device, and auth later claims them.
+///
+/// Step 06 of the flow is the first Explore, which this hands off to.
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -25,196 +24,53 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
+  static const _stepCount = 4;
 
-  List<OnboardingData> _getPages(BuildContext context) {
-    return [
-      OnboardingData(
-        title: (ctx) => context.l10n.onboardingTitle1,
-        description: (ctx) => context.l10n.onboardingDescription1,
-        icon: Icons.local_bar,
-        color: Colors.blue,
-      ),
-      OnboardingData(
-        title: (ctx) => context.l10n.onboardingTitle2,
-        description: (ctx) => context.l10n.onboardingDescription2,
-        icon: Icons.celebration,
-        color: Colors.purple,
-      ),
-      OnboardingData(
-        title: (ctx) => context.l10n.onboardingTitle3,
-        description: (ctx) => context.l10n.onboardingDescription3,
-        icon: Icons.party_mode,
-        color: Colors.orange,
-      ),
-      OnboardingData(
-        title: (ctx) => context.l10n.onboardingTitle4,
-        description: (ctx) => context.l10n.onboardingDescription4,
-        icon: Icons.collections,
-        color: Colors.green,
-      ),
-    ];
-  }
+  final _controller = PageController();
+  int _index = 0;
 
   @override
   void dispose() {
-    _pageController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
+  void _next() {
+    if (_index >= _stepCount - 1) {
+      _finish();
+      return;
+    }
+    _controller.nextPage(duration: AppMotion.sheet, curve: AppMotion.curve);
+  }
+
+  void _back() {
+    if (_index == 0) return;
+    _controller.previousPage(duration: AppMotion.sheet, curve: AppMotion.curve);
+  }
+
+  /// Hand-off to step 06: the first Explore, seeded by whatever was chosen.
+  void _finish() => context.go(AppRoutes.explore);
+
+  OnboardingStepNav _navFor(int index) => OnboardingStepNav(
+    stepIndex: index,
+    stepCount: _stepCount,
+    onNext: _next,
+    onBack: _back,
+    onSkip: _finish,
+  );
+
   @override
   Widget build(BuildContext context) {
-    final pages = _getPages(context);
-
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Top Bar
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () => context.go(AppRoutes.home),
-                    child: Text(
-                      context.l10n.skip,
-                      style: TextStyle(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withOpacity(0.6),
-                      ),
-                    ),
-                  ),
-                  Text(
-                    context.l10n.pageOfPages(_currentPage + 1, pages.length),
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withOpacity(0.6),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Page Content
-            Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentPage = index;
-                  });
-                },
-                itemCount: pages.length,
-                itemBuilder: (context, index) {
-                  final page = pages[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(32.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Icon
-                        Container(
-                          width: 120,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            color: page.color.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: Icon(page.icon, size: 60, color: page.color),
-                        ),
-
-                        const SizedBox(height: 40),
-
-                        // Title
-                        Text(
-                          page.title(context),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headlineMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // Description
-                        Text(
-                          page.description(context),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withOpacity(0.7),
-                              ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            // Page Indicators
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                pages.length,
-                (index) => Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  width: _currentPage == index ? 24 : 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: _currentPage == index
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-              ),
-            ),
-
-            // Bottom Button
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_currentPage < pages.length - 1) {
-                      _pageController.nextPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    } else {
-                      context.go(AppRoutes.home);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Text(
-                    _currentPage < pages.length - 1
-                        ? context.l10n.next
-                        : context.l10n.getStarted,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+      body: PageView(
+        controller: _controller,
+        onPageChanged: (index) => setState(() => _index = index),
+        children: [
+          ValueBarStep(nav: _navFor(0)),
+          ValueOrdersStep(nav: _navFor(1)),
+          VibeStep(nav: _navFor(2)),
+          BottlesStep(nav: _navFor(3)),
+        ],
       ),
     );
   }

@@ -1,6 +1,7 @@
 export 'shared_types.dart';
 export 'cocktail.dart';
 export 'ingredient.dart';
+export 'onboarding.dart';
 export 'equipment.dart';
 export 'user.dart';
 export 'party.dart';
