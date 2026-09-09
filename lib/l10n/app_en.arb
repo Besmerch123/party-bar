@@ -1203,5 +1203,631 @@
   "bottleMint": "Mint",
   "@bottleMint": {
     "description": "Starter bottle name in the onboarding shelf picker"
+  },
+  "exploreFeedTitle": "Pour tonight",
+  "@exploreFeedTitle": {
+    "description": "Flow 02 - Explore. Explore feed headline"
+  },
+  "exploreShelfMatch": "{makeable} of {total} drinks match your shelf",
+  "@exploreShelfMatch": {
+    "description": "Flow 02 - Explore. Subtitle under the Explore headline when the bar has bottles",
+    "placeholders": {
+      "makeable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "exploreNoShelfYet": "{total} drinks. Add a bottle to see what you can pour.",
+  "@exploreNoShelfYet": {
+    "description": "Flow 02 - Explore. Subtitle under the Explore headline when the shelf is empty",
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "exploreSectionTwoBottles": "Two bottles, one drink",
+  "@exploreSectionTwoBottles": {
+    "description": "Flow 02 - Explore. Explore feed section of short recipes"
+  },
+  "exploreSectionZeroProof": "Zero proof",
+  "@exploreSectionZeroProof": {
+    "description": "Flow 02 - Explore. Explore feed section of non-alcoholic drinks"
+  },
+  "exploreSectionMakeableNow": "Ready on your shelf",
+  "@exploreSectionMakeableNow": {
+    "description": "Flow 02 - Explore. Explore feed section of drinks the shelf can already pour"
+  },
+  "exploreSeeAll": "See all",
+  "@exploreSeeAll": {
+    "description": "Flow 02 - Explore. Link at the end of an Explore feed section header"
+  },
+  "exploreAllOnShelf": "{count} on your shelf",
+  "@exploreAllOnShelf": {
+    "description": "Flow 02 - Explore. Badge on a cocktail the shelf can fully make",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exploreMissingBadge": "{count, plural, =1{1 missing} other{{count} missing}}",
+  "@exploreMissingBadge": {
+    "description": "Flow 02 - Explore. Badge on a cocktail card counting ingredients the shelf lacks",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exploreNeedsIngredient": "needs {ingredient}",
+  "@exploreNeedsIngredient": {
+    "description": "Flow 02 - Explore. Meta line on a card that is exactly one ingredient short",
+    "placeholders": {
+      "ingredient": {
+        "type": "String"
+      }
+    }
+  },
+  "exploreEmptyTitle": "Nothing here yet",
+  "@exploreEmptyTitle": {
+    "description": "Flow 02 - Explore. Explore feed empty state title"
+  },
+  "exploreEmptyBody": "The catalogue could not be loaded. Pull to try again.",
+  "@exploreEmptyBody": {
+    "description": "Flow 02 - Explore. Explore feed empty state body"
+  },
+  "cocktailMinutes": "{count} min",
+  "@cocktailMinutes": {
+    "description": "Flow 02 - Explore. Preparation time on a cocktail card",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cocktailAbv": "{value}% ABV",
+  "@cocktailAbv": {
+    "description": "Flow 02 - Explore. Alcohol by volume on a cocktail card",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "methodBuilt": "built",
+  "@methodBuilt": {
+    "description": "Flow 02 - Explore. Cocktail build technique"
+  },
+  "methodStirred": "stirred",
+  "@methodStirred": {
+    "description": "Flow 02 - Explore. Cocktail build technique"
+  },
+  "methodShaken": "shaken",
+  "@methodShaken": {
+    "description": "Flow 02 - Explore. Cocktail build technique"
+  },
+  "methodBlended": "blended",
+  "@methodBlended": {
+    "description": "Flow 02 - Explore. Cocktail build technique"
+  },
+  "methodLayered": "layered",
+  "@methodLayered": {
+    "description": "Flow 02 - Explore. Cocktail build technique"
+  },
+  "spiritGin": "Gin",
+  "@spiritGin": {
+    "description": "Flow 02 - Explore. Base spirit name"
+  },
+  "spiritVodka": "Vodka",
+  "@spiritVodka": {
+    "description": "Flow 02 - Explore. Base spirit name"
+  },
+  "spiritRum": "Rum",
+  "@spiritRum": {
+    "description": "Flow 02 - Explore. Base spirit name"
+  },
+  "spiritWhisky": "Whisky",
+  "@spiritWhisky": {
+    "description": "Flow 02 - Explore. Base spirit name"
+  },
+  "spiritTequila": "Tequila",
+  "@spiritTequila": {
+    "description": "Flow 02 - Explore. Base spirit name"
+  },
+  "spiritBrandy": "Brandy",
+  "@spiritBrandy": {
+    "description": "Flow 02 - Explore. Base spirit name"
+  },
+  "spiritZeroProof": "Zero proof",
+  "@spiritZeroProof": {
+    "description": "Flow 02 - Explore. Base spirit name"
+  },
+  "spiritOther": "Other",
+  "@spiritOther": {
+    "description": "Flow 02 - Explore. Base spirit name"
+  },
+  "flavorCitrus": "Citrus",
+  "@flavorCitrus": {
+    "description": "Flow 02 - Explore. Cocktail flavour profile"
+  },
+  "flavorBitter": "Bitter",
+  "@flavorBitter": {
+    "description": "Flow 02 - Explore. Cocktail flavour profile"
+  },
+  "flavorSweet": "Sweet",
+  "@flavorSweet": {
+    "description": "Flow 02 - Explore. Cocktail flavour profile"
+  },
+  "flavorHerbal": "Herbal",
+  "@flavorHerbal": {
+    "description": "Flow 02 - Explore. Cocktail flavour profile"
+  },
+  "flavorSpicy": "Spicy",
+  "@flavorSpicy": {
+    "description": "Flow 02 - Explore. Cocktail flavour profile"
+  },
+  "flavorFruity": "Fruity",
+  "@flavorFruity": {
+    "description": "Flow 02 - Explore. Cocktail flavour profile"
+  },
+  "flavorDry": "Dry",
+  "@flavorDry": {
+    "description": "Flow 02 - Explore. Cocktail flavour profile"
+  },
+  "flavorCreamy": "Creamy",
+  "@flavorCreamy": {
+    "description": "Flow 02 - Explore. Cocktail flavour profile"
+  },
+  "unitMl": "ml",
+  "@unitMl": {
+    "description": "Flow 02 - Explore. Measure unit"
+  },
+  "unitCl": "cl",
+  "@unitCl": {
+    "description": "Flow 02 - Explore. Measure unit"
+  },
+  "unitOz": "oz",
+  "@unitOz": {
+    "description": "Flow 02 - Explore. Measure unit"
+  },
+  "unitDash": "dash",
+  "@unitDash": {
+    "description": "Flow 02 - Explore. Measure unit"
+  },
+  "unitBarspoon": "bar spoon",
+  "@unitBarspoon": {
+    "description": "Flow 02 - Explore. Measure unit"
+  },
+  "unitPiece": "pc",
+  "@unitPiece": {
+    "description": "Flow 02 - Explore. Measure unit"
+  },
+  "unitSplash": "splash",
+  "@unitSplash": {
+    "description": "Flow 02 - Explore. Measure unit, used without an amount"
+  },
+  "unitTopUp": "top up",
+  "@unitTopUp": {
+    "description": "Flow 02 - Explore. Measure unit, used without an amount"
+  },
+  "measureAmount": "{amount} {unit}",
+  "@measureAmount": {
+    "description": "Flow 02 - Explore. An ingredient quantity — amount followed by its unit",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "searchHint": "Cocktail, spirit, or mood",
+  "@searchHint": {
+    "description": "Flow 02 - Explore. Placeholder in the Explore search field"
+  },
+  "searchCancel": "Cancel",
+  "@searchCancel": {
+    "description": "Flow 02 - Explore. Dismisses the search overlay"
+  },
+  "searchRecent": "Recent",
+  "@searchRecent": {
+    "description": "Flow 02 - Explore. Section header over recent search terms"
+  },
+  "searchClearRecent": "Clear",
+  "@searchClearRecent": {
+    "description": "Flow 02 - Explore. Clears the recent search list"
+  },
+  "searchPopularThisWeek": "Popular this week",
+  "@searchPopularThisWeek": {
+    "description": "Flow 02 - Explore. Section header over trending cocktails"
+  },
+  "searchBrowseBySpirit": "Browse by spirit",
+  "@searchBrowseBySpirit": {
+    "description": "Flow 02 - Explore. Section header over the base-spirit tiles"
+  },
+  "searchClearQuery": "Clear search",
+  "@searchClearQuery": {
+    "description": "Flow 02 - Explore. Accessibility label for the button that empties the search field"
+  },
+  "filterSheetTitle": "Filter",
+  "@filterSheetTitle": {
+    "description": "Flow 02 - Explore. Title of the Explore filter sheet"
+  },
+  "filterReset": "Reset",
+  "@filterReset": {
+    "description": "Flow 02 - Explore. Clears every filter in the sheet"
+  },
+  "filterOpen": "Filters",
+  "@filterOpen": {
+    "description": "Flow 02 - Explore. Accessibility label for the button that opens the filter sheet"
+  },
+  "filterMakeableTitle": "Makeable with my bar",
+  "@filterMakeableTitle": {
+    "description": "Flow 02 - Explore. The headline filter — only drinks the shelf can already pour"
+  },
+  "filterMakeableSubtitle": "{bottles, plural, =1{1 bottle on the shelf} other{{bottles} bottles on the shelf}} · {drinks} drinks",
+  "@filterMakeableSubtitle": {
+    "description": "Flow 02 - Explore. Subtitle under the makeable filter, counting the shelf and what it pours",
+    "placeholders": {
+      "bottles": {
+        "type": "int"
+      },
+      "drinks": {
+        "type": "int"
+      }
+    }
+  },
+  "filterMakeableEmptyBar": "No bottles on the shelf yet",
+  "@filterMakeableEmptyBar": {
+    "description": "Flow 02 - Explore. Subtitle under the makeable filter when the shelf is empty"
+  },
+  "filterSectionSort": "Sort",
+  "@filterSectionSort": {
+    "description": "Flow 02 - Explore. Section header over the sort control"
+  },
+  "filterSectionBaseSpirit": "Base spirit",
+  "@filterSectionBaseSpirit": {
+    "description": "Flow 02 - Explore. Section header over the base-spirit chips"
+  },
+  "filterSectionEffort": "Effort",
+  "@filterSectionEffort": {
+    "description": "Flow 02 - Explore. Section header over the effort toggles"
+  },
+  "sortMakeable": "Makeable",
+  "@sortMakeable": {
+    "description": "Flow 02 - Explore. Sort option — drinks the shelf can pour come first"
+  },
+  "sortPopular": "Popular",
+  "@sortPopular": {
+    "description": "Flow 02 - Explore. Sort option — most popular first"
+  },
+  "sortSeasonal": "Seasonal",
+  "@sortSeasonal": {
+    "description": "Flow 02 - Explore. Sort option — best fit for the season first"
+  },
+  "filterUnderThreeMinutes": "Under 3 minutes",
+  "@filterUnderThreeMinutes": {
+    "description": "Flow 02 - Explore. Effort filter — quick drinks only"
+  },
+  "filterNoShaker": "No shaker needed",
+  "@filterNoShaker": {
+    "description": "Flow 02 - Explore. Effort filter — drops anything that has to be shaken"
+  },
+  "filterThreeIngredients": "Three ingredients max",
+  "@filterThreeIngredients": {
+    "description": "Flow 02 - Explore. Effort filter — short ingredient lists only"
+  },
+  "filterShowDrinks": "{count, plural, =0{No drinks match} =1{Show 1 drink} other{Show {count} drinks}}",
+  "@filterShowDrinks": {
+    "description": "Flow 02 - Explore. Primary button at the bottom of the filter sheet",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "filterChipMakeable": "Makeable",
+  "@filterChipMakeable": {
+    "description": "Flow 02 - Explore. Removable chip for the makeable filter"
+  },
+  "filterChipNoShaker": "No shaker",
+  "@filterChipNoShaker": {
+    "description": "Flow 02 - Explore. Removable chip for the no-shaker filter"
+  },
+  "filterChipUnderThree": "Under 3 min",
+  "@filterChipUnderThree": {
+    "description": "Flow 02 - Explore. Removable chip for the quick filter"
+  },
+  "filterChipThreeIngredients": "Max 3 parts",
+  "@filterChipThreeIngredients": {
+    "description": "Flow 02 - Explore. Removable chip for the three-ingredients filter"
+  },
+  "filterRemove": "Remove {filter}",
+  "@filterRemove": {
+    "description": "Flow 02 - Explore. Accessibility label on a removable filter chip",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "resultsCount": "{count, plural, =0{No drinks} =1{1 drink} other{{count} drinks}}",
+  "@resultsCount": {
+    "description": "Flow 02 - Explore. Result count above the Explore results grid",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultsMakeableFirst": "makeable first",
+  "@resultsMakeableFirst": {
+    "description": "Flow 02 - Explore. Note beside the result count when the makeable sort is on"
+  },
+  "resultsPopularFirst": "popular first",
+  "@resultsPopularFirst": {
+    "description": "Flow 02 - Explore. Note beside the result count when the popular sort is on"
+  },
+  "resultsSeasonalFirst": "seasonal first",
+  "@resultsSeasonalFirst": {
+    "description": "Flow 02 - Explore. Note beside the result count when the seasonal sort is on"
+  },
+  "zeroResultsTitle": "Nothing matches that yet",
+  "@zeroResultsTitle": {
+    "description": "Flow 02 - Explore. Zero-results headline when no single filter is to blame"
+  },
+  "zeroResultsBlockedTitle": "{filter} is what is in the way",
+  "@zeroResultsBlockedTitle": {
+    "description": "Flow 02 - Explore. Zero-results headline naming the one filter that emptied the list",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "zeroResultsBody": "Nothing matches “{query}” with {filter} on. Drop that filter, or try one of these.",
+  "@zeroResultsBody": {
+    "description": "Flow 02 - Explore. Zero-results body when one filter is to blame",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      },
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "zeroResultsBodyNoQuery": "Nothing matches with {filter} on. Drop that filter, or try one of these.",
+  "@zeroResultsBodyNoQuery": {
+    "description": "Flow 02 - Explore. Zero-results body when one filter is to blame and nothing was typed",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "zeroResultsBodyPlain": "Nothing matches “{query}”. Try another word, or one of these.",
+  "@zeroResultsBodyPlain": {
+    "description": "Flow 02 - Explore. Zero-results body when the query alone found nothing",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "zeroResultsDropFilter": "Drop “{filter}”",
+  "@zeroResultsDropFilter": {
+    "description": "Flow 02 - Explore. Button that removes the one filter blocking the results",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "zeroResultsClearAll": "Clear all",
+  "@zeroResultsClearAll": {
+    "description": "Flow 02 - Explore. Button that removes every active filter"
+  },
+  "zeroResultsOneBottleAway": "One bottle away",
+  "@zeroResultsOneBottleAway": {
+    "description": "Flow 02 - Explore. Section header over drinks the shelf is a single ingredient short of"
+  },
+  "zeroResultsUnlocks": "add {ingredient} · unlocks {count}",
+  "@zeroResultsUnlocks": {
+    "description": "Flow 02 - Explore. Subtitle on a near-miss row: the missing bottle and what it opens up",
+    "placeholders": {
+      "ingredient": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "zeroResultsUnlocksUnknown": "add {ingredient}",
+  "@zeroResultsUnlocksUnknown": {
+    "description": "Flow 02 - Explore. Subtitle on a near-miss row when the unlock count is unknown",
+    "placeholders": {
+      "ingredient": {
+        "type": "String"
+      }
+    }
+  },
+  "zeroResultsPourable": "You can pour these tonight",
+  "@zeroResultsPourable": {
+    "description": "Flow 02 - Explore. Section header over drinks the shelf can still make"
+  },
+  "addToBar": "Add to my bar",
+  "@addToBar": {
+    "description": "Flow 02 - Explore. Accessibility label on the button that puts a bottle on the shelf"
+  },
+  "addedToBar": "{ingredient} is on your shelf",
+  "@addedToBar": {
+    "description": "Flow 02 - Explore. Confirmation after adding a bottle to the shelf",
+    "placeholders": {
+      "ingredient": {
+        "type": "String"
+      }
+    }
+  },
+  "cocktailSave": "Save",
+  "@cocktailSave": {
+    "description": "Flow 02 - Explore. Bookmarks a cocktail — the first thing that needs an account"
+  },
+  "cocktailShare": "Share",
+  "@cocktailShare": {
+    "description": "Flow 02 - Explore. Shares a cocktail recipe"
+  },
+  "cocktailBack": "Back",
+  "@cocktailBack": {
+    "description": "Flow 02 - Explore. Accessibility label for the back button over a cocktail photo"
+  },
+  "cocktailNotOnShelf": "not on your shelf",
+  "@cocktailNotOnShelf": {
+    "description": "Flow 02 - Explore. Trailing note on an ingredient row the shelf does not hold"
+  },
+  "cocktailAddUnlocks": "Add {ingredient} to your bar — unlocks {count} more",
+  "@cocktailAddUnlocks": {
+    "description": "Flow 02 - Explore. Prompt under the ingredient list on a cocktail one bottle short",
+    "placeholders": {
+      "ingredient": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cocktailAddToBarPlain": "Add {ingredient} to your bar",
+  "@cocktailAddToBarPlain": {
+    "description": "Flow 02 - Explore. Prompt under the ingredient list when the unlock count is unknown",
+    "placeholders": {
+      "ingredient": {
+        "type": "String"
+      }
+    }
+  },
+  "cocktailMakeItNow": "Make it now",
+  "@cocktailMakeItNow": {
+    "description": "Flow 02 - Explore. Primary action on the cocktail detail screen"
+  },
+  "cocktailAddToParty": "Add to a party",
+  "@cocktailAddToParty": {
+    "description": "Flow 02 - Explore. Secondary action on the cocktail detail screen"
+  },
+  "cocktailIngredientsTitle": "Ingredients",
+  "@cocktailIngredientsTitle": {
+    "description": "Flow 02 - Explore. Section header over the ingredient list"
+  },
+  "cocktailRecipeCopied": "Recipe copied to clipboard",
+  "@cocktailRecipeCopied": {
+    "description": "Flow 02 - Explore. Confirmation after sharing a recipe"
+  },
+  "pourStepCounter": "Step {step} of {total} · {cocktail}",
+  "@pourStepCounter": {
+    "description": "Flow 02 - Explore. Eyebrow above the current step of the guided pour",
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "cocktail": {
+        "type": "String"
+      }
+    }
+  },
+  "pourTimerHint": "Tap to run the timer",
+  "@pourTimerHint": {
+    "description": "Flow 02 - Explore. Hint under the countdown on a timed pour step"
+  },
+  "pourTimerRunning": "Running",
+  "@pourTimerRunning": {
+    "description": "Flow 02 - Explore. Hint under the countdown while it is counting down"
+  },
+  "pourTimerDone": "Time",
+  "@pourTimerDone": {
+    "description": "Flow 02 - Explore. Hint under the countdown once it reaches zero"
+  },
+  "pourNext": "Next step",
+  "@pourNext": {
+    "description": "Flow 02 - Explore. Advances the guided pour"
+  },
+  "pourFinish": "Poured it",
+  "@pourFinish": {
+    "description": "Flow 02 - Explore. Finishes the guided pour on the last step"
+  },
+  "pourBack": "Previous step",
+  "@pourBack": {
+    "description": "Flow 02 - Explore. Accessibility label for going back a step"
+  },
+  "pourExit": "Stop",
+  "@pourExit": {
+    "description": "Flow 02 - Explore. Accessibility label for leaving the guided pour"
+  },
+  "pourShowRecipe": "Recipe",
+  "@pourShowRecipe": {
+    "description": "Flow 02 - Explore. Reveals the full recipe over the guided pour"
+  },
+  "pourFinished": "{cocktail} poured. Enjoy.",
+  "@pourFinished": {
+    "description": "Flow 02 - Explore. Confirmation after the last step of the guided pour",
+    "placeholders": {
+      "cocktail": {
+        "type": "String"
+      }
+    }
+  },
+  "pourNoSteps": "This one has no steps written down yet.",
+  "@pourNoSteps": {
+    "description": "Flow 02 - Explore. Shown when a cocktail has no preparation steps at all"
+  },
+  "authGateSaveTitle": "Keep the {cocktail}",
+  "@authGateSaveTitle": {
+    "description": "Flow 02 - Explore. Title of the sheet shown when saving needs an account",
+    "placeholders": {
+      "cocktail": {
+        "type": "String"
+      }
+    }
+  },
+  "authGateSaveBody": "Saved drinks live in your account, so they survive a new phone. Your shelf and everything you have browsed comes with you.",
+  "@authGateSaveBody": {
+    "description": "Flow 02 - Explore. Body of the auth sheet triggered by saving a cocktail"
+  },
+  "authGateLists": "Lists that sync",
+  "@authGateLists": {
+    "description": "Flow 02 - Explore. Benefit row in the auth sheet"
+  },
+  "authGateHost": "Host a party, take orders",
+  "@authGateHost": {
+    "description": "Flow 02 - Explore. Benefit row in the auth sheet"
+  },
+  "authGateShelf": "{count, plural, =0{Your shelf carries over} =1{Your 1 bottle carries over} other{Your {count} bottles carry over}}",
+  "@authGateShelf": {
+    "description": "Flow 02 - Explore. Benefit row in the auth sheet, naming what the shelf already holds",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "authGateApple": "Continue with Apple",
+  "@authGateApple": {
+    "description": "Flow 02 - Explore. Sign-in option in the auth sheet"
+  },
+  "authGateEmail": "Use an email address",
+  "@authGateEmail": {
+    "description": "Flow 02 - Explore. Sign-in option in the auth sheet"
+  },
+  "authGateKeepBrowsing": "Keep browsing without an account",
+  "@authGateKeepBrowsing": {
+    "description": "Flow 02 - Explore. Dismisses the auth sheet without signing in"
   }
 }

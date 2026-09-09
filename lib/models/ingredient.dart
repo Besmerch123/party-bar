@@ -33,11 +33,22 @@ class Ingredient {
   /// Google Cloud Storage path or URL to the ingredient image
   final String? image;
 
+  /// Stable human key — "gin", "sweetVermouth". The shelf is collected before
+  /// any account exists, so it is stored as slugs rather than document ids;
+  /// this is what lets that shelf resolve back to real ingredients.
+  final String? slug;
+
+  /// How many drinks this one bottle would make pourable for a typical shelf.
+  /// Ranks the near-misses on a zero-results screen.
+  final int? unlocks;
+
   const Ingredient({
     required this.id,
     required this.title,
     required this.category,
     this.image,
+    this.slug,
+    this.unlocks,
   });
 
   Ingredient copyWith({
@@ -45,12 +56,16 @@ class Ingredient {
     I18nField? title,
     IngredientCategory? category,
     String? image,
+    String? slug,
+    int? unlocks,
   }) {
     return Ingredient(
       id: id ?? this.id,
       title: title ?? this.title,
       category: category ?? this.category,
       image: image ?? this.image,
+      slug: slug ?? this.slug,
+      unlocks: unlocks ?? this.unlocks,
     );
   }
 }
@@ -69,6 +84,12 @@ class IngredientDocument {
   /// Google Cloud Storage path or URL to the ingredient image
   final String? image;
 
+  /// See [Ingredient.slug].
+  final String? slug;
+
+  /// See [Ingredient.unlocks].
+  final int? unlocks;
+
   /// Firestore Timestamp when the ingredient was created
   final Timestamp createdAt;
 
@@ -79,6 +100,8 @@ class IngredientDocument {
     required this.title,
     required this.category,
     this.image,
+    this.slug,
+    this.unlocks,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -97,6 +120,8 @@ class IngredientDocument {
         orElse: () => IngredientCategory.other,
       ),
       image: map['image'],
+      slug: map['slug'] as String?,
+      unlocks: (map['unlocks'] as num?)?.toInt(),
       createdAt: map['createdAt'] as Timestamp,
       updatedAt: map['updatedAt'] as Timestamp,
     );
@@ -117,6 +142,8 @@ class IngredientTransformer
       title: document.title,
       category: document.category,
       image: document.image,
+      slug: document.slug,
+      unlocks: document.unlocks,
     );
   }
 

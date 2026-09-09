@@ -1627,6 +1627,714 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Mint'**
   String get bottleMint;
+
+  /// Flow 02 - Explore. Explore feed headline
+  ///
+  /// In en, this message translates to:
+  /// **'Pour tonight'**
+  String get exploreFeedTitle;
+
+  /// Flow 02 - Explore. Subtitle under the Explore headline when the bar has bottles
+  ///
+  /// In en, this message translates to:
+  /// **'{makeable} of {total} drinks match your shelf'**
+  String exploreShelfMatch(int makeable, int total);
+
+  /// Flow 02 - Explore. Subtitle under the Explore headline when the shelf is empty
+  ///
+  /// In en, this message translates to:
+  /// **'{total} drinks. Add a bottle to see what you can pour.'**
+  String exploreNoShelfYet(int total);
+
+  /// Flow 02 - Explore. Explore feed section of short recipes
+  ///
+  /// In en, this message translates to:
+  /// **'Two bottles, one drink'**
+  String get exploreSectionTwoBottles;
+
+  /// Flow 02 - Explore. Explore feed section of non-alcoholic drinks
+  ///
+  /// In en, this message translates to:
+  /// **'Zero proof'**
+  String get exploreSectionZeroProof;
+
+  /// Flow 02 - Explore. Explore feed section of drinks the shelf can already pour
+  ///
+  /// In en, this message translates to:
+  /// **'Ready on your shelf'**
+  String get exploreSectionMakeableNow;
+
+  /// Flow 02 - Explore. Link at the end of an Explore feed section header
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get exploreSeeAll;
+
+  /// Flow 02 - Explore. Badge on a cocktail the shelf can fully make
+  ///
+  /// In en, this message translates to:
+  /// **'{count} on your shelf'**
+  String exploreAllOnShelf(int count);
+
+  /// Flow 02 - Explore. Badge on a cocktail card counting ingredients the shelf lacks
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 missing} other{{count} missing}}'**
+  String exploreMissingBadge(int count);
+
+  /// Flow 02 - Explore. Meta line on a card that is exactly one ingredient short
+  ///
+  /// In en, this message translates to:
+  /// **'needs {ingredient}'**
+  String exploreNeedsIngredient(String ingredient);
+
+  /// Flow 02 - Explore. Explore feed empty state title
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet'**
+  String get exploreEmptyTitle;
+
+  /// Flow 02 - Explore. Explore feed empty state body
+  ///
+  /// In en, this message translates to:
+  /// **'The catalogue could not be loaded. Pull to try again.'**
+  String get exploreEmptyBody;
+
+  /// Flow 02 - Explore. Preparation time on a cocktail card
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min'**
+  String cocktailMinutes(int count);
+
+  /// Flow 02 - Explore. Alcohol by volume on a cocktail card
+  ///
+  /// In en, this message translates to:
+  /// **'{value}% ABV'**
+  String cocktailAbv(String value);
+
+  /// Flow 02 - Explore. Cocktail build technique
+  ///
+  /// In en, this message translates to:
+  /// **'built'**
+  String get methodBuilt;
+
+  /// Flow 02 - Explore. Cocktail build technique
+  ///
+  /// In en, this message translates to:
+  /// **'stirred'**
+  String get methodStirred;
+
+  /// Flow 02 - Explore. Cocktail build technique
+  ///
+  /// In en, this message translates to:
+  /// **'shaken'**
+  String get methodShaken;
+
+  /// Flow 02 - Explore. Cocktail build technique
+  ///
+  /// In en, this message translates to:
+  /// **'blended'**
+  String get methodBlended;
+
+  /// Flow 02 - Explore. Cocktail build technique
+  ///
+  /// In en, this message translates to:
+  /// **'layered'**
+  String get methodLayered;
+
+  /// Flow 02 - Explore. Base spirit name
+  ///
+  /// In en, this message translates to:
+  /// **'Gin'**
+  String get spiritGin;
+
+  /// Flow 02 - Explore. Base spirit name
+  ///
+  /// In en, this message translates to:
+  /// **'Vodka'**
+  String get spiritVodka;
+
+  /// Flow 02 - Explore. Base spirit name
+  ///
+  /// In en, this message translates to:
+  /// **'Rum'**
+  String get spiritRum;
+
+  /// Flow 02 - Explore. Base spirit name
+  ///
+  /// In en, this message translates to:
+  /// **'Whisky'**
+  String get spiritWhisky;
+
+  /// Flow 02 - Explore. Base spirit name
+  ///
+  /// In en, this message translates to:
+  /// **'Tequila'**
+  String get spiritTequila;
+
+  /// Flow 02 - Explore. Base spirit name
+  ///
+  /// In en, this message translates to:
+  /// **'Brandy'**
+  String get spiritBrandy;
+
+  /// Flow 02 - Explore. Base spirit name
+  ///
+  /// In en, this message translates to:
+  /// **'Zero proof'**
+  String get spiritZeroProof;
+
+  /// Flow 02 - Explore. Base spirit name
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get spiritOther;
+
+  /// Flow 02 - Explore. Cocktail flavour profile
+  ///
+  /// In en, this message translates to:
+  /// **'Citrus'**
+  String get flavorCitrus;
+
+  /// Flow 02 - Explore. Cocktail flavour profile
+  ///
+  /// In en, this message translates to:
+  /// **'Bitter'**
+  String get flavorBitter;
+
+  /// Flow 02 - Explore. Cocktail flavour profile
+  ///
+  /// In en, this message translates to:
+  /// **'Sweet'**
+  String get flavorSweet;
+
+  /// Flow 02 - Explore. Cocktail flavour profile
+  ///
+  /// In en, this message translates to:
+  /// **'Herbal'**
+  String get flavorHerbal;
+
+  /// Flow 02 - Explore. Cocktail flavour profile
+  ///
+  /// In en, this message translates to:
+  /// **'Spicy'**
+  String get flavorSpicy;
+
+  /// Flow 02 - Explore. Cocktail flavour profile
+  ///
+  /// In en, this message translates to:
+  /// **'Fruity'**
+  String get flavorFruity;
+
+  /// Flow 02 - Explore. Cocktail flavour profile
+  ///
+  /// In en, this message translates to:
+  /// **'Dry'**
+  String get flavorDry;
+
+  /// Flow 02 - Explore. Cocktail flavour profile
+  ///
+  /// In en, this message translates to:
+  /// **'Creamy'**
+  String get flavorCreamy;
+
+  /// Flow 02 - Explore. Measure unit
+  ///
+  /// In en, this message translates to:
+  /// **'ml'**
+  String get unitMl;
+
+  /// Flow 02 - Explore. Measure unit
+  ///
+  /// In en, this message translates to:
+  /// **'cl'**
+  String get unitCl;
+
+  /// Flow 02 - Explore. Measure unit
+  ///
+  /// In en, this message translates to:
+  /// **'oz'**
+  String get unitOz;
+
+  /// Flow 02 - Explore. Measure unit
+  ///
+  /// In en, this message translates to:
+  /// **'dash'**
+  String get unitDash;
+
+  /// Flow 02 - Explore. Measure unit
+  ///
+  /// In en, this message translates to:
+  /// **'bar spoon'**
+  String get unitBarspoon;
+
+  /// Flow 02 - Explore. Measure unit
+  ///
+  /// In en, this message translates to:
+  /// **'pc'**
+  String get unitPiece;
+
+  /// Flow 02 - Explore. Measure unit, used without an amount
+  ///
+  /// In en, this message translates to:
+  /// **'splash'**
+  String get unitSplash;
+
+  /// Flow 02 - Explore. Measure unit, used without an amount
+  ///
+  /// In en, this message translates to:
+  /// **'top up'**
+  String get unitTopUp;
+
+  /// Flow 02 - Explore. An ingredient quantity — amount followed by its unit
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} {unit}'**
+  String measureAmount(String amount, String unit);
+
+  /// Flow 02 - Explore. Placeholder in the Explore search field
+  ///
+  /// In en, this message translates to:
+  /// **'Cocktail, spirit, or mood'**
+  String get searchHint;
+
+  /// Flow 02 - Explore. Dismisses the search overlay
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get searchCancel;
+
+  /// Flow 02 - Explore. Section header over recent search terms
+  ///
+  /// In en, this message translates to:
+  /// **'Recent'**
+  String get searchRecent;
+
+  /// Flow 02 - Explore. Clears the recent search list
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get searchClearRecent;
+
+  /// Flow 02 - Explore. Section header over trending cocktails
+  ///
+  /// In en, this message translates to:
+  /// **'Popular this week'**
+  String get searchPopularThisWeek;
+
+  /// Flow 02 - Explore. Section header over the base-spirit tiles
+  ///
+  /// In en, this message translates to:
+  /// **'Browse by spirit'**
+  String get searchBrowseBySpirit;
+
+  /// Flow 02 - Explore. Accessibility label for the button that empties the search field
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get searchClearQuery;
+
+  /// Flow 02 - Explore. Title of the Explore filter sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filterSheetTitle;
+
+  /// Flow 02 - Explore. Clears every filter in the sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get filterReset;
+
+  /// Flow 02 - Explore. Accessibility label for the button that opens the filter sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filterOpen;
+
+  /// Flow 02 - Explore. The headline filter — only drinks the shelf can already pour
+  ///
+  /// In en, this message translates to:
+  /// **'Makeable with my bar'**
+  String get filterMakeableTitle;
+
+  /// Flow 02 - Explore. Subtitle under the makeable filter, counting the shelf and what it pours
+  ///
+  /// In en, this message translates to:
+  /// **'{bottles, plural, =1{1 bottle on the shelf} other{{bottles} bottles on the shelf}} · {drinks} drinks'**
+  String filterMakeableSubtitle(int bottles, int drinks);
+
+  /// Flow 02 - Explore. Subtitle under the makeable filter when the shelf is empty
+  ///
+  /// In en, this message translates to:
+  /// **'No bottles on the shelf yet'**
+  String get filterMakeableEmptyBar;
+
+  /// Flow 02 - Explore. Section header over the sort control
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get filterSectionSort;
+
+  /// Flow 02 - Explore. Section header over the base-spirit chips
+  ///
+  /// In en, this message translates to:
+  /// **'Base spirit'**
+  String get filterSectionBaseSpirit;
+
+  /// Flow 02 - Explore. Section header over the effort toggles
+  ///
+  /// In en, this message translates to:
+  /// **'Effort'**
+  String get filterSectionEffort;
+
+  /// Flow 02 - Explore. Sort option — drinks the shelf can pour come first
+  ///
+  /// In en, this message translates to:
+  /// **'Makeable'**
+  String get sortMakeable;
+
+  /// Flow 02 - Explore. Sort option — most popular first
+  ///
+  /// In en, this message translates to:
+  /// **'Popular'**
+  String get sortPopular;
+
+  /// Flow 02 - Explore. Sort option — best fit for the season first
+  ///
+  /// In en, this message translates to:
+  /// **'Seasonal'**
+  String get sortSeasonal;
+
+  /// Flow 02 - Explore. Effort filter — quick drinks only
+  ///
+  /// In en, this message translates to:
+  /// **'Under 3 minutes'**
+  String get filterUnderThreeMinutes;
+
+  /// Flow 02 - Explore. Effort filter — drops anything that has to be shaken
+  ///
+  /// In en, this message translates to:
+  /// **'No shaker needed'**
+  String get filterNoShaker;
+
+  /// Flow 02 - Explore. Effort filter — short ingredient lists only
+  ///
+  /// In en, this message translates to:
+  /// **'Three ingredients max'**
+  String get filterThreeIngredients;
+
+  /// Flow 02 - Explore. Primary button at the bottom of the filter sheet
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No drinks match} =1{Show 1 drink} other{Show {count} drinks}}'**
+  String filterShowDrinks(int count);
+
+  /// Flow 02 - Explore. Removable chip for the makeable filter
+  ///
+  /// In en, this message translates to:
+  /// **'Makeable'**
+  String get filterChipMakeable;
+
+  /// Flow 02 - Explore. Removable chip for the no-shaker filter
+  ///
+  /// In en, this message translates to:
+  /// **'No shaker'**
+  String get filterChipNoShaker;
+
+  /// Flow 02 - Explore. Removable chip for the quick filter
+  ///
+  /// In en, this message translates to:
+  /// **'Under 3 min'**
+  String get filterChipUnderThree;
+
+  /// Flow 02 - Explore. Removable chip for the three-ingredients filter
+  ///
+  /// In en, this message translates to:
+  /// **'Max 3 parts'**
+  String get filterChipThreeIngredients;
+
+  /// Flow 02 - Explore. Accessibility label on a removable filter chip
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {filter}'**
+  String filterRemove(String filter);
+
+  /// Flow 02 - Explore. Result count above the Explore results grid
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No drinks} =1{1 drink} other{{count} drinks}}'**
+  String resultsCount(int count);
+
+  /// Flow 02 - Explore. Note beside the result count when the makeable sort is on
+  ///
+  /// In en, this message translates to:
+  /// **'makeable first'**
+  String get resultsMakeableFirst;
+
+  /// Flow 02 - Explore. Note beside the result count when the popular sort is on
+  ///
+  /// In en, this message translates to:
+  /// **'popular first'**
+  String get resultsPopularFirst;
+
+  /// Flow 02 - Explore. Note beside the result count when the seasonal sort is on
+  ///
+  /// In en, this message translates to:
+  /// **'seasonal first'**
+  String get resultsSeasonalFirst;
+
+  /// Flow 02 - Explore. Zero-results headline when no single filter is to blame
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches that yet'**
+  String get zeroResultsTitle;
+
+  /// Flow 02 - Explore. Zero-results headline naming the one filter that emptied the list
+  ///
+  /// In en, this message translates to:
+  /// **'{filter} is what is in the way'**
+  String zeroResultsBlockedTitle(String filter);
+
+  /// Flow 02 - Explore. Zero-results body when one filter is to blame
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches “{query}” with {filter} on. Drop that filter, or try one of these.'**
+  String zeroResultsBody(String query, String filter);
+
+  /// Flow 02 - Explore. Zero-results body when one filter is to blame and nothing was typed
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches with {filter} on. Drop that filter, or try one of these.'**
+  String zeroResultsBodyNoQuery(String filter);
+
+  /// Flow 02 - Explore. Zero-results body when the query alone found nothing
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches “{query}”. Try another word, or one of these.'**
+  String zeroResultsBodyPlain(String query);
+
+  /// Flow 02 - Explore. Button that removes the one filter blocking the results
+  ///
+  /// In en, this message translates to:
+  /// **'Drop “{filter}”'**
+  String zeroResultsDropFilter(String filter);
+
+  /// Flow 02 - Explore. Button that removes every active filter
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get zeroResultsClearAll;
+
+  /// Flow 02 - Explore. Section header over drinks the shelf is a single ingredient short of
+  ///
+  /// In en, this message translates to:
+  /// **'One bottle away'**
+  String get zeroResultsOneBottleAway;
+
+  /// Flow 02 - Explore. Subtitle on a near-miss row: the missing bottle and what it opens up
+  ///
+  /// In en, this message translates to:
+  /// **'add {ingredient} · unlocks {count}'**
+  String zeroResultsUnlocks(String ingredient, int count);
+
+  /// Flow 02 - Explore. Subtitle on a near-miss row when the unlock count is unknown
+  ///
+  /// In en, this message translates to:
+  /// **'add {ingredient}'**
+  String zeroResultsUnlocksUnknown(String ingredient);
+
+  /// Flow 02 - Explore. Section header over drinks the shelf can still make
+  ///
+  /// In en, this message translates to:
+  /// **'You can pour these tonight'**
+  String get zeroResultsPourable;
+
+  /// Flow 02 - Explore. Accessibility label on the button that puts a bottle on the shelf
+  ///
+  /// In en, this message translates to:
+  /// **'Add to my bar'**
+  String get addToBar;
+
+  /// Flow 02 - Explore. Confirmation after adding a bottle to the shelf
+  ///
+  /// In en, this message translates to:
+  /// **'{ingredient} is on your shelf'**
+  String addedToBar(String ingredient);
+
+  /// Flow 02 - Explore. Bookmarks a cocktail — the first thing that needs an account
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get cocktailSave;
+
+  /// Flow 02 - Explore. Shares a cocktail recipe
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get cocktailShare;
+
+  /// Flow 02 - Explore. Accessibility label for the back button over a cocktail photo
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get cocktailBack;
+
+  /// Flow 02 - Explore. Trailing note on an ingredient row the shelf does not hold
+  ///
+  /// In en, this message translates to:
+  /// **'not on your shelf'**
+  String get cocktailNotOnShelf;
+
+  /// Flow 02 - Explore. Prompt under the ingredient list on a cocktail one bottle short
+  ///
+  /// In en, this message translates to:
+  /// **'Add {ingredient} to your bar — unlocks {count} more'**
+  String cocktailAddUnlocks(String ingredient, int count);
+
+  /// Flow 02 - Explore. Prompt under the ingredient list when the unlock count is unknown
+  ///
+  /// In en, this message translates to:
+  /// **'Add {ingredient} to your bar'**
+  String cocktailAddToBarPlain(String ingredient);
+
+  /// Flow 02 - Explore. Primary action on the cocktail detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'Make it now'**
+  String get cocktailMakeItNow;
+
+  /// Flow 02 - Explore. Secondary action on the cocktail detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'Add to a party'**
+  String get cocktailAddToParty;
+
+  /// Flow 02 - Explore. Section header over the ingredient list
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredients'**
+  String get cocktailIngredientsTitle;
+
+  /// Flow 02 - Explore. Confirmation after sharing a recipe
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe copied to clipboard'**
+  String get cocktailRecipeCopied;
+
+  /// Flow 02 - Explore. Eyebrow above the current step of the guided pour
+  ///
+  /// In en, this message translates to:
+  /// **'Step {step} of {total} · {cocktail}'**
+  String pourStepCounter(int step, int total, String cocktail);
+
+  /// Flow 02 - Explore. Hint under the countdown on a timed pour step
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to run the timer'**
+  String get pourTimerHint;
+
+  /// Flow 02 - Explore. Hint under the countdown while it is counting down
+  ///
+  /// In en, this message translates to:
+  /// **'Running'**
+  String get pourTimerRunning;
+
+  /// Flow 02 - Explore. Hint under the countdown once it reaches zero
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get pourTimerDone;
+
+  /// Flow 02 - Explore. Advances the guided pour
+  ///
+  /// In en, this message translates to:
+  /// **'Next step'**
+  String get pourNext;
+
+  /// Flow 02 - Explore. Finishes the guided pour on the last step
+  ///
+  /// In en, this message translates to:
+  /// **'Poured it'**
+  String get pourFinish;
+
+  /// Flow 02 - Explore. Accessibility label for going back a step
+  ///
+  /// In en, this message translates to:
+  /// **'Previous step'**
+  String get pourBack;
+
+  /// Flow 02 - Explore. Accessibility label for leaving the guided pour
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get pourExit;
+
+  /// Flow 02 - Explore. Reveals the full recipe over the guided pour
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe'**
+  String get pourShowRecipe;
+
+  /// Flow 02 - Explore. Confirmation after the last step of the guided pour
+  ///
+  /// In en, this message translates to:
+  /// **'{cocktail} poured. Enjoy.'**
+  String pourFinished(String cocktail);
+
+  /// Flow 02 - Explore. Shown when a cocktail has no preparation steps at all
+  ///
+  /// In en, this message translates to:
+  /// **'This one has no steps written down yet.'**
+  String get pourNoSteps;
+
+  /// Flow 02 - Explore. Title of the sheet shown when saving needs an account
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the {cocktail}'**
+  String authGateSaveTitle(String cocktail);
+
+  /// Flow 02 - Explore. Body of the auth sheet triggered by saving a cocktail
+  ///
+  /// In en, this message translates to:
+  /// **'Saved drinks live in your account, so they survive a new phone. Your shelf and everything you have browsed comes with you.'**
+  String get authGateSaveBody;
+
+  /// Flow 02 - Explore. Benefit row in the auth sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Lists that sync'**
+  String get authGateLists;
+
+  /// Flow 02 - Explore. Benefit row in the auth sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Host a party, take orders'**
+  String get authGateHost;
+
+  /// Flow 02 - Explore. Benefit row in the auth sheet, naming what the shelf already holds
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Your shelf carries over} =1{Your 1 bottle carries over} other{Your {count} bottles carry over}}'**
+  String authGateShelf(int count);
+
+  /// Flow 02 - Explore. Sign-in option in the auth sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Apple'**
+  String get authGateApple;
+
+  /// Flow 02 - Explore. Sign-in option in the auth sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Use an email address'**
+  String get authGateEmail;
+
+  /// Flow 02 - Explore. Dismisses the auth sheet without signing in
+  ///
+  /// In en, this message translates to:
+  /// **'Keep browsing without an account'**
+  String get authGateKeepBrowsing;
 }
 
 class _AppLocalizationsDelegate

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'shared_types.dart';
 import './ingredient.dart';
 import './equipment.dart';
+import './recipe.dart';
 
 /// Common cocktail categories for validation
 enum CocktailCategory {
@@ -51,6 +52,35 @@ class Cocktail extends CocktailRelations {
 
   final I18nArrayField? preparationSteps;
 
+  /// Alcohol by volume, 0-100. Null until the catalogue is backfilled.
+  final double? abv;
+
+  /// How long the drink takes to make. Drives the "under 3 minutes" filter and
+  /// the meta line under a card.
+  final int? prepTimeMinutes;
+
+  /// Build technique. What "no shaker needed" actually filters on.
+  final CocktailMethod? method;
+
+  /// The bottle the drink is built around.
+  final BaseSpirit? baseSpirit;
+
+  /// Editorial taste note, shown beside [method] on the detail screen.
+  final FlavorProfile? flavor;
+
+  /// Rolling popularity score. Higher is more popular; null sorts last.
+  final int? popularity;
+
+  /// How well the drink fits the season, for the seasonal sort.
+  final int? seasonalScore;
+
+  /// Quantities, keyed by ingredient id. See [IngredientMeasure].
+  final Map<String, IngredientMeasure> measures;
+
+  /// The guided pour. Empty when the drink has not been broken into steps yet;
+  /// "Make it now" then falls back to [preparationSteps].
+  final List<PourStep> pourSteps;
+
   const Cocktail({
     required this.id,
     required this.title,
@@ -58,9 +88,27 @@ class Cocktail extends CocktailRelations {
     required this.image,
     required this.categories,
     this.preparationSteps,
+    this.abv,
+    this.prepTimeMinutes,
+    this.method,
+    this.baseSpirit,
+    this.flavor,
+    this.popularity,
+    this.seasonalScore,
+    this.measures = const {},
+    this.pourSteps = const [],
     required super.ingredients,
     required super.equipments,
   });
+
+  /// The measure for [ingredientId], or null when the recipe does not state one.
+  IngredientMeasure? measureFor(String ingredientId) => measures[ingredientId];
+
+  /// Ingredients that actually gate making the drink — garnishes and top-ups
+  /// marked optional do not.
+  List<Ingredient> get requiredIngredients => ingredients
+      .where((ingredient) => measures[ingredient.id]?.optional != true)
+      .toList(growable: false);
 
   factory Cocktail.fromDocumentWithRelations(
     DocumentSnapshot<CocktailDocument> doc,
@@ -76,6 +124,15 @@ class Cocktail extends CocktailRelations {
       equipments: relations.equipments,
       categories: data.categories,
       preparationSteps: data.preparationSteps,
+      abv: data.abv,
+      prepTimeMinutes: data.prepTimeMinutes,
+      method: data.method,
+      baseSpirit: data.baseSpirit,
+      flavor: data.flavor,
+      popularity: data.popularity,
+      seasonalScore: data.seasonalScore,
+      measures: data.measures,
+      pourSteps: data.pourSteps,
     );
   }
 }
@@ -105,6 +162,33 @@ class CocktailDocument {
 
   final I18nArrayField? preparationSteps;
 
+  /// See [Cocktail.abv].
+  final double? abv;
+
+  /// See [Cocktail.prepTimeMinutes].
+  final int? prepTimeMinutes;
+
+  /// See [Cocktail.method].
+  final CocktailMethod? method;
+
+  /// See [Cocktail.baseSpirit].
+  final BaseSpirit? baseSpirit;
+
+  /// See [Cocktail.flavor].
+  final FlavorProfile? flavor;
+
+  /// See [Cocktail.popularity].
+  final int? popularity;
+
+  /// See [Cocktail.seasonalScore].
+  final int? seasonalScore;
+
+  /// See [Cocktail.measures].
+  final Map<String, IngredientMeasure> measures;
+
+  /// See [Cocktail.pourSteps].
+  final List<PourStep> pourSteps;
+
   /// Firestore Timestamp when the cocktail was created
   final Timestamp createdAt;
 
@@ -119,6 +203,15 @@ class CocktailDocument {
     required this.equipments,
     required this.categories,
     required this.preparationSteps,
+    this.abv,
+    this.prepTimeMinutes,
+    this.method,
+    this.baseSpirit,
+    this.flavor,
+    this.popularity,
+    this.seasonalScore,
+    this.measures = const {},
+    this.pourSteps = const [],
     required this.createdAt,
     required this.updatedAt,
   });
@@ -153,6 +246,15 @@ class CocktailDocument {
               (key, value) => MapEntry(key, List<String>.from(value as List)),
             )
           : null,
+      abv: (map['abv'] as num?)?.toDouble(),
+      prepTimeMinutes: (map['prepTimeMinutes'] as num?)?.toInt(),
+      method: enumByName(CocktailMethod.values, map['method']),
+      baseSpirit: enumByName(BaseSpirit.values, map['baseSpirit']),
+      flavor: enumByName(FlavorProfile.values, map['flavor']),
+      popularity: (map['popularity'] as num?)?.toInt(),
+      seasonalScore: (map['seasonalScore'] as num?)?.toInt(),
+      measures: parseMeasures(map['measures']),
+      pourSteps: parsePourSteps(map['pourSteps']),
       createdAt: map['createdAt'] as Timestamp,
       updatedAt: map['updatedAt'] as Timestamp,
     );
@@ -173,6 +275,15 @@ extension CocktailDocumentEntity on CocktailDocument {
       equipments: [],
       categories: categories,
       preparationSteps: preparationSteps,
+      abv: abv,
+      prepTimeMinutes: prepTimeMinutes,
+      method: method,
+      baseSpirit: baseSpirit,
+      flavor: flavor,
+      popularity: popularity,
+      seasonalScore: seasonalScore,
+      measures: measures,
+      pourSteps: pourSteps,
     );
   }
 }
@@ -214,4 +325,30 @@ class CocktailTransformer
   ) {
     return Cocktail.fromDocumentWithRelations(doc, relations);
   }
+}
+
+
+/// Reads the `measures` map off a document, tolerating an absent or malformed
+/// field — a drink with no stated quantities is still a drink.
+Map<String, IngredientMeasure> parseMeasures(Object? raw) {
+  if (raw is! Map) return const {};
+
+  final parsed = <String, IngredientMeasure>{};
+  raw.forEach((key, value) {
+    if (key is String && value is Map) {
+      parsed[key] = IngredientMeasure.fromMap(Map<String, dynamic>.from(value));
+    }
+  });
+  return parsed;
+}
+
+/// Reads the guided-pour breakdown off a document. Absent for most of the
+/// catalogue, which is why every caller has to have a fallback.
+List<PourStep> parsePourSteps(Object? raw) {
+  if (raw is! List) return const [];
+
+  return raw
+      .whereType<Map>()
+      .map((step) => PourStep.fromMap(Map<String, dynamic>.from(step)))
+      .toList(growable: false);
 }

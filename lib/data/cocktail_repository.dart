@@ -156,12 +156,14 @@ class CocktailRepository {
     String? query,
     CocktailSearchFilters? filters,
     PaginationParams? pagination,
+    CocktailSortOrder? sort,
   }) async {
     try {
       final searchResult = await _elasticService.searchCocktails(
         query: query,
         filters: filters,
         pagination: pagination,
+        sort: sort,
       );
 
       // Return combined result with full data and pagination metadata

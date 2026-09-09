@@ -886,4 +886,445 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get bottleMint => 'М\'ята';
+
+  @override
+  String get exploreFeedTitle => 'Наливаємо сьогодні';
+
+  @override
+  String exploreShelfMatch(int makeable, int total) {
+    return '$makeable з $total напоїв підходять до вашої полиці';
+  }
+
+  @override
+  String exploreNoShelfYet(int total) {
+    return '$total напоїв. Додайте пляшку, щоб побачити, що можна налити.';
+  }
+
+  @override
+  String get exploreSectionTwoBottles => 'Дві пляшки, один напій';
+
+  @override
+  String get exploreSectionZeroProof => 'Без алкоголю';
+
+  @override
+  String get exploreSectionMakeableNow => 'Готове з вашої полиці';
+
+  @override
+  String get exploreSeeAll => 'Усі';
+
+  @override
+  String exploreAllOnShelf(int count) {
+    return '$count з вашої полиці';
+  }
+
+  @override
+  String exploreMissingBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'бракує $count',
+      one: 'бракує 1',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String exploreNeedsIngredient(String ingredient) {
+    return 'потрібно: $ingredient';
+  }
+
+  @override
+  String get exploreEmptyTitle => 'Тут поки порожньо';
+
+  @override
+  String get exploreEmptyBody =>
+      'Не вдалося завантажити каталог. Потягніть, щоб спробувати ще раз.';
+
+  @override
+  String cocktailMinutes(int count) {
+    return '$count хв';
+  }
+
+  @override
+  String cocktailAbv(String value) {
+    return '$value% алк.';
+  }
+
+  @override
+  String get methodBuilt => 'у склянці';
+
+  @override
+  String get methodStirred => 'на ложці';
+
+  @override
+  String get methodShaken => 'у шейкері';
+
+  @override
+  String get methodBlended => 'у блендері';
+
+  @override
+  String get methodLayered => 'шарами';
+
+  @override
+  String get spiritGin => 'Джин';
+
+  @override
+  String get spiritVodka => 'Горілка';
+
+  @override
+  String get spiritRum => 'Ром';
+
+  @override
+  String get spiritWhisky => 'Віскі';
+
+  @override
+  String get spiritTequila => 'Текіла';
+
+  @override
+  String get spiritBrandy => 'Бренді';
+
+  @override
+  String get spiritZeroProof => 'Без алкоголю';
+
+  @override
+  String get spiritOther => 'Інше';
+
+  @override
+  String get flavorCitrus => 'Цитрус';
+
+  @override
+  String get flavorBitter => 'Гіркий';
+
+  @override
+  String get flavorSweet => 'Солодкий';
+
+  @override
+  String get flavorHerbal => 'Трав’яний';
+
+  @override
+  String get flavorSpicy => 'Пряний';
+
+  @override
+  String get flavorFruity => 'Фруктовий';
+
+  @override
+  String get flavorDry => 'Сухий';
+
+  @override
+  String get flavorCreamy => 'Вершковий';
+
+  @override
+  String get unitMl => 'мл';
+
+  @override
+  String get unitCl => 'сл';
+
+  @override
+  String get unitOz => 'унц';
+
+  @override
+  String get unitDash => 'крапля';
+
+  @override
+  String get unitBarspoon => 'барна ложка';
+
+  @override
+  String get unitPiece => 'шт';
+
+  @override
+  String get unitSplash => 'трохи';
+
+  @override
+  String get unitTopUp => 'долити';
+
+  @override
+  String measureAmount(String amount, String unit) {
+    return '$amount $unit';
+  }
+
+  @override
+  String get searchHint => 'Коктейль, напій або настрій';
+
+  @override
+  String get searchCancel => 'Скасувати';
+
+  @override
+  String get searchRecent => 'Нещодавні';
+
+  @override
+  String get searchClearRecent => 'Очистити';
+
+  @override
+  String get searchPopularThisWeek => 'Популярне цього тижня';
+
+  @override
+  String get searchBrowseBySpirit => 'За основою';
+
+  @override
+  String get searchClearQuery => 'Очистити пошук';
+
+  @override
+  String get filterSheetTitle => 'Фільтр';
+
+  @override
+  String get filterReset => 'Скинути';
+
+  @override
+  String get filterOpen => 'Фільтри';
+
+  @override
+  String get filterMakeableTitle => 'Можна з моєї полиці';
+
+  @override
+  String filterMakeableSubtitle(int bottles, int drinks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      bottles,
+      locale: localeName,
+      other: '$bottles пляшок на полиці',
+      one: '1 пляшка на полиці',
+    );
+    return '$_temp0 · $drinks напоїв';
+  }
+
+  @override
+  String get filterMakeableEmptyBar => 'На полиці ще немає пляшок';
+
+  @override
+  String get filterSectionSort => 'Сортування';
+
+  @override
+  String get filterSectionBaseSpirit => 'Основа';
+
+  @override
+  String get filterSectionEffort => 'Зусилля';
+
+  @override
+  String get sortMakeable => 'Можливі';
+
+  @override
+  String get sortPopular => 'Популярні';
+
+  @override
+  String get sortSeasonal => 'Сезонні';
+
+  @override
+  String get filterUnderThreeMinutes => 'Менше 3 хвилин';
+
+  @override
+  String get filterNoShaker => 'Без шейкера';
+
+  @override
+  String get filterThreeIngredients => 'Максимум три інгредієнти';
+
+  @override
+  String filterShowDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Показати $count напоїв',
+      one: 'Показати 1 напій',
+      zero: 'Немає збігів',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filterChipMakeable => 'Можливі';
+
+  @override
+  String get filterChipNoShaker => 'Без шейкера';
+
+  @override
+  String get filterChipUnderThree => 'До 3 хв';
+
+  @override
+  String get filterChipThreeIngredients => 'До 3 частин';
+
+  @override
+  String filterRemove(String filter) {
+    return 'Прибрати: $filter';
+  }
+
+  @override
+  String resultsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count напоїв',
+      one: '1 напій',
+      zero: 'Немає напоїв',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get resultsMakeableFirst => 'спочатку можливі';
+
+  @override
+  String get resultsPopularFirst => 'спочатку популярні';
+
+  @override
+  String get resultsSeasonalFirst => 'спочатку сезонні';
+
+  @override
+  String get zeroResultsTitle => 'Поки нічого не знайшлося';
+
+  @override
+  String zeroResultsBlockedTitle(String filter) {
+    return 'Заважає фільтр: $filter';
+  }
+
+  @override
+  String zeroResultsBody(String query, String filter) {
+    return 'Немає збігів для “$query” із фільтром $filter. Приберіть його або спробуйте щось із цього.';
+  }
+
+  @override
+  String zeroResultsBodyNoQuery(String filter) {
+    return 'Немає збігів із фільтром $filter. Приберіть його або спробуйте щось із цього.';
+  }
+
+  @override
+  String zeroResultsBodyPlain(String query) {
+    return 'Немає збігів для “$query”. Спробуйте інше слово або щось із цього.';
+  }
+
+  @override
+  String zeroResultsDropFilter(String filter) {
+    return 'Прибрати “$filter”';
+  }
+
+  @override
+  String get zeroResultsClearAll => 'Скинути все';
+
+  @override
+  String get zeroResultsOneBottleAway => 'Одна пляшка до мети';
+
+  @override
+  String zeroResultsUnlocks(String ingredient, int count) {
+    return 'додайте $ingredient · відкриє $count';
+  }
+
+  @override
+  String zeroResultsUnlocksUnknown(String ingredient) {
+    return 'додайте $ingredient';
+  }
+
+  @override
+  String get zeroResultsPourable => 'Це можна налити вже сьогодні';
+
+  @override
+  String get addToBar => 'Додати на полицю';
+
+  @override
+  String addedToBar(String ingredient) {
+    return '$ingredient тепер на вашій полиці';
+  }
+
+  @override
+  String get cocktailSave => 'Зберегти';
+
+  @override
+  String get cocktailShare => 'Поділитися';
+
+  @override
+  String get cocktailBack => 'Назад';
+
+  @override
+  String get cocktailNotOnShelf => 'немає на полиці';
+
+  @override
+  String cocktailAddUnlocks(String ingredient, int count) {
+    return 'Додайте $ingredient на полицю — відкриє ще $count';
+  }
+
+  @override
+  String cocktailAddToBarPlain(String ingredient) {
+    return 'Додайте $ingredient на полицю';
+  }
+
+  @override
+  String get cocktailMakeItNow => 'Готувати зараз';
+
+  @override
+  String get cocktailAddToParty => 'Додати до вечірки';
+
+  @override
+  String get cocktailIngredientsTitle => 'Інгредієнти';
+
+  @override
+  String get cocktailRecipeCopied => 'Рецепт скопійовано';
+
+  @override
+  String pourStepCounter(int step, int total, String cocktail) {
+    return 'Крок $step з $total · $cocktail';
+  }
+
+  @override
+  String get pourTimerHint => 'Торкніться, щоб запустити таймер';
+
+  @override
+  String get pourTimerRunning => 'Триває';
+
+  @override
+  String get pourTimerDone => 'Час вийшов';
+
+  @override
+  String get pourNext => 'Далі';
+
+  @override
+  String get pourFinish => 'Готово';
+
+  @override
+  String get pourBack => 'Попередній крок';
+
+  @override
+  String get pourExit => 'Зупинити';
+
+  @override
+  String get pourShowRecipe => 'Рецепт';
+
+  @override
+  String pourFinished(String cocktail) {
+    return '$cocktail готовий. Смачного.';
+  }
+
+  @override
+  String get pourNoSteps => 'Для цього напою ще немає покрокового рецепта.';
+
+  @override
+  String authGateSaveTitle(String cocktail) {
+    return 'Зберегти $cocktail';
+  }
+
+  @override
+  String get authGateSaveBody =>
+      'Збережені напої живуть у вашому акаунті й переживуть новий телефон. Полиця та все переглянуте переїде разом із вами.';
+
+  @override
+  String get authGateLists => 'Списки, що синхронізуються';
+
+  @override
+  String get authGateHost => 'Проводьте вечірку та приймайте замовлення';
+
+  @override
+  String authGateShelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ваші $count пляшок переїдуть з вами',
+      one: 'Ваша 1 пляшка переїде з вами',
+      zero: 'Ваша полиця переїде з вами',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get authGateApple => 'Продовжити з Apple';
+
+  @override
+  String get authGateEmail => 'Через електронну пошту';
+
+  @override
+  String get authGateKeepBrowsing => 'Далі без акаунта';
 }

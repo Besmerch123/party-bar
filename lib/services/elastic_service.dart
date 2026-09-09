@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:party_bar/models/cocktail.dart';
 import 'package:party_bar/models/ingredient.dart';
 import 'package:party_bar/models/equipment.dart';
+import 'package:party_bar/models/recipe.dart';
 import 'package:party_bar/models/shared_types.dart';
 
 /// Service for interacting with Elasticsearch through Firebase Cloud Functions
@@ -43,6 +44,7 @@ class ElasticService {
     String? query,
     CocktailSearchFilters? filters,
     PaginationParams? pagination,
+    CocktailSortOrder? sort,
   }) async {
     // Ensure the service is initialized
     if (!_initialized) {
@@ -79,9 +81,45 @@ class ElasticService {
           };
         }
 
+        if (filters.baseSpirits?.isNotEmpty ?? false) {
+          filtersMap['baseSpirits'] = filters.baseSpirits;
+        }
+
+        if (filters.methods?.isNotEmpty ?? false) {
+          filtersMap['methods'] = filters.methods;
+        }
+
+        if (filters.excludeMethods?.isNotEmpty ?? false) {
+          filtersMap['excludeMethods'] = filters.excludeMethods;
+        }
+
+        if (filters.excludeEquipments?.isNotEmpty ?? false) {
+          filtersMap['excludeEquipments'] = filters.excludeEquipments;
+        }
+
+        if (filters.maxPrepMinutes != null) {
+          filtersMap['maxPrepMinutes'] = filters.maxPrepMinutes;
+        }
+
+        if (filters.maxIngredients != null) {
+          filtersMap['maxIngredients'] = filters.maxIngredients;
+        }
+
+        if (filters.availableIngredients?.isNotEmpty ?? false) {
+          filtersMap['availableIngredients'] = filters.availableIngredients;
+        }
+
+        if (filters.makeableOnly) {
+          filtersMap['makeableOnly'] = true;
+        }
+
         if (filtersMap.isNotEmpty) {
           searchPayload['filters'] = filtersMap;
         }
+      }
+
+      if (sort != null) {
+        searchPayload['sort'] = sort.name;
       }
 
       if (pagination != null) {
@@ -200,6 +238,19 @@ class ElasticService {
       'description': cocktail.description,
       'image': cocktail.image,
       'categories': cocktail.categories.map((c) => c.name).toList(),
+      'abv': cocktail.abv,
+      'prepTimeMinutes': cocktail.prepTimeMinutes,
+      'method': cocktail.method?.name,
+      'baseSpirit': cocktail.baseSpirit?.name,
+      'flavor': cocktail.flavor?.name,
+      'popularity': cocktail.popularity,
+      'seasonalScore': cocktail.seasonalScore,
+      'measures': cocktail.measures.map(
+        (id, measure) => MapEntry(id, measure.toMap()),
+      ),
+      'pourSteps': cocktail.pourSteps
+          .map((step) => step.toMap())
+          .toList(growable: false),
       'preparationSteps': cocktail.preparationSteps,
       'ingredients': cocktail.ingredients
           .map(
@@ -208,6 +259,8 @@ class ElasticService {
               'title': ingredient.title,
               'category': ingredient.category.name,
               'image': ingredient.image,
+              'slug': ingredient.slug,
+              'unlocks': ingredient.unlocks,
             },
           )
           .toList(),
@@ -285,6 +338,8 @@ class CocktailSearchResult {
           orElse: () => IngredientCategory.other,
         ),
         image: ingredientMap['image'] as String?,
+        slug: ingredientMap['slug'] as String?,
+        unlocks: (ingredientMap['unlocks'] as num?)?.toInt(),
       );
     }).toList();
 
@@ -323,26 +378,76 @@ class CocktailSearchResult {
       image: data['image'] as String? ?? '',
       categories: categories,
       preparationSteps: preparationSteps,
+      abv: (data['abv'] as num?)?.toDouble(),
+      prepTimeMinutes: (data['prepTimeMinutes'] as num?)?.toInt(),
+      method: enumByName(CocktailMethod.values, data['method']),
+      baseSpirit: enumByName(BaseSpirit.values, data['baseSpirit']),
+      flavor: enumByName(FlavorProfile.values, data['flavor']),
+      popularity: (data['popularity'] as num?)?.toInt(),
+      seasonalScore: (data['seasonalScore'] as num?)?.toInt(),
+      measures: parseMeasures(data['measures']),
+      pourSteps: parsePourSteps(data['pourSteps']),
       ingredients: ingredients,
       equipments: equipments,
     );
   }
 }
 
-/// Filters for cocktail search
+/// Filters for cocktail search.
+///
+/// Everything past [abvRange] was added for Explore's filter sheet. The
+/// backend understands them, but the client applies them again on the way out:
+/// the shelf is a device-side fact, so the makeable filter cannot be trusted
+/// to a query alone.
 class CocktailSearchFilters {
   final List<String>? categories;
   final List<String>? ingredients; // ingredient IDs
   final List<String>? equipments; // equipment IDs
   final AbvRange? abvRange;
 
+  /// Base spirits to keep, by enum name. Empty means every spirit.
+  final List<String>? baseSpirits;
+
+  /// Build techniques to keep, by enum name.
+  final List<String>? methods;
+
+  /// Build techniques to drop — how "no shaker needed" is expressed.
+  final List<String>? excludeMethods;
+
+  /// Equipment the drink must not need, by ID.
+  final List<String>? excludeEquipments;
+
+  /// Upper bound on prep time, in minutes.
+  final int? maxPrepMinutes;
+
+  /// Upper bound on the ingredient count.
+  final int? maxIngredients;
+
+  /// The shelf, as bar keys. Sent even when [makeableOnly] is false so the
+  /// backend can score makeable-first without dropping anything.
+  final List<String>? availableIngredients;
+
+  /// Keep only drinks the shelf can already pour.
+  final bool makeableOnly;
+
   const CocktailSearchFilters({
     this.categories,
     this.ingredients,
     this.equipments,
     this.abvRange,
+    this.baseSpirits,
+    this.methods,
+    this.excludeMethods,
+    this.excludeEquipments,
+    this.maxPrepMinutes,
+    this.maxIngredients,
+    this.availableIngredients,
+    this.makeableOnly = false,
   });
 }
+
+/// How a result set is ordered on the server. Mirrors `COCKTAIL_SORTS`.
+enum CocktailSortOrder { relevance, makeable, popular, seasonal }
 
 /// ABV (Alcohol by Volume) range filter
 class AbvRange {

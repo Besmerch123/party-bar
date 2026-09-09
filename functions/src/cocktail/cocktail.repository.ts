@@ -13,7 +13,7 @@ import { getElasticService } from '../elastic/elastic.service';
 import { AbstractRepository } from '../shared/abstract.repository';
 import { ElasticSearchResults } from '../elastic/elastic.types';
 
-import { CocktailDocument, CocktailSearchDocument, CreateCocktailDto, UpdateCocktailDto, CocktailsSearchSchema } from './cocktail.model';
+import { CocktailDocument, CocktailSearchDocument, CreateCocktailDto, UpdateCocktailDto, CocktailsSearchSchema, COCKTAIL_SORTS } from './cocktail.model';
 
 
 
@@ -49,8 +49,16 @@ class CocktailRepository extends AbstractRepository {
       equipments: cocktailData.equipments,
       categories: cocktailData.categories,
       abv: cocktailData.abv,
+      prepTimeMinutes: cocktailData.prepTimeMinutes,
+      method: cocktailData.method,
+      baseSpirit: cocktailData.baseSpirit,
+      flavor: cocktailData.flavor,
+      popularity: cocktailData.popularity,
+      seasonalScore: cocktailData.seasonalScore,
+      measures: cocktailData.measures,
       image: cocktailData.image,
       preparationSteps: cocktailData.preparationSteps,
+      pourSteps: cocktailData.pourSteps,
       createdAt: timestamp,
       updatedAt: timestamp,
     };
@@ -208,7 +216,20 @@ class CocktailRepository extends AbstractRepository {
 
     // Handle filters
     if (searchSchema.filters) {
-      const { categories, ingredients, equipments, abvRange } = searchSchema.filters;
+      const {
+        categories,
+        ingredients,
+        equipments,
+        abvRange,
+        baseSpirits,
+        methods,
+        excludeMethods,
+        excludeEquipments,
+        maxPrepMinutes,
+        maxIngredients,
+        availableIngredients,
+        makeableOnly,
+      } = searchSchema.filters;
 
       // Filter by categories
       if (categories && categories.length > 0) {
@@ -249,6 +270,45 @@ class CocktailRepository extends AbstractRepository {
 
         boolQuery.filter(rangeQuery);
       }
+
+      // Filter by base spirit - any of the selected spirits
+      if (baseSpirits && baseSpirits.length > 0) {
+        boolQuery.filter(esb.termsQuery('baseSpirit', baseSpirits));
+      }
+
+      // Keep only these build techniques
+      if (methods && methods.length > 0) {
+        boolQuery.filter(esb.termsQuery('method', methods));
+      }
+
+      // Drop these build techniques - this is how "no shaker needed" is asked for
+      if (excludeMethods && excludeMethods.length > 0) {
+        boolQuery.mustNot(esb.termsQuery('method', excludeMethods));
+      }
+
+      // Drop anything needing this equipment
+      if (excludeEquipments && excludeEquipments.length > 0) {
+        boolQuery.mustNot(esb.termsQuery('equipments.id', excludeEquipments));
+      }
+
+      // Effort: the drink has to be quick enough
+      if (maxPrepMinutes !== undefined) {
+        boolQuery.filter(esb.rangeQuery('prepTimeMinutes').lte(maxPrepMinutes));
+      }
+
+      // Effort: short ingredient lists only
+      if (maxIngredients !== undefined) {
+        boolQuery.filter(esb.rangeQuery('ingredientCount').lte(maxIngredients));
+      }
+
+      // Makeable with my bar: every ingredient the recipe needs is on the shelf.
+      // Expressed as "no ingredient outside the shelf", which needs no per-drink
+      // arithmetic at query time.
+      if (makeableOnly && availableIngredients && availableIngredients.length > 0) {
+        boolQuery.mustNot(
+          esb.boolQuery().mustNot(esb.termsQuery('ingredients.id', availableIngredients))
+        );
+      }
     }
 
     // Set the main query
@@ -268,17 +328,40 @@ class CocktailRepository extends AbstractRepository {
       requestBody.size(20);
     }
 
-    // Add sorting - prioritize relevance for text searches, recency for browse
-    if (searchSchema.query && searchSchema.query.trim()) {
-      // For text searches, prioritize relevance
-      requestBody
-        .sort(esb.sort('_score', 'desc'))
-        .sort(esb.sort('createdAt', 'desc'));
-    } else {
-      // For browsing/filtering, prioritize recency
-      requestBody
-        .sort(esb.sort('createdAt', 'desc'))
-        .sort(esb.sort('_score', 'desc'));
+    // Add sorting. An explicit sort from the filter sheet wins; without one,
+    // text searches fall back to relevance and browsing falls back to recency.
+    switch (searchSchema.sort) {
+      case COCKTAIL_SORTS.POPULAR:
+        requestBody
+          .sort(esb.sort('popularity', 'desc'))
+          .sort(esb.sort('_score', 'desc'));
+        break;
+
+      case COCKTAIL_SORTS.SEASONAL:
+        requestBody
+          .sort(esb.sort('seasonalScore', 'desc'))
+          .sort(esb.sort('popularity', 'desc'));
+        break;
+
+      case COCKTAIL_SORTS.MAKEABLE:
+        // Makeable-first is finished on the client: only the device knows the
+        // shelf well enough to count what is missing. Popularity breaks the
+        // ties inside each group so the order is stable.
+        requestBody
+          .sort(esb.sort('popularity', 'desc'))
+          .sort(esb.sort('_score', 'desc'));
+        break;
+
+      default:
+        if (searchSchema.query && searchSchema.query.trim()) {
+          requestBody
+            .sort(esb.sort('_score', 'desc'))
+            .sort(esb.sort('createdAt', 'desc'));
+        } else {
+          requestBody
+            .sort(esb.sort('createdAt', 'desc'))
+            .sort(esb.sort('_score', 'desc'));
+        }
     }
 
     // Add track_total_hits to get accurate count

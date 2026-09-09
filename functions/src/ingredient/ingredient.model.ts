@@ -38,7 +38,23 @@ export interface Ingredient {
 
   /** Google Cloud Storage path or URL to the ingredient image */
   image?: string | null;
-  
+
+  /**
+   * Stable human key -- "gin", "sweetVermouth", "lime".
+   *
+   * The shelf is collected on the first run before any account exists, so it
+   * is stored as slugs rather than document ids. This is what lets that
+   * on-device shelf resolve to real ingredient documents later.
+   */
+  slug?: string | null;
+
+  /**
+   * How many drinks adding this one bottle would make pourable for a typical
+   * shelf. Denormalized -- it is what "add lime, unlocks 11 more" and the
+   * near-miss list on zero results are ranked by.
+   */
+  unlocks?: number | null;
+
   /** Timestamp when the ingredient was created */
   createdAt?: string;
   
@@ -54,6 +70,8 @@ export interface CreateIngredientDto {
   title: I18nField;
   category: IngredientCategory;
   image?: string | null; // null indicates removal of the image
+  slug?: string | null;
+  unlocks?: number | null;
 }
 
 /**
@@ -65,6 +83,8 @@ export interface UpdateIngredientDto {
   title?: I18nField;
   category?: IngredientCategory;
   image?: string | null; // null indicates removal of the image
+  slug?: string | null;
+  unlocks?: number | null;
 }
 
 /**

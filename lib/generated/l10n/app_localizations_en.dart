@@ -876,4 +876,445 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bottleMint => 'Mint';
+
+  @override
+  String get exploreFeedTitle => 'Pour tonight';
+
+  @override
+  String exploreShelfMatch(int makeable, int total) {
+    return '$makeable of $total drinks match your shelf';
+  }
+
+  @override
+  String exploreNoShelfYet(int total) {
+    return '$total drinks. Add a bottle to see what you can pour.';
+  }
+
+  @override
+  String get exploreSectionTwoBottles => 'Two bottles, one drink';
+
+  @override
+  String get exploreSectionZeroProof => 'Zero proof';
+
+  @override
+  String get exploreSectionMakeableNow => 'Ready on your shelf';
+
+  @override
+  String get exploreSeeAll => 'See all';
+
+  @override
+  String exploreAllOnShelf(int count) {
+    return '$count on your shelf';
+  }
+
+  @override
+  String exploreMissingBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count missing',
+      one: '1 missing',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String exploreNeedsIngredient(String ingredient) {
+    return 'needs $ingredient';
+  }
+
+  @override
+  String get exploreEmptyTitle => 'Nothing here yet';
+
+  @override
+  String get exploreEmptyBody =>
+      'The catalogue could not be loaded. Pull to try again.';
+
+  @override
+  String cocktailMinutes(int count) {
+    return '$count min';
+  }
+
+  @override
+  String cocktailAbv(String value) {
+    return '$value% ABV';
+  }
+
+  @override
+  String get methodBuilt => 'built';
+
+  @override
+  String get methodStirred => 'stirred';
+
+  @override
+  String get methodShaken => 'shaken';
+
+  @override
+  String get methodBlended => 'blended';
+
+  @override
+  String get methodLayered => 'layered';
+
+  @override
+  String get spiritGin => 'Gin';
+
+  @override
+  String get spiritVodka => 'Vodka';
+
+  @override
+  String get spiritRum => 'Rum';
+
+  @override
+  String get spiritWhisky => 'Whisky';
+
+  @override
+  String get spiritTequila => 'Tequila';
+
+  @override
+  String get spiritBrandy => 'Brandy';
+
+  @override
+  String get spiritZeroProof => 'Zero proof';
+
+  @override
+  String get spiritOther => 'Other';
+
+  @override
+  String get flavorCitrus => 'Citrus';
+
+  @override
+  String get flavorBitter => 'Bitter';
+
+  @override
+  String get flavorSweet => 'Sweet';
+
+  @override
+  String get flavorHerbal => 'Herbal';
+
+  @override
+  String get flavorSpicy => 'Spicy';
+
+  @override
+  String get flavorFruity => 'Fruity';
+
+  @override
+  String get flavorDry => 'Dry';
+
+  @override
+  String get flavorCreamy => 'Creamy';
+
+  @override
+  String get unitMl => 'ml';
+
+  @override
+  String get unitCl => 'cl';
+
+  @override
+  String get unitOz => 'oz';
+
+  @override
+  String get unitDash => 'dash';
+
+  @override
+  String get unitBarspoon => 'bar spoon';
+
+  @override
+  String get unitPiece => 'pc';
+
+  @override
+  String get unitSplash => 'splash';
+
+  @override
+  String get unitTopUp => 'top up';
+
+  @override
+  String measureAmount(String amount, String unit) {
+    return '$amount $unit';
+  }
+
+  @override
+  String get searchHint => 'Cocktail, spirit, or mood';
+
+  @override
+  String get searchCancel => 'Cancel';
+
+  @override
+  String get searchRecent => 'Recent';
+
+  @override
+  String get searchClearRecent => 'Clear';
+
+  @override
+  String get searchPopularThisWeek => 'Popular this week';
+
+  @override
+  String get searchBrowseBySpirit => 'Browse by spirit';
+
+  @override
+  String get searchClearQuery => 'Clear search';
+
+  @override
+  String get filterSheetTitle => 'Filter';
+
+  @override
+  String get filterReset => 'Reset';
+
+  @override
+  String get filterOpen => 'Filters';
+
+  @override
+  String get filterMakeableTitle => 'Makeable with my bar';
+
+  @override
+  String filterMakeableSubtitle(int bottles, int drinks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      bottles,
+      locale: localeName,
+      other: '$bottles bottles on the shelf',
+      one: '1 bottle on the shelf',
+    );
+    return '$_temp0 · $drinks drinks';
+  }
+
+  @override
+  String get filterMakeableEmptyBar => 'No bottles on the shelf yet';
+
+  @override
+  String get filterSectionSort => 'Sort';
+
+  @override
+  String get filterSectionBaseSpirit => 'Base spirit';
+
+  @override
+  String get filterSectionEffort => 'Effort';
+
+  @override
+  String get sortMakeable => 'Makeable';
+
+  @override
+  String get sortPopular => 'Popular';
+
+  @override
+  String get sortSeasonal => 'Seasonal';
+
+  @override
+  String get filterUnderThreeMinutes => 'Under 3 minutes';
+
+  @override
+  String get filterNoShaker => 'No shaker needed';
+
+  @override
+  String get filterThreeIngredients => 'Three ingredients max';
+
+  @override
+  String filterShowDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Show $count drinks',
+      one: 'Show 1 drink',
+      zero: 'No drinks match',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filterChipMakeable => 'Makeable';
+
+  @override
+  String get filterChipNoShaker => 'No shaker';
+
+  @override
+  String get filterChipUnderThree => 'Under 3 min';
+
+  @override
+  String get filterChipThreeIngredients => 'Max 3 parts';
+
+  @override
+  String filterRemove(String filter) {
+    return 'Remove $filter';
+  }
+
+  @override
+  String resultsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count drinks',
+      one: '1 drink',
+      zero: 'No drinks',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get resultsMakeableFirst => 'makeable first';
+
+  @override
+  String get resultsPopularFirst => 'popular first';
+
+  @override
+  String get resultsSeasonalFirst => 'seasonal first';
+
+  @override
+  String get zeroResultsTitle => 'Nothing matches that yet';
+
+  @override
+  String zeroResultsBlockedTitle(String filter) {
+    return '$filter is what is in the way';
+  }
+
+  @override
+  String zeroResultsBody(String query, String filter) {
+    return 'Nothing matches “$query” with $filter on. Drop that filter, or try one of these.';
+  }
+
+  @override
+  String zeroResultsBodyNoQuery(String filter) {
+    return 'Nothing matches with $filter on. Drop that filter, or try one of these.';
+  }
+
+  @override
+  String zeroResultsBodyPlain(String query) {
+    return 'Nothing matches “$query”. Try another word, or one of these.';
+  }
+
+  @override
+  String zeroResultsDropFilter(String filter) {
+    return 'Drop “$filter”';
+  }
+
+  @override
+  String get zeroResultsClearAll => 'Clear all';
+
+  @override
+  String get zeroResultsOneBottleAway => 'One bottle away';
+
+  @override
+  String zeroResultsUnlocks(String ingredient, int count) {
+    return 'add $ingredient · unlocks $count';
+  }
+
+  @override
+  String zeroResultsUnlocksUnknown(String ingredient) {
+    return 'add $ingredient';
+  }
+
+  @override
+  String get zeroResultsPourable => 'You can pour these tonight';
+
+  @override
+  String get addToBar => 'Add to my bar';
+
+  @override
+  String addedToBar(String ingredient) {
+    return '$ingredient is on your shelf';
+  }
+
+  @override
+  String get cocktailSave => 'Save';
+
+  @override
+  String get cocktailShare => 'Share';
+
+  @override
+  String get cocktailBack => 'Back';
+
+  @override
+  String get cocktailNotOnShelf => 'not on your shelf';
+
+  @override
+  String cocktailAddUnlocks(String ingredient, int count) {
+    return 'Add $ingredient to your bar — unlocks $count more';
+  }
+
+  @override
+  String cocktailAddToBarPlain(String ingredient) {
+    return 'Add $ingredient to your bar';
+  }
+
+  @override
+  String get cocktailMakeItNow => 'Make it now';
+
+  @override
+  String get cocktailAddToParty => 'Add to a party';
+
+  @override
+  String get cocktailIngredientsTitle => 'Ingredients';
+
+  @override
+  String get cocktailRecipeCopied => 'Recipe copied to clipboard';
+
+  @override
+  String pourStepCounter(int step, int total, String cocktail) {
+    return 'Step $step of $total · $cocktail';
+  }
+
+  @override
+  String get pourTimerHint => 'Tap to run the timer';
+
+  @override
+  String get pourTimerRunning => 'Running';
+
+  @override
+  String get pourTimerDone => 'Time';
+
+  @override
+  String get pourNext => 'Next step';
+
+  @override
+  String get pourFinish => 'Poured it';
+
+  @override
+  String get pourBack => 'Previous step';
+
+  @override
+  String get pourExit => 'Stop';
+
+  @override
+  String get pourShowRecipe => 'Recipe';
+
+  @override
+  String pourFinished(String cocktail) {
+    return '$cocktail poured. Enjoy.';
+  }
+
+  @override
+  String get pourNoSteps => 'This one has no steps written down yet.';
+
+  @override
+  String authGateSaveTitle(String cocktail) {
+    return 'Keep the $cocktail';
+  }
+
+  @override
+  String get authGateSaveBody =>
+      'Saved drinks live in your account, so they survive a new phone. Your shelf and everything you have browsed comes with you.';
+
+  @override
+  String get authGateLists => 'Lists that sync';
+
+  @override
+  String get authGateHost => 'Host a party, take orders';
+
+  @override
+  String authGateShelf(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Your $count bottles carry over',
+      one: 'Your 1 bottle carries over',
+      zero: 'Your shelf carries over',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get authGateApple => 'Continue with Apple';
+
+  @override
+  String get authGateEmail => 'Use an email address';
+
+  @override
+  String get authGateKeepBrowsing => 'Keep browsing without an account';
 }

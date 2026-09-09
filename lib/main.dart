@@ -10,6 +10,8 @@ import 'utils/app_router.dart';
 import 'providers/locale_provider.dart';
 import 'providers/auth_provider.dart' show AuthenticationProvider;
 import 'providers/onboarding_provider.dart';
+import 'providers/bar_provider.dart';
+import 'providers/explore_provider.dart';
 import 'generated/l10n/app_localizations.dart';
 import 'theme/theme.dart';
 
@@ -51,6 +53,18 @@ class PartyBarApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
         ChangeNotifierProvider(
           create: (_) => OnboardingProvider()..initialize(),
+        ),
+        ChangeNotifierProvider(create: (_) => BarProvider()..initialize()),
+
+        // Explore follows the shelf rather than owning it: the bar is the
+        // source of truth, and a query re-derives whenever it changes.
+        ChangeNotifierProxyProvider<BarProvider, ExploreProvider>(
+          create: (_) => ExploreProvider()..initialize(),
+          update: (_, bar, explore) {
+            final provider = explore ?? (ExploreProvider()..initialize());
+            provider.syncShelf(bar.shelf);
+            return provider;
+          },
         ),
       ],
       child: Consumer<LocaleProvider>(
