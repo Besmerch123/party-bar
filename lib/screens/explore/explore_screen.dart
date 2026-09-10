@@ -11,6 +11,7 @@ import '../../utils/localization_helper.dart';
 import '../../widgets/common/app_bottom_nav.dart';
 import '../../widgets/explore/cocktail_cards.dart';
 import '../../widgets/explore/explore_chrome.dart';
+import '../../widgets/explore/explore_filters_sheet.dart';
 
 /// The app's front door, signed out: a photographic feed that answers "what
 /// can I pour right now" from the on-device shelf alone.
@@ -62,9 +63,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
             ExploreFilterBar(
               filters: explore.filters,
               onRemove: context.read<ExploreProvider>().removeFilter,
-              // The dedicated filter sheet is being built elsewhere; until it
-              // lands, "tune" reaches the same controls through search.
-              onOpenSheet: () => context.push(AppRoutes.exploreSearch),
+              onOpenSheet: () => showExploreFiltersSheet(context),
             ),
             const SizedBox(height: 18),
             Expanded(

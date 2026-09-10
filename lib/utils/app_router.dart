@@ -56,12 +56,36 @@ GoRouter createAppRouter({required bool showWelcome}) {
             const MainNavigationWrapper(initialIndex: 1),
       ),
 
+      // Explore search, results and the zero-results answer — one screen
+      // reading the same query state as the feed behind it.
+      GoRoute(
+        path: AppRoutes.exploreSearch,
+        builder: (context, state) => const ExploreSearchScreen(),
+      ),
+
       // Cocktail Routes
       GoRoute(
         path: '${AppRoutes.cocktailDetails}/:id',
         builder: (context, state) {
           final cocktailId = state.pathParameters['id']!;
           return CocktailDetailsScreen(cocktailId: cocktailId);
+        },
+      ),
+
+      // The guided pour. Reached from a cocktail already on screen, so the
+      // cocktail travels as `extra` rather than being fetched a second time;
+      // arriving without one (a cold deep link) falls back to the detail
+      // screen, which knows how to load it.
+      GoRoute(
+        path: '${AppRoutes.makeItNow}/:id',
+        builder: (context, state) {
+          final cocktail = state.extra;
+          if (cocktail is! Cocktail) {
+            return CocktailDetailsScreen(
+              cocktailId: state.pathParameters['id']!,
+            );
+          }
+          return MakeItNowScreen(cocktail: cocktail);
         },
       ),
 

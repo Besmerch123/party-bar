@@ -6,6 +6,8 @@ export 'welcome/onboarding_screen.dart';
 export 'home/home_screen.dart';
 export 'explore/explore_screen.dart';
 export 'explore/cocktail_details_screen.dart';
+export 'explore/explore_search_screen.dart';
+export 'explore/make_it_now_screen.dart';
 export 'party/party_hub_screen.dart';
 export 'party/join_party_screen.dart';
 export 'party/create_party_screen.dart';
