@@ -127,7 +127,6 @@ class AuthScreen extends StatelessWidget {
                               onGlass: true,
                               enabled: !auth.isBusy,
                               onGoogle: () => _google(context),
-                              onEmail: () => _email(context),
                             ),
                             const SizedBox(height: 18),
                             AuthAssuranceLine(label: l10n.authAgeNote),
@@ -168,10 +167,6 @@ class AuthScreen extends StatelessWidget {
     if (!context.mounted || !signedIn) return;
 
     finishSignIn(context, redirectPath: redirectPath, reason: reason);
-  }
-
-  void _email(BuildContext context) {
-    context.push(authLanePath(AppRoutes.authEmail, redirectPath, reason));
   }
 }
 

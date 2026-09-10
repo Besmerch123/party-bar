@@ -24,8 +24,7 @@ import 'auth_controls.dart';
 /// other two.
 /// Returns true when the sheet closed with someone signed in and nothing else
 /// standing between them and what they were doing — the caller can simply
-/// carry on. False covers both "not now" and the email lane, which navigates
-/// onward under its own steam.
+/// carry on. False covers "not now".
 Future<bool> showAuthBarrierSheet(
   BuildContext context, {
   required AuthReason reason,
@@ -126,7 +125,6 @@ class AuthBarrierSheet extends StatelessWidget {
         AuthProviderColumn(
           enabled: !auth.isBusy,
           onGoogle: () => _google(context),
-          onEmail: () => _email(context),
         ),
         const SizedBox(height: 14),
         AuthGhostAction(
@@ -203,20 +201,5 @@ class AuthBarrierSheet extends StatelessWidget {
     }
 
     navigator.pop(true);
-  }
-
-  void _email(BuildContext context) {
-    final path = authLanePath(AppRoutes.authEmail, redirectPath, reason);
-
-    if (embedded) {
-      context.push(path);
-      return;
-    }
-
-    // The router is read before the pop: the sheet's context is defunct the
-    // moment it closes.
-    final router = GoRouter.of(context);
-    Navigator.of(context).pop(false);
-    router.push(path);
   }
 }

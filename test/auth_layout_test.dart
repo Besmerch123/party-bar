@@ -16,10 +16,7 @@ import 'package:party_bar/providers/auth_provider.dart';
 import 'package:party_bar/providers/bar_provider.dart';
 import 'package:party_bar/screens/auth/auth_barrier_screen.dart';
 import 'package:party_bar/screens/auth/auth_screen.dart';
-import 'package:party_bar/screens/auth/check_mail_screen.dart';
-import 'package:party_bar/screens/auth/email_sign_in_screen.dart';
 import 'package:party_bar/screens/auth/guest_name_screen.dart';
-import 'package:party_bar/screens/auth/link_expired_screen.dart';
 import 'package:party_bar/screens/auth/name_yourself_screen.dart';
 import 'package:party_bar/services/account_service.dart';
 import 'package:party_bar/services/auth_service.dart';
@@ -28,9 +25,9 @@ import 'package:party_bar/widgets/auth/auth_barrier_sheet.dart';
 import 'package:party_bar/widgets/auth/claim_account_sheet.dart';
 import 'package:party_bar/widgets/auth/signed_in_banner.dart';
 
-/// Nine surfaces drawn at 390x844. They have to survive the two things that
-/// actually break layouts in the field: a narrower phone, and someone who has
-/// turned their text up.
+/// The remaining flow 03 surfaces, drawn at 390x844. They have to survive the
+/// two things that actually break layouts in the field: a narrower phone, and
+/// someone who has turned their text up.
 const _sizes = <String, Size>{
   'iPhone 14 Pro': Size(390, 844),
   'small phone': Size(320, 568),
@@ -66,9 +63,6 @@ class _StubAuthService extends AuthService {
   @override
   Stream<fb.User?> get authStateChanges => _users.stream;
 
-  @override
-  Future<void> sendSignInLink(String email) async {}
-
   void dispose() => _users.close();
 }
 
@@ -97,10 +91,6 @@ void main() {
       accountService: _StubAccountService(),
     );
     await auth.initialize();
-
-    // Screens 04 and 07 exist because a link went out; without one they
-    // rightly bounce back to screen 03.
-    await auth.sendSignInLink('marta.k@gmail.com');
   });
 
   tearDown(() => authService.dispose());
@@ -159,11 +149,8 @@ void main() {
       child: AuthBarrierSheet(reason: AuthReason.editBar),
     ),
     '02 providers': const AuthScreen(),
-    '03 email entry': const EmailSignInScreen(),
-    '04 check your mail': const CheckMailScreen(),
     '05 name yourself': const NameYourselfScreen(),
     '06 draft restored': const Scaffold(body: DraftRestoredRow()),
-    '07 expired link': const LinkExpiredScreen(),
     '08 guest, name only': const GuestNameScreen(
       partyName: "Kate's Birthday",
       hostName: 'Kate',
@@ -188,8 +175,6 @@ void main() {
 
           expect(tester.takeException(), isNull);
 
-          // Disposing the tree before the test ends lets the screens that own
-          // a ticking countdown cancel it, which is itself worth asserting.
           await tester.pumpWidget(const SizedBox.shrink());
         });
       }

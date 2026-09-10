@@ -8,11 +8,11 @@ import '../common/glass.dart';
 
 /// The shared vocabulary of flow 03.
 ///
-/// Nine screens ask the same few things — pick a provider, type one line,
-/// agree to be an adult, back out — so those live here once. The only axis
-/// that varies is [onGlass]: over photography the controls are blurred glass,
-/// and on [AppColors.ground] they are flat fills, because glass over a flat
-/// dark surface reads as mud.
+/// The remaining screens ask the same few things — pick a provider, type one
+/// line, agree to be an adult, back out — so those live here once. The only
+/// axis that varies is [onGlass]: over photography the controls are blurred
+/// glass, and on [AppColors.ground] they are flat fills, because glass over a
+/// flat dark surface reads as mud.
 
 /// Height of every pill in the flow. Providers, commits and ghosts all match,
 /// so a stack of them is a single column of one rhythm.
@@ -24,15 +24,15 @@ const double _kPillHeight = 54.0;
 /// button geometry before release — both vendors specify it and neither
 /// permits a hand-drawn stand-in.
 class _GoogleMark extends StatelessWidget {
-  const _GoogleMark({this.size = 22});
+  const _GoogleMark();
 
-  final double size;
+  static const double _size = 22;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size,
-      height: size,
+      width: _size,
+      height: _size,
       alignment: Alignment.center,
       decoration: const BoxDecoration(
         color: AppColors.ground,
@@ -41,7 +41,7 @@ class _GoogleMark extends StatelessWidget {
       child: Text(
         'G',
         style: AppTypography.buttonPrimary.copyWith(
-          fontSize: size * 0.55,
+          fontSize: _size * 0.55,
           color: AppColors.ink,
           height: 1.0,
         ),
@@ -51,21 +51,21 @@ class _GoogleMark extends StatelessWidget {
 }
 
 class _AppleMark extends StatelessWidget {
-  const _AppleMark({this.size = 22});
+  const _AppleMark();
 
-  final double size;
+  static const double _size = 22;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size,
-      height: size,
+      width: _size,
+      height: _size,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: AppColors.ink.withValues(alpha: .9),
-        borderRadius: BorderRadius.circular(size * 0.27),
+        borderRadius: BorderRadius.circular(_size * 0.27),
       ),
-      child: Icon(Icons.apple, size: size * 0.72, color: AppColors.ground),
+      child: Icon(Icons.apple, size: _size * 0.72, color: AppColors.ground),
     );
   }
 }
@@ -84,7 +84,6 @@ class AuthProviderButton extends StatelessWidget {
     this.onGlass = false,
     this.badge,
     this.height = _kPillHeight,
-    this.compact = false,
   });
 
   final AuthProviderKind kind;
@@ -106,9 +105,6 @@ class AuthProviderButton extends StatelessWidget {
 
   final double height;
 
-  /// Drops the icon gap for the split row on screen 09.
-  final bool compact;
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -118,7 +114,6 @@ class AuthProviderButton extends StatelessWidget {
         switch (kind) {
           AuthProviderKind.google => l10n.authContinueGoogle,
           AuthProviderKind.apple => l10n.authContinueApple,
-          AuthProviderKind.email => l10n.authContinueEmail,
         };
 
     final foreground = primary
@@ -126,13 +121,8 @@ class AuthProviderButton extends StatelessWidget {
         : AppColors.ink.withValues(alpha: .9);
 
     final Widget mark = switch (kind) {
-      AuthProviderKind.google => _GoogleMark(size: compact ? 20 : 22),
-      AuthProviderKind.apple => _AppleMark(size: compact ? 20 : 22),
-      AuthProviderKind.email => Icon(
-        Icons.mail_outline,
-        size: compact ? 19 : 20,
-        color: foreground,
-      ),
+      AuthProviderKind.google => const _GoogleMark(),
+      AuthProviderKind.apple => const _AppleMark(),
     };
 
     final content = Row(
@@ -140,14 +130,14 @@ class AuthProviderButton extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         mark,
-        SizedBox(width: compact ? 8 : 10),
+        const SizedBox(width: 10),
         Flexible(
           child: Text(
             text,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: AppTypography.buttonPrimary.copyWith(
-              fontSize: compact ? 13.5 : 14.5,
+              fontSize: 14.5,
               color: foreground,
             ),
           ),
@@ -222,23 +212,21 @@ class _Badge extends StatelessWidget {
   }
 }
 
-/// The provider column: Google, then Apple where it exists, then email.
+/// The provider column: Google, then Apple where it exists.
 ///
 /// The order is fixed. Apple is drawn only while [kAppleSignInEnabled] is
 /// true, so hiding an unfinished lane is one constant rather than an `if` on
-/// four screens.
+/// every screen that shows this column.
 class AuthProviderColumn extends StatelessWidget {
   const AuthProviderColumn({
     super.key,
     required this.onGoogle,
-    required this.onEmail,
     this.onApple,
     this.onGlass = false,
     this.enabled = true,
   });
 
   final VoidCallback onGoogle;
-  final VoidCallback onEmail;
   final VoidCallback? onApple;
   final bool onGlass;
   final bool enabled;
@@ -261,12 +249,6 @@ class AuthProviderColumn extends StatelessWidget {
             onPressed: enabled ? onApple : null,
           ),
         ],
-        const SizedBox(height: 10),
-        AuthProviderButton(
-          kind: AuthProviderKind.email,
-          onGlass: onGlass,
-          onPressed: enabled ? onEmail : null,
-        ),
       ],
     );
   }
@@ -894,13 +876,6 @@ class AuthFailureNotice extends StatelessWidget {
         Icons.wifi_off,
         AppColors.low,
         l10n.authErrorRetry,
-        onRetry,
-      ),
-      AuthFailureKind.expiredLink => (
-        l10n.authExpiredBody,
-        Icons.schedule,
-        AppColors.low,
-        l10n.authSendNewLink,
         onRetry,
       ),
       _ => (

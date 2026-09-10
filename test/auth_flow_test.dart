@@ -66,7 +66,6 @@ class _FakeAuthService extends AuthService {
   /// What an unsuccessful one produces instead.
   AuthFailure? googleFailure;
 
-  final List<String> sentLinks = [];
   fb.User? _current;
 
   @override
@@ -90,9 +89,6 @@ class _FakeAuthService extends AuthService {
     emit(user);
     return _FakeUserCredential(user);
   }
-
-  @override
-  Future<void> sendSignInLink(String email) async => sentLinks.add(email);
 
   @override
   Future<void> updateProfile({String? displayName, String? photoUrl}) async {
@@ -273,7 +269,6 @@ void main() {
       );
 
       expect(find.text('Continue with Google'), findsOneWidget);
-      expect(find.text('Continue with email'), findsOneWidget);
       expect(
         find.text('Continue with Apple'),
         findsNothing,
@@ -315,32 +310,7 @@ void main() {
     });
   });
 
-  group('the email lane', () {
-    test('remembers the address, because the link does not carry it', () async {
-      final auth = build();
-      await auth.initialize();
-
-      expect(await auth.sendSignInLink('  marta.k@gmail.com '), isTrue);
-
-      expect(authService.sentLinks, ['marta.k@gmail.com']);
-      expect(auth.pendingEmail, 'marta.k@gmail.com');
-      expect(
-        auth.resendAvailableAt!.difference(auth.linkSentAt!),
-        AuthenticationProvider.resendCooldown,
-      );
-    });
-
-    test('changing the address forgets the one before it', () async {
-      final auth = build();
-      await auth.initialize();
-      await auth.sendSignInLink('marta.k@gmail.com');
-
-      auth.forgetPendingEmail();
-
-      expect(auth.pendingEmail, isNull);
-      expect(auth.resendAvailableAt, isNull);
-    });
-
+  group('the name screen', () {
     test('only the nameless lane owes screen 05', () async {
       final auth = build();
       await auth.initialize();

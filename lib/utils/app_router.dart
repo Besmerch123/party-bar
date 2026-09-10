@@ -34,13 +34,7 @@ class AppRoutes {
   /// it is a sheet over whatever it interrupted, not a route.
   static const String auth = '/auth';
 
-  /// The email lane. Every step carries `?redirect=` and `?reason=` so the
-  /// flow can hand you back to what you were doing, doing it.
-  static const String authEmail = '/auth/email';
-  static const String authEmailSent = '/auth/email/sent';
-  static const String authEmailExpired = '/auth/email/expired';
-
-  /// Asked only of the email lane — providers hand us a name.
+  /// Asked only of a provider that did not hand us a name.
   static const String authName = '/auth/name';
 
   /// The guest lane, which never creates an account at all.
@@ -169,18 +163,6 @@ GoRouter createAppRouter({required bool showWelcome}) {
           redirectPath: state.uri.queryParameters['redirect'],
           reason: authReasonFrom(state),
         ),
-      ),
-      GoRoute(
-        path: AppRoutes.authEmail,
-        builder: (context, state) => const EmailSignInScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.authEmailSent,
-        builder: (context, state) => const CheckMailScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.authEmailExpired,
-        builder: (context, state) => const LinkExpiredScreen(),
       ),
       GoRoute(
         path: AppRoutes.authName,

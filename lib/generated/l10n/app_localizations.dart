@@ -398,12 +398,6 @@ abstract class AppLocalizations {
   /// **'Account created successfully'**
   String get signUpSuccess;
 
-  /// Email field label
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
-
   /// Email field hint
   ///
   /// In en, this message translates to:
@@ -2354,12 +2348,6 @@ abstract class AppLocalizations {
   /// **'Soon'**
   String get authAppleSoon;
 
-  /// Flow 03 - Auth. Starts the magic-link lane
-  ///
-  /// In en, this message translates to:
-  /// **'Continue with email'**
-  String get authContinueEmail;
-
   /// Flow 03 - Auth. Legal footnote under the provider buttons. Both placeholders are rendered as links
   ///
   /// In en, this message translates to:
@@ -2437,96 +2425,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'18+ only · we never post anything'**
   String get authAgeNote;
-
-  /// Flow 03 - Auth. Screen 03. Headline of the address screen
-  ///
-  /// In en, this message translates to:
-  /// **'What’s your\nemail?'**
-  String get authEmailTitle;
-
-  /// Flow 03 - Auth. Screen 03. Body of the address screen
-  ///
-  /// In en, this message translates to:
-  /// **'We send a link that signs you in. No password to invent, none to forget.'**
-  String get authEmailBody;
-
-  /// Flow 03 - Auth. Screen 03. Placeholder in the email field
-  ///
-  /// In en, this message translates to:
-  /// **'you@example.com'**
-  String get authEmailHint;
-
-  /// Flow 03 - Auth. Screen 03. Sends the magic link
-  ///
-  /// In en, this message translates to:
-  /// **'Send the link'**
-  String get authEmailSend;
-
-  /// Flow 03 - Auth. Screen 03. Footnote telling returning people there is no separate sign-up
-  ///
-  /// In en, this message translates to:
-  /// **'Already have an account? The same link signs you back in.'**
-  String get authEmailReturning;
-
-  /// Flow 03 - Auth. Screen 03. Validation message under the email field
-  ///
-  /// In en, this message translates to:
-  /// **'That does not look like an email address.'**
-  String get authEmailInvalid;
-
-  /// Flow 03 - Auth. Screen 04. Headline after a link has been sent
-  ///
-  /// In en, this message translates to:
-  /// **'Check your\nmail'**
-  String get authCheckMailTitle;
-
-  /// Flow 03 - Auth. Screen 04. Body naming the address the link went to
-  ///
-  /// In en, this message translates to:
-  /// **'We sent a sign-in link to {email}. It works once and expires in 15 minutes.'**
-  String authCheckMailBody(String email);
-
-  /// Flow 03 - Auth. Screen 04. Opens the device mail app
-  ///
-  /// In en, this message translates to:
-  /// **'Open Mail'**
-  String get authOpenMail;
-
-  /// Flow 03 - Auth. Screen 04. Countdown on the sleeping resend button, time reads as 0:42
-  ///
-  /// In en, this message translates to:
-  /// **'Resend in {time}'**
-  String authResendIn(String time);
-
-  /// Flow 03 - Auth. Screen 04. Resends the link once the countdown is over
-  ///
-  /// In en, this message translates to:
-  /// **'Send it again'**
-  String get authResend;
-
-  /// Flow 03 - Auth. Screen 04. Title of the 6-digit code card
-  ///
-  /// In en, this message translates to:
-  /// **'On another device?'**
-  String get authOtherDeviceTitle;
-
-  /// Flow 03 - Auth. Screen 04. Body of the 6-digit code card
-  ///
-  /// In en, this message translates to:
-  /// **'The mail also carries a 6-digit code. Type it here to finish on this phone.'**
-  String get authOtherDeviceBody;
-
-  /// Flow 03 - Auth. Screen 04. Accessibility label for the 6-digit code field
-  ///
-  /// In en, this message translates to:
-  /// **'Sign-in code'**
-  String get authCodeLabel;
-
-  /// Flow 03 - Auth. Screen 04. Goes back to the address screen
-  ///
-  /// In en, this message translates to:
-  /// **'Wrong address? Change it'**
-  String get authChangeEmail;
 
   /// Flow 03 - Auth. Screen 05. Confirmation chip at the top, rendered uppercase
   ///
@@ -2636,48 +2534,6 @@ abstract class AppLocalizations {
   /// **'Restored'**
   String get authDraftRestored;
 
-  /// Flow 03 - Auth. Screen 07. Headline of the expired-link screen
-  ///
-  /// In en, this message translates to:
-  /// **'That link\nhas expired'**
-  String get authExpiredTitle;
-
-  /// Flow 03 - Auth. Screen 07. Body of the expired-link screen
-  ///
-  /// In en, this message translates to:
-  /// **'Sign-in links last 15 minutes and work once. Nothing is wrong with your account — here is a fresh one.'**
-  String get authExpiredBody;
-
-  /// Flow 03 - Auth. Screen 07. Sends a replacement link to the same address
-  ///
-  /// In en, this message translates to:
-  /// **'Send a new link'**
-  String get authSendNewLink;
-
-  /// Flow 03 - Auth. Screen 07. Goes back to the address screen
-  ///
-  /// In en, this message translates to:
-  /// **'Use a different address'**
-  String get authDifferentAddress;
-
-  /// Flow 03 - Auth. Screen 07. Title of the reassurance card
-  ///
-  /// In en, this message translates to:
-  /// **'Your draft is safe'**
-  String get authDraftSafeTitle;
-
-  /// Flow 03 - Auth. Screen 07. Body of the reassurance card
-  ///
-  /// In en, this message translates to:
-  /// **'Everything you set up is still on this phone. Signing in only moves it to your account.'**
-  String get authDraftSafeBody;
-
-  /// Flow 03 - Auth. Screen 07. Leaves the flow without signing in
-  ///
-  /// In en, this message translates to:
-  /// **'Keep going without an account'**
-  String get authKeepGoing;
-
   /// Flow 03 - Auth. Screen 08. Glass chip naming the party a guest has arrived at, rendered uppercase
   ///
   /// In en, this message translates to:
@@ -2774,17 +2630,11 @@ abstract class AppLocalizations {
   /// **'Save with Google'**
   String get claimWithGoogle;
 
-  /// Flow 03 - Auth. Screen 09. Claims the night with Apple, short form on a split row
+  /// Flow 03 - Auth. Screen 09. Claims the night with Apple
   ///
   /// In en, this message translates to:
   /// **'Apple'**
   String get claimWithApple;
-
-  /// Flow 03 - Auth. Screen 09. Claims the night with an email link, short form on a split row
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get claimWithEmail;
 
   /// Flow 03 - Auth. Screen 09. Dismisses the claim sheet, which does not come back
   ///

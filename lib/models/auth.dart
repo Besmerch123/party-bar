@@ -25,23 +25,20 @@ enum AuthReason {
 /// account and a native capability this build does not have yet, so
 /// [AuthProviderKind.apple] is drawn nowhere while [kAppleSignInEnabled] is
 /// false. Flipping that flag is the whole of turning it on in the UI.
-enum AuthProviderKind { google, apple, email }
+enum AuthProviderKind { google, apple }
 
 /// Apple sign-in is designed but not wired. See [AuthProviderKind.apple].
 const bool kAppleSignInEnabled = false;
 
 /// Why a sign-in attempt did not end with a signed-in person.
 ///
-/// Only four of these are worth writing copy for; the rest collapse into
+/// Only three of these are worth writing copy for; the rest collapse into
 /// [AuthFailureKind.unknown] rather than leaking a Firebase error code into
 /// a sentence someone has to read.
 enum AuthFailureKind {
   /// The provider sheet was dismissed. Silent — back to where you were, no
   /// error, no toast.
   cancelled,
-
-  /// A sign-in link that is past its 15 minutes, or has already been used.
-  expiredLink,
 
   /// This address exists, but under a different provider. Never a dead end:
   /// [AuthFailure.email] carries the address so the screen can offer the

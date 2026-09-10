@@ -13,9 +13,9 @@ import 'onboarding_provider.dart';
 
 /// State for the whole of flow 03.
 ///
-/// The flow is short but it spans screens — an address typed on one, a link
-/// opened on another, a name asked on a third — so what carries between them
-/// lives here rather than in navigation arguments a cold link would not have.
+/// The flow is short but it spans screens — a provider sheet on one, a name
+/// asked on another — so what carries between them lives here rather than in
+/// navigation arguments.
 class AuthenticationProvider extends ChangeNotifier {
   AuthenticationProvider({
     AuthService? authService,
@@ -24,13 +24,6 @@ class AuthenticationProvider extends ChangeNotifier {
        _accountService = accountService ?? AccountService() {
     _subscription = _authService.authStateChanges.listen(_onAuthStateChanged);
   }
-
-  /// A sign-in link is good for 15 minutes, once.
-  static const linkLifetime = Duration(minutes: 15);
-
-  /// How long the resend button stays asleep. Long enough that a slow mail
-  /// server is not mistaken for a failure.
-  static const resendCooldown = Duration(seconds: 45);
 
   static const _guestNameKey = 'guest_display_name';
   static const _claimPromptKey = 'auth_claim_prompt_seen';
@@ -43,8 +36,6 @@ class AuthenticationProvider extends ChangeNotifier {
   fb.User? _user;
   bool _isBusy = false;
   AuthFailure? _failure;
-  String? _pendingEmail;
-  DateTime? _linkSentAt;
   String? _guestName;
   bool _claimPromptSeen = false;
   bool _justSignedIn = false;
@@ -66,17 +57,8 @@ class AuthenticationProvider extends ChangeNotifier {
 
   AuthFailure? get failure => _failure;
 
-  /// The address a link was sent to, and the one [signInWithEmailCode]
-  /// verifies against. Survives moving between screens 03, 04 and 07.
-  String? get pendingEmail => _pendingEmail;
-
-  DateTime? get linkSentAt => _linkSentAt;
-
-  /// When the resend button wakes up, or null if nothing has been sent.
-  DateTime? get resendAvailableAt => _linkSentAt?.add(resendCooldown);
-
-  /// The name other people at a party see. Providers hand us one; the email
-  /// lane has to ask for it on screen 05.
+  /// The name other people at a party see. Providers usually hand us one;
+  /// screen 05 asks for it when they don't.
   String get displayName => (_user?.displayName ?? '').trim();
 
   /// Screen 05 exists only for people who arrived without a name.
@@ -132,61 +114,6 @@ class AuthenticationProvider extends ChangeNotifier {
   Future<bool> signInWithGoogle() =>
       _attempt(() => _authService.signInWithGoogle());
 
-  // -------------------------------------------------------------- email lane
-
-  /// Screen 03 to 04. Remembers the address, because the link that comes back
-  /// does not carry it.
-  Future<bool> sendSignInLink(String email) {
-    final address = email.trim();
-
-    return _attempt(() async {
-      await _authService.sendSignInLink(address);
-      _pendingEmail = address;
-      _linkSentAt = DateTime.now();
-    });
-  }
-
-  /// Screens 04 and 07. Same address, fresh link.
-  Future<bool> resendSignInLink() {
-    final address = _pendingEmail;
-    if (address == null) return Future.value(false);
-    return sendSignInLink(address);
-  }
-
-  /// Screen 03 reached from "wrong address" or "use a different address".
-  void forgetPendingEmail() {
-    _pendingEmail = null;
-    _linkSentAt = null;
-    _failure = null;
-    notifyListeners();
-  }
-
-  /// Completing the email lane from the link itself.
-  ///
-  /// TODO(flow-03): nothing calls this yet — the incoming URI has to be handed
-  /// to it by a deep-link listener the app does not register.
-  Future<bool> completeSignInFromLink(String link) {
-    final address = _pendingEmail;
-    if (address == null || !_authService.isSignInLink(link)) {
-      _fail(const AuthFailure(AuthFailureKind.expiredLink));
-      return Future.value(false);
-    }
-
-    return _attempt(
-      () => _authService.completeSignInFromLink(email: address, link: link),
-    );
-  }
-
-  /// The cross-device fallback on screen 04.
-  Future<bool> signInWithEmailCode(String code) {
-    final address = _pendingEmail;
-    if (address == null) return Future.value(false);
-
-    return _attempt(
-      () => _authService.signInWithEmailCode(email: address, code: code),
-    );
-  }
-
   // ----------------------------------------------------------------- profile
 
   /// Screen 05. The name is the whole of the profile at this point.
@@ -241,8 +168,6 @@ class AuthenticationProvider extends ChangeNotifier {
 
   Future<void> signOut() async {
     await _authService.signOut();
-    _pendingEmail = null;
-    _linkSentAt = null;
     _justSignedIn = false;
     notifyListeners();
   }
@@ -283,11 +208,6 @@ class AuthenticationProvider extends ChangeNotifier {
       _isBusy = false;
       notifyListeners();
     }
-  }
-
-  void _fail(AuthFailure failure) {
-    _failure = failure;
-    notifyListeners();
   }
 
   /// Everything flow 01 collected on this device, folded into the account.

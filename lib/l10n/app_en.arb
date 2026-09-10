@@ -222,10 +222,6 @@
   "@signUpSuccess": {
     "description": "Success message after sign up"
   },
-  "email": "Email",
-  "@email": {
-    "description": "Email field label"
-  },
   "emailHint": "Enter your email",
   "@emailHint": {
     "description": "Email field hint"
@@ -1842,10 +1838,6 @@
   "@authAppleSoon": {
     "description": "Flow 03 - Auth. Badge on the Apple button while it is not wired yet"
   },
-  "authContinueEmail": "Continue with email",
-  "@authContinueEmail": {
-    "description": "Flow 03 - Auth. Starts the magic-link lane"
-  },
   "authLegalLine": "By continuing you agree to the {terms} and {privacy}.",
   "@authLegalLine": {
     "description": "Flow 03 - Auth. Legal footnote under the provider buttons. Both placeholders are rendered as links",
@@ -1905,76 +1897,6 @@
   "authAgeNote": "18+ only · we never post anything",
   "@authAgeNote": {
     "description": "Flow 03 - Auth. Screen 02. Reassurance line under the provider buttons"
-  },
-  "authEmailTitle": "What’s your\nemail?",
-  "@authEmailTitle": {
-    "description": "Flow 03 - Auth. Screen 03. Headline of the address screen"
-  },
-  "authEmailBody": "We send a link that signs you in. No password to invent, none to forget.",
-  "@authEmailBody": {
-    "description": "Flow 03 - Auth. Screen 03. Body of the address screen"
-  },
-  "authEmailHint": "you@example.com",
-  "@authEmailHint": {
-    "description": "Flow 03 - Auth. Screen 03. Placeholder in the email field"
-  },
-  "authEmailSend": "Send the link",
-  "@authEmailSend": {
-    "description": "Flow 03 - Auth. Screen 03. Sends the magic link"
-  },
-  "authEmailReturning": "Already have an account? The same link signs you back in.",
-  "@authEmailReturning": {
-    "description": "Flow 03 - Auth. Screen 03. Footnote telling returning people there is no separate sign-up"
-  },
-  "authEmailInvalid": "That does not look like an email address.",
-  "@authEmailInvalid": {
-    "description": "Flow 03 - Auth. Screen 03. Validation message under the email field"
-  },
-  "authCheckMailTitle": "Check your\nmail",
-  "@authCheckMailTitle": {
-    "description": "Flow 03 - Auth. Screen 04. Headline after a link has been sent"
-  },
-  "authCheckMailBody": "We sent a sign-in link to {email}. It works once and expires in 15 minutes.",
-  "@authCheckMailBody": {
-    "description": "Flow 03 - Auth. Screen 04. Body naming the address the link went to",
-    "placeholders": {
-      "email": {
-        "type": "String"
-      }
-    }
-  },
-  "authOpenMail": "Open Mail",
-  "@authOpenMail": {
-    "description": "Flow 03 - Auth. Screen 04. Opens the device mail app"
-  },
-  "authResendIn": "Resend in {time}",
-  "@authResendIn": {
-    "description": "Flow 03 - Auth. Screen 04. Countdown on the sleeping resend button, time reads as 0:42",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "authResend": "Send it again",
-  "@authResend": {
-    "description": "Flow 03 - Auth. Screen 04. Resends the link once the countdown is over"
-  },
-  "authOtherDeviceTitle": "On another device?",
-  "@authOtherDeviceTitle": {
-    "description": "Flow 03 - Auth. Screen 04. Title of the 6-digit code card"
-  },
-  "authOtherDeviceBody": "The mail also carries a 6-digit code. Type it here to finish on this phone.",
-  "@authOtherDeviceBody": {
-    "description": "Flow 03 - Auth. Screen 04. Body of the 6-digit code card"
-  },
-  "authCodeLabel": "Sign-in code",
-  "@authCodeLabel": {
-    "description": "Flow 03 - Auth. Screen 04. Accessibility label for the 6-digit code field"
-  },
-  "authChangeEmail": "Wrong address? Change it",
-  "@authChangeEmail": {
-    "description": "Flow 03 - Auth. Screen 04. Goes back to the address screen"
   },
   "authSignedInBadge": "Signed in",
   "@authSignedInBadge": {
@@ -2060,34 +1982,6 @@
   "authDraftRestored": "Restored",
   "@authDraftRestored": {
     "description": "Flow 03 - Auth. Screen 06. Trailing status on the draft row, rendered uppercase"
-  },
-  "authExpiredTitle": "That link\nhas expired",
-  "@authExpiredTitle": {
-    "description": "Flow 03 - Auth. Screen 07. Headline of the expired-link screen"
-  },
-  "authExpiredBody": "Sign-in links last 15 minutes and work once. Nothing is wrong with your account — here is a fresh one.",
-  "@authExpiredBody": {
-    "description": "Flow 03 - Auth. Screen 07. Body of the expired-link screen"
-  },
-  "authSendNewLink": "Send a new link",
-  "@authSendNewLink": {
-    "description": "Flow 03 - Auth. Screen 07. Sends a replacement link to the same address"
-  },
-  "authDifferentAddress": "Use a different address",
-  "@authDifferentAddress": {
-    "description": "Flow 03 - Auth. Screen 07. Goes back to the address screen"
-  },
-  "authDraftSafeTitle": "Your draft is safe",
-  "@authDraftSafeTitle": {
-    "description": "Flow 03 - Auth. Screen 07. Title of the reassurance card"
-  },
-  "authDraftSafeBody": "Everything you set up is still on this phone. Signing in only moves it to your account.",
-  "@authDraftSafeBody": {
-    "description": "Flow 03 - Auth. Screen 07. Body of the reassurance card"
-  },
-  "authKeepGoing": "Keep going without an account",
-  "@authKeepGoing": {
-    "description": "Flow 03 - Auth. Screen 07. Leaves the flow without signing in"
   },
   "guestLiveAt": "Live · {party}",
   "@guestLiveAt": {
@@ -2183,11 +2077,7 @@
   },
   "claimWithApple": "Apple",
   "@claimWithApple": {
-    "description": "Flow 03 - Auth. Screen 09. Claims the night with Apple, short form on a split row"
-  },
-  "claimWithEmail": "Email",
-  "@claimWithEmail": {
-    "description": "Flow 03 - Auth. Screen 09. Claims the night with an email link, short form on a split row"
+    "description": "Flow 03 - Auth. Screen 09. Claims the night with Apple"
   },
   "claimNoThanks": "No thanks",
   "@claimNoThanks": {

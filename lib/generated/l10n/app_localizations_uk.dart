@@ -169,9 +169,6 @@ class AppLocalizationsUk extends AppLocalizations {
   String get signUpSuccess => 'Обліковий запис створено успішно';
 
   @override
-  String get email => 'Електронна пошта';
-
-  @override
   String get emailHint => 'Введіть вашу електронну пошту';
 
   @override
@@ -1338,9 +1335,6 @@ class AppLocalizationsUk extends AppLocalizations {
   String get authAppleSoon => 'Скоро';
 
   @override
-  String get authContinueEmail => 'Продовжити з поштою';
-
-  @override
   String authLegalLine(String terms, String privacy) {
     return 'Продовжуючи, ви погоджуєтесь із $terms та $privacy.';
   }
@@ -1383,58 +1377,6 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get authAgeNote => 'Лише 18+ · ми нічого не публікуємо';
-
-  @override
-  String get authEmailTitle => 'Яка ваша\nпошта?';
-
-  @override
-  String get authEmailBody =>
-      'Ми надішлемо посилання, яке вас увійде. Ніяких паролів — ні вигадувати, ні забувати.';
-
-  @override
-  String get authEmailHint => 'you@example.com';
-
-  @override
-  String get authEmailSend => 'Надіслати посилання';
-
-  @override
-  String get authEmailReturning =>
-      'Вже маєте акаунт? Це саме посилання поверне вас усередину.';
-
-  @override
-  String get authEmailInvalid => 'Це не схоже на адресу пошти.';
-
-  @override
-  String get authCheckMailTitle => 'Перевірте\nпошту';
-
-  @override
-  String authCheckMailBody(String email) {
-    return 'Ми надіслали посилання на $email. Воно працює один раз і діє 15 хвилин.';
-  }
-
-  @override
-  String get authOpenMail => 'Відкрити пошту';
-
-  @override
-  String authResendIn(String time) {
-    return 'Повтор через $time';
-  }
-
-  @override
-  String get authResend => 'Надіслати ще раз';
-
-  @override
-  String get authOtherDeviceTitle => 'На іншому пристрої?';
-
-  @override
-  String get authOtherDeviceBody =>
-      'У листі також є 6-значний код. Введіть його тут, щоб завершити на цьому телефоні.';
-
-  @override
-  String get authCodeLabel => 'Код входу';
-
-  @override
-  String get authChangeEmail => 'Не та адреса? Змінити';
 
   @override
   String get authSignedInBadge => 'Ви увійшли';
@@ -1494,29 +1436,6 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get authDraftRestored => 'Відновлено';
-
-  @override
-  String get authExpiredTitle => 'Термін посилання\nминув';
-
-  @override
-  String get authExpiredBody =>
-      'Посилання для входу діють 15 хвилин і спрацьовують один раз. З вашим акаунтом усе гаразд — ось нове.';
-
-  @override
-  String get authSendNewLink => 'Надіслати нове посилання';
-
-  @override
-  String get authDifferentAddress => 'Ввести іншу адресу';
-
-  @override
-  String get authDraftSafeTitle => 'Ваша чернетка в безпеці';
-
-  @override
-  String get authDraftSafeBody =>
-      'Усе налаштоване залишається на цьому телефоні. Вхід лише перенесе це в акаунт.';
-
-  @override
-  String get authKeepGoing => 'Далі без акаунта';
 
   @override
   String guestLiveAt(String party) {
@@ -1596,9 +1515,6 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get claimWithApple => 'Apple';
-
-  @override
-  String get claimWithEmail => 'Пошта';
 
   @override
   String get claimNoThanks => 'Ні, дякую';

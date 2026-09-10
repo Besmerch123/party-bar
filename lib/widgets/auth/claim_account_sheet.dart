@@ -2,13 +2,11 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/auth.dart';
 import '../../providers/auth_provider.dart';
 import '../../theme/theme.dart';
-import '../../utils/app_router.dart';
 import '../../utils/localization_helper.dart';
 import 'auth_controls.dart';
 
@@ -64,14 +62,6 @@ class ClaimAccountSheet extends StatelessWidget {
   final String partyName;
   final List<String> drinkImageUrls;
   final int drinkCount;
-
-  void _continueToAuth(BuildContext context) {
-    // Captured before the pop: once the sheet is gone so is the route state
-    // this context resolved against.
-    final router = GoRouter.of(context);
-    Navigator.of(context).pop();
-    router.push(AppRoutes.auth);
-  }
 
   Future<void> _continueWithGoogle(BuildContext context) async {
     final auth = context.read<AuthenticationProvider>();
@@ -129,33 +119,14 @@ class ClaimAccountSheet extends StatelessWidget {
             label: l10n.claimWithGoogle,
             onPressed: auth.isBusy ? null : () => _continueWithGoogle(context),
           ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                child: AuthProviderButton(
-                  kind: AuthProviderKind.email,
-                  compact: true,
-                  label: l10n.claimWithEmail,
-                  onPressed: () => _continueToAuth(context),
-                ),
-              ),
-              // Apple sign-in is deliberately unwired; while it is enabled,
-              // tapping it lands where email does — the general auth lane —
-              // rather than dead-ending on a button that does nothing.
-              if (kAppleSignInEnabled) ...[
-                const SizedBox(width: 10),
-                Expanded(
-                  child: AuthProviderButton(
-                    kind: AuthProviderKind.apple,
-                    compact: true,
-                    label: l10n.claimWithApple,
-                    onPressed: () => _continueToAuth(context),
-                  ),
-                ),
-              ],
-            ],
-          ),
+          if (kAppleSignInEnabled) ...[
+            const SizedBox(height: 10),
+            AuthProviderButton(
+              kind: AuthProviderKind.apple,
+              label: l10n.claimWithApple,
+              onPressed: null,
+            ),
+          ],
           if (showFailure) ...[
             const SizedBox(height: 14),
             AuthFailureNotice(

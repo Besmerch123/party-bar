@@ -169,9 +169,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signUpSuccess => 'Account created successfully';
 
   @override
-  String get email => 'Email';
-
-  @override
   String get emailHint => 'Enter your email';
 
   @override
@@ -1328,9 +1325,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authAppleSoon => 'Soon';
 
   @override
-  String get authContinueEmail => 'Continue with email';
-
-  @override
   String authLegalLine(String terms, String privacy) {
     return 'By continuing you agree to the $terms and $privacy.';
   }
@@ -1373,58 +1367,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authAgeNote => '18+ only · we never post anything';
-
-  @override
-  String get authEmailTitle => 'What’s your\nemail?';
-
-  @override
-  String get authEmailBody =>
-      'We send a link that signs you in. No password to invent, none to forget.';
-
-  @override
-  String get authEmailHint => 'you@example.com';
-
-  @override
-  String get authEmailSend => 'Send the link';
-
-  @override
-  String get authEmailReturning =>
-      'Already have an account? The same link signs you back in.';
-
-  @override
-  String get authEmailInvalid => 'That does not look like an email address.';
-
-  @override
-  String get authCheckMailTitle => 'Check your\nmail';
-
-  @override
-  String authCheckMailBody(String email) {
-    return 'We sent a sign-in link to $email. It works once and expires in 15 minutes.';
-  }
-
-  @override
-  String get authOpenMail => 'Open Mail';
-
-  @override
-  String authResendIn(String time) {
-    return 'Resend in $time';
-  }
-
-  @override
-  String get authResend => 'Send it again';
-
-  @override
-  String get authOtherDeviceTitle => 'On another device?';
-
-  @override
-  String get authOtherDeviceBody =>
-      'The mail also carries a 6-digit code. Type it here to finish on this phone.';
-
-  @override
-  String get authCodeLabel => 'Sign-in code';
-
-  @override
-  String get authChangeEmail => 'Wrong address? Change it';
 
   @override
   String get authSignedInBadge => 'Signed in';
@@ -1484,29 +1426,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authDraftRestored => 'Restored';
-
-  @override
-  String get authExpiredTitle => 'That link\nhas expired';
-
-  @override
-  String get authExpiredBody =>
-      'Sign-in links last 15 minutes and work once. Nothing is wrong with your account — here is a fresh one.';
-
-  @override
-  String get authSendNewLink => 'Send a new link';
-
-  @override
-  String get authDifferentAddress => 'Use a different address';
-
-  @override
-  String get authDraftSafeTitle => 'Your draft is safe';
-
-  @override
-  String get authDraftSafeBody =>
-      'Everything you set up is still on this phone. Signing in only moves it to your account.';
-
-  @override
-  String get authKeepGoing => 'Keep going without an account';
 
   @override
   String guestLiveAt(String party) {
@@ -1582,9 +1501,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get claimWithApple => 'Apple';
-
-  @override
-  String get claimWithEmail => 'Email';
 
   @override
   String get claimNoThanks => 'No thanks';
