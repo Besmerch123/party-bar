@@ -12,6 +12,14 @@ class AppRoutes {
   static const String home = '/';
   static const String explore = '/explore';
   static const String cocktailDetails = '/cocktail';
+
+  /// Search, results and the zero-results answer — one screen, three states.
+  static const String exploreSearch = '/explore/search';
+
+  /// The guided pour. Pushed as '$makeItNow/$cocktailId' with the cocktail
+  /// itself as `extra`, so the screen never re-fetches what the detail
+  /// screen already has.
+  static const String makeItNow = '/cocktail/make';
   static const String partyHub = '/party';
   static const String joinParty = '/party/join';
   static const String createParty = '/party/create';

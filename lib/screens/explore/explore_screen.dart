@@ -1,16 +1,23 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:party_bar/utils/localization_helper.dart';
-import 'package:party_bar/widgets/cocktails/cocktail_categories.dart';
-import '../../models/models.dart';
-import '../../data/cocktail_repository.dart';
-import '../../utils/app_router.dart';
-import '../../services/elastic_service.dart';
-import '../../widgets/common/app_bottom_nav.dart';
-import '../../widgets/common/app_chip.dart';
-import '../../theme/theme.dart';
+import 'package:provider/provider.dart';
 
+import '../../models/models.dart';
+import '../../providers/bar_provider.dart';
+import '../../providers/explore_provider.dart';
+import '../../theme/theme.dart';
+import '../../utils/app_router.dart';
+import '../../utils/localization_helper.dart';
+import '../../widgets/common/app_bottom_nav.dart';
+import '../../widgets/explore/cocktail_cards.dart';
+import '../../widgets/explore/explore_chrome.dart';
+
+/// The app's front door, signed out: a photographic feed that answers "what
+/// can I pour right now" from the on-device shelf alone.
+///
+/// Lives inside an [IndexedStack] with the other tabs, so it is built far more
+/// often than it is actually shown — [initState] must not touch the provider,
+/// and a load only fires once per real visit.
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
 
@@ -19,581 +26,441 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
-  final CocktailRepository _repository = CocktailRepository();
-  final TextEditingController _searchController = TextEditingController();
-  Timer? _debounceTimer;
-
-  List<Cocktail> _cocktails = [];
-  String _searchQuery = '';
-  List<CocktailCategory>? _selectedCategories;
-  bool _isLoading = true;
-  bool _isSearching = false;
-  String? _error;
-
   @override
   void initState() {
     super.initState();
-    _loadCocktails();
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    _debounceTimer?.cancel();
-    super.dispose();
-  }
-
-  /// Load cocktails using Elasticsearch-powered search
-  Future<void> _loadCocktails() async {
-    setState(() {
-      _isLoading = true;
-      _isSearching = true;
-      _error = null;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final provider = context.read<ExploreProvider>();
+      if (!provider.hasLoaded) provider.load();
     });
-
-    try {
-      // Build filters
-      CocktailSearchFilters? filters;
-      if (_selectedCategories != null) {
-        filters = CocktailSearchFilters(
-          categories: _selectedCategories!.map((c) => c.name).toList(),
-        );
-      }
-
-      // Search using repository method (Elasticsearch + Firestore hybrid)
-      final result = await _repository.searchCocktails(
-        query: _searchQuery.isEmpty ? null : _searchQuery,
-        filters: filters,
-      );
-
-      setState(() {
-        _cocktails = result.cocktails;
-        _isLoading = false;
-        _isSearching = false;
-      });
-    } catch (e) {
-      setState(() {
-        _error = 'Failed to load cocktails: $e';
-        _isLoading = false;
-        _isSearching = false;
-      });
-    }
-  }
-
-  /// Refresh cocktails - keeps previous state if fetch fails
-  Future<void> _refreshCocktails() async {
-    setState(() {
-      _isSearching = true;
-      _error = null;
-    });
-
-    try {
-      // Build filters
-      CocktailSearchFilters? filters;
-      if (_selectedCategories != null) {
-        filters = CocktailSearchFilters(
-          categories: _selectedCategories!.map((c) => c.name).toList(),
-        );
-      }
-
-      await _repository.clearCache();
-      // Search using repository method (Elasticsearch + Firestore hybrid)
-      final result = await _repository.searchCocktails(
-        query: _searchQuery.isEmpty ? null : _searchQuery,
-        filters: filters,
-      );
-
-      setState(() {
-        _cocktails = result.cocktails;
-        _isSearching = false;
-      });
-    } catch (e) {
-      // Restore previous state on error
-      setState(() {
-        _isSearching = false;
-      });
-
-      // Show snackbar to inform user
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(context.l10n.failedToRefresh(e.toString())),
-            backgroundColor: Theme.of(context).colorScheme.error,
-            duration: const Duration(seconds: 3),
-          ),
-        );
-      }
-    }
-  }
-
-  /// Debounced search - waits 1 second after user stops typing
-  void _onSearchChanged(String value) {
-    // Cancel previous timer
-    _debounceTimer?.cancel();
-
-    // Update search query immediately for UI feedback
-    setState(() {
-      _searchQuery = value;
-    });
-
-    // Set new timer
-    _debounceTimer = Timer(const Duration(seconds: 1), () {
-      // Perform search after debounce period
-      _loadCocktails();
-    });
-  }
-
-  void _clearFilters() {
-    setState(() {
-      _selectedCategories = null;
-      _searchQuery = '';
-      _searchController.clear();
-    });
-    _loadCocktails();
-  }
-
-  void _applyFilters() {
-    _loadCocktails();
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final explore = context.watch<ExploreProvider>();
+    final bar = context.watch<BarProvider>();
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.exploreCocktails),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: () => _showFiltersBottomSheet(),
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          // Main content
-          _error != null
-              ? _buildErrorState()
-              : Column(
-                  children: [
-                    // Search Bar
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: _onSearchChanged,
-                        decoration: InputDecoration(
-                          hintText: context.l10n.searchCocktailsHint,
-                          prefixIcon: const Icon(Icons.search),
-                          suffixIcon: _isSearching
-                              ? const Padding(
-                                  padding: EdgeInsets.all(12.0),
-                                  child: SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
-                                  ),
-                                )
-                              : _searchQuery.isNotEmpty
-                              ? IconButton(
-                                  icon: const Icon(Icons.clear),
-                                  onPressed: () {
-                                    _searchController.clear();
-                                    _onSearchChanged('');
-                                  },
-                                )
-                              : null,
-                        ),
-                      ),
-                    ),
-
-                    // Active Filters Display
-                    if (_selectedCategories?.isNotEmpty ?? false)
-                      Container(
-                        height: 50,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: _selectedCategories!.map((category) {
-                                  return _buildFilterChip(
-                                    CocktailCategories.getCategoryDisplayName(
-                                      category,
-                                    ),
-                                    () {
-                                      setState(() {
-                                        _selectedCategories!.remove(category);
-                                        if (_selectedCategories!.isEmpty) {
-                                          _selectedCategories = null;
-                                        }
-                                      });
-                                      _loadCocktails();
-                                    },
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: _clearFilters,
-                              child: Text(context.l10n.clearAll),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                    // Results Count
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: Text(
-                        context.l10n.cocktailsFound(_cocktails.length),
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withValues(alpha: .7),
-                        ),
-                      ),
-                    ),
-
-                    // Cocktails Grid
-                    Expanded(
-                      child: _cocktails.isEmpty
-                          ? _buildEmptyState()
-                          : RefreshIndicator(
-                              onRefresh: _refreshCocktails,
-                              child: GridView.builder(
-                                padding: EdgeInsets.fromLTRB(
-                                  16,
-                                  16,
-                                  16,
-                                  AppBottomNav.insetOf(context),
-                                ),
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 16,
-                                      mainAxisSpacing: 16,
-                                      childAspectRatio: 0.75,
-                                    ),
-                                itemCount: _cocktails.length,
-                                itemBuilder: (context, index) {
-                                  final cocktail = _cocktails[index];
-                                  return _buildCocktailCard(cocktail);
-                                },
-                              ),
-                            ),
-                    ),
-                  ],
-                ),
-
-          // Loading overlay
-          if (_isLoading)
-            Container(
-              color: Colors.black.withValues(alpha: .7),
-              child: const Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [CircularProgressIndicator()],
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFilterChip(String label, VoidCallback onRemove) {
-    return Container(
-      margin: const EdgeInsets.only(right: 8),
-      child: TagChip(label: label, selected: true, onDeleted: onRemove),
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.local_bar_outlined,
-            size: 64,
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            context.l10n.noCocktailsFound,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            context.l10n.tryAdjustingFilters,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-            ),
-          ),
-          const SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: _clearFilters,
-            child: Text(context.l10n.clearFilters),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildErrorState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.error_outline,
-            size: 64,
-            color: Theme.of(context).colorScheme.error,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            context.l10n.errorLoadingCocktails,
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            _error ?? context.l10n.unknownError,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: _loadCocktails,
-            child: Text(context.l10n.retry),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCocktailCard(Cocktail cocktail) {
-    return GestureDetector(
-      onTap: () => context.push('${AppRoutes.cocktailDetails}/${cocktail.id}'),
-      child: Card(
-        clipBehavior: Clip.hardEdge,
+      backgroundColor: AppColors.ground,
+      body: SafeArea(
+        bottom: false,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image placeholder with category color
-            SizedBox(
-              height: 120,
-              child: Center(
-                child: cocktail.image.isNotEmpty
-                    ? Image.network(
-                        cocktail.image,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      )
-                    : Icon(
-                        Icons.local_bar,
-                        size: 40,
-                        color: Colors.white.withValues(alpha: .8),
-                      ),
-              ),
+            _Header(
+              title: l10n.exploreFeedTitle,
+              subtitle: bar.isEmpty
+                  ? l10n.exploreNoShelfYet(explore.catalogueTotal)
+                  : l10n.exploreShelfMatch(
+                      explore.makeableCount,
+                      explore.catalogueTotal,
+                    ),
+              onSearch: () => context.push(AppRoutes.exploreSearch),
             ),
+            const SizedBox(height: 16),
+            ExploreFilterBar(
+              filters: explore.filters,
+              onRemove: context.read<ExploreProvider>().removeFilter,
+              // The dedicated filter sheet is being built elsewhere; until it
+              // lands, "tune" reaches the same controls through search.
+              onOpenSheet: () => context.push(AppRoutes.exploreSearch),
+            ),
+            const SizedBox(height: 18),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      cocktail.title.translate(context),
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      cocktail.description.translate(context),
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withValues(alpha: .7),
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const Spacer(),
-                    // Display categories as chips
-                    if (cocktail.categories.isNotEmpty)
-                      Wrap(
-                        spacing: 4,
-                        runSpacing: 4,
-                        children: cocktail.categories.take(2).map((category) {
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: const BoxDecoration(
-                              color: AppColors.fillMuted,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8),
-                              ),
-                            ),
-                            child: Text(
-                              CocktailCategories.getCategoryDisplayName(
-                                category,
-                              ).toUpperCase(),
-                              style: AppTypography.label.copyWith(
-                                fontSize: 9.5,
-                                color: AppColors.inkMeta,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                  ],
-                ),
-              ),
+              child: _Body(explore: explore, shelf: bar.shelf),
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  void _showFiltersBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+/// Headline plus shelf-match subtitle, and the way into search. Fixed above
+/// the scroll so the promise of the screen never scrolls out of view.
+class _Header extends StatelessWidget {
+  const _Header({
+    required this.title,
+    required this.subtitle,
+    required this.onSearch,
+  });
+
+  final String title;
+  final String subtitle;
+  final VoidCallback onSearch;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.screenEdge,
+        12,
+        AppSpacing.screenEdge,
+        0,
       ),
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.7,
-        maxChildSize: 0.9,
-        minChildSize: 0.5,
-        expand: false,
-        builder: (context, scrollController) =>
-            _buildFiltersSheet(scrollController),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: AppTypography.title.copyWith(
+                    fontSize: 30,
+                    height: 1.02,
+                    letterSpacing: -1.05,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 9),
+                Text(
+                  subtitle,
+                  style: AppTypography.meta,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          _SearchButton(onTap: onSearch),
+        ],
       ),
     );
   }
+}
 
-  Widget _buildFiltersSheet(ScrollController scrollController) {
-    return StatefulBuilder(
-      builder: (context, setModalState) => Padding(
-        padding: const EdgeInsets.all(16),
+/// A long headline must never squeeze this out of tap range, so it sits
+/// outside the [Expanded] column rather than sharing its width.
+class _SearchButton extends StatelessWidget {
+  const _SearchButton({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: context.l10n.searchHint,
+      child: Material(
+        color: AppColors.fillMuted,
+        shape: const CircleBorder(),
+        child: InkWell(
+          onTap: onTap,
+          customBorder: const CircleBorder(),
+          child: const SizedBox(
+            width: 34,
+            height: 34,
+            child: Icon(Icons.search, size: 18, color: AppColors.inkBody),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Everything below the filter bar: whichever of loading, error, empty or the
+/// feed itself currently applies.
+class _Body extends StatelessWidget {
+  const _Body({required this.explore, required this.shelf});
+
+  final ExploreProvider explore;
+  final Set<String> shelf;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!explore.hasLoaded && explore.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    // Once a feed has loaded, a later failed refresh must not tear it down —
+    // the old results are still true, so they stay on screen and the error is
+    // simply dropped rather than shown over them.
+    if (explore.error != null && !explore.hasLoaded) {
+      return _ErrorState(message: explore.error!, onRetry: explore.refresh);
+    }
+
+    return RefreshIndicator(
+      onRefresh: explore.refresh,
+      // Guarded on the list itself rather than on `isEmpty`, which goes false
+      // again the moment a refresh starts — and the feed below needs a hero.
+      child: explore.results.isEmpty
+          ? const _EmptyFeed()
+          : _Feed(results: explore.results, shelf: shelf),
+    );
+  }
+}
+
+class _ErrorState extends StatelessWidget {
+  const _ErrorState({required this.message, required this.onRetry});
+
+  final String message;
+  final Future<void> Function() onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenEdge),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Handle
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: .3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Title
+            const Icon(Icons.error_outline, size: 64, color: AppColors.low),
+            const SizedBox(height: AppSpacing.md),
+            Text(l10n.errorLoadingCocktails, style: AppTypography.section),
+            const SizedBox(height: AppSpacing.xs),
             Text(
-              context.l10n.filterCocktails,
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+              message,
+              style: AppTypography.meta,
+              textAlign: TextAlign.center,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.md),
+            FilledButton(onPressed: onRetry, child: Text(l10n.retry)),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-            Expanded(
-              child: ListView(
-                controller: scrollController,
+/// Loaded, but nothing survived the query. Kept inside a scroll view — even
+/// though it has nothing to scroll — so the [RefreshIndicator] above it can
+/// still be pulled to try again.
+class _EmptyFeed extends StatelessWidget {
+  const _EmptyFeed();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return CustomScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: [
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.screenEdge,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Categories
                   Text(
-                    context.l10n.categories,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    l10n.exploreEmptyTitle,
+                    style: AppTypography.section,
+                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 12),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: CocktailCategory.values.map((category) {
-                      final isSelected =
-                          _selectedCategories?.contains(category) ?? false;
-                      return TagChip(
-                        label: CocktailCategories.getCategoryDisplayName(
-                          category,
-                        ),
-                        icon: CocktailCategories.getCategoryIcon(category),
-                        selected: isSelected,
-                        onTap: () {
-                          setModalState(() {
-                            if (isSelected) {
-                              _selectedCategories?.remove(category);
-                              if (_selectedCategories!.isEmpty) {
-                                _selectedCategories = null;
-                              }
-                            } else {
-                              _selectedCategories ??= [];
-                              _selectedCategories!.add(category);
-                            }
-                          });
-                        },
-                      );
-                    }).toList(),
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    l10n.exploreEmptyBody,
+                    style: AppTypography.meta,
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
             ),
+          ),
+        ),
+      ],
+    );
+  }
+}
 
-            // Action buttons
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () {
-                      setModalState(() {
-                        _selectedCategories = null;
-                      });
-                    },
-                    child: Text(context.l10n.filtersClear),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _applyFilters();
-                      Navigator.pop(context);
-                    },
-                    child: Text(context.l10n.filtersApply),
-                  ),
+/// The scrolling feed itself: a hero, up to three curated sections, then
+/// whatever is left — so the feed is always the whole result set, never a
+/// truncated sample that quietly drops drinks nobody sees.
+class _Feed extends StatelessWidget {
+  const _Feed({required this.results, required this.shelf});
+
+  final List<Cocktail> results;
+  final Set<String> shelf;
+
+  static const _sectionGrid = 200.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final hero = results.first;
+    final remainder = results.skip(1).toList(growable: false);
+    final shown = <String>{hero.id};
+
+    final readyNow = shelf.isNotEmpty
+        ? remainder
+              .where((c) => makeabilityOf(c, shelf).isMakeable)
+              .toList(growable: false)
+        : const <Cocktail>[];
+    // "Ready now" only earns its place once it has something a single hero
+    // could not already say — one match is a coincidence, not a section.
+    final showReadyNow = readyNow.length >= 2;
+    final readyNowShown = showReadyNow
+        ? readyNow.take(4).toList(growable: false)
+        : const <Cocktail>[];
+    shown.addAll(readyNowShown.map((c) => c.id));
+
+    final twoBottles = remainder
+        .where(
+          (c) =>
+              !shown.contains(c.id) &&
+              (c.requiredIngredients.length == 1 ||
+                  c.requiredIngredients.length == 2),
+        )
+        .toList(growable: false);
+    final twoBottlesShown = twoBottles.take(4).toList(growable: false);
+    shown.addAll(twoBottlesShown.map((c) => c.id));
+
+    final zeroProof = remainder
+        .where(
+          (c) =>
+              !shown.contains(c.id) &&
+              (c.baseSpirit == BaseSpirit.zeroProof ||
+                  c.categories.contains(CocktailCategory.mocktail)),
+        )
+        .toList(growable: false);
+    final zeroProofShown = zeroProof.take(4).toList(growable: false);
+    shown.addAll(zeroProofShown.map((c) => c.id));
+
+    final rest = remainder
+        .where((c) => !shown.contains(c.id))
+        .toList(growable: false);
+
+    void openSearchWith(ExploreFilters filters) {
+      context.read<ExploreProvider>().setFilters(filters);
+      context.push(AppRoutes.exploreSearch);
+    }
+
+    return CustomScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: [
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(
+            AppSpacing.screenEdge,
+            0,
+            AppSpacing.screenEdge,
+            AppBottomNav.insetOf(context),
+          ),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate([
+              CocktailPosterCard(
+                cocktail: hero,
+                status: _statusFor(context, hero, shelf),
+                onTap: () => _openDetails(context, hero),
+              ),
+              if (readyNowShown.isNotEmpty) ...[
+                const SizedBox(height: 24),
+                SectionHeader(title: l10n.exploreSectionMakeableNow),
+                const SizedBox(height: 14),
+                CocktailGrid(
+                  children: [
+                    for (final cocktail in readyNowShown)
+                      CocktailTile(
+                        cocktail: cocktail,
+                        status: _statusFor(context, cocktail, shelf),
+                        onTap: () => _openDetails(context, cocktail),
+                        height: _sectionGrid,
+                      ),
+                  ],
                 ),
               ],
-            ),
-          ],
+              if (twoBottlesShown.isNotEmpty) ...[
+                const SizedBox(height: 22),
+                SectionHeader(
+                  title: l10n.exploreSectionTwoBottles,
+                  actionLabel: l10n.exploreSeeAll,
+                  onAction: () => openSearchWith(
+                    context
+                        .read<ExploreProvider>()
+                        .filters
+                        .copyWith(threeIngredientsMax: true),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                CocktailGrid(
+                  children: [
+                    for (final cocktail in twoBottlesShown)
+                      CocktailTile(
+                        cocktail: cocktail,
+                        status: _statusFor(context, cocktail, shelf),
+                        onTap: () => _openDetails(context, cocktail),
+                        height: _sectionGrid,
+                      ),
+                  ],
+                ),
+              ],
+              if (zeroProofShown.isNotEmpty) ...[
+                const SizedBox(height: 22),
+                SectionHeader(
+                  title: l10n.exploreSectionZeroProof,
+                  actionLabel: l10n.exploreSeeAll,
+                  onAction: () => openSearchWith(
+                    context
+                        .read<ExploreProvider>()
+                        .filters
+                        .copyWith(spirits: {BaseSpirit.zeroProof}),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                CocktailGrid(
+                  children: [
+                    for (final cocktail in zeroProofShown)
+                      CocktailTile(
+                        cocktail: cocktail,
+                        status: _statusFor(context, cocktail, shelf),
+                        onTap: () => _openDetails(context, cocktail),
+                        height: _sectionGrid,
+                      ),
+                  ],
+                ),
+              ],
+              if (rest.isNotEmpty) ...[
+                const SizedBox(height: 22),
+                CocktailGrid(
+                  children: [
+                    for (final cocktail in rest)
+                      CocktailTile(
+                        cocktail: cocktail,
+                        status: _statusFor(context, cocktail, shelf),
+                        onTap: () => _openDetails(context, cocktail),
+                        height: _sectionGrid,
+                      ),
+                  ],
+                ),
+              ],
+            ]),
+          ),
         ),
-      ),
+      ],
     );
+  }
+
+  static void _openDetails(BuildContext context, Cocktail cocktail) =>
+      context.push('${AppRoutes.cocktailDetails}/${cocktail.id}');
+
+  /// An empty shelf makes every verdict the same non-answer — "missing 4",
+  /// "missing 5" on every card is noise, not information — so an unstocked
+  /// bar gets no badge at all rather than a wall of identical warnings.
+  static ShelfStatus? _statusFor(
+    BuildContext context,
+    Cocktail cocktail,
+    Set<String> shelf,
+  ) {
+    if (shelf.isEmpty) return null;
+
+    final makeability = makeabilityOf(cocktail, shelf);
+    final missingName = makeability.isOneAway
+        ? makeability.missing.single.title.translate(context)
+        : null;
+
+    return ShelfStatus(makeability: makeability, missingName: missingName);
   }
 }
