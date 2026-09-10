@@ -1317,4 +1317,300 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authGateKeepBrowsing => 'Keep browsing without an account';
+
+  @override
+  String get authContinueGoogle => 'Continue with Google';
+
+  @override
+  String get authContinueApple => 'Continue with Apple';
+
+  @override
+  String get authAppleSoon => 'Soon';
+
+  @override
+  String get authContinueEmail => 'Continue with email';
+
+  @override
+  String authLegalLine(String terms, String privacy) {
+    return 'By continuing you agree to the $terms and $privacy.';
+  }
+
+  @override
+  String get authTerms => 'Terms';
+
+  @override
+  String get authPrivacy => 'Privacy Policy';
+
+  @override
+  String get authBarrierEyebrow => 'One step left';
+
+  @override
+  String get authBarrierHostTitle => 'Parties need an owner';
+
+  @override
+  String get authBarrierHostBody =>
+      'So guests can join from your link, and the menu is still here next Saturday. Your draft is saved either way.';
+
+  @override
+  String get authBarrierBarTitle => 'My Bar needs an owner';
+
+  @override
+  String get authBarrierBarBody =>
+      'So your shelf follows you to the next phone, and the app keeps answering what you can pour. Nothing you have ticked is lost either way.';
+
+  @override
+  String get authNotNow => 'Not now';
+
+  @override
+  String get authProvidersEyebrow => 'Your bar, everywhere';
+
+  @override
+  String get authProvidersTitle => 'One account.\nEvery party.';
+
+  @override
+  String get authProvidersBody =>
+      'Your shelf, your saved drinks and every party you have hosted, on any phone you pick up.';
+
+  @override
+  String get authAgeNote => '18+ only · we never post anything';
+
+  @override
+  String get authEmailTitle => 'What’s your\nemail?';
+
+  @override
+  String get authEmailBody =>
+      'We send a link that signs you in. No password to invent, none to forget.';
+
+  @override
+  String get authEmailHint => 'you@example.com';
+
+  @override
+  String get authEmailSend => 'Send the link';
+
+  @override
+  String get authEmailReturning =>
+      'Already have an account? The same link signs you back in.';
+
+  @override
+  String get authEmailInvalid => 'That does not look like an email address.';
+
+  @override
+  String get authCheckMailTitle => 'Check your\nmail';
+
+  @override
+  String authCheckMailBody(String email) {
+    return 'We sent a sign-in link to $email. It works once and expires in 15 minutes.';
+  }
+
+  @override
+  String get authOpenMail => 'Open Mail';
+
+  @override
+  String authResendIn(String time) {
+    return 'Resend in $time';
+  }
+
+  @override
+  String get authResend => 'Send it again';
+
+  @override
+  String get authOtherDeviceTitle => 'On another device?';
+
+  @override
+  String get authOtherDeviceBody =>
+      'The mail also carries a 6-digit code. Type it here to finish on this phone.';
+
+  @override
+  String get authCodeLabel => 'Sign-in code';
+
+  @override
+  String get authChangeEmail => 'Wrong address? Change it';
+
+  @override
+  String get authSignedInBadge => 'Signed in';
+
+  @override
+  String get authNameTitle => 'How should\nguests see you?';
+
+  @override
+  String get authNameBody =>
+      'This is the only thing other people at a party see next to your orders.';
+
+  @override
+  String get authAddPhoto => 'Add a photo';
+
+  @override
+  String get authAddPhotoNote => 'Optional. Your initial works fine.';
+
+  @override
+  String get authDisplayNameLabel => 'Display name';
+
+  @override
+  String get authDisplayNameHint => 'Marta';
+
+  @override
+  String get authAgeConfirm => 'I’m 18 or over';
+
+  @override
+  String authAgeLegal(String terms, String privacy) {
+    return 'PartyBar is for people of legal drinking age. See the $terms and $privacy.';
+  }
+
+  @override
+  String get authNameRequired => 'Pick something guests will recognise.';
+
+  @override
+  String get authAgeRequired => 'Confirm you are 18 or over to continue.';
+
+  @override
+  String get authFinishHost => 'Create my party';
+
+  @override
+  String get authFinishBar => 'Open my bar';
+
+  @override
+  String get authFinishSave => 'Save the drink';
+
+  @override
+  String get authFinishGeneric => 'Continue';
+
+  @override
+  String authSignedInAs(String name) {
+    return 'Signed in as $name';
+  }
+
+  @override
+  String get authDraftKept => 'Draft kept while you signed in';
+
+  @override
+  String get authDraftRestored => 'Restored';
+
+  @override
+  String get authExpiredTitle => 'That link\nhas expired';
+
+  @override
+  String get authExpiredBody =>
+      'Sign-in links last 15 minutes and work once. Nothing is wrong with your account — here is a fresh one.';
+
+  @override
+  String get authSendNewLink => 'Send a new link';
+
+  @override
+  String get authDifferentAddress => 'Use a different address';
+
+  @override
+  String get authDraftSafeTitle => 'Your draft is safe';
+
+  @override
+  String get authDraftSafeBody =>
+      'Everything you set up is still on this phone. Signing in only moves it to your account.';
+
+  @override
+  String get authKeepGoing => 'Keep going without an account';
+
+  @override
+  String guestLiveAt(String party) {
+    return 'Live · $party';
+  }
+
+  @override
+  String get guestTitle => 'You’re at the bar';
+
+  @override
+  String guestBody(String host) {
+    return 'No account needed. $host just needs to know whose drink is whose.';
+  }
+
+  @override
+  String get guestBodyNoHost =>
+      'No account needed. The host just needs to know whose drink is whose.';
+
+  @override
+  String get guestNameLabel => 'What should we call you?';
+
+  @override
+  String get guestNameHint => 'Your name';
+
+  @override
+  String get guestNameRequired => 'A name is all we need.';
+
+  @override
+  String get guestStartOrdering => 'Start ordering';
+
+  @override
+  String get guestAgeNote => 'By ordering you confirm you’re 18 or over';
+
+  @override
+  String get guestHaveAccount => 'Have an account? Sign in';
+
+  @override
+  String get claimHeadline => 'That was a night';
+
+  @override
+  String claimSubline(int count, String party) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count drinks · $party',
+      one: '1 drink · $party',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String claimTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Keep tonight’s $count?',
+      one: 'Keep tonight’s drink?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get claimBody =>
+      'An account saves what you drank, so next time the bar already knows your taste. Skip it and nothing is lost tonight.';
+
+  @override
+  String claimMore(int count) {
+    return '+$count';
+  }
+
+  @override
+  String get claimWithGoogle => 'Save with Google';
+
+  @override
+  String get claimWithApple => 'Apple';
+
+  @override
+  String get claimWithEmail => 'Email';
+
+  @override
+  String get claimNoThanks => 'No thanks';
+
+  @override
+  String authErrorDifferentProvider(String email) {
+    return 'You already use Google for $email.';
+  }
+
+  @override
+  String get authErrorDifferentProviderNoEmail =>
+      'You already use Google for that address.';
+
+  @override
+  String get authErrorOffline =>
+      'No connection. Your draft is on this phone — we’ll sign you in when you’re back.';
+
+  @override
+  String get authErrorGeneric => 'Sign-in did not go through. Try again.';
+
+  @override
+  String get authErrorRetry => 'Try again';
+
+  @override
+  String get authBack => 'Back';
+
+  @override
+  String get authClose => 'Close';
 }

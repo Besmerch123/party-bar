@@ -50,7 +50,9 @@ class PartyBarApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LocaleProvider()..initialize()),
-        ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
+        ChangeNotifierProvider(
+          create: (_) => AuthenticationProvider()..initialize(),
+        ),
         ChangeNotifierProvider(
           create: (_) => OnboardingProvider()..initialize(),
         ),

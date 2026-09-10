@@ -2335,6 +2335,504 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Keep browsing without an account'**
   String get authGateKeepBrowsing;
+
+  /// Flow 03 - Auth. Google sign-in button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get authContinueGoogle;
+
+  /// Flow 03 - Auth. Apple sign-in button, dark until Apple sign-in ships
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Apple'**
+  String get authContinueApple;
+
+  /// Flow 03 - Auth. Badge on the Apple button while it is not wired yet
+  ///
+  /// In en, this message translates to:
+  /// **'Soon'**
+  String get authAppleSoon;
+
+  /// Flow 03 - Auth. Starts the magic-link lane
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with email'**
+  String get authContinueEmail;
+
+  /// Flow 03 - Auth. Legal footnote under the provider buttons. Both placeholders are rendered as links
+  ///
+  /// In en, this message translates to:
+  /// **'By continuing you agree to the {terms} and {privacy}.'**
+  String authLegalLine(String terms, String privacy);
+
+  /// Flow 03 - Auth. Name of the terms document, used as a link inside authLegalLine
+  ///
+  /// In en, this message translates to:
+  /// **'Terms'**
+  String get authTerms;
+
+  /// Flow 03 - Auth. Name of the privacy document, used as a link inside authLegalLine
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get authPrivacy;
+
+  /// Flow 03 - Auth. Screen 01. Overline on the barrier sheet, rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'One step left'**
+  String get authBarrierEyebrow;
+
+  /// Flow 03 - Auth. Screen 01. Barrier title when the interrupted action was creating a party
+  ///
+  /// In en, this message translates to:
+  /// **'Parties need an owner'**
+  String get authBarrierHostTitle;
+
+  /// Flow 03 - Auth. Screen 01. Barrier body for creating a party
+  ///
+  /// In en, this message translates to:
+  /// **'So guests can join from your link, and the menu is still here next Saturday. Your draft is saved either way.'**
+  String get authBarrierHostBody;
+
+  /// Flow 03 - Auth. Screen 01. Barrier title when the interrupted action was editing the shelf
+  ///
+  /// In en, this message translates to:
+  /// **'My Bar needs an owner'**
+  String get authBarrierBarTitle;
+
+  /// Flow 03 - Auth. Screen 01. Barrier body for editing the shelf
+  ///
+  /// In en, this message translates to:
+  /// **'So your shelf follows you to the next phone, and the app keeps answering what you can pour. Nothing you have ticked is lost either way.'**
+  String get authBarrierBarBody;
+
+  /// Flow 03 - Auth. Screen 01. Dismisses the barrier without signing in
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get authNotNow;
+
+  /// Flow 03 - Auth. Screen 02. Chip above the headline, rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Your bar, everywhere'**
+  String get authProvidersEyebrow;
+
+  /// Flow 03 - Auth. Screen 02. Headline on the cold sign-in screen
+  ///
+  /// In en, this message translates to:
+  /// **'One account.\nEvery party.'**
+  String get authProvidersTitle;
+
+  /// Flow 03 - Auth. Screen 02. Body under the headline
+  ///
+  /// In en, this message translates to:
+  /// **'Your shelf, your saved drinks and every party you have hosted, on any phone you pick up.'**
+  String get authProvidersBody;
+
+  /// Flow 03 - Auth. Screen 02. Reassurance line under the provider buttons
+  ///
+  /// In en, this message translates to:
+  /// **'18+ only · we never post anything'**
+  String get authAgeNote;
+
+  /// Flow 03 - Auth. Screen 03. Headline of the address screen
+  ///
+  /// In en, this message translates to:
+  /// **'What’s your\nemail?'**
+  String get authEmailTitle;
+
+  /// Flow 03 - Auth. Screen 03. Body of the address screen
+  ///
+  /// In en, this message translates to:
+  /// **'We send a link that signs you in. No password to invent, none to forget.'**
+  String get authEmailBody;
+
+  /// Flow 03 - Auth. Screen 03. Placeholder in the email field
+  ///
+  /// In en, this message translates to:
+  /// **'you@example.com'**
+  String get authEmailHint;
+
+  /// Flow 03 - Auth. Screen 03. Sends the magic link
+  ///
+  /// In en, this message translates to:
+  /// **'Send the link'**
+  String get authEmailSend;
+
+  /// Flow 03 - Auth. Screen 03. Footnote telling returning people there is no separate sign-up
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? The same link signs you back in.'**
+  String get authEmailReturning;
+
+  /// Flow 03 - Auth. Screen 03. Validation message under the email field
+  ///
+  /// In en, this message translates to:
+  /// **'That does not look like an email address.'**
+  String get authEmailInvalid;
+
+  /// Flow 03 - Auth. Screen 04. Headline after a link has been sent
+  ///
+  /// In en, this message translates to:
+  /// **'Check your\nmail'**
+  String get authCheckMailTitle;
+
+  /// Flow 03 - Auth. Screen 04. Body naming the address the link went to
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a sign-in link to {email}. It works once and expires in 15 minutes.'**
+  String authCheckMailBody(String email);
+
+  /// Flow 03 - Auth. Screen 04. Opens the device mail app
+  ///
+  /// In en, this message translates to:
+  /// **'Open Mail'**
+  String get authOpenMail;
+
+  /// Flow 03 - Auth. Screen 04. Countdown on the sleeping resend button, time reads as 0:42
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {time}'**
+  String authResendIn(String time);
+
+  /// Flow 03 - Auth. Screen 04. Resends the link once the countdown is over
+  ///
+  /// In en, this message translates to:
+  /// **'Send it again'**
+  String get authResend;
+
+  /// Flow 03 - Auth. Screen 04. Title of the 6-digit code card
+  ///
+  /// In en, this message translates to:
+  /// **'On another device?'**
+  String get authOtherDeviceTitle;
+
+  /// Flow 03 - Auth. Screen 04. Body of the 6-digit code card
+  ///
+  /// In en, this message translates to:
+  /// **'The mail also carries a 6-digit code. Type it here to finish on this phone.'**
+  String get authOtherDeviceBody;
+
+  /// Flow 03 - Auth. Screen 04. Accessibility label for the 6-digit code field
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in code'**
+  String get authCodeLabel;
+
+  /// Flow 03 - Auth. Screen 04. Goes back to the address screen
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong address? Change it'**
+  String get authChangeEmail;
+
+  /// Flow 03 - Auth. Screen 05. Confirmation chip at the top, rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in'**
+  String get authSignedInBadge;
+
+  /// Flow 03 - Auth. Screen 05. Headline of the display-name screen
+  ///
+  /// In en, this message translates to:
+  /// **'How should\nguests see you?'**
+  String get authNameTitle;
+
+  /// Flow 03 - Auth. Screen 05. Body of the display-name screen
+  ///
+  /// In en, this message translates to:
+  /// **'This is the only thing other people at a party see next to your orders.'**
+  String get authNameBody;
+
+  /// Flow 03 - Auth. Screen 05. Optional avatar action
+  ///
+  /// In en, this message translates to:
+  /// **'Add a photo'**
+  String get authAddPhoto;
+
+  /// Flow 03 - Auth. Screen 05. Note under the avatar action
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. Your initial works fine.'**
+  String get authAddPhotoNote;
+
+  /// Flow 03 - Auth. Screen 05. Field label, rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Display name'**
+  String get authDisplayNameLabel;
+
+  /// Flow 03 - Auth. Screen 05. Placeholder in the display-name field
+  ///
+  /// In en, this message translates to:
+  /// **'Marta'**
+  String get authDisplayNameHint;
+
+  /// Flow 03 - Auth. Screen 05. The one age gate in the product, on the commit
+  ///
+  /// In en, this message translates to:
+  /// **'I’m 18 or over'**
+  String get authAgeConfirm;
+
+  /// Flow 03 - Auth. Screen 05. Legal note under the age gate. Both placeholders are rendered as links
+  ///
+  /// In en, this message translates to:
+  /// **'PartyBar is for people of legal drinking age. See the {terms} and {privacy}.'**
+  String authAgeLegal(String terms, String privacy);
+
+  /// Flow 03 - Auth. Screen 05. Validation message under the display-name field
+  ///
+  /// In en, this message translates to:
+  /// **'Pick something guests will recognise.'**
+  String get authNameRequired;
+
+  /// Flow 03 - Auth. Screen 05. Shown when the age gate has not been ticked
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm you are 18 or over to continue.'**
+  String get authAgeRequired;
+
+  /// Flow 03 - Auth. Screen 05. Commit button when a party was waiting
+  ///
+  /// In en, this message translates to:
+  /// **'Create my party'**
+  String get authFinishHost;
+
+  /// Flow 03 - Auth. Screen 05. Commit button when the shelf was waiting
+  ///
+  /// In en, this message translates to:
+  /// **'Open my bar'**
+  String get authFinishBar;
+
+  /// Flow 03 - Auth. Screen 05. Commit button when a cocktail was waiting
+  ///
+  /// In en, this message translates to:
+  /// **'Save the drink'**
+  String get authFinishSave;
+
+  /// Flow 03 - Auth. Screen 05. Commit button with nothing particular waiting
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get authFinishGeneric;
+
+  /// Flow 03 - Auth. Screen 06. Glass chip shown on returning to the interrupted screen
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in as {name}'**
+  String authSignedInAs(String name);
+
+  /// Flow 03 - Auth. Screen 06. Row confirming nothing was lost
+  ///
+  /// In en, this message translates to:
+  /// **'Draft kept while you signed in'**
+  String get authDraftKept;
+
+  /// Flow 03 - Auth. Screen 06. Trailing status on the draft row, rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Restored'**
+  String get authDraftRestored;
+
+  /// Flow 03 - Auth. Screen 07. Headline of the expired-link screen
+  ///
+  /// In en, this message translates to:
+  /// **'That link\nhas expired'**
+  String get authExpiredTitle;
+
+  /// Flow 03 - Auth. Screen 07. Body of the expired-link screen
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in links last 15 minutes and work once. Nothing is wrong with your account — here is a fresh one.'**
+  String get authExpiredBody;
+
+  /// Flow 03 - Auth. Screen 07. Sends a replacement link to the same address
+  ///
+  /// In en, this message translates to:
+  /// **'Send a new link'**
+  String get authSendNewLink;
+
+  /// Flow 03 - Auth. Screen 07. Goes back to the address screen
+  ///
+  /// In en, this message translates to:
+  /// **'Use a different address'**
+  String get authDifferentAddress;
+
+  /// Flow 03 - Auth. Screen 07. Title of the reassurance card
+  ///
+  /// In en, this message translates to:
+  /// **'Your draft is safe'**
+  String get authDraftSafeTitle;
+
+  /// Flow 03 - Auth. Screen 07. Body of the reassurance card
+  ///
+  /// In en, this message translates to:
+  /// **'Everything you set up is still on this phone. Signing in only moves it to your account.'**
+  String get authDraftSafeBody;
+
+  /// Flow 03 - Auth. Screen 07. Leaves the flow without signing in
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going without an account'**
+  String get authKeepGoing;
+
+  /// Flow 03 - Auth. Screen 08. Glass chip naming the party a guest has arrived at, rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Live · {party}'**
+  String guestLiveAt(String party);
+
+  /// Flow 03 - Auth. Screen 08. Headline of the guest arrival screen
+  ///
+  /// In en, this message translates to:
+  /// **'You’re at the bar'**
+  String get guestTitle;
+
+  /// Flow 03 - Auth. Screen 08. Body of the guest arrival screen
+  ///
+  /// In en, this message translates to:
+  /// **'No account needed. {host} just needs to know whose drink is whose.'**
+  String guestBody(String host);
+
+  /// Flow 03 - Auth. Screen 08. Body of the guest arrival screen when the host name is unknown
+  ///
+  /// In en, this message translates to:
+  /// **'No account needed. The host just needs to know whose drink is whose.'**
+  String get guestBodyNoHost;
+
+  /// Flow 03 - Auth. Screen 08. Field label, rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'What should we call you?'**
+  String get guestNameLabel;
+
+  /// Flow 03 - Auth. Screen 08. Placeholder in the guest name field
+  ///
+  /// In en, this message translates to:
+  /// **'Your name'**
+  String get guestNameHint;
+
+  /// Flow 03 - Auth. Screen 08. Validation message under the guest name field
+  ///
+  /// In en, this message translates to:
+  /// **'A name is all we need.'**
+  String get guestNameRequired;
+
+  /// Flow 03 - Auth. Screen 08. Enters the party menu as a guest
+  ///
+  /// In en, this message translates to:
+  /// **'Start ordering'**
+  String get guestStartOrdering;
+
+  /// Flow 03 - Auth. Screen 08. The age gate in the guest lane, one line rather than a checkbox
+  ///
+  /// In en, this message translates to:
+  /// **'By ordering you confirm you’re 18 or over'**
+  String get guestAgeNote;
+
+  /// Flow 03 - Auth. Screen 08. Optional route to the full sign-in for guests
+  ///
+  /// In en, this message translates to:
+  /// **'Have an account? Sign in'**
+  String get guestHaveAccount;
+
+  /// Flow 03 - Auth. Screen 09. Headline behind the claim sheet, after a party ends
+  ///
+  /// In en, this message translates to:
+  /// **'That was a night'**
+  String get claimHeadline;
+
+  /// Flow 03 - Auth. Screen 09. What the night amounted to, under the headline
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 drink · {party}} other{{count} drinks · {party}}}'**
+  String claimSubline(int count, String party);
+
+  /// Flow 03 - Auth. Screen 09. Title of the claim sheet
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Keep tonight’s drink?} other{Keep tonight’s {count}?}}'**
+  String claimTitle(int count);
+
+  /// Flow 03 - Auth. Screen 09. Body of the claim sheet
+  ///
+  /// In en, this message translates to:
+  /// **'An account saves what you drank, so next time the bar already knows your taste. Skip it and nothing is lost tonight.'**
+  String get claimBody;
+
+  /// Flow 03 - Auth. Screen 09. Overflow tile when more drinks were poured than fit the row
+  ///
+  /// In en, this message translates to:
+  /// **'+{count}'**
+  String claimMore(int count);
+
+  /// Flow 03 - Auth. Screen 09. Claims the night with Google
+  ///
+  /// In en, this message translates to:
+  /// **'Save with Google'**
+  String get claimWithGoogle;
+
+  /// Flow 03 - Auth. Screen 09. Claims the night with Apple, short form on a split row
+  ///
+  /// In en, this message translates to:
+  /// **'Apple'**
+  String get claimWithApple;
+
+  /// Flow 03 - Auth. Screen 09. Claims the night with an email link, short form on a split row
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get claimWithEmail;
+
+  /// Flow 03 - Auth. Screen 09. Dismisses the claim sheet, which does not come back
+  ///
+  /// In en, this message translates to:
+  /// **'No thanks'**
+  String get claimNoThanks;
+
+  /// Flow 03 - Auth. Error copy. The address exists under another provider; a button under this continues with it
+  ///
+  /// In en, this message translates to:
+  /// **'You already use Google for {email}.'**
+  String authErrorDifferentProvider(String email);
+
+  /// Flow 03 - Auth. Error copy. Same as authErrorDifferentProvider when the address did not come back with the error
+  ///
+  /// In en, this message translates to:
+  /// **'You already use Google for that address.'**
+  String get authErrorDifferentProviderNoEmail;
+
+  /// Flow 03 - Auth. Error copy. Offline during a sign-in attempt
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. Your draft is on this phone — we’ll sign you in when you’re back.'**
+  String get authErrorOffline;
+
+  /// Flow 03 - Auth. Error copy. Anything not worth a sentence of its own
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in did not go through. Try again.'**
+  String get authErrorGeneric;
+
+  /// Flow 03 - Auth. Error copy. Retries the failed attempt
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get authErrorRetry;
+
+  /// Flow 03 - Auth. Accessibility label for the back affordance
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get authBack;
+
+  /// Flow 03 - Auth. Accessibility label for the close affordance
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get authClose;
 }
 
 class _AppLocalizationsDelegate

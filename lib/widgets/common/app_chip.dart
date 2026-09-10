@@ -49,9 +49,15 @@ class StatusChip extends StatelessWidget {
             Icon(icon, size: 14, color: tone.foreground),
             const SizedBox(width: 6),
           ],
-          Text(
-            label.toUpperCase(),
-            style: AppTypography.label.copyWith(color: tone.foreground),
+          // A chip states a status; it must not push the row it sits in off
+          // the screen because the status has a long name.
+          Flexible(
+            child: Text(
+              label.toUpperCase(),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTypography.label.copyWith(color: tone.foreground),
+            ),
           ),
         ],
       ),
@@ -89,7 +95,14 @@ class LiveChip extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Text(label.toUpperCase(), style: AppTypography.label),
+          Flexible(
+            child: Text(
+              label.toUpperCase(),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTypography.label,
+            ),
+          ),
         ],
       ),
     );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:party_bar/utils/app_router.dart';
+import 'package:provider/provider.dart';
+import '../../providers/auth_provider.dart';
 import '../../services/party_service.dart';
 import '../../utils/localization_helper.dart';
 
@@ -17,6 +19,15 @@ class _JoinPartyFormState extends State<JoinPartyForm> {
   final TextEditingController _guestNameController = TextEditingController();
   final PartyService _partyService = PartyService();
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // The guest lane never creates an account, but the phone still remembers
+    // whose it is: a guest is asked their name once, not once per party.
+    _guestNameController.text =
+        context.read<AuthenticationProvider>().guestName ?? '';
+  }
 
   @override
   void dispose() {
@@ -36,6 +47,10 @@ class _JoinPartyFormState extends State<JoinPartyForm> {
       );
       return;
     }
+
+    // Captured before the await: the context this resolves against may be
+    // gone by the time the join comes back.
+    final auth = context.read<AuthenticationProvider>();
 
     setState(() {
       _isLoading = true;
@@ -63,6 +78,9 @@ class _JoinPartyFormState extends State<JoinPartyForm> {
         return;
       }
 
+      final guestName = _guestNameController.text.trim();
+      await auth.setGuestName(guestName);
+
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -70,10 +88,7 @@ class _JoinPartyFormState extends State<JoinPartyForm> {
 
         context.push(
           '${AppRoutes.activePartyGuest}/${party.id}',
-          extra: {
-            'party': party,
-            'guestName': _guestNameController.text.trim(),
-          },
+          extra: {'party': party, 'guestName': guestName},
         );
       }
     } catch (e) {

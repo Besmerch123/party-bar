@@ -13,7 +13,9 @@ import '../models/onboarding.dart';
 /// the catalogue being re-seeded under different document ids — and auth later
 /// claims it rather than owning it.
 class BarProvider extends ChangeNotifier {
-  static const _shelfKey = 'bar_shelf';
+  /// Where the shelf lives on the device. Public because signing in claims
+  /// this shelf into the account, and auth reads it without owning it.
+  static const shelfKey = 'bar_shelf';
 
   /// The key flow 01 writes. Read once, to seed a shelf that has never been
   /// saved; after that the two drift apart and this one wins.
@@ -40,7 +42,7 @@ class BarProvider extends ChangeNotifier {
     if (_isInitialized) return;
 
     final prefs = await SharedPreferences.getInstance();
-    final saved = prefs.getStringList(_shelfKey);
+    final saved = prefs.getStringList(shelfKey);
 
     if (saved == null) {
       // First run after onboarding: adopt whatever was ticked there. The
@@ -80,6 +82,6 @@ class BarProvider extends ChangeNotifier {
 
   Future<void> _persist() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList(_shelfKey, _keys.toList(growable: false));
+    await prefs.setStringList(shelfKey, _keys.toList(growable: false));
   }
 }

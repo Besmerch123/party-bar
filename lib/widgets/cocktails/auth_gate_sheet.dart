@@ -33,8 +33,9 @@ class AuthGateSheet extends StatelessWidget {
     // Captured before the pop: once the sheet is gone so is the route state
     // this context resolved against.
     final redirect = GoRouterState.of(context).uri.toString();
+    final router = GoRouter.of(context);
     Navigator.of(context).pop();
-    context.push('${AppRoutes.auth}?redirect=${Uri.encodeComponent(redirect)}');
+    router.push('${AppRoutes.auth}?redirect=${Uri.encodeComponent(redirect)}');
   }
 
   @override

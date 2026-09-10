@@ -1327,4 +1327,304 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get authGateKeepBrowsing => 'Далі без акаунта';
+
+  @override
+  String get authContinueGoogle => 'Продовжити з Google';
+
+  @override
+  String get authContinueApple => 'Продовжити з Apple';
+
+  @override
+  String get authAppleSoon => 'Скоро';
+
+  @override
+  String get authContinueEmail => 'Продовжити з поштою';
+
+  @override
+  String authLegalLine(String terms, String privacy) {
+    return 'Продовжуючи, ви погоджуєтесь із $terms та $privacy.';
+  }
+
+  @override
+  String get authTerms => 'Умовами';
+
+  @override
+  String get authPrivacy => 'Політикою конфіденційності';
+
+  @override
+  String get authBarrierEyebrow => 'Залишився один крок';
+
+  @override
+  String get authBarrierHostTitle => 'У вечірки має бути господар';
+
+  @override
+  String get authBarrierHostBody =>
+      'Щоб гості приєднувались за вашим посиланням, а меню було на місці й наступної суботи. Чернетка збережеться у будь-якому разі.';
+
+  @override
+  String get authBarrierBarTitle => 'У бару має бути господар';
+
+  @override
+  String get authBarrierBarBody =>
+      'Щоб полиця переїхала на наступний телефон, а застосунок далі відповідав, що ви можете налити. Нічого з позначеного не зникне.';
+
+  @override
+  String get authNotNow => 'Не зараз';
+
+  @override
+  String get authProvidersEyebrow => 'Ваш бар скрізь';
+
+  @override
+  String get authProvidersTitle => 'Один акаунт.\nУсі вечірки.';
+
+  @override
+  String get authProvidersBody =>
+      'Ваша полиця, збережені напої та кожна вечірка, яку ви провели — на будь-якому телефоні.';
+
+  @override
+  String get authAgeNote => 'Лише 18+ · ми нічого не публікуємо';
+
+  @override
+  String get authEmailTitle => 'Яка ваша\nпошта?';
+
+  @override
+  String get authEmailBody =>
+      'Ми надішлемо посилання, яке вас увійде. Ніяких паролів — ні вигадувати, ні забувати.';
+
+  @override
+  String get authEmailHint => 'you@example.com';
+
+  @override
+  String get authEmailSend => 'Надіслати посилання';
+
+  @override
+  String get authEmailReturning =>
+      'Вже маєте акаунт? Це саме посилання поверне вас усередину.';
+
+  @override
+  String get authEmailInvalid => 'Це не схоже на адресу пошти.';
+
+  @override
+  String get authCheckMailTitle => 'Перевірте\nпошту';
+
+  @override
+  String authCheckMailBody(String email) {
+    return 'Ми надіслали посилання на $email. Воно працює один раз і діє 15 хвилин.';
+  }
+
+  @override
+  String get authOpenMail => 'Відкрити пошту';
+
+  @override
+  String authResendIn(String time) {
+    return 'Повтор через $time';
+  }
+
+  @override
+  String get authResend => 'Надіслати ще раз';
+
+  @override
+  String get authOtherDeviceTitle => 'На іншому пристрої?';
+
+  @override
+  String get authOtherDeviceBody =>
+      'У листі також є 6-значний код. Введіть його тут, щоб завершити на цьому телефоні.';
+
+  @override
+  String get authCodeLabel => 'Код входу';
+
+  @override
+  String get authChangeEmail => 'Не та адреса? Змінити';
+
+  @override
+  String get authSignedInBadge => 'Ви увійшли';
+
+  @override
+  String get authNameTitle => 'Як вас бачитимуть\nгості?';
+
+  @override
+  String get authNameBody =>
+      'Це єдине, що інші на вечірці бачать поруч із вашими замовленнями.';
+
+  @override
+  String get authAddPhoto => 'Додати фото';
+
+  @override
+  String get authAddPhotoNote => 'Необов\'язково. Літери цілком достатньо.';
+
+  @override
+  String get authDisplayNameLabel => 'Ім\'я для гостей';
+
+  @override
+  String get authDisplayNameHint => 'Марта';
+
+  @override
+  String get authAgeConfirm => 'Мені 18 або більше';
+
+  @override
+  String authAgeLegal(String terms, String privacy) {
+    return 'PartyBar — для людей повнолітнього віку. Див. $terms та $privacy.';
+  }
+
+  @override
+  String get authNameRequired => 'Оберіть ім\'я, яке гості впізнають.';
+
+  @override
+  String get authAgeRequired => 'Підтвердьте, що вам є 18, щоб продовжити.';
+
+  @override
+  String get authFinishHost => 'Створити вечірку';
+
+  @override
+  String get authFinishBar => 'Відкрити мій бар';
+
+  @override
+  String get authFinishSave => 'Зберегти напій';
+
+  @override
+  String get authFinishGeneric => 'Продовжити';
+
+  @override
+  String authSignedInAs(String name) {
+    return 'Увійшли як $name';
+  }
+
+  @override
+  String get authDraftKept => 'Чернетка збереглась, поки ви входили';
+
+  @override
+  String get authDraftRestored => 'Відновлено';
+
+  @override
+  String get authExpiredTitle => 'Термін посилання\nминув';
+
+  @override
+  String get authExpiredBody =>
+      'Посилання для входу діють 15 хвилин і спрацьовують один раз. З вашим акаунтом усе гаразд — ось нове.';
+
+  @override
+  String get authSendNewLink => 'Надіслати нове посилання';
+
+  @override
+  String get authDifferentAddress => 'Ввести іншу адресу';
+
+  @override
+  String get authDraftSafeTitle => 'Ваша чернетка в безпеці';
+
+  @override
+  String get authDraftSafeBody =>
+      'Усе налаштоване залишається на цьому телефоні. Вхід лише перенесе це в акаунт.';
+
+  @override
+  String get authKeepGoing => 'Далі без акаунта';
+
+  @override
+  String guestLiveAt(String party) {
+    return 'Наживо · $party';
+  }
+
+  @override
+  String get guestTitle => 'Ви біля бару';
+
+  @override
+  String guestBody(String host) {
+    return 'Акаунт не потрібен. $host просто має знати, чий це напій.';
+  }
+
+  @override
+  String get guestBodyNoHost =>
+      'Акаунт не потрібен. Господар просто має знати, чий це напій.';
+
+  @override
+  String get guestNameLabel => 'Як до вас звертатись?';
+
+  @override
+  String get guestNameHint => 'Ваше ім\'я';
+
+  @override
+  String get guestNameRequired => 'Нам достатньо лише імені.';
+
+  @override
+  String get guestStartOrdering => 'Почати замовляти';
+
+  @override
+  String get guestAgeNote => 'Замовляючи, ви підтверджуєте, що вам є 18';
+
+  @override
+  String get guestHaveAccount => 'Є акаунт? Увійти';
+
+  @override
+  String get claimHeadline => 'Ось це була ніч';
+
+  @override
+  String claimSubline(int count, String party) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count напою · $party',
+      many: '$count напоїв · $party',
+      few: '$count напої · $party',
+      one: '1 напій · $party',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String claimTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Зберегти сьогоднішні $count напою?',
+      many: 'Зберегти сьогоднішні $count напоїв?',
+      few: 'Зберегти сьогоднішні $count напої?',
+      one: 'Зберегти сьогоднішній напій?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get claimBody =>
+      'Акаунт зберігає те, що ви пили, і наступного разу бар уже знатиме ваш смак. Пропустіть — і сьогоднішнє нікуди не зникне.';
+
+  @override
+  String claimMore(int count) {
+    return '+$count';
+  }
+
+  @override
+  String get claimWithGoogle => 'Зберегти з Google';
+
+  @override
+  String get claimWithApple => 'Apple';
+
+  @override
+  String get claimWithEmail => 'Пошта';
+
+  @override
+  String get claimNoThanks => 'Ні, дякую';
+
+  @override
+  String authErrorDifferentProvider(String email) {
+    return 'Для $email ви вже користуєтесь Google.';
+  }
+
+  @override
+  String get authErrorDifferentProviderNoEmail =>
+      'Для цієї адреси ви вже користуєтесь Google.';
+
+  @override
+  String get authErrorOffline =>
+      'Немає з\'єднання. Чернетка лишається на телефоні — увійдемо, коли відновиться.';
+
+  @override
+  String get authErrorGeneric => 'Вхід не вдався. Спробуйте ще раз.';
+
+  @override
+  String get authErrorRetry => 'Спробувати знову';
+
+  @override
+  String get authBack => 'Назад';
+
+  @override
+  String get authClose => 'Закрити';
 }

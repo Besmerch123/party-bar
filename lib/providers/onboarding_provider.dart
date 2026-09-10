@@ -10,7 +10,9 @@ import '../models/onboarding.dart';
 /// lands, the claiming user reads this state once and uploads it; that is why
 /// the getters below are all derived rather than cached.
 class OnboardingProvider extends ChangeNotifier {
-  static const _vibesKey = 'onboarding_vibes';
+  /// Public because signing in claims the vibe into the account, and auth
+  /// reads this key without owning it.
+  static const vibesKey = 'onboarding_vibes';
   static const _bottlesKey = 'onboarding_bottles';
 
   final Set<DrinkVibe> _vibes = {};
@@ -57,7 +59,7 @@ class OnboardingProvider extends ChangeNotifier {
 
     final prefs = await SharedPreferences.getInstance();
 
-    final savedVibes = prefs.getStringList(_vibesKey) ?? const [];
+    final savedVibes = prefs.getStringList(vibesKey) ?? const [];
     _vibes
       ..clear()
       ..addAll(
@@ -85,7 +87,7 @@ class OnboardingProvider extends ChangeNotifier {
     if (!_vibes.remove(vibe)) _vibes.add(vibe);
     notifyListeners();
     await _persist(
-      _vibesKey,
+      vibesKey,
       _vibes.map((vibe) => vibe.name).toList(growable: false),
     );
   }

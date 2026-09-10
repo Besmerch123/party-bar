@@ -1,344 +1,228 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/auth.dart';
 import '../../providers/auth_provider.dart';
+import '../../theme/theme.dart';
+import '../../utils/app_router.dart';
 import '../../utils/localization_helper.dart';
+import '../../widgets/auth/auth_controls.dart';
+import '../../widgets/common/glass.dart';
 
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key, this.redirectPath});
+/// Flow 03 · screen 02 — the cold entry.
+///
+/// The barrier sheet is the usual way an account gets asked for, because there
+/// is normally something waiting behind it. This screen is the other case:
+/// the profile tab, or a guarded route opened from a link, where nothing is
+/// held and the app has to make the argument on its own. So it argues — a
+/// photograph, one sentence about what an account is for — rather than
+/// presenting a form.
+class AuthScreen extends StatelessWidget {
+  const AuthScreen({
+    super.key,
+    this.redirectPath,
+    this.reason = AuthReason.cold,
+  });
 
-  /// Path to redirect to after successful authentication
+  /// Where to land once someone is signed in. Null goes back the way it came.
   final String? redirectPath;
 
-  @override
-  State<AuthScreen> createState() => _AuthScreenState();
-}
+  /// What was being attempted, carried through to the name screen so its
+  /// commit button can name the thing rather than say "Continue".
+  final AuthReason reason;
 
-class _AuthScreenState extends State<AuthScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  final _signInFormKey = GlobalKey<FormState>();
-  final _signUpFormKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-  bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
+  static const _hero = 'assets/images/onboarding/midnight_orchard.jpg';
 
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
-  }
-
-  bool get _isSignUp => _tabController.index == 1;
-
-  Future<void> _handleEmailAuth() async {
-    final formKey = _isSignUp ? _signUpFormKey : _signInFormKey;
-    if (!formKey.currentState!.validate()) return;
-
-    final authProvider = context.read<AuthenticationProvider>();
-    bool success;
-
-    if (_isSignUp) {
-      success = await authProvider.signUpWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      );
-    } else {
-      success = await authProvider.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      );
-    }
-
-    if (mounted) {
-      if (success) {
-        _handleSuccessfulAuth(context);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(authProvider.errorMessage ?? 'Authentication failed'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
-  }
-
-  Future<void> _handleGoogleSignIn() async {
-    final authProvider = context.read<AuthenticationProvider>();
-    final success = await authProvider.signInWithGoogle();
-
-    if (mounted) {
-      if (success) {
-        _handleSuccessfulAuth(context);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(authProvider.errorMessage ?? 'Google sign in failed'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return context.l10n.emailRequired;
-    }
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return context.l10n.emailInvalid;
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return context.l10n.passwordRequired;
-    }
-    if (value.length < 6) {
-      return context.l10n.passwordTooShort;
-    }
-    return null;
-  }
-
-  String? _validateConfirmPassword(String? value) {
-    if (_isSignUp) {
-      if (value == null || value.isEmpty) {
-        return context.l10n.confirmPasswordRequired;
-      }
-      if (value != _passwordController.text) {
-        return context.l10n.passwordsDoNotMatch;
-      }
-    }
-    return null;
-  }
-
-  void _handleSuccessfulAuth(BuildContext context) {
-    // Show success message
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          _isSignUp ? context.l10n.signUpSuccess : context.l10n.signInSuccess,
-        ),
-        backgroundColor: Colors.green,
-      ),
-    );
-
-    // Handle redirect or go back
-    if (widget.redirectPath != null) {
-      // Replace the current route with the redirect path
-      context.go(widget.redirectPath!);
-    } else {
-      // Just go back to the previous screen
-      Navigator.of(context).pop();
-    }
-  }
+  /// The photo owns the top 62% of the frame, the same band the onboarding
+  /// slides use, so the two flows read as one product.
+  static const _heroRatio = 0.62;
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = context.watch<AuthenticationProvider>();
+    final l10n = context.l10n;
+    final auth = context.watch<AuthenticationProvider>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.authentication),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: [
-            Tab(text: context.l10n.signIn),
-            Tab(text: context.l10n.signUp),
-          ],
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
+      body: Stack(
+        fit: StackFit.expand,
         children: [
-          _buildAuthForm(context, authProvider, isSignUp: false),
-          _buildAuthForm(context, authProvider, isSignUp: true),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: MediaQuery.sizeOf(context).height * _heroRatio,
+            child: const Stack(
+              fit: StackFit.expand,
+              children: [
+                Image(image: AssetImage(_hero), fit: BoxFit.cover),
+                PhotoScrim(),
+              ],
+            ),
+          ),
+          SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: AppSpacing.screenEdge - 5,
+                    top: 8,
+                  ),
+                  child: AuthIconAction(
+                    icon: Icons.close,
+                    onGlass: true,
+                    semanticLabel: l10n.authClose,
+                    onTap: () => _leave(context),
+                  ),
+                ),
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) => SingleChildScrollView(
+                      padding: const EdgeInsets.fromLTRB(
+                        AppSpacing.screenEdge,
+                        AppSpacing.md,
+                        AppSpacing.screenEdge,
+                        30,
+                      ),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: constraints.maxHeight - AppSpacing.md - 30,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            AuthEyebrow(
+                              label: l10n.authProvidersEyebrow,
+                              tinted: true,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              l10n.authProvidersTitle,
+                              style: AppTypography.display.copyWith(
+                                fontSize: 38,
+                                letterSpacing: -1.33,
+                              ),
+                            ),
+                            const SizedBox(height: 14),
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 310),
+                              child: Text(
+                                l10n.authProvidersBody,
+                                style: AppTypography.body.copyWith(height: 1.6),
+                              ),
+                            ),
+                            if (auth.failure != null &&
+                                !auth.failure!.isSilent) ...[
+                              const SizedBox(height: AppSpacing.md),
+                              AuthFailureNotice(
+                                failure: auth.failure,
+                                onRetry: () => _google(context),
+                                onUseGoogle: () => _google(context),
+                              ),
+                            ],
+                            const SizedBox(height: AppSpacing.lg),
+                            AuthProviderColumn(
+                              onGlass: true,
+                              enabled: !auth.isBusy,
+                              onGoogle: () => _google(context),
+                              onEmail: () => _email(context),
+                            ),
+                            const SizedBox(height: 18),
+                            AuthAssuranceLine(label: l10n.authAgeNote),
+                            const SizedBox(height: 10),
+                            AuthLegalLine(
+                              sentence: l10n.authLegalLine(
+                                l10n.authTerms,
+                                l10n.authPrivacy,
+                              ),
+                              termsLabel: l10n.authTerms,
+                              privacyLabel: l10n.authPrivacy,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildAuthForm(
-    BuildContext context,
-    AuthenticationProvider authProvider, {
-    required bool isSignUp,
-  }) {
-    final formKey = isSignUp ? _signUpFormKey : _signInFormKey;
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(24.0),
-      child: Form(
-        key: formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 32),
-
-            // Title
-            Text(
-              isSignUp ? context.l10n.createAccount : context.l10n.welcomeBack,
-              style: Theme.of(
-                context,
-              ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              isSignUp
-                  ? context.l10n.signUpSubtitle
-                  : context.l10n.signInSubtitle,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 32),
-
-            // Email field
-            TextFormField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: context.l10n.email,
-                hintText: context.l10n.emailHint,
-                prefixIcon: const Icon(Icons.email_outlined),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              validator: _validateEmail,
-            ),
-            const SizedBox(height: 16),
-
-            // Password field
-            TextFormField(
-              controller: _passwordController,
-              obscureText: _obscurePassword,
-              decoration: InputDecoration(
-                labelText: context.l10n.password,
-                hintText: context.l10n.passwordHint,
-                prefixIcon: const Icon(Icons.lock_outline),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _obscurePassword = !_obscurePassword;
-                    });
-                  },
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              validator: _validatePassword,
-            ),
-            const SizedBox(height: 16),
-
-            // Confirm Password field (only for sign up)
-            if (isSignUp) ...[
-              TextFormField(
-                controller: _confirmPasswordController,
-                obscureText: _obscureConfirmPassword,
-                decoration: InputDecoration(
-                  labelText: context.l10n.confirmPassword,
-                  hintText: context.l10n.confirmPasswordHint,
-                  prefixIcon: const Icon(Icons.lock_outline),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureConfirmPassword
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureConfirmPassword = !_obscureConfirmPassword;
-                      });
-                    },
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                validator: _validateConfirmPassword,
-              ),
-              const SizedBox(height: 16),
-            ],
-
-            // Sign in/up button
-            ElevatedButton(
-              onPressed: authProvider.isLoading ? null : _handleEmailAuth,
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: authProvider.isLoading
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Text(
-                      isSignUp ? context.l10n.signUp : context.l10n.signIn,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-            ),
-            const SizedBox(height: 24),
-
-            // Divider
-            Row(
-              children: [
-                const Expanded(child: Divider()),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    context.l10n.orContinueWith,
-                    style: TextStyle(color: Colors.grey[600]),
-                  ),
-                ),
-                const Expanded(child: Divider()),
-              ],
-            ),
-            const SizedBox(height: 24),
-
-            // Google sign in button
-            OutlinedButton.icon(
-              onPressed: authProvider.isLoading ? null : _handleGoogleSignIn,
-              icon: Image.asset(
-                'assets/icons/google_logo.png',
-                height: 24,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.g_mobiledata, size: 24);
-                },
-              ),
-              label: Text(context.l10n.continueWithGoogle),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  void _leave(BuildContext context) {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go(AppRoutes.explore);
+    }
   }
+
+  Future<void> _google(BuildContext context) async {
+    final auth = context.read<AuthenticationProvider>();
+    final signedIn = await auth.signInWithGoogle();
+    if (!context.mounted || !signedIn) return;
+
+    finishSignIn(context, redirectPath: redirectPath, reason: reason);
+  }
+
+  void _email(BuildContext context) {
+    context.push(authLanePath(AppRoutes.authEmail, redirectPath, reason));
+  }
+}
+
+/// Where the whole flow ends.
+///
+/// Google hands us a name, so it lands straight back on whatever was
+/// interrupted. The email lane arrives nameless and owes screen 05 first —
+/// that is the only difference between the two lanes.
+void finishSignIn(
+  BuildContext context, {
+  String? redirectPath,
+  AuthReason reason = AuthReason.cold,
+}) {
+  final auth = context.read<AuthenticationProvider>();
+
+  if (auth.needsDisplayName) {
+    context.pushReplacement(
+      authLanePath(AppRoutes.authName, redirectPath, reason),
+    );
+    return;
+  }
+
+  if (redirectPath != null) {
+    context.go(redirectPath);
+  } else if (context.canPop()) {
+    context.pop();
+  } else {
+    context.go(AppRoutes.explore);
+  }
+}
+
+/// Builds a path in the auth lane carrying what the lane needs to know: where
+/// the person was going, and what they were doing when they were stopped.
+String authLanePath(String path, String? redirectPath, AuthReason reason) {
+  final query = <String, String>{
+    if (redirectPath != null) 'redirect': redirectPath,
+    if (reason != AuthReason.cold) 'reason': reason.name,
+  };
+
+  if (query.isEmpty) return path;
+
+  final encoded = query.entries
+      .map((e) => '${e.key}=${Uri.encodeComponent(e.value)}')
+      .join('&');
+
+  return '$path?$encoded';
+}
+
+/// Reads back what [authLanePath] wrote.
+AuthReason authReasonFrom(GoRouterState state) {
+  final name = state.uri.queryParameters['reason'];
+  return AuthReason.values.where((reason) => reason.name == name).firstOrNull ??
+      AuthReason.cold;
 }

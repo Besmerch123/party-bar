@@ -16,5 +16,12 @@ export 'party/active_party_host_screen.dart';
 export 'party/active_party_guest_screen.dart';
 export 'settings/profile_screen.dart';
 export 'settings/settings_screen.dart';
+// Flow 03 - auth. The barrier and the cold sign-in screen, then the email
+// lane, the name it has to ask for, and the guest lane that skips all of it.
 export 'auth/auth_screen.dart';
 export 'auth/auth_barrier_screen.dart';
+export 'auth/email_sign_in_screen.dart';
+export 'auth/check_mail_screen.dart';
+export 'auth/link_expired_screen.dart';
+export 'auth/name_yourself_screen.dart';
+export 'auth/guest_name_screen.dart';

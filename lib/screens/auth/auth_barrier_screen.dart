@@ -1,110 +1,120 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../models/auth.dart';
+import '../../theme/theme.dart';
 import '../../utils/app_router.dart';
 import '../../utils/localization_helper.dart';
+import '../../widgets/auth/auth_barrier_sheet.dart';
+import '../../widgets/auth/auth_controls.dart';
+import '../../widgets/common/glass.dart';
 
-/// A screen that displays when an unauthenticated user tries to access
-/// protected content. Shows a clear message and provides a way to login.
+/// Flow 03 · screen 01, as a whole screen.
+///
+/// The barrier is normally a sheet over the thing it interrupted. A guarded
+/// route opened cold — from a link, or from a tab restored on launch — has no
+/// such thing behind it, and [AuthGuard] renders this instead: the same
+/// argument, the same sheet, over a held photograph rather than over a draft.
+///
+/// It deliberately does not invent the draft the artboard shows behind its
+/// scrim. There is nothing there to name, and naming a party that does not
+/// exist would be a worse lie than an empty backdrop.
 class AuthBarrierScreen extends StatelessWidget {
-  const AuthBarrierScreen({super.key, this.redirectPath});
+  const AuthBarrierScreen({
+    super.key,
+    this.redirectPath,
+    this.reason = AuthReason.hostParty,
+  });
 
-  /// The path to redirect to after successful authentication
+  /// The path to land on once someone is signed in.
   final String? redirectPath;
+
+  /// What was being attempted, which decides the argument the sheet makes.
+  final AuthReason reason;
+
+  static const _backdrop = 'assets/images/onboarding/cosmopolitan.jpg';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.authenticationRequired),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Authentication required icon
-            Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.lock_outline,
-                size: 60,
-                color: Theme.of(context).colorScheme.primary,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: MediaQuery.sizeOf(context).height * 0.42,
+            child: const Stack(
+              fit: StackFit.expand,
+              children: [
+                Image(image: AssetImage(_backdrop), fit: BoxFit.cover),
+                PhotoScrim(),
+              ],
+            ),
+          ),
+
+          // The barrier holds its backdrop back rather than competing with it.
+          const ColoredBox(color: Color(0xBD0B0B0C), child: SizedBox.expand()),
+
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: AppSpacing.screenEdge - 5,
+                  top: 8,
+                ),
+                child: AuthIconAction(
+                  icon: Icons.close,
+                  onGlass: true,
+                  semanticLabel: context.l10n.authClose,
+                  onTap: () => _leave(context),
+                ),
               ),
             ),
-            const SizedBox(height: 32),
+          ),
 
-            // Title
-            Text(
-              context.l10n.authenticationRequired,
-              style: Theme.of(
-                context,
-              ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-
-            // Description
-            Text(
-              context.l10n.authenticationRequiredMessage,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.7),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ConstrainedBox(
+              // The backdrop is allowed to shrink to a sliver, but the sheet
+              // must never grow past the screen: on a short phone with the
+              // text turned up the argument scrolls instead.
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.sizeOf(context).height * 0.92,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 48),
-
-            // Sign in button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () => _navigateToAuth(context),
-                icon: const Icon(Icons.login),
-                label: Text(context.l10n.signInToContinue),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: AppColors.sheet,
+                  borderRadius: AppRadius.sheetTop,
+                  boxShadow: [kSheetShadow],
+                ),
+                child: SafeArea(
+                  top: false,
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.only(bottom: 30),
+                    child: AuthBarrierSheet(
+                      reason: reason,
+                      redirectPath: redirectPath,
+                      embedded: true,
+                    ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-
-            // Go back button
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () => context.pop(),
-                icon: const Icon(Icons.arrow_back),
-                label: Text(context.l10n.previous),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  void _navigateToAuth(BuildContext context) {
-    // Navigate to auth screen with the redirect path as a query parameter
-    final authPath = redirectPath != null
-        ? '${AppRoutes.auth}?redirect=${Uri.encodeComponent(redirectPath!)}'
-        : AppRoutes.auth;
-
-    context.push(authPath);
+  void _leave(BuildContext context) {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go(AppRoutes.explore);
+    }
   }
 }

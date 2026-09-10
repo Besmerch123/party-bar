@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../models/models.dart';
 import '../../utils/localization_helper.dart';
+import '../../widgets/auth/signed_in_banner.dart';
 import '../../widgets/party/create_party_form.dart';
 
 class CreatePartyScreen extends StatelessWidget {
@@ -15,7 +16,18 @@ class CreatePartyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.createPartyTitle)),
+      appBar: AppBar(
+        title: Text(context.l10n.createPartyTitle),
+        // Flow 03 · screen 06 — coming back from the barrier. The chip is the
+        // app keeping the promise the barrier made: you signed in, and you
+        // are back where you were. It shows itself once and then leaves.
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 12),
+            child: Center(child: SignedInChip()),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Column(
           children: [
