@@ -16,6 +16,10 @@
   "@navigationParty": {
     "description": "Party navigation item"
   },
+  "navigationMyBar": "My bar",
+  "@navigationMyBar": {
+    "description": "Flow 04 - My bar. Bottom nav label for the My bar tab"
+  },
   "navigationSettings": "Settings",
   "@navigationSettings": {
     "description": "Settings navigation item"
@@ -1200,6 +1204,10 @@
   "@bottleMint": {
     "description": "Starter bottle name in the onboarding shelf picker"
   },
+  "bottleShaker": "Shaker",
+  "@bottleShaker": {
+    "description": "Flow 04 - My bar. Label for the shaker starter row on the empty shelf"
+  },
   "exploreFeedTitle": "Pour tonight",
   "@exploreFeedTitle": {
     "description": "Flow 02 - Explore. Explore feed headline"
@@ -1870,13 +1878,13 @@
   "@authBarrierHostBody": {
     "description": "Flow 03 - Auth. Screen 01. Barrier body for creating a party"
   },
-  "authBarrierBarTitle": "My Bar needs an owner",
+  "authBarrierBarTitle": "Don’t lose this shelf",
   "@authBarrierBarTitle": {
-    "description": "Flow 03 - Auth. Screen 01. Barrier title when the interrupted action was editing the shelf"
+    "description": "Flow 03 - Auth. Screen 01. Barrier title when the interrupted action was editing the shelf. Flow 04 turned this into a one-time nudge rather than a gate."
   },
-  "authBarrierBarBody": "So your shelf follows you to the next phone, and the app keeps answering what you can pour. Nothing you have ticked is lost either way.",
+  "authBarrierBarBody": "Sign in with Google and it follows you to the next phone. It keeps working on this one either way.",
   "@authBarrierBarBody": {
-    "description": "Flow 03 - Auth. Screen 01. Barrier body for editing the shelf"
+    "description": "Flow 03 - Auth. Screen 01. Barrier body for editing the shelf. Flow 04 turned this into a one-time nudge rather than a gate."
   },
   "authNotNow": "Not now",
   "@authNotNow": {
@@ -2115,5 +2123,599 @@
   "authClose": "Close",
   "@authClose": {
     "description": "Flow 03 - Auth. Accessibility label for the close affordance"
+  },
+  "barTitle": "My bar",
+  "@barTitle": {
+    "description": "Flow 04 - My bar. Screen title"
+  },
+  "barEmptyBody": "Nothing on the shelf yet. Tap what you own — it stays on this phone until you sign in.",
+  "@barEmptyBody": {
+    "description": "Flow 04 - My bar. Screen 01. Subtitle under the My bar title when signed out and the shelf is empty"
+  },
+  "barEmptyBodySignedIn": "Nothing on the shelf yet. Tap what you own.",
+  "@barEmptyBodySignedIn": {
+    "description": "Flow 04 - My bar. Screen 01. Subtitle under the My bar title when signed in and the shelf is empty"
+  },
+  "barSearchHint": "Bottles, mixers, tools…",
+  "@barSearchHint": {
+    "description": "Flow 04 - My bar. Placeholder in the My bar search field"
+  },
+  "barStartersSection": "Most bars start here",
+  "@barStartersSection": {
+    "description": "Flow 04 - My bar. Screen 01. Eyebrow above the starter rows"
+  },
+  "barAddAll": "Add all",
+  "@barAddAll": {
+    "description": "Flow 04 - My bar. Screen 01. Adds every starter row to the shelf at once"
+  },
+  "barStartersFooter": "Twelve suggestions, then search for the rest",
+  "@barStartersFooter": {
+    "description": "Flow 04 - My bar. Screen 01. Footnote under the starter rows"
+  },
+  "barInDrinks": "{count, plural, =1{In 1 drink} other{In {count} drinks}}",
+  "@barInDrinks": {
+    "description": "Flow 04 - My bar. Catalogue-wide drink count on a row not yet on the shelf",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "24"
+      }
+    }
+  },
+  "barInDrinksInline": "{count, plural, =1{in 1 drink} other{in {count} drinks}}",
+  "@barInDrinksInline": {
+    "description": "Flow 04 - My bar. Screen 02. Lowercase, mid-sentence drink count appended to a search result's subtitle (\"Spirits · in 22 drinks\")",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "22"
+      }
+    }
+  },
+  "barNeededForDrinks": "{count, plural, =1{Needed for 1 drink} other{Needed for {count} drinks}}",
+  "@barNeededForDrinks": {
+    "description": "Flow 04 - My bar. Catalogue-wide drink count on an equipment row not yet on the shelf",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "88"
+      }
+    }
+  },
+  "barOnYourShelf": "On your shelf",
+  "@barOnYourShelf": {
+    "description": "Flow 04 - My bar. Subtitle on a stocked row that has nothing more specific to say"
+  },
+  "barShelfCount": "{count, plural, =1{1 on the shelf} other{{count} on the shelf}}",
+  "@barShelfCount": {
+    "description": "Flow 04 - My bar. Screen 03. Part of the header subtitle counting stocked items",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "26"
+      }
+    }
+  },
+  "barMakeableCount": "{count, plural, =1{1 drink you can make} other{{count} drinks you can make}}",
+  "@barMakeableCount": {
+    "description": "Flow 04 - My bar. Screen 03. Part of the header subtitle counting makeable drinks",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "38"
+      }
+    }
+  },
+  "barThingsCount": "{count, plural, =1{1 thing} other{{count} things}}",
+  "@barThingsCount": {
+    "description": "Flow 04 - My bar. Screen 04. Header subtitle counting fresh, tools and ice items",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "11"
+      }
+    }
+  },
+  "barFilterAll": "All",
+  "@barFilterAll": {
+    "description": "Flow 04 - My bar. Filter chip that clears the section filter"
+  },
+  "barSectionSpirits": "Spirits",
+  "@barSectionSpirits": {
+    "description": "Flow 04 - My bar. Filter chip label for the spirits section"
+  },
+  "barSectionMixers": "Mixers",
+  "@barSectionMixers": {
+    "description": "Flow 04 - My bar. Filter chip label for the mixers section"
+  },
+  "barSectionFresh": "Fresh",
+  "@barSectionFresh": {
+    "description": "Flow 04 - My bar. Filter chip label for the fresh section"
+  },
+  "barSectionSyrups": "Syrups",
+  "@barSectionSyrups": {
+    "description": "Flow 04 - My bar. Filter chip label for the syrups section"
+  },
+  "barSectionTools": "Tools",
+  "@barSectionTools": {
+    "description": "Flow 04 - My bar. Filter chip label for the tools section"
+  },
+  "barSectionIce": "Ice",
+  "@barSectionIce": {
+    "description": "Flow 04 - My bar. Filter chip label for the ice section"
+  },
+  "barSectionOther": "Other",
+  "@barSectionOther": {
+    "description": "Flow 04 - My bar. Filter chip label for the other section"
+  },
+  "barGroupSpirits": "Spirits & liqueurs",
+  "@barGroupSpirits": {
+    "description": "Flow 04 - My bar. Group header label for the spirits section"
+  },
+  "barGroupMixers": "Mixers",
+  "@barGroupMixers": {
+    "description": "Flow 04 - My bar. Group header label for the mixers section"
+  },
+  "barGroupFresh": "Fresh",
+  "@barGroupFresh": {
+    "description": "Flow 04 - My bar. Group header label for the fresh section"
+  },
+  "barGroupSyrups": "Syrups & bitters",
+  "@barGroupSyrups": {
+    "description": "Flow 04 - My bar. Group header label for the syrups section"
+  },
+  "barGroupTools": "Tools & glassware",
+  "@barGroupTools": {
+    "description": "Flow 04 - My bar. Group header label for the tools section"
+  },
+  "barGroupIce": "Ice",
+  "@barGroupIce": {
+    "description": "Flow 04 - My bar. Group header label for the ice section"
+  },
+  "barGroupOther": "Everything else",
+  "@barGroupOther": {
+    "description": "Flow 04 - My bar. Group header label for the other section"
+  },
+  "barInYourDrinks": "{count, plural, =1{In 1 of your drinks} other{In {count} of your drinks}}",
+  "@barInYourDrinks": {
+    "description": "Flow 04 - My bar. Subtitle on a stocked row naming how many of the shelf's own makeable drinks use it",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "24"
+      }
+    }
+  },
+  "barNeededForYourDrinks": "{count, plural, =1{Needed for 1 of your drinks} other{Needed for {count} of your drinks}}",
+  "@barNeededForYourDrinks": {
+    "description": "Flow 04 - My bar. Subtitle on a stocked equipment row naming how many of the shelf's own makeable drinks need it",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "22"
+      }
+    }
+  },
+  "barAddedJustNow": "Added just now",
+  "@barAddedJustNow": {
+    "description": "Flow 04 - My bar. Subtitle on a row added within the last few minutes"
+  },
+  "barNotInYourBar": "Not in your bar",
+  "@barNotInYourBar": {
+    "description": "Flow 04 - My bar. Subtitle on a fresh/tools/ice row that has never been added"
+  },
+  "barRanOutGroup": "Ran out",
+  "@barRanOutGroup": {
+    "description": "Flow 04 - My bar. Group header label for the ran-out group at the end of the shelf"
+  },
+  "barAddAllToList": "Add all to list",
+  "@barAddAllToList": {
+    "description": "Flow 04 - My bar. Action beside the ran-out group header that adds every ran-out item to the shopping list"
+  },
+  "barBlocksDrinks": "{count, plural, =1{Blocks 1 drink} other{Blocks {count} drinks}}",
+  "@barBlocksDrinks": {
+    "description": "Flow 04 - My bar. Subtitle on a ran-out row naming how many makeable drinks it is blocking",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "6"
+      }
+    }
+  },
+  "barOnYourList": "On your list",
+  "@barOnYourList": {
+    "description": "Flow 04 - My bar. Suffix noting a ran-out item is already on the shopping list"
+  },
+  "barAddToList": "Add to list",
+  "@barAddToList": {
+    "description": "Flow 04 - My bar. Pill action that adds a single item to the shopping list"
+  },
+  "barFreshInfo": "Fresh things go off, so we ask what ran out when a party ends — never in the middle of one.",
+  "@barFreshInfo": {
+    "description": "Flow 04 - My bar. Screen 04. Explainer note under the fresh/tools/ice list"
+  },
+  "barOpenList": "Shopping list",
+  "@barOpenList": {
+    "description": "Flow 04 - My bar. Link that opens the shopping list screen"
+  },
+  "barAddItem": "Add to my bar",
+  "@barAddItem": {
+    "description": "Flow 04 - My bar. Accessibility label for a search result row's add action"
+  },
+  "barMarkRanOut": "Mark {item} as ran out",
+  "@barMarkRanOut": {
+    "description": "Flow 04 - My bar. Accessibility label for the action that moves a stocked item to ran out",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Lime"
+      }
+    }
+  },
+  "barPutBack": "Put {item} back on the shelf",
+  "@barPutBack": {
+    "description": "Flow 04 - My bar. Accessibility label for the action that restocks a ran-out item",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Lime"
+      }
+    }
+  },
+  "barSheetOnShelf": "On the shelf",
+  "@barSheetOnShelf": {
+    "description": "Flow 04 - My bar. Screen 05. Item sheet toggle row label"
+  },
+  "barSheetRanOut": "Ran out — put it on my list",
+  "@barSheetRanOut": {
+    "description": "Flow 04 - My bar. Screen 05. Item sheet row that marks the item ran out"
+  },
+  "barSheetNote": "Note",
+  "@barSheetNote": {
+    "description": "Flow 04 - My bar. Screen 05. Item sheet note row label"
+  },
+  "barSheetNoteHint": "Brand, bottle, where it lives…",
+  "@barSheetNoteHint": {
+    "description": "Flow 04 - My bar. Screen 05. Placeholder in the item note field"
+  },
+  "barSheetNoteAdd": "Add",
+  "@barSheetNoteAdd": {
+    "description": "Flow 04 - My bar. Screen 05. Item sheet note row trailing action when there is no note yet"
+  },
+  "barSheetNoteSave": "Save",
+  "@barSheetNoteSave": {
+    "description": "Flow 04 - My bar. Screen 05. Saves the note being edited"
+  },
+  "barSheetRemove": "Remove from my bar",
+  "@barSheetRemove": {
+    "description": "Flow 04 - My bar. Screen 05. Item sheet row that removes the item entirely"
+  },
+  "barSheetUnlocks": "Unlocks for you",
+  "@barSheetUnlocks": {
+    "description": "Flow 04 - My bar. Screen 05. Eyebrow above the cocktails this item unlocks"
+  },
+  "barSheetMore": "more",
+  "@barSheetMore": {
+    "description": "Flow 04 - My bar. Screen 05. Label on the '+N' tile after the first two unlock tiles"
+  },
+  "barSheetDone": "Done",
+  "@barSheetDone": {
+    "description": "Flow 04 - My bar. Screen 05. Closes the item sheet"
+  },
+  "barRemoved": "{item} removed",
+  "@barRemoved": {
+    "description": "Flow 04 - My bar. Snackbar confirming an item was removed from the bar",
+    "placeholders": {
+      "item": {
+        "type": "String",
+        "example": "Cointreau"
+      }
+    }
+  },
+  "barUndo": "Undo",
+  "@barUndo": {
+    "description": "Flow 04 - My bar. Snackbar action that reverses the last removal"
+  },
+  "barSearchCancel": "Cancel",
+  "@barSearchCancel": {
+    "description": "Flow 04 - My bar. Screen 02. Cancels the search and returns to the shelf"
+  },
+  "barSearchMatches": "{count, plural, =0{No matches} =1{1 match} other{{count} matches}}",
+  "@barSearchMatches": {
+    "description": "Flow 04 - My bar. Screen 02. Eyebrow above the search results",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "barAlreadyOnShelf": "Already on your shelf",
+  "@barAlreadyOnShelf": {
+    "description": "Flow 04 - My bar. Screen 02. Subtitle on a search result already stocked"
+  },
+  "barRanOutTapRestock": "Ran out · tap to put it back",
+  "@barRanOutTapRestock": {
+    "description": "Flow 04 - My bar. Screen 02. Subtitle on a search result that ran out"
+  },
+  "barAddCustom": "Not here? Add “{query}” as your own bottle",
+  "@barAddCustom": {
+    "description": "Flow 04 - My bar. Screen 02. Offer to add the typed query as a custom bar item",
+    "placeholders": {
+      "query": {
+        "type": "String",
+        "example": "cointr"
+      }
+    }
+  },
+  "barAddCustomToList": "Not here? Add “{query}” to your list",
+  "@barAddCustomToList": {
+    "description": "Flow 04 - My bar. Screen 06 search. Offer to add the typed query to the shopping list as a custom item",
+    "placeholders": {
+      "query": {
+        "type": "String",
+        "example": "cointr"
+      }
+    }
+  },
+  "barCustomItem": "Your own bottle",
+  "@barCustomItem": {
+    "description": "Flow 04 - My bar. Subtitle used for a custom item with no catalogue data of its own"
+  },
+  "barSearchListHint": "What do you need?",
+  "@barSearchListHint": {
+    "description": "Flow 04 - My bar. Placeholder in the search field when adding to the shopping list"
+  },
+  "barAlreadyOnList": "Already on your list",
+  "@barAlreadyOnList": {
+    "description": "Flow 04 - My bar. Subtitle on a search result already on the shopping list"
+  },
+  "barCatalogueOffline": "Only the starter list for now — the full catalogue needs a connection.",
+  "@barCatalogueOffline": {
+    "description": "Flow 04 - My bar. Notice shown when the catalogue failed to load and only starters are searchable"
+  },
+  "shoppingListTitle": "Shopping list",
+  "@shoppingListTitle": {
+    "description": "Flow 04 - Shopping list. Screen 06. Screen title"
+  },
+  "shoppingListSubtitle": "{count, plural, =0{Nothing to buy} =1{1 thing · tick it and it goes on the shelf} other{{count} things · tick one and it goes on the shelf}}",
+  "@shoppingListSubtitle": {
+    "description": "Flow 04 - Shopping list. Screen 06. Subtitle under the title",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "shoppingListBlockingHeader": "Blocking your drinks",
+  "@shoppingListBlockingHeader": {
+    "description": "Flow 04 - Shopping list. Screen 06. Group header for items blocking a makeable drink"
+  },
+  "shoppingListBlockingLine": "{count, plural, =1{1 drink you could make needs it} other{{count} drinks you could make need it}}",
+  "@shoppingListBlockingLine": {
+    "description": "Flow 04 - Shopping list. Screen 06. Subtitle explaining why an item is blocking",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "6"
+      }
+    }
+  },
+  "shoppingListAlsoHeader": "Also added",
+  "@shoppingListAlsoHeader": {
+    "description": "Flow 04 - Shopping list. Screen 06. Group header for everything else on the list"
+  },
+  "shoppingListRanOutAt": "Ran out at {party}",
+  "@shoppingListRanOutAt": {
+    "description": "Flow 04 - Shopping list. Subtitle naming the party an item ran out at",
+    "placeholders": {
+      "party": {
+        "type": "String",
+        "example": "Sara's birthday"
+      }
+    }
+  },
+  "shoppingListRanOut": "Ran out",
+  "@shoppingListRanOut": {
+    "description": "Flow 04 - Shopping list. Subtitle when an item ran out with no party name recorded"
+  },
+  "shoppingListForCocktail": "For {cocktail}",
+  "@shoppingListForCocktail": {
+    "description": "Flow 04 - Shopping list. Subtitle naming the cocktail an item was added for",
+    "placeholders": {
+      "cocktail": {
+        "type": "String",
+        "example": "Midnight Orchard"
+      }
+    }
+  },
+  "shoppingListAddedByYou": "Added by you",
+  "@shoppingListAddedByYou": {
+    "description": "Flow 04 - Shopping list. Subtitle for an item added manually"
+  },
+  "shoppingListNowOnShelf": "Now on your shelf",
+  "@shoppingListNowOnShelf": {
+    "description": "Flow 04 - Shopping list. Confirmation shown briefly after ticking an item"
+  },
+  "shoppingListAddSomething": "Add something else…",
+  "@shoppingListAddSomething": {
+    "description": "Flow 04 - Shopping list. Row that opens search to add another item"
+  },
+  "shoppingListShare": "Share the list",
+  "@shoppingListShare": {
+    "description": "Flow 04 - Shopping list. Opens the share-as-text sheet"
+  },
+  "shoppingListClearTicked": "Clear the ticked ones",
+  "@shoppingListClearTicked": {
+    "description": "Flow 04 - Shopping list. Overflow menu action that clears ticked entries"
+  },
+  "shoppingListClearAll": "Clear the whole list",
+  "@shoppingListClearAll": {
+    "description": "Flow 04 - Shopping list. Overflow menu action that clears every entry"
+  },
+  "shoppingListEmptyTitle": "Nothing to buy",
+  "@shoppingListEmptyTitle": {
+    "description": "Flow 04 - Shopping list. Empty state title"
+  },
+  "shoppingListEmptyBody": "Ran-out things land here, and so does anything you add.",
+  "@shoppingListEmptyBody": {
+    "description": "Flow 04 - Shopping list. Empty state body"
+  },
+  "shoppingListRemove": "Remove from list",
+  "@shoppingListRemove": {
+    "description": "Flow 04 - Shopping list. Accessibility label / swipe action that removes an entry"
+  },
+  "shareListTitle": "Send the list",
+  "@shareListTitle": {
+    "description": "Flow 04 - Share as text. Screen 07. Sheet title"
+  },
+  "shareListHeading": "PartyBar — shopping list",
+  "@shareListHeading": {
+    "description": "Flow 04 - Share as text. Screen 07. Heading line of the shared plain-text list"
+  },
+  "shareListPlainNote": "Plain text — whoever gets it needs no app",
+  "@shareListPlainNote": {
+    "description": "Flow 04 - Share as text. Screen 07. Note explaining the share format"
+  },
+  "shareListShare": "Share",
+  "@shareListShare": {
+    "description": "Flow 04 - Share as text. Screen 07. Opens the platform share sheet"
+  },
+  "shareListCopy": "Copy",
+  "@shareListCopy": {
+    "description": "Flow 04 - Share as text. Screen 07. Copies the list text to the clipboard"
+  },
+  "shareListCopied": "List copied",
+  "@shareListCopied": {
+    "description": "Flow 04 - Share as text. Screen 07. Confirmation after copying"
+  },
+  "shareListIncludeWhy": "Include why each one is needed",
+  "@shareListIncludeWhy": {
+    "description": "Flow 04 - Share as text. Screen 07. Toggle that appends the reason to each line"
+  },
+  "ranOutDrinksPoured": "{count, plural, =1{1 drink poured} other{{count} drinks poured}}",
+  "@ranOutDrinksPoured": {
+    "description": "Flow 04 - What ran out. Screen 08. Subtitle summarising drinks poured this party",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "12"
+      }
+    }
+  },
+  "ranOutTitle": "Anything run out?",
+  "@ranOutTitle": {
+    "description": "Flow 04 - What ran out. Screen 08. Headline"
+  },
+  "ranOutBody": "Tap what is gone. Everything you skip stays on the shelf — we never guess from what was poured.",
+  "@ranOutBody": {
+    "description": "Flow 04 - What ran out. Screen 08. Body copy"
+  },
+  "ranOutGone": "Gone · going on your list",
+  "@ranOutGone": {
+    "description": "Flow 04 - What ran out. Screen 08. Subtitle on a row tapped as ran out"
+  },
+  "ranOutPoured": "{count, plural, =1{Poured once tonight} other{Poured {count} times tonight}}",
+  "@ranOutPoured": {
+    "description": "Flow 04 - What ran out. Screen 08. Subtitle noting how many times an item was poured tonight",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "ranOutUpdate": "{count, plural, =0{Update my bar} other{Update my bar · {count} gone}}",
+  "@ranOutUpdate": {
+    "description": "Flow 04 - What ran out. Screen 08. Primary button label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "ranOutNothing": "Nothing ran out",
+  "@ranOutNothing": {
+    "description": "Flow 04 - What ran out. Screen 08. Ghost action that skips the screen with nothing marked"
+  },
+  "ranOutEmpty": "Nothing on the shelf to check.",
+  "@ranOutEmpty": {
+    "description": "Flow 04 - What ran out. Screen 08. Empty state when the shelf has nothing stocked"
+  },
+  "twoAwayEyebrow": "{count, plural, =2{Two things short} other{{count} things short}}",
+  "@twoAwayEyebrow": {
+    "description": "Flow 04 - Two away. Screen 09. Eyebrow above the headline",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "twoAwayTitle": "You have {have} of the {total}",
+  "@twoAwayTitle": {
+    "description": "Flow 04 - Two away. Screen 09. Headline naming how many required ingredients the shelf already has",
+    "placeholders": {
+      "have": {
+        "type": "int",
+        "example": "4"
+      },
+      "total": {
+        "type": "int",
+        "example": "6"
+      }
+    }
+  },
+  "twoAwayBody": "Everything else is on your shelf already.",
+  "@twoAwayBody": {
+    "description": "Flow 04 - Two away. Screen 09. Body copy under the headline"
+  },
+  "twoAwayAlsoBlocks": "{count, plural, =0{only this one} =1{also blocks 1 more} other{also blocks {count} more}}",
+  "@twoAwayAlsoBlocks": {
+    "description": "Flow 04 - Two away. Screen 09. Suffix on a missing ingredient naming how many other drinks it also blocks",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "twoAwayAddToList": "{count, plural, =2{Add both to my list} other{Add all {count} to my list}}",
+  "@twoAwayAddToList": {
+    "description": "Flow 04 - Two away. Screen 09. Primary button adding every missing ingredient to the shopping list",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "twoAwayHaveThese": "I actually have these",
+  "@twoAwayHaveThese": {
+    "description": "Flow 04 - Two away. Screen 09. Secondary action that stocks the missing ingredients instead"
+  },
+  "twoAwayFootnote": "“I have these” adds them to your bar — the only place stock is ever corrected.",
+  "@twoAwayFootnote": {
+    "description": "Flow 04 - Two away. Screen 09. Footnote explaining the secondary action"
+  },
+  "twoAwayPrompt": "{count, plural, =1{1 thing short · see what} other{{count} things short · see what}}",
+  "@twoAwayPrompt": {
+    "description": "Flow 04 - Two away. Prompt elsewhere in Explore that opens the two-away sheet",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "twoAwayAddedToList": "On your list",
+  "@twoAwayAddedToList": {
+    "description": "Flow 04 - Two away. Screen 09. Confirmation state after adding an ingredient to the shopping list"
+  },
+  "twoAwayAddedToBar": "On your shelf",
+  "@twoAwayAddedToBar": {
+    "description": "Flow 04 - Two away. Screen 09. Confirmation state after adding an ingredient to the bar"
   }
 }

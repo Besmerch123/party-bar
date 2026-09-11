@@ -5,6 +5,7 @@ import '../../generated/l10n/app_localizations.dart';
 import '../../models/onboarding.dart';
 import '../../providers/onboarding_provider.dart';
 import '../../theme/theme.dart';
+import '../../utils/bar_labels.dart';
 import '../../utils/localization_helper.dart';
 import 'bottle_row.dart';
 import 'onboarding_chrome.dart';
@@ -38,7 +39,10 @@ class _BottlesStepState extends State<BottlesStep> {
 
     final needle = _query.toLowerCase();
     return kStarterBottles
-        .where((bottle) => bottleName(l10n, bottle).toLowerCase().contains(needle))
+        .where(
+          (bottle) =>
+              starterLabel(l10n, bottle.id).toLowerCase().contains(needle),
+        )
         .toList(growable: false);
   }
 
@@ -98,7 +102,7 @@ class _BottlesStepState extends State<BottlesStep> {
                                   final isBest = bottle.id == bestUnlock?.id;
                                   return BottleRow(
                                     bottle: bottle,
-                                    name: bottleName(l10n, bottle),
+                                    name: starterLabel(l10n, bottle.id),
                                     subtitle: isBest
                                         ? l10n.bottleUnlocksMore(bottle.unlocks)
                                         : l10n.bottleInCocktails(
@@ -269,22 +273,3 @@ class _Footer extends StatelessWidget {
     );
   }
 }
-
-String bottleName(AppLocalizations l10n, StarterBottle bottle) =>
-    switch (bottle.id) {
-      'gin' => l10n.bottleGin,
-      'vodka' => l10n.bottleVodka,
-      'tonic' => l10n.bottleTonic,
-      'lime' => l10n.bottleLime,
-      'whiteRum' => l10n.bottleWhiteRum,
-      'sweetVermouth' => l10n.bottleSweetVermouth,
-      'whiskey' => l10n.bottleWhiskey,
-      'tequila' => l10n.bottleTequila,
-      'tripleSec' => l10n.bottleTripleSec,
-      'lemon' => l10n.bottleLemon,
-      'simpleSyrup' => l10n.bottleSimpleSyrup,
-      'sodaWater' => l10n.bottleSodaWater,
-      'angostura' => l10n.bottleAngostura,
-      'mint' => l10n.bottleMint,
-      _ => bottle.id,
-    };

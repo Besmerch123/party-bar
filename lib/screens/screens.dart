@@ -3,7 +3,6 @@ export 'welcome/welcome_screen.dart';
 export 'welcome/onboarding_screen.dart';
 
 // Main Navigation Screens
-export 'home/home_screen.dart';
 export 'explore/explore_screen.dart';
 export 'explore/cocktail_details_screen.dart';
 export 'explore/explore_search_screen.dart';
@@ -16,6 +15,12 @@ export 'party/active_party_host_screen.dart';
 export 'party/active_party_guest_screen.dart';
 export 'settings/profile_screen.dart';
 export 'settings/settings_screen.dart';
+// Flow 04 - My bar. The shelf, search (shared with the shopping list), the
+// list itself, and the once-a-party "what ran out" check.
+export 'bar/my_bar_screen.dart';
+export 'bar/bar_search_screen.dart';
+export 'bar/shopping_list_screen.dart';
+export 'bar/ran_out_screen.dart';
 // Flow 03 - auth. The barrier and the cold sign-in screen, the name a
 // provider might not hand us, and the guest lane that skips all of it.
 export 'auth/auth_screen.dart';

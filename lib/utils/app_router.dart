@@ -39,6 +39,19 @@ class AppRoutes {
 
   /// The guest lane, which never creates an account at all.
   static const String authGuest = '/auth/guest';
+
+  /// Flow 04. The shelf itself — `MainNavigationWrapper(initialIndex: 1)`.
+  static const String myBar = '/bar';
+
+  /// Screens 02 and the shopping list's own search, told apart by
+  /// `?mode=list`.
+  static const String barSearch = '/bar/search';
+
+  static const String shoppingList = '/bar/list';
+
+  /// Screen 08, reached with a [RanOutArgs] as `extra` when a party just
+  /// ended, or cold with none from My bar.
+  static const String barRanOut = '/bar/ran-out';
 }
 
 GoRouter createAppRouter({required bool showWelcome}) {
@@ -63,7 +76,33 @@ GoRouter createAppRouter({required bool showWelcome}) {
       GoRoute(
         path: AppRoutes.explore,
         builder: (context, state) =>
+            const MainNavigationWrapper(initialIndex: 2),
+      ),
+      GoRoute(
+        path: AppRoutes.myBar,
+        builder: (context, state) =>
             const MainNavigationWrapper(initialIndex: 1),
+      ),
+
+      // Flow 04 - My bar. Search adds in place as you type, whichever list
+      // it is adding to; the list itself and the once-a-party check are
+      // their own screens.
+      GoRoute(
+        path: AppRoutes.barSearch,
+        builder: (context, state) => BarSearchScreen(
+          mode: state.uri.queryParameters['mode'] == 'list'
+              ? BarSearchMode.list
+              : BarSearchMode.shelf,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.shoppingList,
+        builder: (context, state) => const ShoppingListScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.barRanOut,
+        builder: (context, state) =>
+            RanOutScreen(args: state.extra as RanOutArgs?),
       ),
 
       // Explore search, results and the zero-results answer — one screen
@@ -201,11 +240,23 @@ class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
     _selectedIndex = widget.initialIndex;
   }
 
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const ExploreScreen(),
-    const PartyHubScreen(),
-    const SettingsScreen(),
+  @override
+  void didUpdateWidget(covariant MainNavigationWrapper oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // A route elsewhere can re-point at this same wrapper with a different
+    // tab — `context.go(AppRoutes.myBar)` from a screen that is not one of
+    // the four tabs — and that has to land on the right one rather than
+    // wherever this instance happened to be left.
+    if (widget.initialIndex != oldWidget.initialIndex) {
+      setState(() => _selectedIndex = widget.initialIndex);
+    }
+  }
+
+  final List<Widget> _screens = const [
+    PartyHubScreen(),
+    MyBarScreen(),
+    ExploreScreen(),
+    SettingsScreen(),
   ];
 
   @override
@@ -224,21 +275,21 @@ class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
           AppNavDestination(
             icon: Icons.nightlife_outlined,
             activeIcon: Icons.nightlife,
-            label: context.l10n.navigationHome,
+            label: context.l10n.navigationParty,
           ),
           AppNavDestination(
             icon: Icons.local_bar_outlined,
             activeIcon: Icons.local_bar,
+            label: context.l10n.navigationMyBar,
+          ),
+          AppNavDestination(
+            icon: Icons.search_outlined,
+            activeIcon: Icons.search,
             label: context.l10n.navigationExplore,
           ),
           AppNavDestination(
-            icon: Icons.celebration_outlined,
-            activeIcon: Icons.celebration,
-            label: context.l10n.navigationParty,
-          ),
-          AppNavDestination(
-            icon: Icons.settings_outlined,
-            activeIcon: Icons.settings,
+            icon: Icons.person_outline,
+            activeIcon: Icons.person,
             label: context.l10n.navigationSettings,
           ),
         ],

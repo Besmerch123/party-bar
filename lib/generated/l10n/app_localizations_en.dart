@@ -21,6 +21,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navigationParty => 'Party';
 
   @override
+  String get navigationMyBar => 'My bar';
+
+  @override
   String get navigationSettings => 'Settings';
 
   @override
@@ -875,6 +878,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bottleMint => 'Mint';
 
   @override
+  String get bottleShaker => 'Shaker';
+
+  @override
   String get exploreFeedTitle => 'Pour tonight';
 
   @override
@@ -1346,11 +1352,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'So guests can join from your link, and the menu is still here next Saturday. Your draft is saved either way.';
 
   @override
-  String get authBarrierBarTitle => 'My Bar needs an owner';
+  String get authBarrierBarTitle => 'Don’t lose this shelf';
 
   @override
   String get authBarrierBarBody =>
-      'So your shelf follows you to the next phone, and the app keeps answering what you can pour. Nothing you have ticked is lost either way.';
+      'Sign in with Google and it follows you to the next phone. It keeps working on this one either way.';
 
   @override
   String get authNotNow => 'Not now';
@@ -1529,4 +1535,504 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authClose => 'Close';
+
+  @override
+  String get barTitle => 'My bar';
+
+  @override
+  String get barEmptyBody =>
+      'Nothing on the shelf yet. Tap what you own — it stays on this phone until you sign in.';
+
+  @override
+  String get barEmptyBodySignedIn =>
+      'Nothing on the shelf yet. Tap what you own.';
+
+  @override
+  String get barSearchHint => 'Bottles, mixers, tools…';
+
+  @override
+  String get barStartersSection => 'Most bars start here';
+
+  @override
+  String get barAddAll => 'Add all';
+
+  @override
+  String get barStartersFooter =>
+      'Twelve suggestions, then search for the rest';
+
+  @override
+  String barInDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'In $count drinks',
+      one: 'In 1 drink',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String barInDrinksInline(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count drinks',
+      one: 'in 1 drink',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String barNeededForDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Needed for $count drinks',
+      one: 'Needed for 1 drink',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get barOnYourShelf => 'On your shelf';
+
+  @override
+  String barShelfCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count on the shelf',
+      one: '1 on the shelf',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String barMakeableCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count drinks you can make',
+      one: '1 drink you can make',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String barThingsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count things',
+      one: '1 thing',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get barFilterAll => 'All';
+
+  @override
+  String get barSectionSpirits => 'Spirits';
+
+  @override
+  String get barSectionMixers => 'Mixers';
+
+  @override
+  String get barSectionFresh => 'Fresh';
+
+  @override
+  String get barSectionSyrups => 'Syrups';
+
+  @override
+  String get barSectionTools => 'Tools';
+
+  @override
+  String get barSectionIce => 'Ice';
+
+  @override
+  String get barSectionOther => 'Other';
+
+  @override
+  String get barGroupSpirits => 'Spirits & liqueurs';
+
+  @override
+  String get barGroupMixers => 'Mixers';
+
+  @override
+  String get barGroupFresh => 'Fresh';
+
+  @override
+  String get barGroupSyrups => 'Syrups & bitters';
+
+  @override
+  String get barGroupTools => 'Tools & glassware';
+
+  @override
+  String get barGroupIce => 'Ice';
+
+  @override
+  String get barGroupOther => 'Everything else';
+
+  @override
+  String barInYourDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'In $count of your drinks',
+      one: 'In 1 of your drinks',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String barNeededForYourDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Needed for $count of your drinks',
+      one: 'Needed for 1 of your drinks',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get barAddedJustNow => 'Added just now';
+
+  @override
+  String get barNotInYourBar => 'Not in your bar';
+
+  @override
+  String get barRanOutGroup => 'Ran out';
+
+  @override
+  String get barAddAllToList => 'Add all to list';
+
+  @override
+  String barBlocksDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Blocks $count drinks',
+      one: 'Blocks 1 drink',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get barOnYourList => 'On your list';
+
+  @override
+  String get barAddToList => 'Add to list';
+
+  @override
+  String get barFreshInfo =>
+      'Fresh things go off, so we ask what ran out when a party ends — never in the middle of one.';
+
+  @override
+  String get barOpenList => 'Shopping list';
+
+  @override
+  String get barAddItem => 'Add to my bar';
+
+  @override
+  String barMarkRanOut(String item) {
+    return 'Mark $item as ran out';
+  }
+
+  @override
+  String barPutBack(String item) {
+    return 'Put $item back on the shelf';
+  }
+
+  @override
+  String get barSheetOnShelf => 'On the shelf';
+
+  @override
+  String get barSheetRanOut => 'Ran out — put it on my list';
+
+  @override
+  String get barSheetNote => 'Note';
+
+  @override
+  String get barSheetNoteHint => 'Brand, bottle, where it lives…';
+
+  @override
+  String get barSheetNoteAdd => 'Add';
+
+  @override
+  String get barSheetNoteSave => 'Save';
+
+  @override
+  String get barSheetRemove => 'Remove from my bar';
+
+  @override
+  String get barSheetUnlocks => 'Unlocks for you';
+
+  @override
+  String get barSheetMore => 'more';
+
+  @override
+  String get barSheetDone => 'Done';
+
+  @override
+  String barRemoved(String item) {
+    return '$item removed';
+  }
+
+  @override
+  String get barUndo => 'Undo';
+
+  @override
+  String get barSearchCancel => 'Cancel';
+
+  @override
+  String barSearchMatches(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count matches',
+      one: '1 match',
+      zero: 'No matches',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get barAlreadyOnShelf => 'Already on your shelf';
+
+  @override
+  String get barRanOutTapRestock => 'Ran out · tap to put it back';
+
+  @override
+  String barAddCustom(String query) {
+    return 'Not here? Add “$query” as your own bottle';
+  }
+
+  @override
+  String barAddCustomToList(String query) {
+    return 'Not here? Add “$query” to your list';
+  }
+
+  @override
+  String get barCustomItem => 'Your own bottle';
+
+  @override
+  String get barSearchListHint => 'What do you need?';
+
+  @override
+  String get barAlreadyOnList => 'Already on your list';
+
+  @override
+  String get barCatalogueOffline =>
+      'Only the starter list for now — the full catalogue needs a connection.';
+
+  @override
+  String get shoppingListTitle => 'Shopping list';
+
+  @override
+  String shoppingListSubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count things · tick one and it goes on the shelf',
+      one: '1 thing · tick it and it goes on the shelf',
+      zero: 'Nothing to buy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get shoppingListBlockingHeader => 'Blocking your drinks';
+
+  @override
+  String shoppingListBlockingLine(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count drinks you could make need it',
+      one: '1 drink you could make needs it',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get shoppingListAlsoHeader => 'Also added';
+
+  @override
+  String shoppingListRanOutAt(String party) {
+    return 'Ran out at $party';
+  }
+
+  @override
+  String get shoppingListRanOut => 'Ran out';
+
+  @override
+  String shoppingListForCocktail(String cocktail) {
+    return 'For $cocktail';
+  }
+
+  @override
+  String get shoppingListAddedByYou => 'Added by you';
+
+  @override
+  String get shoppingListNowOnShelf => 'Now on your shelf';
+
+  @override
+  String get shoppingListAddSomething => 'Add something else…';
+
+  @override
+  String get shoppingListShare => 'Share the list';
+
+  @override
+  String get shoppingListClearTicked => 'Clear the ticked ones';
+
+  @override
+  String get shoppingListClearAll => 'Clear the whole list';
+
+  @override
+  String get shoppingListEmptyTitle => 'Nothing to buy';
+
+  @override
+  String get shoppingListEmptyBody =>
+      'Ran-out things land here, and so does anything you add.';
+
+  @override
+  String get shoppingListRemove => 'Remove from list';
+
+  @override
+  String get shareListTitle => 'Send the list';
+
+  @override
+  String get shareListHeading => 'PartyBar — shopping list';
+
+  @override
+  String get shareListPlainNote => 'Plain text — whoever gets it needs no app';
+
+  @override
+  String get shareListShare => 'Share';
+
+  @override
+  String get shareListCopy => 'Copy';
+
+  @override
+  String get shareListCopied => 'List copied';
+
+  @override
+  String get shareListIncludeWhy => 'Include why each one is needed';
+
+  @override
+  String ranOutDrinksPoured(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count drinks poured',
+      one: '1 drink poured',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ranOutTitle => 'Anything run out?';
+
+  @override
+  String get ranOutBody =>
+      'Tap what is gone. Everything you skip stays on the shelf — we never guess from what was poured.';
+
+  @override
+  String get ranOutGone => 'Gone · going on your list';
+
+  @override
+  String ranOutPoured(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Poured $count times tonight',
+      one: 'Poured once tonight',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ranOutUpdate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Update my bar · $count gone',
+      zero: 'Update my bar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ranOutNothing => 'Nothing ran out';
+
+  @override
+  String get ranOutEmpty => 'Nothing on the shelf to check.';
+
+  @override
+  String twoAwayEyebrow(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count things short',
+      two: 'Two things short',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String twoAwayTitle(int have, int total) {
+    return 'You have $have of the $total';
+  }
+
+  @override
+  String get twoAwayBody => 'Everything else is on your shelf already.';
+
+  @override
+  String twoAwayAlsoBlocks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'also blocks $count more',
+      one: 'also blocks 1 more',
+      zero: 'only this one',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String twoAwayAddToList(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Add all $count to my list',
+      two: 'Add both to my list',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get twoAwayHaveThese => 'I actually have these';
+
+  @override
+  String get twoAwayFootnote =>
+      '“I have these” adds them to your bar — the only place stock is ever corrected.';
+
+  @override
+  String twoAwayPrompt(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count things short · see what',
+      one: '1 thing short · see what',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get twoAwayAddedToList => 'On your list';
+
+  @override
+  String get twoAwayAddedToBar => 'On your shelf';
 }

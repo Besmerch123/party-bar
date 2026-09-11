@@ -12,6 +12,7 @@ enum IngredientCategory {
   fruit,
   herb,
   spice,
+  ice,
   other,
 }
 
@@ -42,6 +43,10 @@ class Ingredient {
   /// Ranks the near-misses on a zero-results screen.
   final int? unlocks;
 
+  /// Catalogue-wide "in N drinks" figure shown on the bar's item sheet. Null
+  /// until the catalogue is backfilled — print nothing rather than a guess.
+  final int? cocktailCount;
+
   const Ingredient({
     required this.id,
     required this.title,
@@ -49,6 +54,7 @@ class Ingredient {
     this.image,
     this.slug,
     this.unlocks,
+    this.cocktailCount,
   });
 
   Ingredient copyWith({
@@ -58,6 +64,7 @@ class Ingredient {
     String? image,
     String? slug,
     int? unlocks,
+    int? cocktailCount,
   }) {
     return Ingredient(
       id: id ?? this.id,
@@ -66,6 +73,7 @@ class Ingredient {
       image: image ?? this.image,
       slug: slug ?? this.slug,
       unlocks: unlocks ?? this.unlocks,
+      cocktailCount: cocktailCount ?? this.cocktailCount,
     );
   }
 }
@@ -90,6 +98,9 @@ class IngredientDocument {
   /// See [Ingredient.unlocks].
   final int? unlocks;
 
+  /// See [Ingredient.cocktailCount].
+  final int? cocktailCount;
+
   /// Firestore Timestamp when the ingredient was created
   final Timestamp createdAt;
 
@@ -102,6 +113,7 @@ class IngredientDocument {
     this.image,
     this.slug,
     this.unlocks,
+    this.cocktailCount,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -122,6 +134,7 @@ class IngredientDocument {
       image: map['image'],
       slug: map['slug'] as String?,
       unlocks: (map['unlocks'] as num?)?.toInt(),
+      cocktailCount: (map['cocktailCount'] as num?)?.toInt(),
       createdAt: map['createdAt'] as Timestamp,
       updatedAt: map['updatedAt'] as Timestamp,
     );
@@ -144,6 +157,7 @@ class IngredientTransformer
       image: document.image,
       slug: document.slug,
       unlocks: document.unlocks,
+      cocktailCount: document.cocktailCount,
     );
   }
 

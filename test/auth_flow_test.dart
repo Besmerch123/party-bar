@@ -247,7 +247,7 @@ void main() {
         ),
       );
 
-      expect(find.text('My Bar needs an owner'), findsOneWidget);
+      expect(find.text('Don’t lose this shelf'), findsOneWidget);
     });
 
     testWidgets('Apple is designed but not offered', (tester) async {

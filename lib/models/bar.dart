@@ -8,6 +8,7 @@
 library;
 
 import 'cocktail.dart';
+import 'equipment.dart';
 import 'ingredient.dart';
 
 /// Folds an ingredient id, a slug or a starter-bottle key onto the one
@@ -26,6 +27,13 @@ Set<String> ingredientKeys(Ingredient ingredient) => {
   barKey(ingredient.id),
   if (ingredient.slug != null && ingredient.slug!.isNotEmpty)
     barKey(ingredient.slug!),
+};
+
+/// Every key a piece of equipment answers to, mirroring [ingredientKeys].
+Set<String> equipmentKeys(Equipment equipment) => {
+  barKey(equipment.id),
+  if (equipment.slug != null && equipment.slug!.isNotEmpty)
+    barKey(equipment.slug!),
 };
 
 /// What stands between a shelf and a finished drink.

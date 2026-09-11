@@ -56,7 +56,18 @@ class PartyBarApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => OnboardingProvider()..initialize(),
         ),
-        ChangeNotifierProvider(create: (_) => BarProvider()..initialize()),
+
+        // The bar is local first and an account claims it, rather than
+        // owning it: attaching runs the same whether someone was already
+        // signed in or just signed in this session.
+        ChangeNotifierProxyProvider<AuthenticationProvider, BarProvider>(
+          create: (_) => BarProvider()..initialize(),
+          update: (_, auth, bar) {
+            final provider = bar ?? (BarProvider()..initialize());
+            provider.attachAccount(auth.user?.uid);
+            return provider;
+          },
+        ),
 
         // Explore follows the shelf rather than owning it: the bar is the
         // source of truth, and a query re-derives whenever it changes.

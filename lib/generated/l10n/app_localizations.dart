@@ -122,6 +122,12 @@ abstract class AppLocalizations {
   /// **'Party'**
   String get navigationParty;
 
+  /// Flow 04 - My bar. Bottom nav label for the My bar tab
+  ///
+  /// In en, this message translates to:
+  /// **'My bar'**
+  String get navigationMyBar;
+
   /// Settings navigation item
   ///
   /// In en, this message translates to:
@@ -1622,6 +1628,12 @@ abstract class AppLocalizations {
   /// **'Mint'**
   String get bottleMint;
 
+  /// Flow 04 - My bar. Label for the shaker starter row on the empty shelf
+  ///
+  /// In en, this message translates to:
+  /// **'Shaker'**
+  String get bottleShaker;
+
   /// Flow 02 - Explore. Explore feed headline
   ///
   /// In en, this message translates to:
@@ -2384,16 +2396,16 @@ abstract class AppLocalizations {
   /// **'So guests can join from your link, and the menu is still here next Saturday. Your draft is saved either way.'**
   String get authBarrierHostBody;
 
-  /// Flow 03 - Auth. Screen 01. Barrier title when the interrupted action was editing the shelf
+  /// Flow 03 - Auth. Screen 01. Barrier title when the interrupted action was editing the shelf. Flow 04 turned this into a one-time nudge rather than a gate.
   ///
   /// In en, this message translates to:
-  /// **'My Bar needs an owner'**
+  /// **'Don’t lose this shelf'**
   String get authBarrierBarTitle;
 
-  /// Flow 03 - Auth. Screen 01. Barrier body for editing the shelf
+  /// Flow 03 - Auth. Screen 01. Barrier body for editing the shelf. Flow 04 turned this into a one-time nudge rather than a gate.
   ///
   /// In en, this message translates to:
-  /// **'So your shelf follows you to the next phone, and the app keeps answering what you can pour. Nothing you have ticked is lost either way.'**
+  /// **'Sign in with Google and it follows you to the next phone. It keeps working on this one either way.'**
   String get authBarrierBarBody;
 
   /// Flow 03 - Auth. Screen 01. Dismisses the barrier without signing in
@@ -2683,6 +2695,648 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get authClose;
+
+  /// Flow 04 - My bar. Screen title
+  ///
+  /// In en, this message translates to:
+  /// **'My bar'**
+  String get barTitle;
+
+  /// Flow 04 - My bar. Screen 01. Subtitle under the My bar title when signed out and the shelf is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing on the shelf yet. Tap what you own — it stays on this phone until you sign in.'**
+  String get barEmptyBody;
+
+  /// Flow 04 - My bar. Screen 01. Subtitle under the My bar title when signed in and the shelf is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing on the shelf yet. Tap what you own.'**
+  String get barEmptyBodySignedIn;
+
+  /// Flow 04 - My bar. Placeholder in the My bar search field
+  ///
+  /// In en, this message translates to:
+  /// **'Bottles, mixers, tools…'**
+  String get barSearchHint;
+
+  /// Flow 04 - My bar. Screen 01. Eyebrow above the starter rows
+  ///
+  /// In en, this message translates to:
+  /// **'Most bars start here'**
+  String get barStartersSection;
+
+  /// Flow 04 - My bar. Screen 01. Adds every starter row to the shelf at once
+  ///
+  /// In en, this message translates to:
+  /// **'Add all'**
+  String get barAddAll;
+
+  /// Flow 04 - My bar. Screen 01. Footnote under the starter rows
+  ///
+  /// In en, this message translates to:
+  /// **'Twelve suggestions, then search for the rest'**
+  String get barStartersFooter;
+
+  /// Flow 04 - My bar. Catalogue-wide drink count on a row not yet on the shelf
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{In 1 drink} other{In {count} drinks}}'**
+  String barInDrinks(int count);
+
+  /// Flow 04 - My bar. Screen 02. Lowercase, mid-sentence drink count appended to a search result's subtitle ("Spirits · in 22 drinks")
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 drink} other{in {count} drinks}}'**
+  String barInDrinksInline(int count);
+
+  /// Flow 04 - My bar. Catalogue-wide drink count on an equipment row not yet on the shelf
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Needed for 1 drink} other{Needed for {count} drinks}}'**
+  String barNeededForDrinks(int count);
+
+  /// Flow 04 - My bar. Subtitle on a stocked row that has nothing more specific to say
+  ///
+  /// In en, this message translates to:
+  /// **'On your shelf'**
+  String get barOnYourShelf;
+
+  /// Flow 04 - My bar. Screen 03. Part of the header subtitle counting stocked items
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 on the shelf} other{{count} on the shelf}}'**
+  String barShelfCount(int count);
+
+  /// Flow 04 - My bar. Screen 03. Part of the header subtitle counting makeable drinks
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 drink you can make} other{{count} drinks you can make}}'**
+  String barMakeableCount(int count);
+
+  /// Flow 04 - My bar. Screen 04. Header subtitle counting fresh, tools and ice items
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 thing} other{{count} things}}'**
+  String barThingsCount(int count);
+
+  /// Flow 04 - My bar. Filter chip that clears the section filter
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get barFilterAll;
+
+  /// Flow 04 - My bar. Filter chip label for the spirits section
+  ///
+  /// In en, this message translates to:
+  /// **'Spirits'**
+  String get barSectionSpirits;
+
+  /// Flow 04 - My bar. Filter chip label for the mixers section
+  ///
+  /// In en, this message translates to:
+  /// **'Mixers'**
+  String get barSectionMixers;
+
+  /// Flow 04 - My bar. Filter chip label for the fresh section
+  ///
+  /// In en, this message translates to:
+  /// **'Fresh'**
+  String get barSectionFresh;
+
+  /// Flow 04 - My bar. Filter chip label for the syrups section
+  ///
+  /// In en, this message translates to:
+  /// **'Syrups'**
+  String get barSectionSyrups;
+
+  /// Flow 04 - My bar. Filter chip label for the tools section
+  ///
+  /// In en, this message translates to:
+  /// **'Tools'**
+  String get barSectionTools;
+
+  /// Flow 04 - My bar. Filter chip label for the ice section
+  ///
+  /// In en, this message translates to:
+  /// **'Ice'**
+  String get barSectionIce;
+
+  /// Flow 04 - My bar. Filter chip label for the other section
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get barSectionOther;
+
+  /// Flow 04 - My bar. Group header label for the spirits section
+  ///
+  /// In en, this message translates to:
+  /// **'Spirits & liqueurs'**
+  String get barGroupSpirits;
+
+  /// Flow 04 - My bar. Group header label for the mixers section
+  ///
+  /// In en, this message translates to:
+  /// **'Mixers'**
+  String get barGroupMixers;
+
+  /// Flow 04 - My bar. Group header label for the fresh section
+  ///
+  /// In en, this message translates to:
+  /// **'Fresh'**
+  String get barGroupFresh;
+
+  /// Flow 04 - My bar. Group header label for the syrups section
+  ///
+  /// In en, this message translates to:
+  /// **'Syrups & bitters'**
+  String get barGroupSyrups;
+
+  /// Flow 04 - My bar. Group header label for the tools section
+  ///
+  /// In en, this message translates to:
+  /// **'Tools & glassware'**
+  String get barGroupTools;
+
+  /// Flow 04 - My bar. Group header label for the ice section
+  ///
+  /// In en, this message translates to:
+  /// **'Ice'**
+  String get barGroupIce;
+
+  /// Flow 04 - My bar. Group header label for the other section
+  ///
+  /// In en, this message translates to:
+  /// **'Everything else'**
+  String get barGroupOther;
+
+  /// Flow 04 - My bar. Subtitle on a stocked row naming how many of the shelf's own makeable drinks use it
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{In 1 of your drinks} other{In {count} of your drinks}}'**
+  String barInYourDrinks(int count);
+
+  /// Flow 04 - My bar. Subtitle on a stocked equipment row naming how many of the shelf's own makeable drinks need it
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Needed for 1 of your drinks} other{Needed for {count} of your drinks}}'**
+  String barNeededForYourDrinks(int count);
+
+  /// Flow 04 - My bar. Subtitle on a row added within the last few minutes
+  ///
+  /// In en, this message translates to:
+  /// **'Added just now'**
+  String get barAddedJustNow;
+
+  /// Flow 04 - My bar. Subtitle on a fresh/tools/ice row that has never been added
+  ///
+  /// In en, this message translates to:
+  /// **'Not in your bar'**
+  String get barNotInYourBar;
+
+  /// Flow 04 - My bar. Group header label for the ran-out group at the end of the shelf
+  ///
+  /// In en, this message translates to:
+  /// **'Ran out'**
+  String get barRanOutGroup;
+
+  /// Flow 04 - My bar. Action beside the ran-out group header that adds every ran-out item to the shopping list
+  ///
+  /// In en, this message translates to:
+  /// **'Add all to list'**
+  String get barAddAllToList;
+
+  /// Flow 04 - My bar. Subtitle on a ran-out row naming how many makeable drinks it is blocking
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Blocks 1 drink} other{Blocks {count} drinks}}'**
+  String barBlocksDrinks(int count);
+
+  /// Flow 04 - My bar. Suffix noting a ran-out item is already on the shopping list
+  ///
+  /// In en, this message translates to:
+  /// **'On your list'**
+  String get barOnYourList;
+
+  /// Flow 04 - My bar. Pill action that adds a single item to the shopping list
+  ///
+  /// In en, this message translates to:
+  /// **'Add to list'**
+  String get barAddToList;
+
+  /// Flow 04 - My bar. Screen 04. Explainer note under the fresh/tools/ice list
+  ///
+  /// In en, this message translates to:
+  /// **'Fresh things go off, so we ask what ran out when a party ends — never in the middle of one.'**
+  String get barFreshInfo;
+
+  /// Flow 04 - My bar. Link that opens the shopping list screen
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping list'**
+  String get barOpenList;
+
+  /// Flow 04 - My bar. Accessibility label for a search result row's add action
+  ///
+  /// In en, this message translates to:
+  /// **'Add to my bar'**
+  String get barAddItem;
+
+  /// Flow 04 - My bar. Accessibility label for the action that moves a stocked item to ran out
+  ///
+  /// In en, this message translates to:
+  /// **'Mark {item} as ran out'**
+  String barMarkRanOut(String item);
+
+  /// Flow 04 - My bar. Accessibility label for the action that restocks a ran-out item
+  ///
+  /// In en, this message translates to:
+  /// **'Put {item} back on the shelf'**
+  String barPutBack(String item);
+
+  /// Flow 04 - My bar. Screen 05. Item sheet toggle row label
+  ///
+  /// In en, this message translates to:
+  /// **'On the shelf'**
+  String get barSheetOnShelf;
+
+  /// Flow 04 - My bar. Screen 05. Item sheet row that marks the item ran out
+  ///
+  /// In en, this message translates to:
+  /// **'Ran out — put it on my list'**
+  String get barSheetRanOut;
+
+  /// Flow 04 - My bar. Screen 05. Item sheet note row label
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get barSheetNote;
+
+  /// Flow 04 - My bar. Screen 05. Placeholder in the item note field
+  ///
+  /// In en, this message translates to:
+  /// **'Brand, bottle, where it lives…'**
+  String get barSheetNoteHint;
+
+  /// Flow 04 - My bar. Screen 05. Item sheet note row trailing action when there is no note yet
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get barSheetNoteAdd;
+
+  /// Flow 04 - My bar. Screen 05. Saves the note being edited
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get barSheetNoteSave;
+
+  /// Flow 04 - My bar. Screen 05. Item sheet row that removes the item entirely
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from my bar'**
+  String get barSheetRemove;
+
+  /// Flow 04 - My bar. Screen 05. Eyebrow above the cocktails this item unlocks
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocks for you'**
+  String get barSheetUnlocks;
+
+  /// Flow 04 - My bar. Screen 05. Label on the '+N' tile after the first two unlock tiles
+  ///
+  /// In en, this message translates to:
+  /// **'more'**
+  String get barSheetMore;
+
+  /// Flow 04 - My bar. Screen 05. Closes the item sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get barSheetDone;
+
+  /// Flow 04 - My bar. Snackbar confirming an item was removed from the bar
+  ///
+  /// In en, this message translates to:
+  /// **'{item} removed'**
+  String barRemoved(String item);
+
+  /// Flow 04 - My bar. Snackbar action that reverses the last removal
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get barUndo;
+
+  /// Flow 04 - My bar. Screen 02. Cancels the search and returns to the shelf
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get barSearchCancel;
+
+  /// Flow 04 - My bar. Screen 02. Eyebrow above the search results
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No matches} =1{1 match} other{{count} matches}}'**
+  String barSearchMatches(int count);
+
+  /// Flow 04 - My bar. Screen 02. Subtitle on a search result already stocked
+  ///
+  /// In en, this message translates to:
+  /// **'Already on your shelf'**
+  String get barAlreadyOnShelf;
+
+  /// Flow 04 - My bar. Screen 02. Subtitle on a search result that ran out
+  ///
+  /// In en, this message translates to:
+  /// **'Ran out · tap to put it back'**
+  String get barRanOutTapRestock;
+
+  /// Flow 04 - My bar. Screen 02. Offer to add the typed query as a custom bar item
+  ///
+  /// In en, this message translates to:
+  /// **'Not here? Add “{query}” as your own bottle'**
+  String barAddCustom(String query);
+
+  /// Flow 04 - My bar. Screen 06 search. Offer to add the typed query to the shopping list as a custom item
+  ///
+  /// In en, this message translates to:
+  /// **'Not here? Add “{query}” to your list'**
+  String barAddCustomToList(String query);
+
+  /// Flow 04 - My bar. Subtitle used for a custom item with no catalogue data of its own
+  ///
+  /// In en, this message translates to:
+  /// **'Your own bottle'**
+  String get barCustomItem;
+
+  /// Flow 04 - My bar. Placeholder in the search field when adding to the shopping list
+  ///
+  /// In en, this message translates to:
+  /// **'What do you need?'**
+  String get barSearchListHint;
+
+  /// Flow 04 - My bar. Subtitle on a search result already on the shopping list
+  ///
+  /// In en, this message translates to:
+  /// **'Already on your list'**
+  String get barAlreadyOnList;
+
+  /// Flow 04 - My bar. Notice shown when the catalogue failed to load and only starters are searchable
+  ///
+  /// In en, this message translates to:
+  /// **'Only the starter list for now — the full catalogue needs a connection.'**
+  String get barCatalogueOffline;
+
+  /// Flow 04 - Shopping list. Screen 06. Screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping list'**
+  String get shoppingListTitle;
+
+  /// Flow 04 - Shopping list. Screen 06. Subtitle under the title
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing to buy} =1{1 thing · tick it and it goes on the shelf} other{{count} things · tick one and it goes on the shelf}}'**
+  String shoppingListSubtitle(int count);
+
+  /// Flow 04 - Shopping list. Screen 06. Group header for items blocking a makeable drink
+  ///
+  /// In en, this message translates to:
+  /// **'Blocking your drinks'**
+  String get shoppingListBlockingHeader;
+
+  /// Flow 04 - Shopping list. Screen 06. Subtitle explaining why an item is blocking
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 drink you could make needs it} other{{count} drinks you could make need it}}'**
+  String shoppingListBlockingLine(int count);
+
+  /// Flow 04 - Shopping list. Screen 06. Group header for everything else on the list
+  ///
+  /// In en, this message translates to:
+  /// **'Also added'**
+  String get shoppingListAlsoHeader;
+
+  /// Flow 04 - Shopping list. Subtitle naming the party an item ran out at
+  ///
+  /// In en, this message translates to:
+  /// **'Ran out at {party}'**
+  String shoppingListRanOutAt(String party);
+
+  /// Flow 04 - Shopping list. Subtitle when an item ran out with no party name recorded
+  ///
+  /// In en, this message translates to:
+  /// **'Ran out'**
+  String get shoppingListRanOut;
+
+  /// Flow 04 - Shopping list. Subtitle naming the cocktail an item was added for
+  ///
+  /// In en, this message translates to:
+  /// **'For {cocktail}'**
+  String shoppingListForCocktail(String cocktail);
+
+  /// Flow 04 - Shopping list. Subtitle for an item added manually
+  ///
+  /// In en, this message translates to:
+  /// **'Added by you'**
+  String get shoppingListAddedByYou;
+
+  /// Flow 04 - Shopping list. Confirmation shown briefly after ticking an item
+  ///
+  /// In en, this message translates to:
+  /// **'Now on your shelf'**
+  String get shoppingListNowOnShelf;
+
+  /// Flow 04 - Shopping list. Row that opens search to add another item
+  ///
+  /// In en, this message translates to:
+  /// **'Add something else…'**
+  String get shoppingListAddSomething;
+
+  /// Flow 04 - Shopping list. Opens the share-as-text sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Share the list'**
+  String get shoppingListShare;
+
+  /// Flow 04 - Shopping list. Overflow menu action that clears ticked entries
+  ///
+  /// In en, this message translates to:
+  /// **'Clear the ticked ones'**
+  String get shoppingListClearTicked;
+
+  /// Flow 04 - Shopping list. Overflow menu action that clears every entry
+  ///
+  /// In en, this message translates to:
+  /// **'Clear the whole list'**
+  String get shoppingListClearAll;
+
+  /// Flow 04 - Shopping list. Empty state title
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to buy'**
+  String get shoppingListEmptyTitle;
+
+  /// Flow 04 - Shopping list. Empty state body
+  ///
+  /// In en, this message translates to:
+  /// **'Ran-out things land here, and so does anything you add.'**
+  String get shoppingListEmptyBody;
+
+  /// Flow 04 - Shopping list. Accessibility label / swipe action that removes an entry
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from list'**
+  String get shoppingListRemove;
+
+  /// Flow 04 - Share as text. Screen 07. Sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Send the list'**
+  String get shareListTitle;
+
+  /// Flow 04 - Share as text. Screen 07. Heading line of the shared plain-text list
+  ///
+  /// In en, this message translates to:
+  /// **'PartyBar — shopping list'**
+  String get shareListHeading;
+
+  /// Flow 04 - Share as text. Screen 07. Note explaining the share format
+  ///
+  /// In en, this message translates to:
+  /// **'Plain text — whoever gets it needs no app'**
+  String get shareListPlainNote;
+
+  /// Flow 04 - Share as text. Screen 07. Opens the platform share sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get shareListShare;
+
+  /// Flow 04 - Share as text. Screen 07. Copies the list text to the clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get shareListCopy;
+
+  /// Flow 04 - Share as text. Screen 07. Confirmation after copying
+  ///
+  /// In en, this message translates to:
+  /// **'List copied'**
+  String get shareListCopied;
+
+  /// Flow 04 - Share as text. Screen 07. Toggle that appends the reason to each line
+  ///
+  /// In en, this message translates to:
+  /// **'Include why each one is needed'**
+  String get shareListIncludeWhy;
+
+  /// Flow 04 - What ran out. Screen 08. Subtitle summarising drinks poured this party
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 drink poured} other{{count} drinks poured}}'**
+  String ranOutDrinksPoured(int count);
+
+  /// Flow 04 - What ran out. Screen 08. Headline
+  ///
+  /// In en, this message translates to:
+  /// **'Anything run out?'**
+  String get ranOutTitle;
+
+  /// Flow 04 - What ran out. Screen 08. Body copy
+  ///
+  /// In en, this message translates to:
+  /// **'Tap what is gone. Everything you skip stays on the shelf — we never guess from what was poured.'**
+  String get ranOutBody;
+
+  /// Flow 04 - What ran out. Screen 08. Subtitle on a row tapped as ran out
+  ///
+  /// In en, this message translates to:
+  /// **'Gone · going on your list'**
+  String get ranOutGone;
+
+  /// Flow 04 - What ran out. Screen 08. Subtitle noting how many times an item was poured tonight
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Poured once tonight} other{Poured {count} times tonight}}'**
+  String ranOutPoured(int count);
+
+  /// Flow 04 - What ran out. Screen 08. Primary button label
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Update my bar} other{Update my bar · {count} gone}}'**
+  String ranOutUpdate(int count);
+
+  /// Flow 04 - What ran out. Screen 08. Ghost action that skips the screen with nothing marked
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing ran out'**
+  String get ranOutNothing;
+
+  /// Flow 04 - What ran out. Screen 08. Empty state when the shelf has nothing stocked
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing on the shelf to check.'**
+  String get ranOutEmpty;
+
+  /// Flow 04 - Two away. Screen 09. Eyebrow above the headline
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =2{Two things short} other{{count} things short}}'**
+  String twoAwayEyebrow(int count);
+
+  /// Flow 04 - Two away. Screen 09. Headline naming how many required ingredients the shelf already has
+  ///
+  /// In en, this message translates to:
+  /// **'You have {have} of the {total}'**
+  String twoAwayTitle(int have, int total);
+
+  /// Flow 04 - Two away. Screen 09. Body copy under the headline
+  ///
+  /// In en, this message translates to:
+  /// **'Everything else is on your shelf already.'**
+  String get twoAwayBody;
+
+  /// Flow 04 - Two away. Screen 09. Suffix on a missing ingredient naming how many other drinks it also blocks
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{only this one} =1{also blocks 1 more} other{also blocks {count} more}}'**
+  String twoAwayAlsoBlocks(int count);
+
+  /// Flow 04 - Two away. Screen 09. Primary button adding every missing ingredient to the shopping list
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =2{Add both to my list} other{Add all {count} to my list}}'**
+  String twoAwayAddToList(int count);
+
+  /// Flow 04 - Two away. Screen 09. Secondary action that stocks the missing ingredients instead
+  ///
+  /// In en, this message translates to:
+  /// **'I actually have these'**
+  String get twoAwayHaveThese;
+
+  /// Flow 04 - Two away. Screen 09. Footnote explaining the secondary action
+  ///
+  /// In en, this message translates to:
+  /// **'“I have these” adds them to your bar — the only place stock is ever corrected.'**
+  String get twoAwayFootnote;
+
+  /// Flow 04 - Two away. Prompt elsewhere in Explore that opens the two-away sheet
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 thing short · see what} other{{count} things short · see what}}'**
+  String twoAwayPrompt(int count);
+
+  /// Flow 04 - Two away. Screen 09. Confirmation state after adding an ingredient to the shopping list
+  ///
+  /// In en, this message translates to:
+  /// **'On your list'**
+  String get twoAwayAddedToList;
+
+  /// Flow 04 - Two away. Screen 09. Confirmation state after adding an ingredient to the bar
+  ///
+  /// In en, this message translates to:
+  /// **'On your shelf'**
+  String get twoAwayAddedToBar;
 }
 
 class _AppLocalizationsDelegate

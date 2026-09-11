@@ -13,6 +13,7 @@ import '../../theme/theme.dart';
 import '../../utils/app_router.dart';
 import '../../utils/cocktail_labels.dart';
 import '../../utils/localization_helper.dart';
+import '../../widgets/bar/two_away_sheet.dart';
 import '../../widgets/common/app_chip.dart';
 import '../../widgets/common/glass.dart';
 import '../../widgets/cocktails/auth_gate_sheet.dart';
@@ -410,7 +411,7 @@ class _DetailSheet extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.screenEdge,
                 ),
-                child: _SheetContent(cocktail: cocktail),
+                child: CocktailSheetContent(cocktail: cocktail),
               ),
             ),
           ),
@@ -420,8 +421,13 @@ class _DetailSheet extends StatelessWidget {
   }
 }
 
-class _SheetContent extends StatelessWidget {
-  const _SheetContent({required this.cocktail});
+/// The sheet's body: title, recipe, and whichever nudge (one bottle away,
+/// two or three away) the shelf earns. Kept public and free of any lookup
+/// of its own — it takes the [Cocktail] it is handed and reads only
+/// [BarProvider] from context — so tests can pump it directly against a
+/// fake shelf without going anywhere near Firestore.
+class CocktailSheetContent extends StatelessWidget {
+  const CocktailSheetContent({super.key, required this.cocktail});
 
   final Cocktail cocktail;
 
@@ -457,6 +463,10 @@ class _SheetContent extends StatelessWidget {
         if (makeability.isOneAway) ...[
           const SizedBox(height: 14),
           _UnlockPrompt(cocktail: cocktail, missing: makeability.missing.single),
+        ] else if (makeability.requiredCount > 0 &&
+            (makeability.missingCount == 2 || makeability.missingCount == 3)) ...[
+          const SizedBox(height: 14),
+          _TwoAwayPrompt(cocktail: cocktail, missingCount: makeability.missingCount),
         ],
         const SizedBox(height: 16),
         _ActionsRow(cocktail: cocktail),
@@ -680,6 +690,67 @@ class _UnlockPrompt extends StatelessWidget {
               children: [
                 const Icon(
                   Icons.add_shopping_cart,
+                  size: 18,
+                  color: AppColors.low,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    label,
+                    style: AppTypography.body.copyWith(
+                      fontSize: 12.5,
+                      height: 1.4,
+                      color: AppColors.low,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Icon(
+                  Icons.chevron_right,
+                  size: 17,
+                  color: AppColors.inkMeta,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Shown when the shelf is two or three bottles short — the one other place
+/// (besides the ran-out checklist) the design lets a gap be named, because
+/// it answers a question this screen already raised rather than nagging
+/// about one nobody asked.
+class _TwoAwayPrompt extends StatelessWidget {
+  const _TwoAwayPrompt({required this.cocktail, required this.missingCount});
+
+  final Cocktail cocktail;
+  final int missingCount;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final label = l10n.twoAwayPrompt(missingCount);
+
+    return Semantics(
+      button: true,
+      label: label,
+      child: Material(
+        color: AppColors.lowWash,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () => showTwoAwaySheet(context, cocktail),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.error_outline,
                   size: 18,
                   color: AppColors.low,
                 ),

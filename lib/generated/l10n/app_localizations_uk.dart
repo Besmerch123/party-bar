@@ -21,6 +21,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get navigationParty => 'Вечірка';
 
   @override
+  String get navigationMyBar => 'Мій бар';
+
+  @override
   String get navigationSettings => 'Налаштування';
 
   @override
@@ -885,6 +888,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get bottleMint => 'М\'ята';
 
   @override
+  String get bottleShaker => 'Шейкер';
+
+  @override
   String get exploreFeedTitle => 'Наливаємо сьогодні';
 
   @override
@@ -1356,11 +1362,11 @@ class AppLocalizationsUk extends AppLocalizations {
       'Щоб гості приєднувались за вашим посиланням, а меню було на місці й наступної суботи. Чернетка збережеться у будь-якому разі.';
 
   @override
-  String get authBarrierBarTitle => 'У бару має бути господар';
+  String get authBarrierBarTitle => 'Не втрачайте цю полицю';
 
   @override
   String get authBarrierBarBody =>
-      'Щоб полиця переїхала на наступний телефон, а застосунок далі відповідав, що ви можете налити. Нічого з позначеного не зникне.';
+      'Увійдіть через Google — і полиця перейде на наступний телефон. У будь-якому разі вона й далі працюватиме на цьому.';
 
   @override
   String get authNotNow => 'Не зараз';
@@ -1543,4 +1549,528 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get authClose => 'Закрити';
+
+  @override
+  String get barTitle => 'Мій бар';
+
+  @override
+  String get barEmptyBody =>
+      'На полиці поки нічого немає. Позначте, що у вас є, — це залишиться на телефоні, доки ви не увійдете.';
+
+  @override
+  String get barEmptyBodySignedIn =>
+      'На полиці поки нічого немає. Позначте, що у вас є.';
+
+  @override
+  String get barSearchHint => 'Пляшки, міксери, інструменти…';
+
+  @override
+  String get barStartersSection => 'З цього починає більшість барів';
+
+  @override
+  String get barAddAll => 'Додати все';
+
+  @override
+  String get barStartersFooter => 'Дванадцять підказок, а далі — пошук';
+
+  @override
+  String barInDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'У $count напоях',
+      many: 'У $count напоях',
+      few: 'У $count напоях',
+      one: 'У $count напої',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String barInDrinksInline(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'у $count напоях',
+      many: 'у $count напоях',
+      few: 'у $count напоях',
+      one: 'у $count напої',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String barNeededForDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Потрібно для $count напоїв',
+      many: 'Потрібно для $count напоїв',
+      few: 'Потрібно для $count напоїв',
+      one: 'Потрібно для $count напою',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get barOnYourShelf => 'На вашій полиці';
+
+  @override
+  String barShelfCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count на полиці',
+      one: '1 на полиці',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String barMakeableCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count напоїв, які ви можете приготувати',
+      many: '$count напоїв, які ви можете приготувати',
+      few: '$count напої, які ви можете приготувати',
+      one: '$count напій, який ви можете приготувати',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String barThingsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count речей',
+      many: '$count речей',
+      few: '$count речі',
+      one: '$count річ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get barFilterAll => 'Усе';
+
+  @override
+  String get barSectionSpirits => 'Алкоголь';
+
+  @override
+  String get barSectionMixers => 'Міксери';
+
+  @override
+  String get barSectionFresh => 'Свіже';
+
+  @override
+  String get barSectionSyrups => 'Сиропи';
+
+  @override
+  String get barSectionTools => 'Інструменти';
+
+  @override
+  String get barSectionIce => 'Лід';
+
+  @override
+  String get barSectionOther => 'Інше';
+
+  @override
+  String get barGroupSpirits => 'Алкоголь і лікери';
+
+  @override
+  String get barGroupMixers => 'Міксери';
+
+  @override
+  String get barGroupFresh => 'Свіже';
+
+  @override
+  String get barGroupSyrups => 'Сиропи й біттери';
+
+  @override
+  String get barGroupTools => 'Інструменти й посуд';
+
+  @override
+  String get barGroupIce => 'Лід';
+
+  @override
+  String get barGroupOther => 'Усе інше';
+
+  @override
+  String barInYourDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'У $count з ваших напоїв',
+      one: 'У 1 з ваших напоїв',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String barNeededForYourDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Потрібен для $count з ваших напоїв',
+      one: 'Потрібен для 1 з ваших напоїв',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get barAddedJustNow => 'Щойно додано';
+
+  @override
+  String get barNotInYourBar => 'Немає у вашому барі';
+
+  @override
+  String get barRanOutGroup => 'Закінчилось';
+
+  @override
+  String get barAddAllToList => 'Додати все у список';
+
+  @override
+  String barBlocksDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Блокує $count напоїв',
+      many: 'Блокує $count напоїв',
+      few: 'Блокує $count напої',
+      one: 'Блокує $count напій',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get barOnYourList => 'У вашому списку';
+
+  @override
+  String get barAddToList => 'Додати у список';
+
+  @override
+  String get barFreshInfo =>
+      'Свіжі продукти псуються, тож ми питаємо, що закінчилось, лише коли вечірка завершується — ніколи посеред неї.';
+
+  @override
+  String get barOpenList => 'Список покупок';
+
+  @override
+  String get barAddItem => 'Додати у мій бар';
+
+  @override
+  String barMarkRanOut(String item) {
+    return 'Позначити “$item” як закінчене';
+  }
+
+  @override
+  String barPutBack(String item) {
+    return 'Повернути “$item” на полицю';
+  }
+
+  @override
+  String get barSheetOnShelf => 'На полиці';
+
+  @override
+  String get barSheetRanOut => 'Закінчилось — додати у список';
+
+  @override
+  String get barSheetNote => 'Нотатка';
+
+  @override
+  String get barSheetNoteHint => 'Бренд, пляшка, де зберігається…';
+
+  @override
+  String get barSheetNoteAdd => 'Додати';
+
+  @override
+  String get barSheetNoteSave => 'Зберегти';
+
+  @override
+  String get barSheetRemove => 'Прибрати з мого бару';
+
+  @override
+  String get barSheetUnlocks => 'Відкриває для вас';
+
+  @override
+  String get barSheetMore => 'ще';
+
+  @override
+  String get barSheetDone => 'Готово';
+
+  @override
+  String barRemoved(String item) {
+    return '“$item” прибрано';
+  }
+
+  @override
+  String get barUndo => 'Скасувати';
+
+  @override
+  String get barSearchCancel => 'Скасувати';
+
+  @override
+  String barSearchMatches(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count збігів',
+      many: '$count збігів',
+      few: '$count збіги',
+      one: '1 збіг',
+      zero: 'Немає збігів',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get barAlreadyOnShelf => 'Уже на вашій полиці';
+
+  @override
+  String get barRanOutTapRestock => 'Закінчилось · торкніться, щоб повернути';
+
+  @override
+  String barAddCustom(String query) {
+    return 'Не знайшли? Додайте “$query” як власну пляшку';
+  }
+
+  @override
+  String barAddCustomToList(String query) {
+    return 'Не знайшли? Додайте “$query” у список';
+  }
+
+  @override
+  String get barCustomItem => 'Ваша власна пляшка';
+
+  @override
+  String get barSearchListHint => 'Що вам потрібно?';
+
+  @override
+  String get barAlreadyOnList => 'Уже у вашому списку';
+
+  @override
+  String get barCatalogueOffline =>
+      'Поки що лише стартовий список — повний каталог потребує з\'єднання.';
+
+  @override
+  String get shoppingListTitle => 'Список покупок';
+
+  @override
+  String shoppingListSubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count речей · позначте одну — і вона потрапить на полицю',
+      many: '$count речей · позначте одну — і вона потрапить на полицю',
+      few: '$count речі · позначте одну — і вона потрапить на полицю',
+      one: '1 річ · позначте — і вона потрапить на полицю',
+      zero: 'Нічого купувати',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get shoppingListBlockingHeader => 'Блокує ваші напої';
+
+  @override
+  String shoppingListBlockingLine(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Потрібен для $count напоїв, які ви могли б приготувати',
+      many: 'Потрібен для $count напоїв, які ви могли б приготувати',
+      few: 'Потрібен для $count напоїв, які ви могли б приготувати',
+      one: 'Потрібен для $count напою, який ви могли б приготувати',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get shoppingListAlsoHeader => 'Також додано';
+
+  @override
+  String shoppingListRanOutAt(String party) {
+    return 'Закінчилось на “$party”';
+  }
+
+  @override
+  String get shoppingListRanOut => 'Закінчилось';
+
+  @override
+  String shoppingListForCocktail(String cocktail) {
+    return 'Для “$cocktail”';
+  }
+
+  @override
+  String get shoppingListAddedByYou => 'Додано вами';
+
+  @override
+  String get shoppingListNowOnShelf => 'Тепер на вашій полиці';
+
+  @override
+  String get shoppingListAddSomething => 'Додати щось інше…';
+
+  @override
+  String get shoppingListShare => 'Поділитися списком';
+
+  @override
+  String get shoppingListClearTicked => 'Прибрати позначені';
+
+  @override
+  String get shoppingListClearAll => 'Очистити весь список';
+
+  @override
+  String get shoppingListEmptyTitle => 'Нічого купувати';
+
+  @override
+  String get shoppingListEmptyBody =>
+      'Сюди потрапляє те, що закінчилось, і все, що ви додасте самі.';
+
+  @override
+  String get shoppingListRemove => 'Прибрати зі списку';
+
+  @override
+  String get shareListTitle => 'Надіслати список';
+
+  @override
+  String get shareListHeading => 'PartyBar — список покупок';
+
+  @override
+  String get shareListPlainNote =>
+      'Звичайний текст — отримувачу не потрібен застосунок';
+
+  @override
+  String get shareListShare => 'Поділитися';
+
+  @override
+  String get shareListCopy => 'Копіювати';
+
+  @override
+  String get shareListCopied => 'Список скопійовано';
+
+  @override
+  String get shareListIncludeWhy => 'Додати причину для кожного пункту';
+
+  @override
+  String ranOutDrinksPoured(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Налито $count напоїв',
+      many: 'Налито $count напоїв',
+      few: 'Налито $count напої',
+      one: 'Налито $count напій',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ranOutTitle => 'Щось закінчилось?';
+
+  @override
+  String get ranOutBody =>
+      'Позначте, чого не стало. Усе, що пропустите, залишиться на полиці — ми ніколи не вгадуємо за тим, що наливали.';
+
+  @override
+  String get ranOutGone => 'Закінчилось · додається у список';
+
+  @override
+  String ranOutPoured(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Наливали сьогодні $count разів',
+      many: 'Наливали сьогодні $count разів',
+      few: 'Наливали сьогодні $count рази',
+      one: 'Наливали сьогодні 1 раз',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ranOutUpdate(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Оновити мій бар · $count закінчилось',
+      zero: 'Оновити мій бар',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ranOutNothing => 'Нічого не закінчилось';
+
+  @override
+  String get ranOutEmpty => 'На полиці немає чого перевіряти.';
+
+  @override
+  String twoAwayEyebrow(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Бракує $count речей',
+      two: 'Бракує двох речей',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String twoAwayTitle(int have, int total) {
+    return 'У вас є $have з $total';
+  }
+
+  @override
+  String get twoAwayBody => 'Усе інше вже на вашій полиці.';
+
+  @override
+  String twoAwayAlsoBlocks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'також блокує ще $count',
+      one: 'також блокує ще 1',
+      zero: 'лише це',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String twoAwayAddToList(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Додати всі $count у мій список',
+      two: 'Додати обидва у мій список',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get twoAwayHaveThese => 'Насправді у мене це є';
+
+  @override
+  String get twoAwayFootnote =>
+      '“У мене це є” додає їх у ваш бар — це єдине місце, де запас коли-небудь виправляють.';
+
+  @override
+  String twoAwayPrompt(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Бракує $count речей · дивитись',
+      many: 'Бракує $count речей · дивитись',
+      few: 'Бракує $count речей · дивитись',
+      one: 'Бракує $count речі · дивитись',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get twoAwayAddedToList => 'У вашому списку';
+
+  @override
+  String get twoAwayAddedToBar => 'На вашій полиці';
 }

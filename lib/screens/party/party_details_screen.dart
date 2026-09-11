@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:party_bar/data/cocktail_repository.dart';
 import 'package:party_bar/models/models.dart';
+import 'package:party_bar/screens/bar/ran_out_screen.dart';
+import 'package:party_bar/services/order_service.dart';
 import 'package:party_bar/services/party_service.dart';
 import 'package:party_bar/services/auth_service.dart';
+import 'package:party_bar/utils/app_router.dart';
 import 'package:party_bar/utils/localization_helper.dart';
 import 'package:party_bar/widgets/party/party_invitation_code.dart';
 import 'package:party_bar/widgets/party/party_cocktails_list.dart';
@@ -105,8 +110,9 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen> {
     try {
       await _partyService.updatePartyStatus(widget.partyId, newStatus);
 
+      final endedParty = _party!.copyWith(status: newStatus);
       setState(() {
-        _party = _party!.copyWith(status: newStatus);
+        _party = endedParty;
         _isUpdating = false;
       });
 
@@ -117,6 +123,16 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen> {
             backgroundColor: Colors.green,
           ),
         );
+      }
+
+      // Flow 04 screen 08: once a party ends, ask what ran out — but only
+      // as a courtesy. A stats query that fails or hangs must never stop
+      // the host from seeing their status change go through, so this is
+      // fire-and-forget from the caller's point of view and swallows its
+      // own errors down to "just the party name" whenever anything about
+      // the pour tally cannot be read.
+      if (newStatus == PartyStatus.ended && mounted) {
+        await _openRanOutChecklist(endedParty);
       }
     } catch (e) {
       setState(() => _isUpdating = false);
@@ -129,6 +145,72 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen> {
         );
       }
     }
+  }
+
+  /// Best-effort pour tally for the ran-out checklist's opening screen: how
+  /// many drinks were delivered tonight, and — per required ingredient — how
+  /// many of those deliveries needed it. Both are `null`/empty on any
+  /// failure or timeout, which [RanOutScreen] already treats as "just the
+  /// party name, no numbers to show".
+  Future<void> _openRanOutChecklist(Party party) async {
+    int? drinksPoured;
+    Map<String, int> pourCounts = const {};
+
+    try {
+      final tally = await _pourTally(party.id).timeout(
+        const Duration(seconds: 4),
+      );
+      drinksPoured = tally.$1;
+      pourCounts = tally.$2;
+    } catch (_) {
+      // Network hiccup, a cocktail that failed to load, a slow query — none
+      // of it should keep the host from moving on. The checklist still
+      // opens, just without the "31 drinks poured" flourish.
+    }
+
+    if (!mounted) return;
+    context.push(
+      AppRoutes.barRanOut,
+      extra: RanOutArgs(
+        partyName: party.name,
+        drinksPoured: drinksPoured,
+        pourCounts: pourCounts,
+      ),
+    );
+  }
+
+  /// Reads the party's orders once (rather than subscribing to the live
+  /// stream) and counts, per [barKey], how many delivered orders needed
+  /// that ingredient — the busiest bottles are the ones most likely to
+  /// actually be empty, which is what screen 08 sorts by.
+  Future<(int?, Map<String, int>)> _pourTally(String partyId) async {
+    final orders = await OrderService().streamPartyOrders(partyId).first;
+    final delivered = orders
+        .where((order) => order.status == OrderStatus.delivered)
+        .toList(growable: false);
+    if (delivered.isEmpty) return (null, const <String, int>{});
+
+    final cocktailRepo = CocktailRepository();
+    final requiredKeysByCocktail = <String, List<String>>{};
+    for (final cocktailId in delivered.map((order) => order.cocktailId).toSet()) {
+      final cocktail = await cocktailRepo.getCocktail(cocktailId);
+      if (cocktail == null) continue;
+      requiredKeysByCocktail[cocktailId] = [
+        for (final ingredient in cocktail.requiredIngredients)
+          barKey(ingredient.slug ?? ingredient.id),
+      ];
+    }
+
+    final pourCounts = <String, int>{};
+    for (final order in delivered) {
+      final keys = requiredKeysByCocktail[order.cocktailId];
+      if (keys == null) continue;
+      for (final key in keys) {
+        pourCounts[key] = (pourCounts[key] ?? 0) + 1;
+      }
+    }
+
+    return (delivered.length, pourCounts);
   }
 
   @override

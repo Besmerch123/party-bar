@@ -1,5 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'recipe.dart' show enumByName;
 import 'shared_types.dart';
+
+/// What a piece of equipment is for — the shelf groups tools and glassware
+/// together, but ice sits with the ice ingredients instead.
+enum EquipmentKind { tool, glassware, ice }
 
 /// Equipment Domain Model (UI/Business Logic Layer)
 ///
@@ -16,13 +21,41 @@ class Equipment {
   /// Google Cloud Storage path or URL to the equipment image
   final String? image;
 
-  const Equipment({required this.id, required this.title, this.image});
+  /// Stable human key, mirroring [Ingredient.slug] — lets a shaker collected
+  /// before the catalogue existed still resolve to a real document.
+  final String? slug;
 
-  Equipment copyWith({String? id, I18nField? title, String? image}) {
+  /// Tool, glassware or ice. Defaults to [EquipmentKind.tool] for the
+  /// pre-Flow-04 catalogue, which never recorded one.
+  final EquipmentKind kind;
+
+  /// Catalogue-wide "in N drinks" figure. Null until backfilled.
+  final int? cocktailCount;
+
+  const Equipment({
+    required this.id,
+    required this.title,
+    this.image,
+    this.slug,
+    this.kind = EquipmentKind.tool,
+    this.cocktailCount,
+  });
+
+  Equipment copyWith({
+    String? id,
+    I18nField? title,
+    String? image,
+    String? slug,
+    EquipmentKind? kind,
+    int? cocktailCount,
+  }) {
     return Equipment(
       id: id ?? this.id,
       title: title ?? this.title,
       image: image ?? this.image,
+      slug: slug ?? this.slug,
+      kind: kind ?? this.kind,
+      cocktailCount: cocktailCount ?? this.cocktailCount,
     );
   }
 }
@@ -38,6 +71,15 @@ class EquipmentDocument {
   /// Google Cloud Storage path or URL to the equipment image
   final String? image;
 
+  /// See [Equipment.slug].
+  final String? slug;
+
+  /// See [Equipment.kind].
+  final EquipmentKind kind;
+
+  /// See [Equipment.cocktailCount].
+  final int? cocktailCount;
+
   /// Firestore Timestamp when the equipment was created
   final Timestamp createdAt;
 
@@ -47,6 +89,9 @@ class EquipmentDocument {
   const EquipmentDocument({
     required this.title,
     this.image,
+    this.slug,
+    this.kind = EquipmentKind.tool,
+    this.cocktailCount,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -61,6 +106,9 @@ class EquipmentDocument {
     return EquipmentDocument(
       title: Map<String, String>.from(map['title'] ?? {}),
       image: map['image'],
+      slug: map['slug'] as String?,
+      kind: enumByName(EquipmentKind.values, map['kind']) ?? EquipmentKind.tool,
+      cocktailCount: (map['cocktailCount'] as num?)?.toInt(),
       createdAt: map['createdAt'] as Timestamp,
       updatedAt: map['updatedAt'] as Timestamp,
     );
@@ -70,6 +118,9 @@ class EquipmentDocument {
     return {
       'title': title,
       'image': image,
+      'slug': slug,
+      'kind': kind.name,
+      'cocktailCount': cocktailCount,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
     };
@@ -85,7 +136,14 @@ class EquipmentTransformer
     String id,
     SupportedLocale locale,
   ) {
-    return Equipment(id: id, title: document.title, image: document.image);
+    return Equipment(
+      id: id,
+      title: document.title,
+      image: document.image,
+      slug: document.slug,
+      kind: document.kind,
+      cocktailCount: document.cocktailCount,
+    );
   }
 
   @override

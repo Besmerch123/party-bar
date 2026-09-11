@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:party_bar/models/models.dart';
 import 'package:party_bar/services/elastic_service.dart';
 
@@ -220,6 +221,22 @@ class IngredientRepository {
       );
   final IngredientTransformer _transformer = IngredientTransformer();
 
+  /// Every ingredient in the catalogue — what the bar's search screen builds
+  /// its list from, not the handful a single cocktail references.
+  Future<List<Ingredient>> getAllIngredients({
+    SupportedLocale locale = SupportedLocale.en,
+  }) async {
+    try {
+      final snapshot = await _collection.get();
+      return snapshot.docs
+          .map((doc) => _transformer.fromFirestore(doc, locale))
+          .toList();
+    } catch (e) {
+      debugPrint('Error fetching all ingredients: $e');
+      return [];
+    }
+  }
+
   /// Fetch multiple ingredients by their document paths
   Future<List<Ingredient>> getIngredientsByPaths(
     List<String> paths, {
@@ -256,6 +273,22 @@ class EquipmentRepository {
         toFirestore: (doc, _) => {}, // Not used for reading
       );
   final EquipmentTransformer _transformer = EquipmentTransformer();
+
+  /// Every piece of equipment in the catalogue — the bar's search screen
+  /// needs the whole set, not just what one cocktail calls for.
+  Future<List<Equipment>> getAllEquipment({
+    SupportedLocale locale = SupportedLocale.en,
+  }) async {
+    try {
+      final snapshot = await _collection.get();
+      return snapshot.docs
+          .map((doc) => _transformer.fromFirestore(doc, locale))
+          .toList();
+    } catch (e) {
+      debugPrint('Error fetching all equipment: $e');
+      return [];
+    }
+  }
 
   /// Fetch multiple equipment by their document paths
   Future<List<Equipment>> getEquipmentsByPaths(
