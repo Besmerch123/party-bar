@@ -2073,4 +2073,638 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get twoAwayAddedToBar => 'На вашій полиці';
+
+  @override
+  String get hostBarClosed => 'Бар зачинено';
+
+  @override
+  String get hostNothingPouring => 'Ще нічого\nне наливаємо';
+
+  @override
+  String get hostNothingPouringBody =>
+      'Задайте назву й меню. Дві хвилини — і ваша кухня приймає замовлення.';
+
+  @override
+  String get hostPartyCta => 'Влаштувати вечірку';
+
+  @override
+  String get hostJoinWithCode => 'Приєднатися за кодом';
+
+  @override
+  String hostDraftMeta(int count, String time) {
+    return 'Чернетка · у меню: $count · збережено $time';
+  }
+
+  @override
+  String hostLiveMeta(int count) {
+    return 'Наживо · у меню: $count';
+  }
+
+  @override
+  String hostEndedMeta(int count) {
+    return 'Налито: $count';
+  }
+
+  @override
+  String get hostResume => 'Продовжити';
+
+  @override
+  String get hostRecap => 'Підсумок';
+
+  @override
+  String get hostOpen => 'Відкрити';
+
+  @override
+  String get hostNameTitle => 'Як назвемо\nвечірку?';
+
+  @override
+  String get hostNameBody =>
+      'Гості побачать це, коли приєднаються. Змінити можна будь-коли.';
+
+  @override
+  String get hostNameHint => 'Назва вечірки';
+
+  @override
+  String get hostNameIdeaFriday => 'П’ятничний вечір';
+
+  @override
+  String get hostNameIdeaHousewarming => 'Новосілля';
+
+  @override
+  String get hostNameIdeaJustUs => 'Тільки ми вдвох';
+
+  @override
+  String get hostWhenLabel => 'Коли';
+
+  @override
+  String get hostWhenTonight => 'Сьогодні';
+
+  @override
+  String get hostWhenPickDate => 'Обрати дату';
+
+  @override
+  String get hostCodeDeadNote =>
+      'Ніхто не приєднається, доки ви не відкриєте бар, — не поспішайте з меню.';
+
+  @override
+  String get hostNextMenu => 'Далі · меню';
+
+  @override
+  String get hostDraftSaveFailed =>
+      'Не вдалося зберегти чернетку. Спробуйте ще раз.';
+
+  @override
+  String get hostMenuTitle => 'Що наливатимете?';
+
+  @override
+  String hostMenuBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count з них не потребують нічого, чого у вас немає.',
+      many: '$count з них не потребують нічого, чого у вас немає.',
+      few: '$count з них не потребують нічого, чого у вас немає.',
+      one: '$count з них не потребує нічого, чого у вас немає.',
+      zero:
+          'Поки жоден не готується з вашого бару — пошукайте або перегляньте всі.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostMenuSearchHint => 'Пошук коктейлів';
+
+  @override
+  String hostMenuFilterCanMake(int count) {
+    return 'Можна зробити: $count';
+  }
+
+  @override
+  String get hostMenuFilterAll => 'Усі коктейлі';
+
+  @override
+  String hostMenuCount(int count) {
+    return 'У меню: $count';
+  }
+
+  @override
+  String get hostMenuAddLater =>
+      'Додати більше можна пізніше — навіть посеред вечірки';
+
+  @override
+  String get hostMenuReview => 'Переглянути';
+
+  @override
+  String hostMenuAdd(String name) {
+    return 'Додати $name до меню';
+  }
+
+  @override
+  String hostMenuRemove(String name) {
+    return 'Прибрати $name з меню';
+  }
+
+  @override
+  String get hostMenuLoadFailed => 'Не вдалося завантажити коктейлі.';
+
+  @override
+  String get hostRetry => 'Спробувати ще';
+
+  @override
+  String get hostSearchDone => 'Готово';
+
+  @override
+  String hostSearchMatches(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count збігу',
+      many: '$count збігів',
+      few: '$count збіги',
+      one: '$count збіг',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostSearchOnlyMakeable => 'Лише те, що можу зробити';
+
+  @override
+  String hostBadgeNo(String ingredient) {
+    return 'Немає: $ingredient';
+  }
+
+  @override
+  String hostBadgeMissing(int count) {
+    return 'Бракує: $count';
+  }
+
+  @override
+  String get hostBadgeAllInStock => 'Усе є';
+
+  @override
+  String hostSearchShoppingTip(String ingredient) {
+    return 'Додайте все одно — і $ingredient потрапить у список покупок.';
+  }
+
+  @override
+  String hostSearchNoResults(String query) {
+    return 'Нічого не знайдено за запитом «$query».';
+  }
+
+  @override
+  String get hostAllTitle => 'Усі коктейлі';
+
+  @override
+  String get hostAllFilterAll => 'Усі';
+
+  @override
+  String hostAllReady(int count) {
+    return 'Можна наливати · $count';
+  }
+
+  @override
+  String hostAllNeedsShopping(int count) {
+    return 'Треба докупити · $count';
+  }
+
+  @override
+  String get hostAllClosestFirst => 'Спершу найближчі';
+
+  @override
+  String hostAllIngredientCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count інгредієнта',
+      many: '$count інгредієнтів',
+      few: '$count інгредієнти',
+      one: '$count інгредієнт',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String hostAllShort(int count, String ingredients) {
+    return 'Бракує $count · $ingredients';
+  }
+
+  @override
+  String hostAllDone(int count) {
+    return 'Готово · у меню: $count';
+  }
+
+  @override
+  String hostMissingOneTitle(String ingredient) {
+    return 'Бракує одного: $ingredient';
+  }
+
+  @override
+  String hostMissingManyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Бракує $count інгредієнта',
+      many: 'Бракує $count інгредієнтів',
+      few: 'Бракує $count інгредієнтів',
+      one: 'Бракує $count інгредієнта',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostMissingBody =>
+      'Додайте в меню все одно — гості зможуть замовити, а нестачу бачитимете лише ви, не вони.';
+
+  @override
+  String get hostMissingOutOfStock => 'немає';
+
+  @override
+  String hostMissingAddAndBuyOne(String ingredient) {
+    return 'Додати й купити: $ingredient';
+  }
+
+  @override
+  String hostMissingAddAndBuyMany(int count) {
+    return 'Додати й купити все ($count)';
+  }
+
+  @override
+  String hostMissingShowMakeable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Показати $count, що можу зробити',
+      many: 'Показати $count, що можу зробити',
+      few: 'Показати $count, що можу зробити',
+      one: 'Показати $count, що можу зробити',
+      zero: 'Показати, що можу зробити',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostMissingFootnote =>
+      'Гості побачать позначку «обмежено», лише якщо щось закінчиться посеред вечірки.';
+
+  @override
+  String get hostDraftPill => 'Чернетка';
+
+  @override
+  String hostDraftMetaTonight(int count) {
+    return 'Сьогодні · у меню: $count · бармен — ви';
+  }
+
+  @override
+  String hostDraftMetaDate(String date, int count) {
+    return '$date · у меню: $count · бармен — ви';
+  }
+
+  @override
+  String get hostDraftMenuRow => 'Меню';
+
+  @override
+  String hostDraftDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count напою',
+      many: '$count напоїв',
+      few: '$count напої',
+      one: '$count напій',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostDraftWhenRow => 'Коли';
+
+  @override
+  String get hostDraftTonightOpen => 'Сьогодні, без кінця';
+
+  @override
+  String get hostDraftInviteRow => 'Код запрошення';
+
+  @override
+  String get hostDraftDead => 'Не діє';
+
+  @override
+  String hostDraftToBuy(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Купити $count речі',
+      many: 'Купити $count речей',
+      few: 'Купити $count речі',
+      one: 'Купити $count річ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String hostDraftToBuyBody(String ingredients, String cocktails) {
+    return '$ingredients. Доти $cocktails доведеться імпровізувати.';
+  }
+
+  @override
+  String get hostDraftCanPour => 'Можна налити зараз';
+
+  @override
+  String hostDraftCanPourValue(int ready, int total) {
+    return '$ready з $total';
+  }
+
+  @override
+  String get hostGoLiveCta => 'Відкрити бар і код';
+
+  @override
+  String get hostSaveForLater => 'Зберегти чернетку на потім';
+
+  @override
+  String get hostDraftLoadFailed => 'Не вдалося завантажити вечірку.';
+
+  @override
+  String get hostGoLiveTitle => 'Відкрити бар?';
+
+  @override
+  String get hostGoLiveBody => 'Ось що зміниться, щойно ви натиснете.';
+
+  @override
+  String hostGoLiveCodeWorks(String code) {
+    return 'Код $code почне діяти';
+  }
+
+  @override
+  String get hostGoLiveCodeWorksSub =>
+      'Приєднатися зможе будь-хто з кодом або QR';
+
+  @override
+  String get hostGoLiveOrders => 'Замовлення почнуть надходити на ваш телефон';
+
+  @override
+  String get hostGoLiveOrdersSub => 'Черга — за кнопкою «Відкрити бар»';
+
+  @override
+  String get hostGoLiveUndo => 'Нічого не остаточно';
+
+  @override
+  String get hostGoLiveUndoSub =>
+      'Ставте бар на паузу чи змінюйте меню будь-коли';
+
+  @override
+  String get hostGoLive => 'Відкрити бар';
+
+  @override
+  String get hostNotYet => 'Ще ні';
+
+  @override
+  String get hostOneLiveParty => 'Одна вечірка наживо за раз';
+
+  @override
+  String hostSecondLiveTitle(String name) {
+    return '«$name» ще триває';
+  }
+
+  @override
+  String get hostSecondLiveBody =>
+      'Один бар за раз — завершіть ту вечірку, і її підсумок збережеться до відкриття нової.';
+
+  @override
+  String hostGoToParty(String name) {
+    return 'Перейти до «$name»';
+  }
+
+  @override
+  String get hostEndAndStartFresh => 'Завершити її й почати нову';
+
+  @override
+  String get hostEmptyMenuTitle => 'Відкрити з порожнім меню?';
+
+  @override
+  String get hostEmptyMenuBody =>
+      'Гості все одно зможуть приєднатися й попросити що завгодно — ви просто прийматимете побажання замість замовлень.';
+
+  @override
+  String get hostOpenAsRequestBar => 'Відкрити бар на побажання';
+
+  @override
+  String get hostAddACoupleFirst => 'Спершу додам кілька';
+
+  @override
+  String hostLivePill(String elapsed) {
+    return 'Наживо · $elapsed';
+  }
+
+  @override
+  String get hostBarOpenTitle => 'Бар відкрито';
+
+  @override
+  String get hostBarOpenBody =>
+      'Наведіть камеру. Без застосунку й акаунта — лише ім’я.';
+
+  @override
+  String get hostCopyCode => 'Скопіювати код';
+
+  @override
+  String get hostCodeCopied => 'Код скопійовано';
+
+  @override
+  String get hostShareLink => 'Поділитися посиланням';
+
+  @override
+  String get hostGoToTheParty => 'До вечірки';
+
+  @override
+  String hostShareText(String name, String code) {
+    return 'Приєднуйтеся до «$name» у PartyBar з кодом $code';
+  }
+
+  @override
+  String hostHereAndPoured(int here, int poured) {
+    return 'Тут: $here · налито: $poured';
+  }
+
+  @override
+  String get hostOpenTheBar => 'До бару';
+
+  @override
+  String get hostOnTheMenuTonight => 'У меню сьогодні';
+
+  @override
+  String get hostEdit => 'Змінити';
+
+  @override
+  String get hostShowQr => 'Показати QR-код';
+
+  @override
+  String get hostShare => 'Поділитися';
+
+  @override
+  String get hostManage => 'Керувати вечіркою';
+
+  @override
+  String get hostMenuEmptyRequests =>
+      'Меню порожнє — гості надсилають побажання.';
+
+  @override
+  String get hostLowBadge => 'Мало';
+
+  @override
+  String hostManageSub(String elapsed, int guests, int waiting) {
+    return 'Наживо $elapsed · тут: $guests · чекають: $waiting';
+  }
+
+  @override
+  String get hostLiveChip => 'Наживо';
+
+  @override
+  String get hostPauseBar => 'Поставити бар на паузу';
+
+  @override
+  String get hostPauseCaption =>
+      'Нові замовлення зупиняться. Гості побачать «повернемося за хвилину».';
+
+  @override
+  String get hostEditTonightsMenu => 'Змінити меню';
+
+  @override
+  String get hostInviteMore => 'Запросити ще';
+
+  @override
+  String get hostWhosHere => 'Хто тут';
+
+  @override
+  String get hostAddCoHost => 'Додати співведучого';
+
+  @override
+  String get hostSoon => 'Скоро';
+
+  @override
+  String get hostEndParty => 'Завершити вечірку';
+
+  @override
+  String get hostEndPartyHint => 'далі — що закінчилося';
+
+  @override
+  String get hostSaveFailed => 'Не вдалося зберегти. Спробуйте ще раз.';
+
+  @override
+  String hostPausedPill(String elapsed) {
+    return 'Бар на паузі · $elapsed';
+  }
+
+  @override
+  String get hostPausedTitle => 'Бар зачинено\nна хвилинку';
+
+  @override
+  String hostPausedBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ніхто не може замовити. $count замовлення в черзі все ще ваші.',
+      many: 'Ніхто не може замовити. $count замовлень у черзі все ще ваші.',
+      few: 'Ніхто не може замовити. $count замовлення в черзі все ще ваші.',
+      one: 'Ніхто не може замовити. $count замовлення в черзі все ще ваше.',
+      zero: 'Ніхто не може замовити, а черга порожня.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostReopenBar => 'Знову відкрити бар';
+
+  @override
+  String get hostGuestsSeeing => 'Гості бачать';
+
+  @override
+  String get hostBackInAMinute => 'Повернемося за хвилину';
+
+  @override
+  String get hostMenuVisibleOrderingOff => 'Меню видно · замовлення вимкнено';
+
+  @override
+  String get hostInQueue => 'У черзі';
+
+  @override
+  String hostOrdersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count замовлення',
+      many: '$count замовлень',
+      few: '$count замовлення',
+      one: '$count замовлення',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostStillHere => 'Ще тут';
+
+  @override
+  String hostGuestsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count гостя',
+      many: '$count гостей',
+      few: '$count гості',
+      one: '$count гість',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostEndTitle => 'Завершуємо вечір?';
+
+  @override
+  String get hostEndBody =>
+      'Код перестане діяти, а черга закриється. Цього не скасувати.';
+
+  @override
+  String hostEndWaiting(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count замовлення ще чекають',
+      many: '$count замовлень ще чекають',
+      few: '$count замовлення ще чекають',
+      one: '$count замовлення ще чекає',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String hostEndWaitingDetail(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Їх буде позначено як неподані',
+      many: 'Їх буде позначено як неподані',
+      few: 'Їх буде позначено як неподані',
+      one: 'Його буде позначено як неподане',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostEndPoured => 'Налито';
+
+  @override
+  String get hostEndGuests => 'Гості';
+
+  @override
+  String get hostEndOpenFor => 'Відкрито';
+
+  @override
+  String get hostEndConfirm => 'Завершити й перевірити запаси';
+
+  @override
+  String get hostKeepPouring => 'Наливати далі';
+
+  @override
+  String get hostJustNeedBreak => 'Потрібна перерва?';
+
+  @override
+  String get hostPauseInstead => 'Краще поставити бар на паузу';
 }

@@ -2717,5 +2717,873 @@
   "twoAwayAddedToBar": "On your shelf",
   "@twoAwayAddedToBar": {
     "description": "Flow 04 - Two away. Screen 09. Confirmation state after adding an ingredient to the bar"
+  },
+  "hostBarClosed": "Bar closed",
+  "@hostBarClosed": {
+    "description": "Flow 05 - Host. Screen 01. Status pill over the hero when the host has no live party"
+  },
+  "hostNothingPouring": "Nothing\npouring yet",
+  "@hostNothingPouring": {
+    "description": "Flow 05 - Host. Screen 01. Headline over the hero photo; keep the line break"
+  },
+  "hostNothingPouringBody": "Set a name and a menu. Two minutes, and your kitchen takes orders.",
+  "@hostNothingPouringBody": {
+    "description": "Flow 05 - Host. Screen 01. Body under the headline"
+  },
+  "hostPartyCta": "Host a party",
+  "@hostPartyCta": {
+    "description": "Flow 05 - Host. Screen 01. Primary action that starts the draft"
+  },
+  "hostJoinWithCode": "Join with a code",
+  "@hostJoinWithCode": {
+    "description": "Flow 05 - Host. Screen 01. Secondary action into Flow 07"
+  },
+  "hostDraftMeta": "Draft · {count} on the menu · saved {time}",
+  "@hostDraftMeta": {
+    "description": "Flow 05 - Host. Screen 01. Meta line on a draft party card",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "4"
+      },
+      "time": {
+        "type": "String",
+        "example": "21:04"
+      }
+    }
+  },
+  "hostLiveMeta": "Live now · {count} on the menu",
+  "@hostLiveMeta": {
+    "description": "Flow 05 - Host. Screen 01. Meta line on the card of a party that is still live",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "hostEndedMeta": "{count} poured",
+  "@hostEndedMeta": {
+    "description": "Flow 05 - Host. Screen 01. Meta line on the card of an ended party",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "17"
+      }
+    }
+  },
+  "hostResume": "Resume",
+  "@hostResume": {
+    "description": "Flow 05 - Host. Screen 01. Pill on a draft card"
+  },
+  "hostRecap": "Recap",
+  "@hostRecap": {
+    "description": "Flow 05 - Host. Screen 01. Pill on an ended party card"
+  },
+  "hostOpen": "Open",
+  "@hostOpen": {
+    "description": "Flow 05 - Host. Screen 01. Pill on a live party card"
+  },
+  "hostNameTitle": "What are we\ncalling it?",
+  "@hostNameTitle": {
+    "description": "Flow 05 - Host. Screen 02. Step 1 headline; keep the line break"
+  },
+  "hostNameBody": "Guests see this when they join. You can change it any time.",
+  "@hostNameBody": {
+    "description": "Flow 05 - Host. Screen 02. Body under the headline"
+  },
+  "hostNameHint": "Party name",
+  "@hostNameHint": {
+    "description": "Flow 05 - Host. Screen 02. Placeholder in the empty name field"
+  },
+  "hostNameIdeaFriday": "Friday Night",
+  "@hostNameIdeaFriday": {
+    "description": "Flow 05 - Host. Screen 02. Name suggestion chip"
+  },
+  "hostNameIdeaHousewarming": "Housewarming",
+  "@hostNameIdeaHousewarming": {
+    "description": "Flow 05 - Host. Screen 02. Name suggestion chip"
+  },
+  "hostNameIdeaJustUs": "Just Us Two",
+  "@hostNameIdeaJustUs": {
+    "description": "Flow 05 - Host. Screen 02. Name suggestion chip"
+  },
+  "hostWhenLabel": "When",
+  "@hostWhenLabel": {
+    "description": "Flow 05 - Host. Screen 02. Eyebrow above the when toggles"
+  },
+  "hostWhenTonight": "Tonight",
+  "@hostWhenTonight": {
+    "description": "Flow 05 - Host. Screen 02. When toggle: the party is tonight, open-ended"
+  },
+  "hostWhenPickDate": "Pick a date",
+  "@hostWhenPickDate": {
+    "description": "Flow 05 - Host. Screen 02. When toggle that opens a date picker"
+  },
+  "hostCodeDeadNote": "Nobody can join until you go live — take your time with the menu.",
+  "@hostCodeDeadNote": {
+    "description": "Flow 05 - Host. Screen 02. Info card explaining the code is dead until Go live"
+  },
+  "hostNextMenu": "Next · the menu",
+  "@hostNextMenu": {
+    "description": "Flow 05 - Host. Screen 02. Button that advances to step 2"
+  },
+  "hostDraftSaveFailed": "Couldn’t save the draft. Try again.",
+  "@hostDraftSaveFailed": {
+    "description": "Flow 05 - Host. Snackbar when creating or saving a draft party fails"
+  },
+  "hostMenuTitle": "What are you pouring?",
+  "@hostMenuTitle": {
+    "description": "Flow 05 - Host. Screen 03. Step 2 headline"
+  },
+  "hostMenuBody": "{count, plural, =0{Nothing here is pourable from your bar yet — search, or see everything.} =1{One of these needs nothing you don’t already have.} other{{count} of these need nothing you don’t already have.}}",
+  "@hostMenuBody": {
+    "description": "Flow 05 - Host. Screen 03. Body under the headline; count is how many fetched cocktails the shelf can pour",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "8"
+      }
+    }
+  },
+  "hostMenuSearchHint": "Search cocktails",
+  "@hostMenuSearchHint": {
+    "description": "Flow 05 - Host. Screen 03. Search field placeholder"
+  },
+  "hostMenuFilterCanMake": "Can make {count}",
+  "@hostMenuFilterCanMake": {
+    "description": "Flow 05 - Host. Screen 03. Selected chip: the grid shows only pourable cocktails",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "8"
+      }
+    }
+  },
+  "hostMenuFilterAll": "All cocktails",
+  "@hostMenuFilterAll": {
+    "description": "Flow 05 - Host. Screen 03. Chip that opens the full labelled list (screen 05)"
+  },
+  "hostMenuCount": "{count} on the menu",
+  "@hostMenuCount": {
+    "description": "Flow 05 - Host. Screens 03 and 05. How many cocktails the draft menu holds",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "hostMenuAddLater": "Add more later — even mid-party",
+  "@hostMenuAddLater": {
+    "description": "Flow 05 - Host. Screen 03. Footer reassurance under the count"
+  },
+  "hostMenuReview": "Review",
+  "@hostMenuReview": {
+    "description": "Flow 05 - Host. Screen 03. Button that saves the draft and opens it"
+  },
+  "hostMenuAdd": "Add {name} to the menu",
+  "@hostMenuAdd": {
+    "description": "Flow 05 - Host. Screens 03-05. Semantics label for adding a cocktail",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Negroni"
+      }
+    }
+  },
+  "hostMenuRemove": "Remove {name} from the menu",
+  "@hostMenuRemove": {
+    "description": "Flow 05 - Host. Screens 03-05. Semantics label for removing a cocktail",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Negroni"
+      }
+    }
+  },
+  "hostMenuLoadFailed": "Couldn’t load cocktails.",
+  "@hostMenuLoadFailed": {
+    "description": "Flow 05 - Host. Screens 03-05. Error when the cocktail list fails to load"
+  },
+  "hostRetry": "Try again",
+  "@hostRetry": {
+    "description": "Flow 05 - Host. Retry action"
+  },
+  "hostSearchDone": "Done",
+  "@hostSearchDone": {
+    "description": "Flow 05 - Host. Screen 04. Closes menu search"
+  },
+  "hostSearchMatches": "{count, plural, =1{1 match} other{{count} matches}}",
+  "@hostSearchMatches": {
+    "description": "Flow 05 - Host. Screen 04. Eyebrow above the results; rendered uppercase",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "hostSearchOnlyMakeable": "Only what I can make",
+  "@hostSearchOnlyMakeable": {
+    "description": "Flow 05 - Host. Screen 04. Label of the makeable-only switch"
+  },
+  "hostBadgeNo": "No {ingredient}",
+  "@hostBadgeNo": {
+    "description": "Flow 05 - Host. Screen 04. Badge when exactly one ingredient is missing; rendered uppercase",
+    "placeholders": {
+      "ingredient": {
+        "type": "String",
+        "example": "Campari"
+      }
+    }
+  },
+  "hostBadgeMissing": "Missing {count}",
+  "@hostBadgeMissing": {
+    "description": "Flow 05 - Host. Screen 04. Badge when several ingredients are missing; rendered uppercase",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "hostBadgeAllInStock": "All in stock",
+  "@hostBadgeAllInStock": {
+    "description": "Flow 05 - Host. Screen 04. Badge when the shelf holds every required ingredient; rendered uppercase"
+  },
+  "hostSearchShoppingTip": "Add one anyway and {ingredient} goes on tonight’s shopping list.",
+  "@hostSearchShoppingTip": {
+    "description": "Flow 05 - Host. Screen 04. Tip under results when some are short an ingredient",
+    "placeholders": {
+      "ingredient": {
+        "type": "String",
+        "example": "Campari"
+      }
+    }
+  },
+  "hostSearchNoResults": "Nothing matches “{query}”.",
+  "@hostSearchNoResults": {
+    "description": "Flow 05 - Host. Screen 04. Empty results",
+    "placeholders": {
+      "query": {
+        "type": "String",
+        "example": "negroni"
+      }
+    }
+  },
+  "hostAllTitle": "All cocktails",
+  "@hostAllTitle": {
+    "description": "Flow 05 - Host. Screen 05. Header title"
+  },
+  "hostAllFilterAll": "All",
+  "@hostAllFilterAll": {
+    "description": "Flow 05 - Host. Screen 05. Spirit filter chip that clears the filter"
+  },
+  "hostAllReady": "Ready to pour · {count}",
+  "@hostAllReady": {
+    "description": "Flow 05 - Host. Screen 05. Section eyebrow for makeable cocktails; rendered uppercase",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "8"
+      }
+    }
+  },
+  "hostAllNeedsShopping": "Needs shopping · {count}",
+  "@hostAllNeedsShopping": {
+    "description": "Flow 05 - Host. Screen 05. Section eyebrow for cocktails the shelf cannot pour; rendered uppercase",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "34"
+      }
+    }
+  },
+  "hostAllClosestFirst": "Sorted by what’s closest",
+  "@hostAllClosestFirst": {
+    "description": "Flow 05 - Host. Screen 05. Note beside the needs-shopping eyebrow"
+  },
+  "hostAllIngredientCount": "{count, plural, =1{1 ingredient} other{{count} ingredients}}",
+  "@hostAllIngredientCount": {
+    "description": "Flow 05 - Host. Screen 05. Subtitle part on a ready row",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "hostAllShort": "{count} short · {ingredients}",
+  "@hostAllShort": {
+    "description": "Flow 05 - Host. Screen 05. Subtitle on a needs-shopping row",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      },
+      "ingredients": {
+        "type": "String",
+        "example": "lime"
+      }
+    }
+  },
+  "hostAllDone": "Done · {count} on the menu",
+  "@hostAllDone": {
+    "description": "Flow 05 - Host. Screen 05. Bottom button that returns to the menu step",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "hostMissingOneTitle": "You’re one {ingredient} short",
+  "@hostMissingOneTitle": {
+    "description": "Flow 05 - Host. Screen 06. Sheet headline when one ingredient is missing; ingredient is lowercase",
+    "placeholders": {
+      "ingredient": {
+        "type": "String",
+        "example": "lime"
+      }
+    }
+  },
+  "hostMissingManyTitle": "You’re {count} things short",
+  "@hostMissingManyTitle": {
+    "description": "Flow 05 - Host. Screen 06. Sheet headline when several ingredients are missing",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "hostMissingBody": "Put it on the menu anyway — guests can still order it, and you’ll see the shortage on your own screen, not theirs.",
+  "@hostMissingBody": {
+    "description": "Flow 05 - Host. Screen 06. Sheet body"
+  },
+  "hostMissingOutOfStock": "out of stock",
+  "@hostMissingOutOfStock": {
+    "description": "Flow 05 - Host. Screen 06. Trailing label on a missing ingredient row"
+  },
+  "hostMissingAddAndBuyOne": "Add it & buy {ingredient}",
+  "@hostMissingAddAndBuyOne": {
+    "description": "Flow 05 - Host. Screen 06. Primary action: add to the menu and put the missing ingredient on the shopping list",
+    "placeholders": {
+      "ingredient": {
+        "type": "String",
+        "example": "lime"
+      }
+    }
+  },
+  "hostMissingAddAndBuyMany": "Add it & buy all {count}",
+  "@hostMissingAddAndBuyMany": {
+    "description": "Flow 05 - Host. Screen 06. Primary action when several ingredients are missing",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "hostMissingShowMakeable": "{count, plural, =0{Show what I can make} =1{Show me 1 I can make} other{Show me {count} I can make}}",
+  "@hostMissingShowMakeable": {
+    "description": "Flow 05 - Host. Screen 06. Secondary action back to the pourable grid",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "hostMissingFootnote": "Guests only see a “limited” note if you run dry mid-party.",
+  "@hostMissingFootnote": {
+    "description": "Flow 05 - Host. Screen 06. Footnote under the actions"
+  },
+  "hostDraftPill": "Draft",
+  "@hostDraftPill": {
+    "description": "Flow 05 - Host. Screen 07. Status pill over the hero; rendered uppercase"
+  },
+  "hostDraftMetaTonight": "Tonight · {count} on the menu · you’re the bartender",
+  "@hostDraftMetaTonight": {
+    "description": "Flow 05 - Host. Screen 07. Line under the party name when it is tonight",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "hostDraftMetaDate": "{date} · {count} on the menu · you’re the bartender",
+  "@hostDraftMetaDate": {
+    "description": "Flow 05 - Host. Screen 07. Line under the party name when it has a date",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Sep 14"
+      },
+      "count": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "hostDraftMenuRow": "Menu",
+  "@hostDraftMenuRow": {
+    "description": "Flow 05 - Host. Screen 07. Row that edits the menu"
+  },
+  "hostDraftDrinks": "{count, plural, =1{1 drink} other{{count} drinks}}",
+  "@hostDraftDrinks": {
+    "description": "Flow 05 - Host. Screens 07 and 11. Trailing count on the menu row",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "hostDraftWhenRow": "When",
+  "@hostDraftWhenRow": {
+    "description": "Flow 05 - Host. Screen 07. Row that edits the date"
+  },
+  "hostDraftTonightOpen": "Tonight, open-ended",
+  "@hostDraftTonightOpen": {
+    "description": "Flow 05 - Host. Screen 07. Trailing value on the when row"
+  },
+  "hostDraftInviteRow": "Invite code",
+  "@hostDraftInviteRow": {
+    "description": "Flow 05 - Host. Screen 07. Dimmed row showing the not-yet-working code"
+  },
+  "hostDraftDead": "Dead",
+  "@hostDraftDead": {
+    "description": "Flow 05 - Host. Screen 07. Tag on the invite code until the party goes live; rendered uppercase"
+  },
+  "hostDraftToBuy": "{count, plural, =1{1 thing to buy} other{{count} things to buy}}",
+  "@hostDraftToBuy": {
+    "description": "Flow 05 - Host. Screen 07. Shopping card title",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "hostDraftToBuyBody": "{ingredients}. Until then you’ll be improvising {cocktails}.",
+  "@hostDraftToBuyBody": {
+    "description": "Flow 05 - Host. Screen 07. Shopping card body; both placeholders are comma-separated lists",
+    "placeholders": {
+      "ingredients": {
+        "type": "String",
+        "example": "Lime, Campari"
+      },
+      "cocktails": {
+        "type": "String",
+        "example": "Cosmopolitan, Negroni"
+      }
+    }
+  },
+  "hostDraftCanPour": "Can pour now",
+  "@hostDraftCanPour": {
+    "description": "Flow 05 - Host. Screen 07. Stat tile eyebrow; rendered uppercase"
+  },
+  "hostDraftCanPourValue": "{ready} of {total}",
+  "@hostDraftCanPourValue": {
+    "description": "Flow 05 - Host. Screen 07. Stat tile value",
+    "placeholders": {
+      "ready": {
+        "type": "int",
+        "example": "2"
+      },
+      "total": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "hostGoLiveCta": "Go live & open the code",
+  "@hostGoLiveCta": {
+    "description": "Flow 05 - Host. Screen 07. Primary action into the go-live confirmation"
+  },
+  "hostSaveForLater": "Save the draft for later",
+  "@hostSaveForLater": {
+    "description": "Flow 05 - Host. Screen 07. Quiet action back to the Party tab"
+  },
+  "hostDraftLoadFailed": "Couldn’t load this party.",
+  "@hostDraftLoadFailed": {
+    "description": "Flow 05 - Host. Screen 07. Error when the draft cannot be loaded"
+  },
+  "hostGoLiveTitle": "Open the bar?",
+  "@hostGoLiveTitle": {
+    "description": "Flow 05 - Host. Screen 08. Go-live sheet headline"
+  },
+  "hostGoLiveBody": "Here’s exactly what changes the moment you tap.",
+  "@hostGoLiveBody": {
+    "description": "Flow 05 - Host. Screen 08. Go-live sheet body"
+  },
+  "hostGoLiveCodeWorks": "{code} starts working",
+  "@hostGoLiveCodeWorks": {
+    "description": "Flow 05 - Host. Screen 08. First consequence row",
+    "placeholders": {
+      "code": {
+        "type": "String",
+        "example": "KATE7F"
+      }
+    }
+  },
+  "hostGoLiveCodeWorksSub": "Anyone with the code or QR can join",
+  "@hostGoLiveCodeWorksSub": {
+    "description": "Flow 05 - Host. Screen 08. First consequence row detail"
+  },
+  "hostGoLiveOrders": "Orders start hitting your phone",
+  "@hostGoLiveOrders": {
+    "description": "Flow 05 - Host. Screen 08. Second consequence row"
+  },
+  "hostGoLiveOrdersSub": "The queue lives behind Open the bar",
+  "@hostGoLiveOrdersSub": {
+    "description": "Flow 05 - Host. Screen 08. Second consequence row detail"
+  },
+  "hostGoLiveUndo": "Nothing here is final",
+  "@hostGoLiveUndo": {
+    "description": "Flow 05 - Host. Screen 08. Third consequence row"
+  },
+  "hostGoLiveUndoSub": "Pause the bar or edit the menu any time",
+  "@hostGoLiveUndoSub": {
+    "description": "Flow 05 - Host. Screen 08. Third consequence row detail"
+  },
+  "hostGoLive": "Go live",
+  "@hostGoLive": {
+    "description": "Flow 05 - Host. Screen 08. The commit"
+  },
+  "hostNotYet": "Not yet",
+  "@hostNotYet": {
+    "description": "Flow 05 - Host. Screen 08. Dismisses the go-live sheet"
+  },
+  "hostOneLiveParty": "One live party at a time",
+  "@hostOneLiveParty": {
+    "description": "Flow 05 - Host. Screen 08. Footnote"
+  },
+  "hostSecondLiveTitle": "{name} is still live",
+  "@hostSecondLiveTitle": {
+    "description": "Flow 05 - Host. Edge state. Sheet when another party is live",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Kate’s Birthday"
+      }
+    }
+  },
+  "hostSecondLiveBody": "One bar at a time — end that party and its recap is saved before the new one opens.",
+  "@hostSecondLiveBody": {
+    "description": "Flow 05 - Host. Edge state. Second-party sheet body"
+  },
+  "hostGoToParty": "Go to {name}",
+  "@hostGoToParty": {
+    "description": "Flow 05 - Host. Edge state. Opens the party that is still live",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Kate’s Birthday"
+      }
+    }
+  },
+  "hostEndAndStartFresh": "End it and start fresh",
+  "@hostEndAndStartFresh": {
+    "description": "Flow 05 - Host. Edge state. Ends the live party, then opens this one"
+  },
+  "hostEmptyMenuTitle": "Open with nothing on the menu?",
+  "@hostEmptyMenuTitle": {
+    "description": "Flow 05 - Host. Edge state. Sheet before going live with no drinks"
+  },
+  "hostEmptyMenuBody": "Guests can still join and ask for whatever they like — you just take requests instead of orders.",
+  "@hostEmptyMenuBody": {
+    "description": "Flow 05 - Host. Edge state. Empty-menu sheet body"
+  },
+  "hostOpenAsRequestBar": "Open as a request bar",
+  "@hostOpenAsRequestBar": {
+    "description": "Flow 05 - Host. Edge state. Continues to go live with an empty menu"
+  },
+  "hostAddACoupleFirst": "Add a couple first",
+  "@hostAddACoupleFirst": {
+    "description": "Flow 05 - Host. Edge state. Opens the menu instead"
+  },
+  "hostLivePill": "Live · {elapsed}",
+  "@hostLivePill": {
+    "description": "Flow 05 - Host. Screens 09-11. Live pill; elapsed is like 1h12m; rendered uppercase",
+    "placeholders": {
+      "elapsed": {
+        "type": "String",
+        "example": "1h12m"
+      }
+    }
+  },
+  "hostBarOpenTitle": "The bar is open",
+  "@hostBarOpenTitle": {
+    "description": "Flow 05 - Host. Screen 09. Headline above the QR"
+  },
+  "hostBarOpenBody": "Point a camera at this. No app, no account — just a name.",
+  "@hostBarOpenBody": {
+    "description": "Flow 05 - Host. Screen 09. Body above the QR"
+  },
+  "hostCopyCode": "Copy code",
+  "@hostCopyCode": {
+    "description": "Flow 05 - Host. Screen 09. Semantics for the code chip"
+  },
+  "hostCodeCopied": "Code copied",
+  "@hostCodeCopied": {
+    "description": "Flow 05 - Host. Screen 09. Snackbar after copying the code"
+  },
+  "hostShareLink": "Share the link",
+  "@hostShareLink": {
+    "description": "Flow 05 - Host. Screen 09. Primary action: system share sheet"
+  },
+  "hostGoToTheParty": "Go to the party",
+  "@hostGoToTheParty": {
+    "description": "Flow 05 - Host. Screen 09. Secondary action to the live hub"
+  },
+  "hostShareText": "Join {name} on PartyBar with code {code}",
+  "@hostShareText": {
+    "description": "Flow 05 - Host. Screen 09. Text handed to the share sheet",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Kate’s Birthday"
+      },
+      "code": {
+        "type": "String",
+        "example": "KATE7F"
+      }
+    }
+  },
+  "hostHereAndPoured": "{here} here · {poured} poured",
+  "@hostHereAndPoured": {
+    "description": "Flow 05 - Host. Screen 10. Line above the party name; here counts distinct guests who ordered",
+    "placeholders": {
+      "here": {
+        "type": "int",
+        "example": "7"
+      },
+      "poured": {
+        "type": "int",
+        "example": "11"
+      }
+    }
+  },
+  "hostOpenTheBar": "Open the bar",
+  "@hostOpenTheBar": {
+    "description": "Flow 05 - Host. Screen 10. Primary action into the order queue; a badge shows waiting orders"
+  },
+  "hostOnTheMenuTonight": "On the menu tonight",
+  "@hostOnTheMenuTonight": {
+    "description": "Flow 05 - Host. Screen 10. Rail title"
+  },
+  "hostEdit": "Edit",
+  "@hostEdit": {
+    "description": "Flow 05 - Host. Screens 10 and 12. Quiet edit link"
+  },
+  "hostShowQr": "Show the QR code",
+  "@hostShowQr": {
+    "description": "Flow 05 - Host. Screen 10. Semantics for the QR button"
+  },
+  "hostShare": "Share",
+  "@hostShare": {
+    "description": "Flow 05 - Host. Screen 10. Semantics for the share button"
+  },
+  "hostManage": "Manage the party",
+  "@hostManage": {
+    "description": "Flow 05 - Host. Screens 10-12. Manage button semantics and the manage sheet title"
+  },
+  "hostMenuEmptyRequests": "Nothing on the menu — guests send requests.",
+  "@hostMenuEmptyRequests": {
+    "description": "Flow 05 - Host. Screen 10. Shown instead of the rail when the menu is empty"
+  },
+  "hostLowBadge": "Low",
+  "@hostLowBadge": {
+    "description": "Flow 05 - Host. Screen 10. Badge on a menu tile the shelf can no longer pour; rendered uppercase"
+  },
+  "hostManageSub": "Live {elapsed} · {guests} here · {waiting} waiting",
+  "@hostManageSub": {
+    "description": "Flow 05 - Host. Screen 11. Line under the manage sheet title",
+    "placeholders": {
+      "elapsed": {
+        "type": "String",
+        "example": "1h15m"
+      },
+      "guests": {
+        "type": "int",
+        "example": "7"
+      },
+      "waiting": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "hostLiveChip": "Live",
+  "@hostLiveChip": {
+    "description": "Flow 05 - Host. Screen 11. Chip beside the manage sheet title; rendered uppercase"
+  },
+  "hostPauseBar": "Pause the bar",
+  "@hostPauseBar": {
+    "description": "Flow 05 - Host. Screens 11 and 13. The panic button"
+  },
+  "hostPauseCaption": "Stops new orders. Guests see “back in a minute”.",
+  "@hostPauseCaption": {
+    "description": "Flow 05 - Host. Screen 11. Caption under the pause button"
+  },
+  "hostEditTonightsMenu": "Edit tonight’s menu",
+  "@hostEditTonightsMenu": {
+    "description": "Flow 05 - Host. Screen 11. Row that opens the menu editor"
+  },
+  "hostInviteMore": "Invite more people",
+  "@hostInviteMore": {
+    "description": "Flow 05 - Host. Screen 11. Row that opens the QR screen"
+  },
+  "hostWhosHere": "Who’s here",
+  "@hostWhosHere": {
+    "description": "Flow 05 - Host. Screen 11. Row with the guest count"
+  },
+  "hostAddCoHost": "Add a co-host",
+  "@hostAddCoHost": {
+    "description": "Flow 05 - Host. Screen 11. Disabled row, a seam for later"
+  },
+  "hostSoon": "Soon",
+  "@hostSoon": {
+    "description": "Flow 05 - Host. Screen 11. Tag on the co-host row; rendered uppercase"
+  },
+  "hostEndParty": "End the party",
+  "@hostEndParty": {
+    "description": "Flow 05 - Host. Screen 11. Row that opens the end confirmation"
+  },
+  "hostEndPartyHint": "then what ran out",
+  "@hostEndPartyHint": {
+    "description": "Flow 05 - Host. Screen 11. Trailing hint on the end row: ending opens the ran-out checklist"
+  },
+  "hostSaveFailed": "Couldn’t save that. Try again.",
+  "@hostSaveFailed": {
+    "description": "Flow 05 - Host. Snackbar when a change to a live party fails"
+  },
+  "hostPausedPill": "Bar paused · {elapsed}",
+  "@hostPausedPill": {
+    "description": "Flow 05 - Host. Screen 12. Amber pill; elapsed is like 6m or 1h05m; rendered uppercase",
+    "placeholders": {
+      "elapsed": {
+        "type": "String",
+        "example": "6m"
+      }
+    }
+  },
+  "hostPausedTitle": "Bar’s shut\nfor a minute",
+  "@hostPausedTitle": {
+    "description": "Flow 05 - Host. Screen 12. Headline over the photo; keep the line break"
+  },
+  "hostPausedBody": "{count, plural, =0{Nobody can order, and your queue is empty.} =1{Nobody can order. The 1 order already in your queue is still yours to pour.} other{Nobody can order. The {count} orders already in your queue are still yours to pour.}}",
+  "@hostPausedBody": {
+    "description": "Flow 05 - Host. Screen 12. Body; count is orders still waiting",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "hostReopenBar": "Reopen the bar",
+  "@hostReopenBar": {
+    "description": "Flow 05 - Host. Screen 12. Primary action back to live"
+  },
+  "hostGuestsSeeing": "Guests are seeing",
+  "@hostGuestsSeeing": {
+    "description": "Flow 05 - Host. Screen 12. Card title"
+  },
+  "hostBackInAMinute": "Back in a minute",
+  "@hostBackInAMinute": {
+    "description": "Flow 05 - Host. Screen 12. The message guests see while paused"
+  },
+  "hostMenuVisibleOrderingOff": "Menu is visible · ordering is off",
+  "@hostMenuVisibleOrderingOff": {
+    "description": "Flow 05 - Host. Screen 12. Detail under the guest message"
+  },
+  "hostInQueue": "In queue",
+  "@hostInQueue": {
+    "description": "Flow 05 - Host. Screen 12. Stat eyebrow; rendered uppercase"
+  },
+  "hostOrdersCount": "{count, plural, =1{1 order} other{{count} orders}}",
+  "@hostOrdersCount": {
+    "description": "Flow 05 - Host. Screen 12. Stat value",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "hostStillHere": "Still here",
+  "@hostStillHere": {
+    "description": "Flow 05 - Host. Screen 12. Stat eyebrow; rendered uppercase"
+  },
+  "hostGuestsCount": "{count, plural, =1{1 guest} other{{count} guests}}",
+  "@hostGuestsCount": {
+    "description": "Flow 05 - Host. Screens 12 and 13. Guest count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "7"
+      }
+    }
+  },
+  "hostEndTitle": "Call it a night?",
+  "@hostEndTitle": {
+    "description": "Flow 05 - Host. Screen 13. End sheet headline"
+  },
+  "hostEndBody": "The code stops working and the queue closes. This one can’t be undone.",
+  "@hostEndBody": {
+    "description": "Flow 05 - Host. Screen 13. End sheet body"
+  },
+  "hostEndWaiting": "{count, plural, =1{1 order is still waiting} other{{count} orders are still waiting}}",
+  "@hostEndWaiting": {
+    "description": "Flow 05 - Host. Screen 13. Warning when orders are still in the queue",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "hostEndWaitingDetail": "{count, plural, =1{It will be marked unserved} other{They will be marked unserved}}",
+  "@hostEndWaitingDetail": {
+    "description": "Flow 05 - Host. Screen 13. Detail under the waiting warning",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "hostEndPoured": "Poured",
+  "@hostEndPoured": {
+    "description": "Flow 05 - Host. Screen 13. Stat eyebrow; rendered uppercase"
+  },
+  "hostEndGuests": "Guests",
+  "@hostEndGuests": {
+    "description": "Flow 05 - Host. Screen 13. Stat eyebrow; rendered uppercase"
+  },
+  "hostEndOpenFor": "Open for",
+  "@hostEndOpenFor": {
+    "description": "Flow 05 - Host. Screen 13. Stat eyebrow; rendered uppercase"
+  },
+  "hostEndConfirm": "End & check what ran out",
+  "@hostEndConfirm": {
+    "description": "Flow 05 - Host. Screen 13. The one-way commit; opens the ran-out checklist"
+  },
+  "hostKeepPouring": "Keep pouring",
+  "@hostKeepPouring": {
+    "description": "Flow 05 - Host. Screen 13. Dismisses the end sheet"
+  },
+  "hostJustNeedBreak": "Just need a break?",
+  "@hostJustNeedBreak": {
+    "description": "Flow 05 - Host. Screen 13. Footnote lead-in"
+  },
+  "hostPauseInstead": "Pause the bar instead",
+  "@hostPauseInstead": {
+    "description": "Flow 05 - Host. Screen 13. Footnote link that pauses instead of ending"
   }
 }

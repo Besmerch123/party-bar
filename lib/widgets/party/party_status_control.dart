@@ -28,6 +28,7 @@ class PartyStatusControl extends StatelessWidget {
       case PartyStatus.ended:
         return Colors.red;
       case PartyStatus.idle:
+      case PartyStatus.draft:
         return Colors.blue;
     }
   }
@@ -41,6 +42,7 @@ class PartyStatusControl extends StatelessWidget {
       case PartyStatus.ended:
         return context.l10n.partyEnded;
       case PartyStatus.idle:
+      case PartyStatus.draft:
         return context.l10n.partyIdle;
     }
   }
@@ -54,6 +56,7 @@ class PartyStatusControl extends StatelessWidget {
       case PartyStatus.ended:
         return Icons.stop_circle;
       case PartyStatus.idle:
+      case PartyStatus.draft:
         return Icons.hourglass_empty;
     }
   }

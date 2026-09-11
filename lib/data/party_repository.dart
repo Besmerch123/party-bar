@@ -16,21 +16,26 @@ class PartyRepository {
     required String hostId,
     required String hostName,
     required String joinCode,
-    PartyStatus status = PartyStatus.paused,
+    PartyStatus status = PartyStatus.draft,
     String? description,
+    List<String> cocktailIds = const [],
+    DateTime? scheduledFor,
   }) async {
     try {
       final partyData = {
         'name': name,
         'hostId': hostId,
         'hostName': hostName,
-        'availableCocktailIds': [],
+        'availableCocktailIds': cocktailIds,
         'joinCode': joinCode,
         'status': status.name,
         'createdAt': FieldValue.serverTimestamp(),
         'endedAt': null,
         'totalOrders': 0,
         'description': description,
+        'scheduledFor': scheduledFor == null
+            ? null
+            : Timestamp.fromDate(scheduledFor),
       };
 
       // Add document and let Firebase generate the ID
@@ -77,6 +82,8 @@ class PartyRepository {
         'status': status.name,
         if (status == PartyStatus.ended)
           'endedAt': FieldValue.serverTimestamp(),
+        if (status == PartyStatus.paused)
+          'pausedAt': FieldValue.serverTimestamp(),
       };
 
       await _partiesCollection.doc(partyId).update(updates);
@@ -85,17 +92,38 @@ class PartyRepository {
     }
   }
 
-  /// Update party information
+  /// Flow 05 · screen 08 — the one commitment. The code starts working and
+  /// the live chip starts counting from the server's clock, not the phone's.
+  Future<void> goLive(String partyId) async {
+    try {
+      await _partiesCollection.doc(partyId).update({
+        'status': PartyStatus.active.name,
+        'wentLiveAt': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      throw Exception('Failed to go live: $e');
+    }
+  }
+
+  /// Update party information. [clearSchedule] sets the party back to
+  /// "tonight", which a null [scheduledFor] alone cannot say.
   Future<void> updateParty(
     String partyId, {
     String? name,
     String? description,
+    DateTime? scheduledFor,
+    bool clearSchedule = false,
   }) async {
     try {
       final updates = <String, dynamic>{};
       if (name != null) updates['name'] = name;
       if (description != null) {
         updates['description'] = description;
+      }
+      if (clearSchedule) {
+        updates['scheduledFor'] = null;
+      } else if (scheduledFor != null) {
+        updates['scheduledFor'] = Timestamp.fromDate(scheduledFor);
       }
 
       if (updates.isNotEmpty) {
@@ -149,14 +177,26 @@ class PartyRepository {
   }
 
   /// Helper method to convert Firestore snapshot to Party model
+  ///
+  /// A write this device just made reaches the hosted-parties stream before
+  /// the server has stamped it, so every server timestamp can still be null
+  /// here — a fresh draft reads as created "now" rather than crashing.
   Party _partyFromSnapshot(DocumentSnapshot snapshot) {
     final data = snapshot.data() as Map<String, dynamic>;
+    int? millis(String key) =>
+        (data[key] as Timestamp?)?.millisecondsSinceEpoch;
+
     return Party.fromMap({
       ...data,
       'id': snapshot.id,
-      'createdAt': (data['createdAt'] as Timestamp).millisecondsSinceEpoch,
-      if (data['endedAt'] != null)
-        'endedAt': (data['endedAt'] as Timestamp).millisecondsSinceEpoch,
+      'createdAt': millis('createdAt') ?? DateTime.now().millisecondsSinceEpoch,
+      'endedAt': millis('endedAt'),
+      'scheduledFor': millis('scheduledFor'),
+      'wentLiveAt': millis('wentLiveAt') ??
+          (data['status'] == PartyStatus.active.name
+              ? DateTime.now().millisecondsSinceEpoch
+              : null),
+      'pausedAt': millis('pausedAt'),
     });
   }
 }

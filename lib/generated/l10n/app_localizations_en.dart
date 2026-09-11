@@ -2035,4 +2035,607 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get twoAwayAddedToBar => 'On your shelf';
+
+  @override
+  String get hostBarClosed => 'Bar closed';
+
+  @override
+  String get hostNothingPouring => 'Nothing\npouring yet';
+
+  @override
+  String get hostNothingPouringBody =>
+      'Set a name and a menu. Two minutes, and your kitchen takes orders.';
+
+  @override
+  String get hostPartyCta => 'Host a party';
+
+  @override
+  String get hostJoinWithCode => 'Join with a code';
+
+  @override
+  String hostDraftMeta(int count, String time) {
+    return 'Draft · $count on the menu · saved $time';
+  }
+
+  @override
+  String hostLiveMeta(int count) {
+    return 'Live now · $count on the menu';
+  }
+
+  @override
+  String hostEndedMeta(int count) {
+    return '$count poured';
+  }
+
+  @override
+  String get hostResume => 'Resume';
+
+  @override
+  String get hostRecap => 'Recap';
+
+  @override
+  String get hostOpen => 'Open';
+
+  @override
+  String get hostNameTitle => 'What are we\ncalling it?';
+
+  @override
+  String get hostNameBody =>
+      'Guests see this when they join. You can change it any time.';
+
+  @override
+  String get hostNameHint => 'Party name';
+
+  @override
+  String get hostNameIdeaFriday => 'Friday Night';
+
+  @override
+  String get hostNameIdeaHousewarming => 'Housewarming';
+
+  @override
+  String get hostNameIdeaJustUs => 'Just Us Two';
+
+  @override
+  String get hostWhenLabel => 'When';
+
+  @override
+  String get hostWhenTonight => 'Tonight';
+
+  @override
+  String get hostWhenPickDate => 'Pick a date';
+
+  @override
+  String get hostCodeDeadNote =>
+      'Nobody can join until you go live — take your time with the menu.';
+
+  @override
+  String get hostNextMenu => 'Next · the menu';
+
+  @override
+  String get hostDraftSaveFailed => 'Couldn’t save the draft. Try again.';
+
+  @override
+  String get hostMenuTitle => 'What are you pouring?';
+
+  @override
+  String hostMenuBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count of these need nothing you don’t already have.',
+      one: 'One of these needs nothing you don’t already have.',
+      zero:
+          'Nothing here is pourable from your bar yet — search, or see everything.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostMenuSearchHint => 'Search cocktails';
+
+  @override
+  String hostMenuFilterCanMake(int count) {
+    return 'Can make $count';
+  }
+
+  @override
+  String get hostMenuFilterAll => 'All cocktails';
+
+  @override
+  String hostMenuCount(int count) {
+    return '$count on the menu';
+  }
+
+  @override
+  String get hostMenuAddLater => 'Add more later — even mid-party';
+
+  @override
+  String get hostMenuReview => 'Review';
+
+  @override
+  String hostMenuAdd(String name) {
+    return 'Add $name to the menu';
+  }
+
+  @override
+  String hostMenuRemove(String name) {
+    return 'Remove $name from the menu';
+  }
+
+  @override
+  String get hostMenuLoadFailed => 'Couldn’t load cocktails.';
+
+  @override
+  String get hostRetry => 'Try again';
+
+  @override
+  String get hostSearchDone => 'Done';
+
+  @override
+  String hostSearchMatches(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count matches',
+      one: '1 match',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostSearchOnlyMakeable => 'Only what I can make';
+
+  @override
+  String hostBadgeNo(String ingredient) {
+    return 'No $ingredient';
+  }
+
+  @override
+  String hostBadgeMissing(int count) {
+    return 'Missing $count';
+  }
+
+  @override
+  String get hostBadgeAllInStock => 'All in stock';
+
+  @override
+  String hostSearchShoppingTip(String ingredient) {
+    return 'Add one anyway and $ingredient goes on tonight’s shopping list.';
+  }
+
+  @override
+  String hostSearchNoResults(String query) {
+    return 'Nothing matches “$query”.';
+  }
+
+  @override
+  String get hostAllTitle => 'All cocktails';
+
+  @override
+  String get hostAllFilterAll => 'All';
+
+  @override
+  String hostAllReady(int count) {
+    return 'Ready to pour · $count';
+  }
+
+  @override
+  String hostAllNeedsShopping(int count) {
+    return 'Needs shopping · $count';
+  }
+
+  @override
+  String get hostAllClosestFirst => 'Sorted by what’s closest';
+
+  @override
+  String hostAllIngredientCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ingredients',
+      one: '1 ingredient',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String hostAllShort(int count, String ingredients) {
+    return '$count short · $ingredients';
+  }
+
+  @override
+  String hostAllDone(int count) {
+    return 'Done · $count on the menu';
+  }
+
+  @override
+  String hostMissingOneTitle(String ingredient) {
+    return 'You’re one $ingredient short';
+  }
+
+  @override
+  String hostMissingManyTitle(int count) {
+    return 'You’re $count things short';
+  }
+
+  @override
+  String get hostMissingBody =>
+      'Put it on the menu anyway — guests can still order it, and you’ll see the shortage on your own screen, not theirs.';
+
+  @override
+  String get hostMissingOutOfStock => 'out of stock';
+
+  @override
+  String hostMissingAddAndBuyOne(String ingredient) {
+    return 'Add it & buy $ingredient';
+  }
+
+  @override
+  String hostMissingAddAndBuyMany(int count) {
+    return 'Add it & buy all $count';
+  }
+
+  @override
+  String hostMissingShowMakeable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Show me $count I can make',
+      one: 'Show me 1 I can make',
+      zero: 'Show what I can make',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostMissingFootnote =>
+      'Guests only see a “limited” note if you run dry mid-party.';
+
+  @override
+  String get hostDraftPill => 'Draft';
+
+  @override
+  String hostDraftMetaTonight(int count) {
+    return 'Tonight · $count on the menu · you’re the bartender';
+  }
+
+  @override
+  String hostDraftMetaDate(String date, int count) {
+    return '$date · $count on the menu · you’re the bartender';
+  }
+
+  @override
+  String get hostDraftMenuRow => 'Menu';
+
+  @override
+  String hostDraftDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count drinks',
+      one: '1 drink',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostDraftWhenRow => 'When';
+
+  @override
+  String get hostDraftTonightOpen => 'Tonight, open-ended';
+
+  @override
+  String get hostDraftInviteRow => 'Invite code';
+
+  @override
+  String get hostDraftDead => 'Dead';
+
+  @override
+  String hostDraftToBuy(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count things to buy',
+      one: '1 thing to buy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String hostDraftToBuyBody(String ingredients, String cocktails) {
+    return '$ingredients. Until then you’ll be improvising $cocktails.';
+  }
+
+  @override
+  String get hostDraftCanPour => 'Can pour now';
+
+  @override
+  String hostDraftCanPourValue(int ready, int total) {
+    return '$ready of $total';
+  }
+
+  @override
+  String get hostGoLiveCta => 'Go live & open the code';
+
+  @override
+  String get hostSaveForLater => 'Save the draft for later';
+
+  @override
+  String get hostDraftLoadFailed => 'Couldn’t load this party.';
+
+  @override
+  String get hostGoLiveTitle => 'Open the bar?';
+
+  @override
+  String get hostGoLiveBody =>
+      'Here’s exactly what changes the moment you tap.';
+
+  @override
+  String hostGoLiveCodeWorks(String code) {
+    return '$code starts working';
+  }
+
+  @override
+  String get hostGoLiveCodeWorksSub => 'Anyone with the code or QR can join';
+
+  @override
+  String get hostGoLiveOrders => 'Orders start hitting your phone';
+
+  @override
+  String get hostGoLiveOrdersSub => 'The queue lives behind Open the bar';
+
+  @override
+  String get hostGoLiveUndo => 'Nothing here is final';
+
+  @override
+  String get hostGoLiveUndoSub => 'Pause the bar or edit the menu any time';
+
+  @override
+  String get hostGoLive => 'Go live';
+
+  @override
+  String get hostNotYet => 'Not yet';
+
+  @override
+  String get hostOneLiveParty => 'One live party at a time';
+
+  @override
+  String hostSecondLiveTitle(String name) {
+    return '$name is still live';
+  }
+
+  @override
+  String get hostSecondLiveBody =>
+      'One bar at a time — end that party and its recap is saved before the new one opens.';
+
+  @override
+  String hostGoToParty(String name) {
+    return 'Go to $name';
+  }
+
+  @override
+  String get hostEndAndStartFresh => 'End it and start fresh';
+
+  @override
+  String get hostEmptyMenuTitle => 'Open with nothing on the menu?';
+
+  @override
+  String get hostEmptyMenuBody =>
+      'Guests can still join and ask for whatever they like — you just take requests instead of orders.';
+
+  @override
+  String get hostOpenAsRequestBar => 'Open as a request bar';
+
+  @override
+  String get hostAddACoupleFirst => 'Add a couple first';
+
+  @override
+  String hostLivePill(String elapsed) {
+    return 'Live · $elapsed';
+  }
+
+  @override
+  String get hostBarOpenTitle => 'The bar is open';
+
+  @override
+  String get hostBarOpenBody =>
+      'Point a camera at this. No app, no account — just a name.';
+
+  @override
+  String get hostCopyCode => 'Copy code';
+
+  @override
+  String get hostCodeCopied => 'Code copied';
+
+  @override
+  String get hostShareLink => 'Share the link';
+
+  @override
+  String get hostGoToTheParty => 'Go to the party';
+
+  @override
+  String hostShareText(String name, String code) {
+    return 'Join $name on PartyBar with code $code';
+  }
+
+  @override
+  String hostHereAndPoured(int here, int poured) {
+    return '$here here · $poured poured';
+  }
+
+  @override
+  String get hostOpenTheBar => 'Open the bar';
+
+  @override
+  String get hostOnTheMenuTonight => 'On the menu tonight';
+
+  @override
+  String get hostEdit => 'Edit';
+
+  @override
+  String get hostShowQr => 'Show the QR code';
+
+  @override
+  String get hostShare => 'Share';
+
+  @override
+  String get hostManage => 'Manage the party';
+
+  @override
+  String get hostMenuEmptyRequests =>
+      'Nothing on the menu — guests send requests.';
+
+  @override
+  String get hostLowBadge => 'Low';
+
+  @override
+  String hostManageSub(String elapsed, int guests, int waiting) {
+    return 'Live $elapsed · $guests here · $waiting waiting';
+  }
+
+  @override
+  String get hostLiveChip => 'Live';
+
+  @override
+  String get hostPauseBar => 'Pause the bar';
+
+  @override
+  String get hostPauseCaption =>
+      'Stops new orders. Guests see “back in a minute”.';
+
+  @override
+  String get hostEditTonightsMenu => 'Edit tonight’s menu';
+
+  @override
+  String get hostInviteMore => 'Invite more people';
+
+  @override
+  String get hostWhosHere => 'Who’s here';
+
+  @override
+  String get hostAddCoHost => 'Add a co-host';
+
+  @override
+  String get hostSoon => 'Soon';
+
+  @override
+  String get hostEndParty => 'End the party';
+
+  @override
+  String get hostEndPartyHint => 'then what ran out';
+
+  @override
+  String get hostSaveFailed => 'Couldn’t save that. Try again.';
+
+  @override
+  String hostPausedPill(String elapsed) {
+    return 'Bar paused · $elapsed';
+  }
+
+  @override
+  String get hostPausedTitle => 'Bar’s shut\nfor a minute';
+
+  @override
+  String hostPausedBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Nobody can order. The $count orders already in your queue are still yours to pour.',
+      one:
+          'Nobody can order. The 1 order already in your queue is still yours to pour.',
+      zero: 'Nobody can order, and your queue is empty.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostReopenBar => 'Reopen the bar';
+
+  @override
+  String get hostGuestsSeeing => 'Guests are seeing';
+
+  @override
+  String get hostBackInAMinute => 'Back in a minute';
+
+  @override
+  String get hostMenuVisibleOrderingOff => 'Menu is visible · ordering is off';
+
+  @override
+  String get hostInQueue => 'In queue';
+
+  @override
+  String hostOrdersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count orders',
+      one: '1 order',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostStillHere => 'Still here';
+
+  @override
+  String hostGuestsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count guests',
+      one: '1 guest',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostEndTitle => 'Call it a night?';
+
+  @override
+  String get hostEndBody =>
+      'The code stops working and the queue closes. This one can’t be undone.';
+
+  @override
+  String hostEndWaiting(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count orders are still waiting',
+      one: '1 order is still waiting',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String hostEndWaitingDetail(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'They will be marked unserved',
+      one: 'It will be marked unserved',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostEndPoured => 'Poured';
+
+  @override
+  String get hostEndGuests => 'Guests';
+
+  @override
+  String get hostEndOpenFor => 'Open for';
+
+  @override
+  String get hostEndConfirm => 'End & check what ran out';
+
+  @override
+  String get hostKeepPouring => 'Keep pouring';
+
+  @override
+  String get hostJustNeedBreak => 'Just need a break?';
+
+  @override
+  String get hostPauseInstead => 'Pause the bar instead';
 }

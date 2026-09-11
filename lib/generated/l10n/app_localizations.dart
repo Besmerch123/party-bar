@@ -3337,6 +3337,876 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'On your shelf'**
   String get twoAwayAddedToBar;
+
+  /// Flow 05 - Host. Screen 01. Status pill over the hero when the host has no live party
+  ///
+  /// In en, this message translates to:
+  /// **'Bar closed'**
+  String get hostBarClosed;
+
+  /// Flow 05 - Host. Screen 01. Headline over the hero photo; keep the line break
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing\npouring yet'**
+  String get hostNothingPouring;
+
+  /// Flow 05 - Host. Screen 01. Body under the headline
+  ///
+  /// In en, this message translates to:
+  /// **'Set a name and a menu. Two minutes, and your kitchen takes orders.'**
+  String get hostNothingPouringBody;
+
+  /// Flow 05 - Host. Screen 01. Primary action that starts the draft
+  ///
+  /// In en, this message translates to:
+  /// **'Host a party'**
+  String get hostPartyCta;
+
+  /// Flow 05 - Host. Screen 01. Secondary action into Flow 07
+  ///
+  /// In en, this message translates to:
+  /// **'Join with a code'**
+  String get hostJoinWithCode;
+
+  /// Flow 05 - Host. Screen 01. Meta line on a draft party card
+  ///
+  /// In en, this message translates to:
+  /// **'Draft · {count} on the menu · saved {time}'**
+  String hostDraftMeta(int count, String time);
+
+  /// Flow 05 - Host. Screen 01. Meta line on the card of a party that is still live
+  ///
+  /// In en, this message translates to:
+  /// **'Live now · {count} on the menu'**
+  String hostLiveMeta(int count);
+
+  /// Flow 05 - Host. Screen 01. Meta line on the card of an ended party
+  ///
+  /// In en, this message translates to:
+  /// **'{count} poured'**
+  String hostEndedMeta(int count);
+
+  /// Flow 05 - Host. Screen 01. Pill on a draft card
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get hostResume;
+
+  /// Flow 05 - Host. Screen 01. Pill on an ended party card
+  ///
+  /// In en, this message translates to:
+  /// **'Recap'**
+  String get hostRecap;
+
+  /// Flow 05 - Host. Screen 01. Pill on a live party card
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get hostOpen;
+
+  /// Flow 05 - Host. Screen 02. Step 1 headline; keep the line break
+  ///
+  /// In en, this message translates to:
+  /// **'What are we\ncalling it?'**
+  String get hostNameTitle;
+
+  /// Flow 05 - Host. Screen 02. Body under the headline
+  ///
+  /// In en, this message translates to:
+  /// **'Guests see this when they join. You can change it any time.'**
+  String get hostNameBody;
+
+  /// Flow 05 - Host. Screen 02. Placeholder in the empty name field
+  ///
+  /// In en, this message translates to:
+  /// **'Party name'**
+  String get hostNameHint;
+
+  /// Flow 05 - Host. Screen 02. Name suggestion chip
+  ///
+  /// In en, this message translates to:
+  /// **'Friday Night'**
+  String get hostNameIdeaFriday;
+
+  /// Flow 05 - Host. Screen 02. Name suggestion chip
+  ///
+  /// In en, this message translates to:
+  /// **'Housewarming'**
+  String get hostNameIdeaHousewarming;
+
+  /// Flow 05 - Host. Screen 02. Name suggestion chip
+  ///
+  /// In en, this message translates to:
+  /// **'Just Us Two'**
+  String get hostNameIdeaJustUs;
+
+  /// Flow 05 - Host. Screen 02. Eyebrow above the when toggles
+  ///
+  /// In en, this message translates to:
+  /// **'When'**
+  String get hostWhenLabel;
+
+  /// Flow 05 - Host. Screen 02. When toggle: the party is tonight, open-ended
+  ///
+  /// In en, this message translates to:
+  /// **'Tonight'**
+  String get hostWhenTonight;
+
+  /// Flow 05 - Host. Screen 02. When toggle that opens a date picker
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date'**
+  String get hostWhenPickDate;
+
+  /// Flow 05 - Host. Screen 02. Info card explaining the code is dead until Go live
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody can join until you go live — take your time with the menu.'**
+  String get hostCodeDeadNote;
+
+  /// Flow 05 - Host. Screen 02. Button that advances to step 2
+  ///
+  /// In en, this message translates to:
+  /// **'Next · the menu'**
+  String get hostNextMenu;
+
+  /// Flow 05 - Host. Snackbar when creating or saving a draft party fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t save the draft. Try again.'**
+  String get hostDraftSaveFailed;
+
+  /// Flow 05 - Host. Screen 03. Step 2 headline
+  ///
+  /// In en, this message translates to:
+  /// **'What are you pouring?'**
+  String get hostMenuTitle;
+
+  /// Flow 05 - Host. Screen 03. Body under the headline; count is how many fetched cocktails the shelf can pour
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing here is pourable from your bar yet — search, or see everything.} =1{One of these needs nothing you don’t already have.} other{{count} of these need nothing you don’t already have.}}'**
+  String hostMenuBody(int count);
+
+  /// Flow 05 - Host. Screen 03. Search field placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Search cocktails'**
+  String get hostMenuSearchHint;
+
+  /// Flow 05 - Host. Screen 03. Selected chip: the grid shows only pourable cocktails
+  ///
+  /// In en, this message translates to:
+  /// **'Can make {count}'**
+  String hostMenuFilterCanMake(int count);
+
+  /// Flow 05 - Host. Screen 03. Chip that opens the full labelled list (screen 05)
+  ///
+  /// In en, this message translates to:
+  /// **'All cocktails'**
+  String get hostMenuFilterAll;
+
+  /// Flow 05 - Host. Screens 03 and 05. How many cocktails the draft menu holds
+  ///
+  /// In en, this message translates to:
+  /// **'{count} on the menu'**
+  String hostMenuCount(int count);
+
+  /// Flow 05 - Host. Screen 03. Footer reassurance under the count
+  ///
+  /// In en, this message translates to:
+  /// **'Add more later — even mid-party'**
+  String get hostMenuAddLater;
+
+  /// Flow 05 - Host. Screen 03. Button that saves the draft and opens it
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get hostMenuReview;
+
+  /// Flow 05 - Host. Screens 03-05. Semantics label for adding a cocktail
+  ///
+  /// In en, this message translates to:
+  /// **'Add {name} to the menu'**
+  String hostMenuAdd(String name);
+
+  /// Flow 05 - Host. Screens 03-05. Semantics label for removing a cocktail
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name} from the menu'**
+  String hostMenuRemove(String name);
+
+  /// Flow 05 - Host. Screens 03-05. Error when the cocktail list fails to load
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t load cocktails.'**
+  String get hostMenuLoadFailed;
+
+  /// Flow 05 - Host. Retry action
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get hostRetry;
+
+  /// Flow 05 - Host. Screen 04. Closes menu search
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get hostSearchDone;
+
+  /// Flow 05 - Host. Screen 04. Eyebrow above the results; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 match} other{{count} matches}}'**
+  String hostSearchMatches(int count);
+
+  /// Flow 05 - Host. Screen 04. Label of the makeable-only switch
+  ///
+  /// In en, this message translates to:
+  /// **'Only what I can make'**
+  String get hostSearchOnlyMakeable;
+
+  /// Flow 05 - Host. Screen 04. Badge when exactly one ingredient is missing; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'No {ingredient}'**
+  String hostBadgeNo(String ingredient);
+
+  /// Flow 05 - Host. Screen 04. Badge when several ingredients are missing; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Missing {count}'**
+  String hostBadgeMissing(int count);
+
+  /// Flow 05 - Host. Screen 04. Badge when the shelf holds every required ingredient; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'All in stock'**
+  String get hostBadgeAllInStock;
+
+  /// Flow 05 - Host. Screen 04. Tip under results when some are short an ingredient
+  ///
+  /// In en, this message translates to:
+  /// **'Add one anyway and {ingredient} goes on tonight’s shopping list.'**
+  String hostSearchShoppingTip(String ingredient);
+
+  /// Flow 05 - Host. Screen 04. Empty results
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches “{query}”.'**
+  String hostSearchNoResults(String query);
+
+  /// Flow 05 - Host. Screen 05. Header title
+  ///
+  /// In en, this message translates to:
+  /// **'All cocktails'**
+  String get hostAllTitle;
+
+  /// Flow 05 - Host. Screen 05. Spirit filter chip that clears the filter
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get hostAllFilterAll;
+
+  /// Flow 05 - Host. Screen 05. Section eyebrow for makeable cocktails; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to pour · {count}'**
+  String hostAllReady(int count);
+
+  /// Flow 05 - Host. Screen 05. Section eyebrow for cocktails the shelf cannot pour; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Needs shopping · {count}'**
+  String hostAllNeedsShopping(int count);
+
+  /// Flow 05 - Host. Screen 05. Note beside the needs-shopping eyebrow
+  ///
+  /// In en, this message translates to:
+  /// **'Sorted by what’s closest'**
+  String get hostAllClosestFirst;
+
+  /// Flow 05 - Host. Screen 05. Subtitle part on a ready row
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 ingredient} other{{count} ingredients}}'**
+  String hostAllIngredientCount(int count);
+
+  /// Flow 05 - Host. Screen 05. Subtitle on a needs-shopping row
+  ///
+  /// In en, this message translates to:
+  /// **'{count} short · {ingredients}'**
+  String hostAllShort(int count, String ingredients);
+
+  /// Flow 05 - Host. Screen 05. Bottom button that returns to the menu step
+  ///
+  /// In en, this message translates to:
+  /// **'Done · {count} on the menu'**
+  String hostAllDone(int count);
+
+  /// Flow 05 - Host. Screen 06. Sheet headline when one ingredient is missing; ingredient is lowercase
+  ///
+  /// In en, this message translates to:
+  /// **'You’re one {ingredient} short'**
+  String hostMissingOneTitle(String ingredient);
+
+  /// Flow 05 - Host. Screen 06. Sheet headline when several ingredients are missing
+  ///
+  /// In en, this message translates to:
+  /// **'You’re {count} things short'**
+  String hostMissingManyTitle(int count);
+
+  /// Flow 05 - Host. Screen 06. Sheet body
+  ///
+  /// In en, this message translates to:
+  /// **'Put it on the menu anyway — guests can still order it, and you’ll see the shortage on your own screen, not theirs.'**
+  String get hostMissingBody;
+
+  /// Flow 05 - Host. Screen 06. Trailing label on a missing ingredient row
+  ///
+  /// In en, this message translates to:
+  /// **'out of stock'**
+  String get hostMissingOutOfStock;
+
+  /// Flow 05 - Host. Screen 06. Primary action: add to the menu and put the missing ingredient on the shopping list
+  ///
+  /// In en, this message translates to:
+  /// **'Add it & buy {ingredient}'**
+  String hostMissingAddAndBuyOne(String ingredient);
+
+  /// Flow 05 - Host. Screen 06. Primary action when several ingredients are missing
+  ///
+  /// In en, this message translates to:
+  /// **'Add it & buy all {count}'**
+  String hostMissingAddAndBuyMany(int count);
+
+  /// Flow 05 - Host. Screen 06. Secondary action back to the pourable grid
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Show what I can make} =1{Show me 1 I can make} other{Show me {count} I can make}}'**
+  String hostMissingShowMakeable(int count);
+
+  /// Flow 05 - Host. Screen 06. Footnote under the actions
+  ///
+  /// In en, this message translates to:
+  /// **'Guests only see a “limited” note if you run dry mid-party.'**
+  String get hostMissingFootnote;
+
+  /// Flow 05 - Host. Screen 07. Status pill over the hero; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get hostDraftPill;
+
+  /// Flow 05 - Host. Screen 07. Line under the party name when it is tonight
+  ///
+  /// In en, this message translates to:
+  /// **'Tonight · {count} on the menu · you’re the bartender'**
+  String hostDraftMetaTonight(int count);
+
+  /// Flow 05 - Host. Screen 07. Line under the party name when it has a date
+  ///
+  /// In en, this message translates to:
+  /// **'{date} · {count} on the menu · you’re the bartender'**
+  String hostDraftMetaDate(String date, int count);
+
+  /// Flow 05 - Host. Screen 07. Row that edits the menu
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get hostDraftMenuRow;
+
+  /// Flow 05 - Host. Screens 07 and 11. Trailing count on the menu row
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 drink} other{{count} drinks}}'**
+  String hostDraftDrinks(int count);
+
+  /// Flow 05 - Host. Screen 07. Row that edits the date
+  ///
+  /// In en, this message translates to:
+  /// **'When'**
+  String get hostDraftWhenRow;
+
+  /// Flow 05 - Host. Screen 07. Trailing value on the when row
+  ///
+  /// In en, this message translates to:
+  /// **'Tonight, open-ended'**
+  String get hostDraftTonightOpen;
+
+  /// Flow 05 - Host. Screen 07. Dimmed row showing the not-yet-working code
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code'**
+  String get hostDraftInviteRow;
+
+  /// Flow 05 - Host. Screen 07. Tag on the invite code until the party goes live; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Dead'**
+  String get hostDraftDead;
+
+  /// Flow 05 - Host. Screen 07. Shopping card title
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 thing to buy} other{{count} things to buy}}'**
+  String hostDraftToBuy(int count);
+
+  /// Flow 05 - Host. Screen 07. Shopping card body; both placeholders are comma-separated lists
+  ///
+  /// In en, this message translates to:
+  /// **'{ingredients}. Until then you’ll be improvising {cocktails}.'**
+  String hostDraftToBuyBody(String ingredients, String cocktails);
+
+  /// Flow 05 - Host. Screen 07. Stat tile eyebrow; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Can pour now'**
+  String get hostDraftCanPour;
+
+  /// Flow 05 - Host. Screen 07. Stat tile value
+  ///
+  /// In en, this message translates to:
+  /// **'{ready} of {total}'**
+  String hostDraftCanPourValue(int ready, int total);
+
+  /// Flow 05 - Host. Screen 07. Primary action into the go-live confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Go live & open the code'**
+  String get hostGoLiveCta;
+
+  /// Flow 05 - Host. Screen 07. Quiet action back to the Party tab
+  ///
+  /// In en, this message translates to:
+  /// **'Save the draft for later'**
+  String get hostSaveForLater;
+
+  /// Flow 05 - Host. Screen 07. Error when the draft cannot be loaded
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t load this party.'**
+  String get hostDraftLoadFailed;
+
+  /// Flow 05 - Host. Screen 08. Go-live sheet headline
+  ///
+  /// In en, this message translates to:
+  /// **'Open the bar?'**
+  String get hostGoLiveTitle;
+
+  /// Flow 05 - Host. Screen 08. Go-live sheet body
+  ///
+  /// In en, this message translates to:
+  /// **'Here’s exactly what changes the moment you tap.'**
+  String get hostGoLiveBody;
+
+  /// Flow 05 - Host. Screen 08. First consequence row
+  ///
+  /// In en, this message translates to:
+  /// **'{code} starts working'**
+  String hostGoLiveCodeWorks(String code);
+
+  /// Flow 05 - Host. Screen 08. First consequence row detail
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone with the code or QR can join'**
+  String get hostGoLiveCodeWorksSub;
+
+  /// Flow 05 - Host. Screen 08. Second consequence row
+  ///
+  /// In en, this message translates to:
+  /// **'Orders start hitting your phone'**
+  String get hostGoLiveOrders;
+
+  /// Flow 05 - Host. Screen 08. Second consequence row detail
+  ///
+  /// In en, this message translates to:
+  /// **'The queue lives behind Open the bar'**
+  String get hostGoLiveOrdersSub;
+
+  /// Flow 05 - Host. Screen 08. Third consequence row
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here is final'**
+  String get hostGoLiveUndo;
+
+  /// Flow 05 - Host. Screen 08. Third consequence row detail
+  ///
+  /// In en, this message translates to:
+  /// **'Pause the bar or edit the menu any time'**
+  String get hostGoLiveUndoSub;
+
+  /// Flow 05 - Host. Screen 08. The commit
+  ///
+  /// In en, this message translates to:
+  /// **'Go live'**
+  String get hostGoLive;
+
+  /// Flow 05 - Host. Screen 08. Dismisses the go-live sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet'**
+  String get hostNotYet;
+
+  /// Flow 05 - Host. Screen 08. Footnote
+  ///
+  /// In en, this message translates to:
+  /// **'One live party at a time'**
+  String get hostOneLiveParty;
+
+  /// Flow 05 - Host. Edge state. Sheet when another party is live
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is still live'**
+  String hostSecondLiveTitle(String name);
+
+  /// Flow 05 - Host. Edge state. Second-party sheet body
+  ///
+  /// In en, this message translates to:
+  /// **'One bar at a time — end that party and its recap is saved before the new one opens.'**
+  String get hostSecondLiveBody;
+
+  /// Flow 05 - Host. Edge state. Opens the party that is still live
+  ///
+  /// In en, this message translates to:
+  /// **'Go to {name}'**
+  String hostGoToParty(String name);
+
+  /// Flow 05 - Host. Edge state. Ends the live party, then opens this one
+  ///
+  /// In en, this message translates to:
+  /// **'End it and start fresh'**
+  String get hostEndAndStartFresh;
+
+  /// Flow 05 - Host. Edge state. Sheet before going live with no drinks
+  ///
+  /// In en, this message translates to:
+  /// **'Open with nothing on the menu?'**
+  String get hostEmptyMenuTitle;
+
+  /// Flow 05 - Host. Edge state. Empty-menu sheet body
+  ///
+  /// In en, this message translates to:
+  /// **'Guests can still join and ask for whatever they like — you just take requests instead of orders.'**
+  String get hostEmptyMenuBody;
+
+  /// Flow 05 - Host. Edge state. Continues to go live with an empty menu
+  ///
+  /// In en, this message translates to:
+  /// **'Open as a request bar'**
+  String get hostOpenAsRequestBar;
+
+  /// Flow 05 - Host. Edge state. Opens the menu instead
+  ///
+  /// In en, this message translates to:
+  /// **'Add a couple first'**
+  String get hostAddACoupleFirst;
+
+  /// Flow 05 - Host. Screens 09-11. Live pill; elapsed is like 1h12m; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Live · {elapsed}'**
+  String hostLivePill(String elapsed);
+
+  /// Flow 05 - Host. Screen 09. Headline above the QR
+  ///
+  /// In en, this message translates to:
+  /// **'The bar is open'**
+  String get hostBarOpenTitle;
+
+  /// Flow 05 - Host. Screen 09. Body above the QR
+  ///
+  /// In en, this message translates to:
+  /// **'Point a camera at this. No app, no account — just a name.'**
+  String get hostBarOpenBody;
+
+  /// Flow 05 - Host. Screen 09. Semantics for the code chip
+  ///
+  /// In en, this message translates to:
+  /// **'Copy code'**
+  String get hostCopyCode;
+
+  /// Flow 05 - Host. Screen 09. Snackbar after copying the code
+  ///
+  /// In en, this message translates to:
+  /// **'Code copied'**
+  String get hostCodeCopied;
+
+  /// Flow 05 - Host. Screen 09. Primary action: system share sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Share the link'**
+  String get hostShareLink;
+
+  /// Flow 05 - Host. Screen 09. Secondary action to the live hub
+  ///
+  /// In en, this message translates to:
+  /// **'Go to the party'**
+  String get hostGoToTheParty;
+
+  /// Flow 05 - Host. Screen 09. Text handed to the share sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Join {name} on PartyBar with code {code}'**
+  String hostShareText(String name, String code);
+
+  /// Flow 05 - Host. Screen 10. Line above the party name; here counts distinct guests who ordered
+  ///
+  /// In en, this message translates to:
+  /// **'{here} here · {poured} poured'**
+  String hostHereAndPoured(int here, int poured);
+
+  /// Flow 05 - Host. Screen 10. Primary action into the order queue; a badge shows waiting orders
+  ///
+  /// In en, this message translates to:
+  /// **'Open the bar'**
+  String get hostOpenTheBar;
+
+  /// Flow 05 - Host. Screen 10. Rail title
+  ///
+  /// In en, this message translates to:
+  /// **'On the menu tonight'**
+  String get hostOnTheMenuTonight;
+
+  /// Flow 05 - Host. Screens 10 and 12. Quiet edit link
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get hostEdit;
+
+  /// Flow 05 - Host. Screen 10. Semantics for the QR button
+  ///
+  /// In en, this message translates to:
+  /// **'Show the QR code'**
+  String get hostShowQr;
+
+  /// Flow 05 - Host. Screen 10. Semantics for the share button
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get hostShare;
+
+  /// Flow 05 - Host. Screens 10-12. Manage button semantics and the manage sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Manage the party'**
+  String get hostManage;
+
+  /// Flow 05 - Host. Screen 10. Shown instead of the rail when the menu is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing on the menu — guests send requests.'**
+  String get hostMenuEmptyRequests;
+
+  /// Flow 05 - Host. Screen 10. Badge on a menu tile the shelf can no longer pour; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get hostLowBadge;
+
+  /// Flow 05 - Host. Screen 11. Line under the manage sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Live {elapsed} · {guests} here · {waiting} waiting'**
+  String hostManageSub(String elapsed, int guests, int waiting);
+
+  /// Flow 05 - Host. Screen 11. Chip beside the manage sheet title; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Live'**
+  String get hostLiveChip;
+
+  /// Flow 05 - Host. Screens 11 and 13. The panic button
+  ///
+  /// In en, this message translates to:
+  /// **'Pause the bar'**
+  String get hostPauseBar;
+
+  /// Flow 05 - Host. Screen 11. Caption under the pause button
+  ///
+  /// In en, this message translates to:
+  /// **'Stops new orders. Guests see “back in a minute”.'**
+  String get hostPauseCaption;
+
+  /// Flow 05 - Host. Screen 11. Row that opens the menu editor
+  ///
+  /// In en, this message translates to:
+  /// **'Edit tonight’s menu'**
+  String get hostEditTonightsMenu;
+
+  /// Flow 05 - Host. Screen 11. Row that opens the QR screen
+  ///
+  /// In en, this message translates to:
+  /// **'Invite more people'**
+  String get hostInviteMore;
+
+  /// Flow 05 - Host. Screen 11. Row with the guest count
+  ///
+  /// In en, this message translates to:
+  /// **'Who’s here'**
+  String get hostWhosHere;
+
+  /// Flow 05 - Host. Screen 11. Disabled row, a seam for later
+  ///
+  /// In en, this message translates to:
+  /// **'Add a co-host'**
+  String get hostAddCoHost;
+
+  /// Flow 05 - Host. Screen 11. Tag on the co-host row; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Soon'**
+  String get hostSoon;
+
+  /// Flow 05 - Host. Screen 11. Row that opens the end confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'End the party'**
+  String get hostEndParty;
+
+  /// Flow 05 - Host. Screen 11. Trailing hint on the end row: ending opens the ran-out checklist
+  ///
+  /// In en, this message translates to:
+  /// **'then what ran out'**
+  String get hostEndPartyHint;
+
+  /// Flow 05 - Host. Snackbar when a change to a live party fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t save that. Try again.'**
+  String get hostSaveFailed;
+
+  /// Flow 05 - Host. Screen 12. Amber pill; elapsed is like 6m or 1h05m; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Bar paused · {elapsed}'**
+  String hostPausedPill(String elapsed);
+
+  /// Flow 05 - Host. Screen 12. Headline over the photo; keep the line break
+  ///
+  /// In en, this message translates to:
+  /// **'Bar’s shut\nfor a minute'**
+  String get hostPausedTitle;
+
+  /// Flow 05 - Host. Screen 12. Body; count is orders still waiting
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nobody can order, and your queue is empty.} =1{Nobody can order. The 1 order already in your queue is still yours to pour.} other{Nobody can order. The {count} orders already in your queue are still yours to pour.}}'**
+  String hostPausedBody(int count);
+
+  /// Flow 05 - Host. Screen 12. Primary action back to live
+  ///
+  /// In en, this message translates to:
+  /// **'Reopen the bar'**
+  String get hostReopenBar;
+
+  /// Flow 05 - Host. Screen 12. Card title
+  ///
+  /// In en, this message translates to:
+  /// **'Guests are seeing'**
+  String get hostGuestsSeeing;
+
+  /// Flow 05 - Host. Screen 12. The message guests see while paused
+  ///
+  /// In en, this message translates to:
+  /// **'Back in a minute'**
+  String get hostBackInAMinute;
+
+  /// Flow 05 - Host. Screen 12. Detail under the guest message
+  ///
+  /// In en, this message translates to:
+  /// **'Menu is visible · ordering is off'**
+  String get hostMenuVisibleOrderingOff;
+
+  /// Flow 05 - Host. Screen 12. Stat eyebrow; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'In queue'**
+  String get hostInQueue;
+
+  /// Flow 05 - Host. Screen 12. Stat value
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 order} other{{count} orders}}'**
+  String hostOrdersCount(int count);
+
+  /// Flow 05 - Host. Screen 12. Stat eyebrow; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Still here'**
+  String get hostStillHere;
+
+  /// Flow 05 - Host. Screens 12 and 13. Guest count
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 guest} other{{count} guests}}'**
+  String hostGuestsCount(int count);
+
+  /// Flow 05 - Host. Screen 13. End sheet headline
+  ///
+  /// In en, this message translates to:
+  /// **'Call it a night?'**
+  String get hostEndTitle;
+
+  /// Flow 05 - Host. Screen 13. End sheet body
+  ///
+  /// In en, this message translates to:
+  /// **'The code stops working and the queue closes. This one can’t be undone.'**
+  String get hostEndBody;
+
+  /// Flow 05 - Host. Screen 13. Warning when orders are still in the queue
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 order is still waiting} other{{count} orders are still waiting}}'**
+  String hostEndWaiting(int count);
+
+  /// Flow 05 - Host. Screen 13. Detail under the waiting warning
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{It will be marked unserved} other{They will be marked unserved}}'**
+  String hostEndWaitingDetail(int count);
+
+  /// Flow 05 - Host. Screen 13. Stat eyebrow; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Poured'**
+  String get hostEndPoured;
+
+  /// Flow 05 - Host. Screen 13. Stat eyebrow; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Guests'**
+  String get hostEndGuests;
+
+  /// Flow 05 - Host. Screen 13. Stat eyebrow; rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Open for'**
+  String get hostEndOpenFor;
+
+  /// Flow 05 - Host. Screen 13. The one-way commit; opens the ran-out checklist
+  ///
+  /// In en, this message translates to:
+  /// **'End & check what ran out'**
+  String get hostEndConfirm;
+
+  /// Flow 05 - Host. Screen 13. Dismisses the end sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Keep pouring'**
+  String get hostKeepPouring;
+
+  /// Flow 05 - Host. Screen 13. Footnote lead-in
+  ///
+  /// In en, this message translates to:
+  /// **'Just need a break?'**
+  String get hostJustNeedBreak;
+
+  /// Flow 05 - Host. Screen 13. Footnote link that pauses instead of ending
+  ///
+  /// In en, this message translates to:
+  /// **'Pause the bar instead'**
+  String get hostPauseInstead;
 }
 
 class _AppLocalizationsDelegate

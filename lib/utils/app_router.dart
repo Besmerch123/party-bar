@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:party_bar/utils/localization_helper.dart';
 import '../models/auth.dart';
+import '../screens/party/party_invite_screen.dart';
 import '../screens/screens.dart';
 import '../widgets/auth/auth_guard.dart';
 import '../widgets/common/app_bottom_nav.dart';
@@ -25,6 +26,10 @@ class AppRoutes {
   static const String joinParty = '/party/join';
   static const String createParty = '/party/create';
   static const String partyDetails = '/party/details';
+
+  /// Flow 05 · screen 09 — the QR and share link, reached with the [Party]
+  /// as `extra` from Go live, the live hub and Manage.
+  static const String partyInvite = '/party/invite';
   static const String activePartyHost = '/party/active/host';
   static const String activePartyGuest = '/party/active/guest';
   static const String profile = '/profile';
@@ -164,6 +169,22 @@ GoRouter createAppRouter({required bool showWelcome}) {
             redirectPath: partyDetailsPath,
             reason: AuthReason.hostParty,
             child: PartyDetailsScreen(partyId: partyId),
+          );
+        },
+      ),
+      // A cold link carries no party, and falls back to the details screen,
+      // which knows how to load one.
+      GoRoute(
+        path: '${AppRoutes.partyInvite}/:id',
+        builder: (context, state) {
+          final partyId = state.pathParameters['id']!;
+          final party = state.extra;
+          return AuthGuard(
+            redirectPath: '${AppRoutes.partyInvite}/$partyId',
+            reason: AuthReason.hostParty,
+            child: party is Party
+                ? PartyInviteScreen(party: party)
+                : PartyDetailsScreen(partyId: partyId),
           );
         },
       ),

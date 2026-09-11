@@ -3,6 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import '../data/party_repository.dart';
 import '../models/models.dart';
 
+/// Thrown by [PartyService.goLive] when the host already runs a live party.
+class LivePartyConflict implements Exception {
+  const LivePartyConflict(this.liveParty);
+
+  final Party liveParty;
+
+  @override
+  String toString() => 'Party ${liveParty.id} is still live';
+}
+
 /// Service class for handling Party-related business logic.
 /// Database operations are delegated to PartyRepository.
 class PartyService {
@@ -12,9 +22,14 @@ class PartyService {
   /// Get current user
   auth.User? get _currentUser => _auth.currentUser;
 
-  /// Create a new party
-  /// Firebase will automatically generate the party ID
-  Future<Party> createParty({required String name, String? description}) async {
+  /// Create a new party — always a draft, whose code does nothing until
+  /// [goLive]. Firebase will automatically generate the party ID.
+  Future<Party> createParty({
+    required String name,
+    String? description,
+    List<String> cocktailIds = const [],
+    DateTime? scheduledFor,
+  }) async {
     if (_currentUser == null) {
       throw Exception('User must be authenticated to create a party');
     }
@@ -30,6 +45,8 @@ class PartyService {
         hostName: _currentUser!.displayName ?? 'Anonymous',
         joinCode: joinCode,
         description: description,
+        cocktailIds: cocktailIds,
+        scheduledFor: scheduledFor,
       );
 
       // Fetch and return the created party
@@ -74,6 +91,21 @@ class PartyService {
     return _repository.getPartiesByHostId(_currentUser!.uid);
   }
 
+  /// One live party at a time: opening [partyId] while another of this
+  /// host's parties is still live throws [LivePartyConflict] naming it, so
+  /// the caller can offer to go there or end it — never a silent switch.
+  Future<void> goLive(String partyId) async {
+    if (_currentUser == null) {
+      throw Exception('User must be authenticated to go live');
+    }
+
+    final hosted = await getHostedParties().first;
+    final live = hosted.where((p) => p.isLive && p.id != partyId).firstOrNull;
+    if (live != null) throw LivePartyConflict(live);
+
+    await _repository.goLive(partyId);
+  }
+
   /// Update party status
   Future<void> updatePartyStatus(String partyId, PartyStatus status) async {
     try {
@@ -83,17 +115,21 @@ class PartyService {
     }
   }
 
-  /// Update party information (name and description)
+  /// Update party information (name, description and when)
   Future<void> updateParty(
     String partyId, {
     String? name,
     String? description,
+    DateTime? scheduledFor,
+    bool clearSchedule = false,
   }) async {
     try {
       await _repository.updateParty(
         partyId,
         name: name,
         description: description,
+        scheduledFor: scheduledFor,
+        clearSchedule: clearSchedule,
       );
     } catch (e) {
       throw Exception('Failed to update party: $e');
