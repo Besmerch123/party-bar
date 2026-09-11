@@ -11,8 +11,9 @@ export 'party/party_hub_screen.dart';
 export 'party/join_party_screen.dart';
 export 'party/create_party_screen.dart';
 export 'party/party_details_screen.dart';
-export 'party/active_party_host_screen.dart';
-export 'party/active_party_guest_screen.dart';
+// Flow 06 - order & pour. The host's queue and the guest's party.
+export 'party/bar_queue_screen.dart';
+export 'party/guest_party_screen.dart';
 export 'settings/profile_screen.dart';
 export 'settings/settings_screen.dart';
 // Flow 04 - My bar. The shelf, search (shared with the shopping list), the

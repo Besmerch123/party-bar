@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -6,8 +9,8 @@ import 'package:share_plus/share_plus.dart';
 import '../../data/cocktail_repository.dart';
 import '../../models/models.dart';
 import '../../providers/bar_provider.dart';
+import '../../providers/party_cocktails.dart';
 import '../../services/order_service.dart';
-import '../../services/party_service.dart';
 import '../../theme/theme.dart';
 import '../../utils/app_router.dart';
 import '../../utils/localization_helper.dart';
@@ -16,10 +19,9 @@ import '../../widgets/common/app_bottom_nav.dart';
 import '../../widgets/common/glass.dart';
 import '../../widgets/party/host_state_pill.dart';
 import '../../widgets/party/menu_cocktail_tile.dart';
-import '../../widgets/party/end_party_sheet.dart';
-import '../../widgets/party/manage_party_sheet.dart';
-import 'party_ending.dart';
-import 'menu_all_cocktails_screen.dart';
+import '../../widgets/party/queue/order_landed_banner.dart';
+import 'party_host_actions.dart';
+import 'pouring_screen.dart';
 
 const _fallbackHero = 'assets/images/onboarding/midnight_orchard.jpg';
 
@@ -176,12 +178,6 @@ class _GuestsSeeingCard extends StatelessWidget {
   }
 }
 
-/// Orders still in the host's hands — not yet handed over, not cancelled.
-bool isWaitingOrder(CocktailOrder order) =>
-    order.status == OrderStatus.pending ||
-    order.status == OrderStatus.preparing ||
-    order.status == OrderStatus.ready;
-
 /// Flow 05 · screen 10 — the host's home for the rest of the night.
 ///
 /// The Party tab while a party is live. One way into the queue ("Open the
@@ -204,6 +200,18 @@ class _LivePartyHubState extends State<LivePartyHub> {
   /// The last orders the stream delivered, for the end sheet.
   List<CocktailOrder> _latestOrders = const [];
 
+  /// Screen 08 — orders that landed after this are worth a banner. Bumped to
+  /// "now" once a banner is dismissed, so the same round never announces
+  /// itself twice.
+  DateTime _since = DateTime.now();
+  List<CocktailOrder>? _bannerRound;
+  String? _bannerRoundKey;
+  Timer? _bannerTimer;
+
+  /// What the banner's "Pour" hands the pouring screen — owned here so it is
+  /// disposed with the hub rather than leaked per tap.
+  final _pourCocktails = PartyCocktails();
+
   Party get _party => widget.party;
 
   @override
@@ -212,6 +220,72 @@ class _LivePartyHubState extends State<LivePartyHub> {
     _orders = OrderService().streamPartyOrders(_party.id);
     _loadMenu();
   }
+
+  @override
+  void dispose() {
+    _bannerTimer?.cancel();
+    _pourCocktails.dispose();
+    super.dispose();
+  }
+
+  /// Screen 08(a) — the newest round nobody has been told landed yet. Runs
+  /// after each frame rather than inline in build, since it may call
+  /// [setState].
+  void _checkForLanded(List<CocktailOrder> orders, {required bool visible}) {
+    if (!mounted) return;
+    // Paused, covered by the queue, or on another tab: nobody would see the
+    // banner, and the queue already marks new orders. Count them as seen.
+    if (!visible) {
+      _since = DateTime.now();
+      return;
+    }
+    final rounds = landedSince(orders, _since);
+    if (rounds.isEmpty) return;
+
+    final round = rounds.first;
+    final key = round.first.roundId ?? round.first.id;
+    if (key == _bannerRoundKey) return;
+
+    _bannerRoundKey = key;
+    _bannerTimer?.cancel();
+    _bannerTimer = Timer(const Duration(seconds: 8), _dismissBanner);
+    HapticFeedback.lightImpact();
+    setState(() => _bannerRound = round);
+  }
+
+  void _dismissBanner() {
+    _bannerTimer?.cancel();
+    _bannerTimer = null;
+    _since = DateTime.now();
+    if (mounted) setState(() => _bannerRound = null);
+  }
+
+  Future<void> _pourFromBanner(CocktailOrder order) async {
+    _dismissBanner();
+    try {
+      await OrderService().startPouring(order);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(context.l10n.hostSaveFailed)));
+      }
+      return;
+    }
+    if (!mounted) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => PouringScreen(
+          party: _party,
+          order: order.copyWith(status: OrderStatus.preparing),
+          cocktails: _pourCocktails,
+        ),
+      ),
+    );
+  }
+
+  String? _cocktailTitle(BuildContext context, String id) =>
+      _cocktails?.where((c) => c.id == id).firstOrNull?.title.translate(context);
 
   @override
   void didUpdateWidget(covariant LivePartyHub oldWidget) {
@@ -245,110 +319,30 @@ class _LivePartyHubState extends State<LivePartyHub> {
     setState(() => _cocktails = loaded.whereType<Cocktail>().toList());
   }
 
-  Future<void> _editMenu() async {
-    final picked = await pickPartyMenu(context, _cocktails ?? const []);
-    if (picked == null || !mounted) return;
+  Future<void> _editMenu() => editPartyMenu(
+    context,
+    _party,
+    _cocktails ?? const [],
+    onPicked: (picked) => setState(() => _cocktails = picked),
+  );
 
-    setState(() => _cocktails = picked);
-    try {
-      await PartyService().updateAvailableCocktails(
-        _party.id,
-        picked.map((c) => c.id).toList(growable: false),
-      );
-    } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.hostDraftSaveFailed)),
-      );
-    }
-  }
+  /// Screen 11, and through it screen 13.
+  Future<void> _manage() => manageParty(
+    context,
+    party: _party,
+    orders: _latestOrders,
+    onEditMenu: _editMenu,
+  );
 
-  /// Screen 11. Every choice in it is reversible, so none asks again.
-  Future<void> _manage(int guests, int waiting) async {
-    final action = await showManagePartySheet(
-      context,
-      party: _party,
-      guests: guests,
-      waiting: waiting,
-      paused: _party.status == PartyStatus.paused,
-    );
-    if (!mounted) return;
-
-    switch (action) {
-      case ManagePartyAction.pause:
-        await _setStatus(PartyStatus.paused);
-      case ManagePartyAction.reopen:
-        await _setStatus(PartyStatus.active);
-      case ManagePartyAction.editMenu:
-        await _editMenu();
-      case ManagePartyAction.invite:
-        _openInvite();
-      case ManagePartyAction.end:
-        await _end();
-      case null:
-        break;
-    }
-  }
-
-  /// Screen 13. Whatever is still waiting is marked unserved, then the
-  /// ran-out checklist is pushed *before* the status flips — ending swaps
-  /// this hub out of the tab, and a widget that is gone cannot navigate.
-  Future<void> _end() async {
-    final choice = await showEndPartySheet(
-      context,
-      party: _party,
-      orders: _latestOrders,
-    );
-    if (!mounted) return;
-
-    switch (choice) {
-      case EndPartyChoice.end:
-        final messenger = ScaffoldMessenger.of(context);
-        final failed = context.l10n.hostSaveFailed;
-        final router = GoRouter.of(context);
-        final party = _party;
-        try {
-          final orders = OrderService();
-          for (final order in _latestOrders.where(isWaitingOrder)) {
-            await orders.updateOrderStatus(
-              party.id,
-              order.id,
-              OrderStatus.cancelled,
-            );
-          }
-          final args = await ranOutArgsFor(party);
-          router.push(AppRoutes.barRanOut, extra: args);
-          await PartyService().updatePartyStatus(party.id, PartyStatus.ended);
-        } catch (_) {
-          messenger.showSnackBar(SnackBar(content: Text(failed)));
-        }
-      case EndPartyChoice.pauseInstead:
-        await _setStatus(PartyStatus.paused);
-      case EndPartyChoice.keepPouring:
-      case null:
-        break;
-    }
-  }
-
-  /// The hosted-parties stream carries the change back into the tab.
-  Future<void> _setStatus(PartyStatus status) async {
-    try {
-      await PartyService().updatePartyStatus(_party.id, status);
-    } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(context.l10n.hostSaveFailed)));
-    }
-  }
+  Future<void> _setStatus(PartyStatus status) =>
+      setPartyStatus(context, _party, status);
 
   void _openQueue() => context.push(
     '${AppRoutes.activePartyHost}/${_party.id}',
     extra: _party,
   );
 
-  void _openInvite() =>
-      context.push('${AppRoutes.partyInvite}/${_party.id}', extra: _party);
+  void _openInvite() => openPartyInvite(context, _party);
 
   @override
   Widget build(BuildContext context) {
@@ -357,6 +351,13 @@ class _LivePartyHubState extends State<LivePartyHub> {
       builder: (context, snapshot) {
         final orders = snapshot.data ?? const <CocktailOrder>[];
         _latestOrders = orders;
+        final visible =
+            _party.status != PartyStatus.paused &&
+            (ModalRoute.of(context)?.isCurrent ?? true) &&
+            TickerMode.of(context);
+        WidgetsBinding.instance.addPostFrameCallback(
+          (_) => _checkForLanded(orders, visible: visible),
+        );
         return _party.status == PartyStatus.paused
             ? _buildPaused(orders)
             : _buildHub(orders);
@@ -370,7 +371,7 @@ class _LivePartyHubState extends State<LivePartyHub> {
     final poured = orders
         .where((o) => o.status == OrderStatus.delivered)
         .length;
-    final waiting = orders.where(isWaitingOrder).length;
+    final waiting = orders.where((o) => o.isOpen).length;
 
     final heroImage = _cocktails
         ?.map((c) => c.image)
@@ -460,7 +461,7 @@ class _LivePartyHubState extends State<LivePartyHub> {
                             ],
                           ),
                         ),
-                        _menuRail(orders),
+                        _waitingOrMenuRail(orders),
                         const SizedBox(height: 18),
                       ],
                     ),
@@ -470,7 +471,40 @@ class _LivePartyHubState extends State<LivePartyHub> {
             },
           ),
         ),
+        if (_bannerRound case final round?)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(14, 8, 14, 0),
+                child: OrderLandedBanner(
+                  round: round,
+                  cocktailTitleOf: (id) => _cocktailTitle(context, id),
+                  onPour: () => _pourFromBanner(round.first),
+                ),
+              ),
+            ),
+          ),
       ],
+    );
+  }
+
+  /// Screen 08(b) — once something is waiting, it takes the menu rail's
+  /// place; the menu is one tap away in "Manage" regardless.
+  Widget _waitingOrMenuRail(List<CocktailOrder> orders) {
+    final line = inLine(orders);
+    if (line.isEmpty) return _menuRail(orders);
+
+    return Padding(
+      padding: AppSpacing.screen,
+      child: WaitingOnYouCard(
+        line: line,
+        cocktailTitleOf: (id) => _cocktailTitle(context, id),
+        onTap: _openQueue,
+      ),
     );
   }
 
@@ -481,7 +515,7 @@ class _LivePartyHubState extends State<LivePartyHub> {
   Widget _buildPaused(List<CocktailOrder> orders) {
     final l10n = context.l10n;
     final guests = orders.map((o) => o.guestName).toSet().length;
-    final waiting = orders.where(isWaitingOrder).length;
+    final waiting = orders.where((o) => o.isOpen).length;
 
     final now = DateTime.now();
     final pausedFor = now.difference(_party.pausedAt ?? now);
@@ -549,7 +583,7 @@ class _LivePartyHubState extends State<LivePartyHub> {
                                 icon: Icons.tune,
                                 size: 34,
                                 tooltip: l10n.hostManage,
-                                onTap: () => _manage(guests, waiting),
+                                onTap: () => _manage(),
                               ),
                             ],
                           ),
@@ -642,7 +676,7 @@ class _LivePartyHubState extends State<LivePartyHub> {
             icon: Icons.tune,
             size: 34,
             tooltip: context.l10n.hostManage,
-            onTap: () => _manage(guests, waiting),
+            onTap: () => _manage(),
           ),
         ],
       ),

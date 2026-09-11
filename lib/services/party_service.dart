@@ -82,6 +82,10 @@ class PartyService {
     }
   }
 
+  /// One party as it changes — Flow 06 watches pause, end and the menu.
+  Stream<Party?> streamParty(String partyId) =>
+      _repository.streamParty(partyId);
+
   /// Get parties hosted by the current user
   Stream<List<Party>> getHostedParties() {
     if (_currentUser == null) {

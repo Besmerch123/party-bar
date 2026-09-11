@@ -3585,5 +3585,1075 @@
   "hostPauseInstead": "Pause the bar instead",
   "@hostPauseInstead": {
     "description": "Flow 05 - Host. Screen 13. Footnote link that pauses instead of ending"
+  },
+  "queueBarTitle": "The bar",
+  "@queueBarTitle": {
+    "description": "Flow 06 - Order & pour. Screens 09/11. The queue screen's title"
+  },
+  "queueBack": "Back",
+  "@queueBack": {
+    "description": "Flow 06 - Order & pour. Screens 09/11. Semantics for the header back button"
+  },
+  "queuePause": "Pause the bar",
+  "@queuePause": {
+    "description": "Flow 06 - Order & pour. Screens 09/11. Semantics/tooltip for the pause icon while the bar is active"
+  },
+  "queueSublineInLine": "{inLine} in line · {poured} poured tonight",
+  "@queueSublineInLine": {
+    "description": "Flow 06 - Order & pour. Screen 09. Header subline when nothing is on the counter",
+    "placeholders": {
+      "inLine": {"type": "int", "example": "4"},
+      "poured": {"type": "int", "example": "11"}
+    }
+  },
+  "queueSublineOnCounter": "{onCounter} on the counter · {inLine} in line",
+  "@queueSublineOnCounter": {
+    "description": "Flow 06 - Order & pour. Screen 11. Header subline once something is ready",
+    "placeholders": {
+      "onCounter": {"type": "int", "example": "1"},
+      "inLine": {"type": "int", "example": "3"}
+    }
+  },
+  "queuePausedRowTitle": "Guests can't order right now",
+  "@queuePausedRowTitle": {
+    "description": "Flow 06 - Order & pour. Screens 09/11. Amber paused row title"
+  },
+  "queuePausedRowBody": "The bar is paused — reopen it whenever you're ready.",
+  "@queuePausedRowBody": {
+    "description": "Flow 06 - Order & pour. Screens 09/11. Amber paused row body"
+  },
+  "queueOnTheCounterEyebrow": "On the counter",
+  "@queueOnTheCounterEyebrow": {
+    "description": "Flow 06 - Order & pour. Screen 11. Section eyebrow"
+  },
+  "queueGuestBuzzed": "{guest} · buzzed {wait} ago",
+  "@queueGuestBuzzed": {
+    "description": "Flow 06 - Order & pour. Screen 11. On-the-counter row, drink is for the sender",
+    "placeholders": {
+      "guest": {"type": "String", "example": "Sam"},
+      "wait": {"type": "String", "example": "1m"}
+    }
+  },
+  "queueGuestBuzzedForFriend": "{guest}, for {forName} · buzzed {wait} ago",
+  "@queueGuestBuzzedForFriend": {
+    "description": "Flow 06 - Order & pour. Screen 11. On-the-counter row, drink is for a friend",
+    "placeholders": {
+      "guest": {"type": "String", "example": "Sam"},
+      "forName": {"type": "String", "example": "Marta"},
+      "wait": {"type": "String", "example": "1m"}
+    }
+  },
+  "queueHandedOver": "Handed it over",
+  "@queueHandedOver": {
+    "description": "Flow 06 - Order & pour. Screen 11. Primary button that marks an order served"
+  },
+  "queueBuzzAgain": "Buzz again",
+  "@queueBuzzAgain": {
+    "description": "Flow 06 - Order & pour. Screen 11. Re-sends the ready notification"
+  },
+  "queueBackToMixing": "Back to mixing",
+  "@queueBackToMixing": {
+    "description": "Flow 06 - Order & pour. Screen 11. Undoes a ready put up by mistake"
+  },
+  "queueBuzzedAgainSnack": "Buzzed {guest} again",
+  "@queueBuzzedAgainSnack": {
+    "description": "Flow 06 - Order & pour. Screen 11. Snackbar after Buzz again",
+    "placeholders": {
+      "guest": {"type": "String", "example": "Sam"}
+    }
+  },
+  "queuePouringEyebrow": "Pouring now",
+  "@queuePouringEyebrow": {
+    "description": "Flow 06 - Order & pour. Screens 09/11. Section eyebrow for orders being poured"
+  },
+  "queueNextUpEyebrow": "Next up",
+  "@queueNextUpEyebrow": {
+    "description": "Flow 06 - Order & pour. Screen 09. Section eyebrow"
+  },
+  "queueGuestWaiting": "{guest} · waiting {wait}",
+  "@queueGuestWaiting": {
+    "description": "Flow 06 - Order & pour. Screens 09/11. Next up / in line row, drink is for the sender",
+    "placeholders": {
+      "guest": {"type": "String", "example": "Marta"},
+      "wait": {"type": "String", "example": "6m"}
+    }
+  },
+  "queueGuestWaitingForFriend": "{guest}, for {forName} · waiting {wait}",
+  "@queueGuestWaitingForFriend": {
+    "description": "Flow 06 - Order & pour. Screens 09/11. Next up / in line row, drink is for a friend",
+    "placeholders": {
+      "guest": {"type": "String", "example": "Sam"},
+      "forName": {"type": "String", "example": "Marta"},
+      "wait": {"type": "String", "example": "2m"}
+    }
+  },
+  "queueStartPouring": "Start pouring",
+  "@queueStartPouring": {
+    "description": "Flow 06 - Order & pour. Screen 09. Next up primary button"
+  },
+  "queueSkipCantMake": "Skip · can't make it",
+  "@queueSkipCantMake": {
+    "description": "Flow 06 - Order & pour. Screens 09/11/10. Skips an order; reused as the row sheet and skip-confirm actions"
+  },
+  "queueIngredientsMethodChip": "{count, plural, =1{1 ingredient} other{{count} ingredients}} · {method}",
+  "@queueIngredientsMethodChip": {
+    "description": "Flow 06 - Order & pour. Screen 09. Next up chip: ingredient count and build method",
+    "placeholders": {
+      "count": {"type": "int", "example": "4"},
+      "method": {"type": "String", "example": "Stirred"}
+    }
+  },
+  "queuePourPill": "Pour",
+  "@queuePourPill": {
+    "description": "Flow 06 - Order & pour. Screens 08/09/10/11. Short pour action label, reused as the pour eyebrow"
+  },
+  "queueInLineHeader": "In line · {count}",
+  "@queueInLineHeader": {
+    "description": "Flow 06 - Order & pour. Screen 09. In line section eyebrow",
+    "placeholders": {
+      "count": {"type": "int", "example": "3"}
+    }
+  },
+  "queueOldestFirst": "Oldest first",
+  "@queueOldestFirst": {
+    "description": "Flow 06 - Order & pour. Screen 09. In line section's sort note"
+  },
+  "queueNewTag": "New",
+  "@queueNewTag": {
+    "description": "Flow 06 - Order & pour. Screen 09. Tag on an order under a minute old"
+  },
+  "queueRowSheetPourNow": "Pour now",
+  "@queueRowSheetPourNow": {
+    "description": "Flow 06 - Order & pour. Screen 09. In line row's tap sheet, primary action"
+  },
+  "queueSkipConfirmTitle": "Skip {name}?",
+  "@queueSkipConfirmTitle": {
+    "description": "Flow 06 - Order & pour. Screen 09. Skip confirmation sheet title",
+    "placeholders": {
+      "name": {"type": "String", "example": "Negroni"}
+    }
+  },
+  "queueSkipConfirmBody": "They'll be told it's not coming. This can't be undone.",
+  "@queueSkipConfirmBody": {
+    "description": "Flow 06 - Order & pour. Screen 09. Skip confirmation sheet body"
+  },
+  "queueSkipConfirmCancel": "Never mind",
+  "@queueSkipConfirmCancel": {
+    "description": "Flow 06 - Order & pour. Screen 09. Skip confirmation sheet dismiss"
+  },
+  "queueStatPoured": "Poured",
+  "@queueStatPoured": {
+    "description": "Flow 06 - Order & pour. Screen 11. Stats card label"
+  },
+  "queueStatAvgWait": "Avg wait",
+  "@queueStatAvgWait": {
+    "description": "Flow 06 - Order & pour. Screen 11. Stats card label"
+  },
+  "queueStatTopDrink": "Top drink",
+  "@queueStatTopDrink": {
+    "description": "Flow 06 - Order & pour. Screen 11. Stats card label"
+  },
+  "queueStatEmpty": "—",
+  "@queueStatEmpty": {
+    "description": "Flow 06 - Order & pour. Screen 11. Stats card value before there is one to show"
+  },
+  "queueEmptyBody": "Nobody's waiting — orders land here the second they're sent.",
+  "@queueEmptyBody": {
+    "description": "Flow 06 - Order & pour. Screens 09/11. Empty queue message"
+  },
+  "queueEmptyShowQr": "Show the QR",
+  "@queueEmptyShowQr": {
+    "description": "Flow 06 - Order & pour. Screens 09/11. Empty queue button that opens the invite QR"
+  },
+  "queuePouringPill": "Pouring · {time}",
+  "@queuePouringPill": {
+    "description": "Flow 06 - Order & pour. Screen 10. Header pill with the running stopwatch",
+    "placeholders": {
+      "time": {"type": "String", "example": "0:42"}
+    }
+  },
+  "queueForGuestPosition": "for {guest} · #{position} in line",
+  "@queueForGuestPosition": {
+    "description": "Flow 06 - Order & pour. Screen 10. Header line, drink is for the sender",
+    "placeholders": {
+      "guest": {"type": "String", "example": "Sam"},
+      "position": {"type": "int", "example": "3"}
+    }
+  },
+  "queueForGuestFromSender": "for {forName} · from {guest}",
+  "@queueForGuestFromSender": {
+    "description": "Flow 06 - Order & pour. Screen 10. Header line, drink is for a friend",
+    "placeholders": {
+      "forName": {"type": "String", "example": "Marta"},
+      "guest": {"type": "String", "example": "Sam"}
+    }
+  },
+  "queueNoteLabel": "{guest} asked for",
+  "@queueNoteLabel": {
+    "description": "Flow 06 - Order & pour. Screen 10. Amber note callout eyebrow",
+    "placeholders": {
+      "guest": {"type": "String", "example": "Sam"}
+    }
+  },
+  "queueHowHostMakesItRow": "{count, plural, =1{How {host} makes it · 1 step} other{How {host} makes it · {count} steps}}",
+  "@queueHowHostMakesItRow": {
+    "description": "Flow 06 - Order & pour. Screen 10. Row that opens the method sheet",
+    "placeholders": {
+      "host": {"type": "String", "example": "Kate"},
+      "count": {"type": "int", "example": "3"}
+    }
+  },
+  "queueReadyBuzz": "Ready — buzz {guest}",
+  "@queueReadyBuzz": {
+    "description": "Flow 06 - Order & pour. Screens 10/10b. Primary button that marks an order ready",
+    "placeholders": {
+      "guest": {"type": "String", "example": "Sam"}
+    }
+  },
+  "queueOutOfSomething": "Out of something",
+  "@queueOutOfSomething": {
+    "description": "Flow 06 - Order & pour. Screen 10. Opens the out-of-stock flow"
+  },
+  "queueCancelOrder": "Cancel order",
+  "@queueCancelOrder": {
+    "description": "Flow 06 - Order & pour. Screen 10. Cancels the order being poured; reused as the confirm sheet's action"
+  },
+  "queueCancelOrderConfirmTitle": "Cancel {name}?",
+  "@queueCancelOrderConfirmTitle": {
+    "description": "Flow 06 - Order & pour. Screen 10. Cancel confirmation sheet title",
+    "placeholders": {
+      "name": {"type": "String", "example": "Gin & Tonic"}
+    }
+  },
+  "queueCancelOrderConfirmBody": "{guest} will be told it's cancelled. This can't be undone.",
+  "@queueCancelOrderConfirmBody": {
+    "description": "Flow 06 - Order & pour. Screen 10. Cancel confirmation sheet body",
+    "placeholders": {
+      "guest": {"type": "String", "example": "Sam"}
+    }
+  },
+  "queueCancelOrderConfirmKeep": "Keep pouring",
+  "@queueCancelOrderConfirmKeep": {
+    "description": "Flow 06 - Order & pour. Screen 10. Cancel confirmation sheet dismiss"
+  },
+  "queueMethodSheetTitle": "How {host} makes it",
+  "@queueMethodSheetTitle": {
+    "description": "Flow 06 - Order & pour. Screen 10b. Sheet title",
+    "placeholders": {
+      "host": {"type": "String", "example": "Kate"}
+    }
+  },
+  "queueMethodSubtitle": "{cocktail} · {method}",
+  "@queueMethodSubtitle": {
+    "description": "Flow 06 - Order & pour. Screen 10b. Sheet subtitle",
+    "placeholders": {
+      "cocktail": {"type": "String", "example": "Midnight Orchard"},
+      "method": {"type": "String", "example": "Shaken"}
+    }
+  },
+  "queueMethodMinutes": "~{minutes} min",
+  "@queueMethodMinutes": {
+    "description": "Flow 06 - Order & pour. Screen 10b. Prep time chip",
+    "placeholders": {
+      "minutes": {"type": "int", "example": "3"}
+    }
+  },
+  "queueMethodTimerSeconds": "{seconds} s",
+  "@queueMethodTimerSeconds": {
+    "description": "Flow 06 - Order & pour. Screen 10b. Countdown chip on a timed step",
+    "placeholders": {
+      "seconds": {"type": "int", "example": "12"}
+    }
+  },
+  "queueWhatRanOutTitle": "What ran out?",
+  "@queueWhatRanOutTitle": {
+    "description": "Flow 06 - Order & pour. Screen 12. First sheet's title, for a multi-ingredient drink"
+  },
+  "queueOutOfTitle": "Out of {ingredient}?",
+  "@queueOutOfTitle": {
+    "description": "Flow 06 - Order & pour. Screen 12. Out-of sheet title",
+    "placeholders": {
+      "ingredient": {"type": "String", "example": "gin"}
+    }
+  },
+  "queueOutOfSubtitle": "Bottle's empty · {count, plural, =1{1 drink uses it} other{{count} drinks use it}}",
+  "@queueOutOfSubtitle": {
+    "description": "Flow 06 - Order & pour. Screen 12. Out-of sheet subtitle",
+    "placeholders": {
+      "count": {"type": "int", "example": "2"}
+    }
+  },
+  "queueWaitingInQueue": "{count, plural, =0{nobody waiting} =1{1 waiting in the queue} other{{count} waiting in the queue}}",
+  "@queueWaitingInQueue": {
+    "description": "Flow 06 - Order & pour. Screen 12. Per-drink row detail",
+    "placeholders": {
+      "count": {"type": "int", "example": "1"}
+    }
+  },
+  "queueGuestsToldTitle": "{guest} gets told, with options",
+  "@queueGuestsToldTitle": {
+    "description": "Flow 06 - Order & pour. Screen 12. Amber aside title, naming the first affected guest",
+    "placeholders": {
+      "guest": {"type": "String", "example": "Sam"}
+    }
+  },
+  "queueGuestsToldGeneric": "Guests get told, with options",
+  "@queueGuestsToldGeneric": {
+    "description": "Flow 06 - Order & pour. Screen 12. Amber aside title when nobody is waiting yet"
+  },
+  "queueGuestsToldBody": "“{host} ran out of {ingredient}” — plus drinks still pourable, one tap to swap.",
+  "@queueGuestsToldBody": {
+    "description": "Flow 06 - Order & pour. Screen 12. Amber aside detail",
+    "placeholders": {
+      "host": {"type": "String", "example": "Kate"},
+      "ingredient": {"type": "String", "example": "gin"}
+    }
+  },
+  "queuePullDrinks": "{count, plural, =1{Pull 1 drink from the menu} other{Pull {count} drinks from the menu}}",
+  "@queuePullDrinks": {
+    "description": "Flow 06 - Order & pour. Screen 12. Primary button",
+    "placeholders": {
+      "count": {"type": "int", "example": "2"}
+    }
+  },
+  "queueKeepOnMenu": "Only this order — keep them on the menu",
+  "@queueKeepOnMenu": {
+    "description": "Flow 06 - Order & pour. Screen 12. Ghost button that pulls just the order being poured"
+  },
+  "queueOrderLandedTitle": "{guest} ordered {count, plural, =1{1 drink} other{{count} drinks}}",
+  "@queueOrderLandedTitle": {
+    "description": "Flow 06 - Order & pour. Screen 08. Landed-order banner title",
+    "placeholders": {
+      "guest": {"type": "String", "example": "Sam"},
+      "count": {"type": "int", "example": "2"}
+    }
+  },
+  "queueForFriend": "for {name}",
+  "@queueForFriend": {
+    "description": "Flow 06 - Order & pour. Screen 08. Suffix naming who a drink in the landed banner is for",
+    "placeholders": {
+      "name": {"type": "String", "example": "Marta"}
+    }
+  },
+  "queueWaitingOnYouTitle": "Waiting on you",
+  "@queueWaitingOnYouTitle": {
+    "description": "Flow 06 - Order & pour. Screen 08. Card title replacing the menu rail once orders are queued"
+  },
+  "queueInLineBadge": "{count, plural, =1{1 in line} other{{count} in line}}",
+  "@queueInLineBadge": {
+    "description": "Flow 06 - Order & pour. Screen 08. Waiting-on-you card's mono count",
+    "placeholders": {
+      "count": {"type": "int", "example": "4"}
+    }
+  },
+  "queueDrinkForGuest": "{drink} · {guest}",
+  "@queueDrinkForGuest": {
+    "description": "Flow 06 - Order & pour. Screen 08. Waiting-on-you row",
+    "placeholders": {
+      "drink": {"type": "String", "example": "Negroni"},
+      "guest": {"type": "String", "example": "Marta"}
+    }
+  },
+  "roundNavTonight": "Tonight",
+  "@roundNavTonight": {
+    "description": "Flow 06 - Order & pour. Guest shell. Bottom nav label for the arrival/round tab."
+  },
+  "roundNavYourRound": "Your round",
+  "@roundNavYourRound": {
+    "description": "Flow 06 - Order & pour. Guest shell. Bottom nav label for the guest's own orders tab."
+  },
+  "roundPill": "{count, plural, =1{Your round · 1} other{Your round · {count}}}",
+  "@roundPill": {
+    "description": "Flow 06 - Order & pour. Guest shell. Floating pill above the nav bar while a round is being built; reopens screen 02",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "roundPausedTitle": "The bar's paused",
+  "@roundPausedTitle": {
+    "description": "Flow 06 - Order & pour. Guest shell. Title of the minimal paused notice"
+  },
+  "roundPausedBody": "{host} isn't pouring right now — you can browse the menu, but sending is off until it reopens.",
+  "@roundPausedBody": {
+    "description": "Flow 06 - Order & pour. Guest shell. Body of the paused notice",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "roundEndedTitle": "The bar's closed",
+  "@roundEndedTitle": {
+    "description": "Flow 06 - Order & pour. Guest shell. Title of the calm ended state"
+  },
+  "roundEndedBody": "{party} has ended. Thanks for stopping by.",
+  "@roundEndedBody": {
+    "description": "Flow 06 - Order & pour. Guest shell. Body of the ended state",
+    "placeholders": {
+      "party": {
+        "type": "String",
+        "example": "Kate's Birthday"
+      }
+    }
+  },
+  "roundEndedLeave": "Done",
+  "@roundEndedLeave": {
+    "description": "Flow 06 - Order & pour. Guest shell. Way out of the ended state; pops the screen"
+  },
+  "roundBarOpenPill": "Bar open",
+  "@roundBarOpenPill": {
+    "description": "Flow 06 - Order & pour. Screens 01, Tonight arrival. Glass pill over the hero photo"
+  },
+  "roundHostPouring": "{host} is pouring · {count, plural, =1{1 here tonight} other{{count} here tonight}}",
+  "@roundHostPouring": {
+    "description": "Flow 06 - Order & pour. Tonight tab, arrival view. Who is here, counted by distinct guest name",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      },
+      "count": {
+        "type": "int",
+        "example": "7"
+      }
+    }
+  },
+  "roundOnMenuTonight": "On the menu tonight",
+  "@roundOnMenuTonight": {
+    "description": "Flow 06 - Order & pour. Tonight tab, arrival view. Section heading over the menu tiles"
+  },
+  "roundSeeAll": "All {count}",
+  "@roundSeeAll": {
+    "description": "Flow 06 - Order & pour. Tonight tab, arrival view. Link that opens the Menu tab",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "9"
+      }
+    }
+  },
+  "roundPartyOpenGuests": "{count, plural, =1{Bar open · 1 here} other{Bar open · {count} here}}",
+  "@roundPartyOpenGuests": {
+    "description": "Flow 06 - Order & pour. Screen 04/05. Header line under the party name",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "7"
+      }
+    }
+  },
+  "roundYourRoundEyebrow": "Your round",
+  "@roundYourRoundEyebrow": {
+    "description": "Flow 06 - Order & pour. Screen 04. Uppercase eyebrow on the round card"
+  },
+  "roundSentAt": "Sent {time}",
+  "@roundSentAt": {
+    "description": "Flow 06 - Order & pour. Screen 04. Timestamp on the round card, rendered mono/uppercase",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "22:38"
+      }
+    }
+  },
+  "roundYoureNext": "your turn — {drink}",
+  "@roundYoureNext": {
+    "description": "Flow 06 - Order & pour. Screen 04. Shown when the guest's lead order is #1 in line",
+    "placeholders": {
+      "drink": {
+        "type": "String",
+        "example": "Gin & Tonic"
+      }
+    }
+  },
+  "roundInLine": "in line — {drink}",
+  "@roundInLine": {
+    "description": "Flow 06 - Order & pour. Screen 04. Shown when the guest's lead order is not yet #1",
+    "placeholders": {
+      "drink": {
+        "type": "String",
+        "example": "Gin & Tonic"
+      }
+    }
+  },
+  "roundStageSent": "Sent",
+  "@roundStageSent": {
+    "description": "Flow 06 - Order & pour. Screens 04/05. Progress bar segment label"
+  },
+  "roundStageInLine": "In line",
+  "@roundStageInLine": {
+    "description": "Flow 06 - Order & pour. Screens 04/05. Progress bar segment label"
+  },
+  "roundStageMixing": "Mixing",
+  "@roundStageMixing": {
+    "description": "Flow 06 - Order & pour. Screens 04/05. Progress bar segment label"
+  },
+  "roundStageReady": "Ready",
+  "@roundStageReady": {
+    "description": "Flow 06 - Order & pour. Screens 04/05. Progress bar segment label"
+  },
+  "roundOrderPositionInLine": "#{n} in line",
+  "@roundOrderPositionInLine": {
+    "description": "Flow 06 - Order & pour. Screen 04 round-mate row, and the Your round tab status chip",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "roundMixingNow": "Mixing now",
+  "@roundMixingNow": {
+    "description": "Flow 06 - Order & pour. Screen 04/05 round-mate row trailing text, and the screen 05 pill"
+  },
+  "roundStatusMixing": "Mixing",
+  "@roundStatusMixing": {
+    "description": "Flow 06 - Order & pour. Your round tab. Bare status chip label"
+  },
+  "roundStatusReady": "Ready",
+  "@roundStatusReady": {
+    "description": "Flow 06 - Order & pour. Round-mate rows and the Your round tab. Status label"
+  },
+  "roundStatusServed": "Served",
+  "@roundStatusServed": {
+    "description": "Flow 06 - Order & pour. Round-mate rows and the Your round tab. Status label"
+  },
+  "roundStatusCancelled": "Cancelled",
+  "@roundStatusCancelled": {
+    "description": "Flow 06 - Order & pour. Round-mate rows and the Your round tab. Status label"
+  },
+  "roundStatusPulled": "Pulled",
+  "@roundStatusPulled": {
+    "description": "Flow 06 - Order & pour. Round-mate rows and the Your round tab. Status label for a stock pull"
+  },
+  "roundWhileYouWait": "While you wait",
+  "@roundWhileYouWait": {
+    "description": "Flow 06 - Order & pour. Screen 04. Heading over the menu rail"
+  },
+  "roundFullMenu": "Full menu",
+  "@roundFullMenu": {
+    "description": "Flow 06 - Order & pour. Screen 04. Link that opens the Menu tab"
+  },
+  "roundMixingHeadlineMine": "{host}'s pouring your {drink}",
+  "@roundMixingHeadlineMine": {
+    "description": "Flow 06 - Order & pour. Screen 05. Headline when the mixing order is the guest's own",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      },
+      "drink": {
+        "type": "String",
+        "example": "Gin & Tonic"
+      }
+    }
+  },
+  "roundMixingHeadlineFriend": "{host}'s pouring {friend}'s {drink}",
+  "@roundMixingHeadlineFriend": {
+    "description": "Flow 06 - Order & pour. Screen 05. Headline when the mixing order is for a friend",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      },
+      "friend": {
+        "type": "String",
+        "example": "Marta"
+      },
+      "drink": {
+        "type": "String",
+        "example": "Cosmopolitan"
+      }
+    }
+  },
+  "roundCancelLocked": "Too late to cancel — it's already in the glass.",
+  "@roundCancelLocked": {
+    "description": "Flow 06 - Order & pour. Screen 05. Lock aside under the mixing card"
+  },
+  "roundPocketIt": "Pocket it — we'll buzz you when it hits the counter.",
+  "@roundPocketIt": {
+    "description": "Flow 06 - Order & pour. Screen 05. Reassurance aside"
+  },
+  "roundReadySince": "Ready · {elapsed} ago",
+  "@roundReadySince": {
+    "description": "Flow 06 - Order & pour. Screen 07. Ticking pill, rendered uppercase",
+    "placeholders": {
+      "elapsed": {
+        "type": "String",
+        "example": "20s"
+      }
+    }
+  },
+  "roundGrabIt": "Grab it\nwhile it's cold",
+  "@roundGrabIt": {
+    "description": "Flow 06 - Order & pour. Screen 07. The big headline"
+  },
+  "roundReadyLineWithNote": "{drink}, {note} — on the counter with your name on it.",
+  "@roundReadyLineWithNote": {
+    "description": "Flow 06 - Order & pour. Screen 07. Body line when the order carries a note",
+    "placeholders": {
+      "drink": {
+        "type": "String",
+        "example": "Gin & Tonic"
+      },
+      "note": {
+        "type": "String",
+        "example": "heavy on the lime"
+      }
+    }
+  },
+  "roundReadyLineNoNote": "{drink} — on the counter with your name on it.",
+  "@roundReadyLineNoNote": {
+    "description": "Flow 06 - Order & pour. Screen 07. Body line when the order carries no note",
+    "placeholders": {
+      "drink": {
+        "type": "String",
+        "example": "Gin & Tonic"
+      }
+    }
+  },
+  "roundOnMyWay": "On my way",
+  "@roundOnMyWay": {
+    "description": "Flow 06 - Order & pour. Screen 07. Primary button; acknowledges locally only"
+  },
+  "roundServedFootnote": "{host} marks it served when it's handed over.",
+  "@roundServedFootnote": {
+    "description": "Flow 06 - Order & pour. Screen 07. Footnote under the primary button",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "roundPulledPill": "Pulled from the menu",
+  "@roundPulledPill": {
+    "description": "Flow 06 - Order & pour. Screen 13. Uppercase pill on the amber card"
+  },
+  "roundPulledTitle": "{host} ran out of {ingredient}",
+  "@roundPulledTitle": {
+    "description": "Flow 06 - Order & pour. Screen 13. Headline naming what ran out",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      },
+      "ingredient": {
+        "type": "String",
+        "example": "gin"
+      }
+    }
+  },
+  "roundPulledIntro": "Your {drink} is off the list.",
+  "@roundPulledIntro": {
+    "description": "Flow 06 - Order & pour. Screen 13. First sentence of the body, naming the pulled drink",
+    "placeholders": {
+      "drink": {
+        "type": "String",
+        "example": "Gin & Tonic"
+      }
+    }
+  },
+  "roundOthersLabelMine": "Your {drink}",
+  "@roundOthersLabelMine": {
+    "description": "Flow 06 - Order & pour. Screen 13. Label for a round-mate order that is the guest's own",
+    "placeholders": {
+      "drink": {
+        "type": "String",
+        "example": "Cosmopolitan"
+      }
+    }
+  },
+  "roundOthersLabelFriend": "{friend}'s {drink}",
+  "@roundOthersLabelFriend": {
+    "description": "Flow 06 - Order & pour. Screen 13. Label for a round-mate order sent for a friend",
+    "placeholders": {
+      "friend": {
+        "type": "String",
+        "example": "Marta"
+      },
+      "drink": {
+        "type": "String",
+        "example": "Cosmopolitan"
+      }
+    }
+  },
+  "roundStillComingAt": "{label} is still coming — #{position} in line.",
+  "@roundStillComingAt": {
+    "description": "Flow 06 - Order & pour. Screen 13. Second sentence of the body, naming what else in the round survives",
+    "placeholders": {
+      "label": {
+        "type": "String",
+        "example": "Marta's Cosmopolitan"
+      },
+      "position": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "roundSwapTitle": "Swap it for",
+  "@roundSwapTitle": {
+    "description": "Flow 06 - Order & pour. Screen 13. Heading over the swap suggestions"
+  },
+  "roundSwapSubtitle": "Still pourable right now",
+  "@roundSwapSubtitle": {
+    "description": "Flow 06 - Order & pour. Screen 13. Subline under the swap heading"
+  },
+  "roundSwapMateLabel": "What {friend}'s having",
+  "@roundSwapMateLabel": {
+    "description": "Flow 06 - Order & pour. Screen 13. Sub-label on a swap suggestion a round-mate already ordered",
+    "placeholders": {
+      "friend": {
+        "type": "String",
+        "example": "Marta"
+      }
+    }
+  },
+  "roundSwapIn": "Swap in",
+  "@roundSwapIn": {
+    "description": "Flow 06 - Order & pour. Screen 13. Button that sends a one-drink round for the suggestion"
+  },
+  "roundNothingForNow": "Nothing for now, thanks",
+  "@roundNothingForNow": {
+    "description": "Flow 06 - Order & pour. Screen 13. Dismisses the pull without swapping"
+  },
+  "roundSwapFailed": "Couldn't send the swap — try again.",
+  "@roundSwapFailed": {
+    "description": "Flow 06 - Order & pour. Screen 13. Snackbar when Swap in fails"
+  },
+  "roundMenuEmptyTitle": "Nothing on the menu",
+  "@roundMenuEmptyTitle": {
+    "description": "Flow 06 - Order & pour. Menu tab. Calm empty state title"
+  },
+  "roundMenuEmptyBody": "{host} hasn't added any drinks yet.",
+  "@roundMenuEmptyBody": {
+    "description": "Flow 06 - Order & pour. Menu tab. Calm empty state body",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "roundMenuLoading": "Loading the menu…",
+  "@roundMenuLoading": {
+    "description": "Flow 06 - Order & pour. Menu tab. Calm loading state, never a bare spinner"
+  },
+  "roundIngredientsCount": "{n, plural, =1{1 ingredient} other{{n} ingredients}}",
+  "@roundIngredientsCount": {
+    "description": "Flow 06 - Order & pour. Screen 01. Chip under the hero title",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "roundWhosItFor": "Who's it for",
+  "@roundWhosItFor": {
+    "description": "Flow 06 - Order & pour. Screen 01. Uppercase eyebrow over the who-chips"
+  },
+  "roundMe": "Me",
+  "@roundMe": {
+    "description": "Flow 06 - Order & pour. Screen 01. Default who-chip, the sender themself"
+  },
+  "roundSomeoneElse": "Someone else",
+  "@roundSomeoneElse": {
+    "description": "Flow 06 - Order & pour. Screen 01. Who-chip that opens the friend-name sheet"
+  },
+  "roundSomeoneElseTitle": "Who's it for?",
+  "@roundSomeoneElseTitle": {
+    "description": "Flow 06 - Order & pour. Screen 01. Title of the friend-name sheet"
+  },
+  "roundSomeoneElseHint": "Friend's name",
+  "@roundSomeoneElseHint": {
+    "description": "Flow 06 - Order & pour. Screen 01. Text field hint in the friend-name sheet"
+  },
+  "roundSomeoneElseAdd": "Add",
+  "@roundSomeoneElseAdd": {
+    "description": "Flow 06 - Order & pour. Screen 01. Confirms the friend-name sheet"
+  },
+  "roundHowMany": "How many",
+  "@roundHowMany": {
+    "description": "Flow 06 - Order & pour. Screen 01. Stepper card title"
+  },
+  "roundHowManySub": "Each one queues on its own",
+  "@roundHowManySub": {
+    "description": "Flow 06 - Order & pour. Screen 01. Stepper card subtitle"
+  },
+  "roundNoteHint": "Heavy on the lime, no straw…",
+  "@roundNoteHint": {
+    "description": "Flow 06 - Order & pour. Screen 01. Placeholder text in the note row before one is entered"
+  },
+  "roundAddNote": "Add note",
+  "@roundAddNote": {
+    "description": "Flow 06 - Order & pour. Screen 01. Trailing link on the note row when empty"
+  },
+  "roundEditNote": "Edit",
+  "@roundEditNote": {
+    "description": "Flow 06 - Order & pour. Screen 01. Trailing link on the note row once a note exists"
+  },
+  "roundNoteSheetTitle": "Add a note",
+  "@roundNoteSheetTitle": {
+    "description": "Flow 06 - Order & pour. Screen 01. Title of the note-entry sheet"
+  },
+  "roundNoteSheetHint": "e.g. heavy on the lime, no straw",
+  "@roundNoteSheetHint": {
+    "description": "Flow 06 - Order & pour. Screen 01. Text field hint in the note-entry sheet"
+  },
+  "roundNoteSheetSave": "Save",
+  "@roundNoteSheetSave": {
+    "description": "Flow 06 - Order & pour. Screen 01. Confirms the note-entry sheet"
+  },
+  "roundAheadBold": "{n} ahead of you",
+  "@roundAheadBold": {
+    "description": "Flow 06 - Order & pour. Screen 01. Bold lead-in of the queue aside",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "roundAheadRest": " in {host}'s queue right now.",
+  "@roundAheadRest": {
+    "description": "Flow 06 - Order & pour. Screen 01. Rest of the queue aside sentence, appended after roundAheadBold",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "roundAddToRound": "Add to round",
+  "@roundAddToRound": {
+    "description": "Flow 06 - Order & pour. Screen 01. Primary button"
+  },
+  "roundYourRoundTitle": "Your round",
+  "@roundYourRoundTitle": {
+    "description": "Flow 06 - Order & pour. Screen 02 and the Your round tab. Title"
+  },
+  "roundPoursOneAtATime": "{host} pours one at a time",
+  "@roundPoursOneAtATime": {
+    "description": "Flow 06 - Order & pour. Screen 02. Subtitle under the title",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "roundDrinksCount": "{n, plural, =1{1 drink} other{{n} drinks}}",
+  "@roundDrinksCount": {
+    "description": "Flow 06 - Order & pour. Screen 02. Mono count, rendered uppercase",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "roundForYou": "for you",
+  "@roundForYou": {
+    "description": "Flow 06 - Order & pour. Screen 02 row. Who the drink is for, the sender"
+  },
+  "roundForFriend": "for {name}",
+  "@roundForFriend": {
+    "description": "Flow 06 - Order & pour. Screen 02 row. Who the drink is for, a friend",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Marta"
+      }
+    }
+  },
+  "roundAheadSendingSingle": "{ahead} ahead of you. Sending puts you at #{position}.",
+  "@roundAheadSendingSingle": {
+    "description": "Flow 06 - Order & pour. Screen 02. Aside when the round has one drink",
+    "placeholders": {
+      "ahead": {
+        "type": "int",
+        "example": "2"
+      },
+      "position": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "roundAheadSendingRange": "{ahead} ahead of you. Sending puts you at #{a}–#{b}.",
+  "@roundAheadSendingRange": {
+    "description": "Flow 06 - Order & pour. Screen 02. Aside when the round has several drinks",
+    "placeholders": {
+      "ahead": {
+        "type": "int",
+        "example": "2"
+      },
+      "a": {
+        "type": "int",
+        "example": "3"
+      },
+      "b": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "roundSendTo": "Send to {host}",
+  "@roundSendTo": {
+    "description": "Flow 06 - Order & pour. Screen 02. Primary button, host's first name",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "roundAddOneMore": "Add one more",
+  "@roundAddOneMore": {
+    "description": "Flow 06 - Order & pour. Screen 02. Closes the sheet to add another drink"
+  },
+  "roundSendFailed": "Couldn't send your round — try again.",
+  "@roundSendFailed": {
+    "description": "Flow 06 - Order & pour. Screen 02. Snackbar on a failed send"
+  },
+  "roundOrdersIn": "Order's in",
+  "@roundOrdersIn": {
+    "description": "Flow 06 - Order & pour. Screen 03. Headline"
+  },
+  "roundOrdersInBody": "{count, plural, =1{One drink in {host}'s queue. We'll buzz you the second it's ready.} other{{count} drinks in {host}'s queue. We'll buzz you the second one of them is ready.}}",
+  "@roundOrdersInBody": {
+    "description": "Flow 06 - Order & pour. Screen 03. Body under the headline",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      },
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "roundInLineTag": "in line",
+  "@roundInLineTag": {
+    "description": "Flow 06 - Order & pour. Screen 03. Small label under each glass tile's position"
+  },
+  "roundBackToMenu": "Back to the menu",
+  "@roundBackToMenu": {
+    "description": "Flow 06 - Order & pour. Screen 03. Primary button"
+  },
+  "roundCancelRound": "Cancel the round",
+  "@roundCancelRound": {
+    "description": "Flow 06 - Order & pour. Screen 03. Secondary action"
+  },
+  "roundCancelRoundFootnote": "You can pull an order out until {host} starts pouring it.",
+  "@roundCancelRoundFootnote": {
+    "description": "Flow 06 - Order & pour. Screen 03. Footnote under Cancel the round",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "roundCancelRoundKept": "{n, plural, =1{One order was already pouring and stayed.} other{{n} orders were already pouring and stayed.}}",
+  "@roundCancelRoundKept": {
+    "description": "Flow 06 - Order & pour. Screen 03. Snackbar after Cancel the round when some orders could not be pulled",
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "roundTonightSummary": "{total, plural, =1{1 tonight} other{{total} tonight}} · {coming, plural, =1{1 still coming} other{{coming} still coming}}",
+  "@roundTonightSummary": {
+    "description": "Flow 06 - Order & pour. Your round tab. Summary line under the title",
+    "placeholders": {
+      "total": {
+        "type": "int",
+        "example": "3"
+      },
+      "coming": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "roundYoureTonight": "You're {name} tonight",
+  "@roundYoureTonight": {
+    "description": "Flow 06 - Order & pour. Your round tab. Identity reassurance card",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Sam"
+      }
+    }
+  },
+  "roundBuzzNow": "now",
+  "@roundBuzzNow": {
+    "description": "Flow 06 - Order & pour. The buzz banner. Timestamp label"
+  },
+  "roundBuzzReadyMine": "Your {drink} is ready",
+  "@roundBuzzReadyMine": {
+    "description": "Flow 06 - Order & pour. The buzz banner. Headline when the ready order is the guest's own",
+    "placeholders": {
+      "drink": {
+        "type": "String",
+        "example": "Gin & Tonic"
+      }
+    }
+  },
+  "roundBuzzReadyFriend": "{friend}'s {drink} is ready",
+  "@roundBuzzReadyFriend": {
+    "description": "Flow 06 - Order & pour. The buzz banner. Headline when the ready order is for a friend",
+    "placeholders": {
+      "friend": {
+        "type": "String",
+        "example": "Marta"
+      },
+      "drink": {
+        "type": "String",
+        "example": "Cosmopolitan"
+      }
+    }
+  },
+  "roundBuzzBody": "On the counter at {party}.",
+  "@roundBuzzBody": {
+    "description": "Flow 06 - Order & pour. The buzz banner. First clause of the body",
+    "placeholders": {
+      "party": {
+        "type": "String",
+        "example": "Kate's Birthday"
+      }
+    }
+  },
+  "roundBuzzNextUp": "{drink} is next up.",
+  "@roundBuzzNextUp": {
+    "description": "Flow 06 - Order & pour. The buzz banner. Second clause, appended when another round drink is still coming",
+    "placeholders": {
+      "drink": {
+        "type": "String",
+        "example": "Cosmopolitan"
+      }
+    }
+  },
+  "roundCancelTooLate": "Too late — it's already being poured.",
+  "@roundCancelTooLate": {
+    "description": "Flow 06 - Order & pour. Any screen. Snackbar when a single-order cancel loses the race to the host"
+  },
+  "roundSendingPaused": "Sending is off while the bar's paused.",
+  "@roundSendingPaused": {
+    "description": "Flow 06 - Order & pour. Screens 01/02. Reason shown when the primary send action is disabled"
+  },
+  "roundBack": "Back",
+  "@roundBack": {
+    "description": "Flow 06 - Order & pour. Screen 01. Tooltip for the glass back button"
   }
 }

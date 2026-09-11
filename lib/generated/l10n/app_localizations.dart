@@ -4207,6 +4207,990 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pause the bar instead'**
   String get hostPauseInstead;
+
+  /// Flow 06 - Order & pour. Screens 09/11. The queue screen's title
+  ///
+  /// In en, this message translates to:
+  /// **'The bar'**
+  String get queueBarTitle;
+
+  /// Flow 06 - Order & pour. Screens 09/11. Semantics for the header back button
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get queueBack;
+
+  /// Flow 06 - Order & pour. Screens 09/11. Semantics/tooltip for the pause icon while the bar is active
+  ///
+  /// In en, this message translates to:
+  /// **'Pause the bar'**
+  String get queuePause;
+
+  /// Flow 06 - Order & pour. Screen 09. Header subline when nothing is on the counter
+  ///
+  /// In en, this message translates to:
+  /// **'{inLine} in line · {poured} poured tonight'**
+  String queueSublineInLine(int inLine, int poured);
+
+  /// Flow 06 - Order & pour. Screen 11. Header subline once something is ready
+  ///
+  /// In en, this message translates to:
+  /// **'{onCounter} on the counter · {inLine} in line'**
+  String queueSublineOnCounter(int onCounter, int inLine);
+
+  /// Flow 06 - Order & pour. Screens 09/11. Amber paused row title
+  ///
+  /// In en, this message translates to:
+  /// **'Guests can\'t order right now'**
+  String get queuePausedRowTitle;
+
+  /// Flow 06 - Order & pour. Screens 09/11. Amber paused row body
+  ///
+  /// In en, this message translates to:
+  /// **'The bar is paused — reopen it whenever you\'re ready.'**
+  String get queuePausedRowBody;
+
+  /// Flow 06 - Order & pour. Screen 11. Section eyebrow
+  ///
+  /// In en, this message translates to:
+  /// **'On the counter'**
+  String get queueOnTheCounterEyebrow;
+
+  /// Flow 06 - Order & pour. Screen 11. On-the-counter row, drink is for the sender
+  ///
+  /// In en, this message translates to:
+  /// **'{guest} · buzzed {wait} ago'**
+  String queueGuestBuzzed(String guest, String wait);
+
+  /// Flow 06 - Order & pour. Screen 11. On-the-counter row, drink is for a friend
+  ///
+  /// In en, this message translates to:
+  /// **'{guest}, for {forName} · buzzed {wait} ago'**
+  String queueGuestBuzzedForFriend(String guest, String forName, String wait);
+
+  /// Flow 06 - Order & pour. Screen 11. Primary button that marks an order served
+  ///
+  /// In en, this message translates to:
+  /// **'Handed it over'**
+  String get queueHandedOver;
+
+  /// Flow 06 - Order & pour. Screen 11. Re-sends the ready notification
+  ///
+  /// In en, this message translates to:
+  /// **'Buzz again'**
+  String get queueBuzzAgain;
+
+  /// Flow 06 - Order & pour. Screen 11. Undoes a ready put up by mistake
+  ///
+  /// In en, this message translates to:
+  /// **'Back to mixing'**
+  String get queueBackToMixing;
+
+  /// Flow 06 - Order & pour. Screen 11. Snackbar after Buzz again
+  ///
+  /// In en, this message translates to:
+  /// **'Buzzed {guest} again'**
+  String queueBuzzedAgainSnack(String guest);
+
+  /// Flow 06 - Order & pour. Screens 09/11. Section eyebrow for orders being poured
+  ///
+  /// In en, this message translates to:
+  /// **'Pouring now'**
+  String get queuePouringEyebrow;
+
+  /// Flow 06 - Order & pour. Screen 09. Section eyebrow
+  ///
+  /// In en, this message translates to:
+  /// **'Next up'**
+  String get queueNextUpEyebrow;
+
+  /// Flow 06 - Order & pour. Screens 09/11. Next up / in line row, drink is for the sender
+  ///
+  /// In en, this message translates to:
+  /// **'{guest} · waiting {wait}'**
+  String queueGuestWaiting(String guest, String wait);
+
+  /// Flow 06 - Order & pour. Screens 09/11. Next up / in line row, drink is for a friend
+  ///
+  /// In en, this message translates to:
+  /// **'{guest}, for {forName} · waiting {wait}'**
+  String queueGuestWaitingForFriend(String guest, String forName, String wait);
+
+  /// Flow 06 - Order & pour. Screen 09. Next up primary button
+  ///
+  /// In en, this message translates to:
+  /// **'Start pouring'**
+  String get queueStartPouring;
+
+  /// Flow 06 - Order & pour. Screens 09/11/10. Skips an order; reused as the row sheet and skip-confirm actions
+  ///
+  /// In en, this message translates to:
+  /// **'Skip · can\'t make it'**
+  String get queueSkipCantMake;
+
+  /// Flow 06 - Order & pour. Screen 09. Next up chip: ingredient count and build method
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 ingredient} other{{count} ingredients}} · {method}'**
+  String queueIngredientsMethodChip(int count, String method);
+
+  /// Flow 06 - Order & pour. Screens 08/09/10/11. Short pour action label, reused as the pour eyebrow
+  ///
+  /// In en, this message translates to:
+  /// **'Pour'**
+  String get queuePourPill;
+
+  /// Flow 06 - Order & pour. Screen 09. In line section eyebrow
+  ///
+  /// In en, this message translates to:
+  /// **'In line · {count}'**
+  String queueInLineHeader(int count);
+
+  /// Flow 06 - Order & pour. Screen 09. In line section's sort note
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest first'**
+  String get queueOldestFirst;
+
+  /// Flow 06 - Order & pour. Screen 09. Tag on an order under a minute old
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get queueNewTag;
+
+  /// Flow 06 - Order & pour. Screen 09. In line row's tap sheet, primary action
+  ///
+  /// In en, this message translates to:
+  /// **'Pour now'**
+  String get queueRowSheetPourNow;
+
+  /// Flow 06 - Order & pour. Screen 09. Skip confirmation sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Skip {name}?'**
+  String queueSkipConfirmTitle(String name);
+
+  /// Flow 06 - Order & pour. Screen 09. Skip confirmation sheet body
+  ///
+  /// In en, this message translates to:
+  /// **'They\'ll be told it\'s not coming. This can\'t be undone.'**
+  String get queueSkipConfirmBody;
+
+  /// Flow 06 - Order & pour. Screen 09. Skip confirmation sheet dismiss
+  ///
+  /// In en, this message translates to:
+  /// **'Never mind'**
+  String get queueSkipConfirmCancel;
+
+  /// Flow 06 - Order & pour. Screen 11. Stats card label
+  ///
+  /// In en, this message translates to:
+  /// **'Poured'**
+  String get queueStatPoured;
+
+  /// Flow 06 - Order & pour. Screen 11. Stats card label
+  ///
+  /// In en, this message translates to:
+  /// **'Avg wait'**
+  String get queueStatAvgWait;
+
+  /// Flow 06 - Order & pour. Screen 11. Stats card label
+  ///
+  /// In en, this message translates to:
+  /// **'Top drink'**
+  String get queueStatTopDrink;
+
+  /// Flow 06 - Order & pour. Screen 11. Stats card value before there is one to show
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get queueStatEmpty;
+
+  /// Flow 06 - Order & pour. Screens 09/11. Empty queue message
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody\'s waiting — orders land here the second they\'re sent.'**
+  String get queueEmptyBody;
+
+  /// Flow 06 - Order & pour. Screens 09/11. Empty queue button that opens the invite QR
+  ///
+  /// In en, this message translates to:
+  /// **'Show the QR'**
+  String get queueEmptyShowQr;
+
+  /// Flow 06 - Order & pour. Screen 10. Header pill with the running stopwatch
+  ///
+  /// In en, this message translates to:
+  /// **'Pouring · {time}'**
+  String queuePouringPill(String time);
+
+  /// Flow 06 - Order & pour. Screen 10. Header line, drink is for the sender
+  ///
+  /// In en, this message translates to:
+  /// **'for {guest} · #{position} in line'**
+  String queueForGuestPosition(String guest, int position);
+
+  /// Flow 06 - Order & pour. Screen 10. Header line, drink is for a friend
+  ///
+  /// In en, this message translates to:
+  /// **'for {forName} · from {guest}'**
+  String queueForGuestFromSender(String forName, String guest);
+
+  /// Flow 06 - Order & pour. Screen 10. Amber note callout eyebrow
+  ///
+  /// In en, this message translates to:
+  /// **'{guest} asked for'**
+  String queueNoteLabel(String guest);
+
+  /// Flow 06 - Order & pour. Screen 10. Row that opens the method sheet
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{How {host} makes it · 1 step} other{How {host} makes it · {count} steps}}'**
+  String queueHowHostMakesItRow(String host, int count);
+
+  /// Flow 06 - Order & pour. Screens 10/10b. Primary button that marks an order ready
+  ///
+  /// In en, this message translates to:
+  /// **'Ready — buzz {guest}'**
+  String queueReadyBuzz(String guest);
+
+  /// Flow 06 - Order & pour. Screen 10. Opens the out-of-stock flow
+  ///
+  /// In en, this message translates to:
+  /// **'Out of something'**
+  String get queueOutOfSomething;
+
+  /// Flow 06 - Order & pour. Screen 10. Cancels the order being poured; reused as the confirm sheet's action
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel order'**
+  String get queueCancelOrder;
+
+  /// Flow 06 - Order & pour. Screen 10. Cancel confirmation sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel {name}?'**
+  String queueCancelOrderConfirmTitle(String name);
+
+  /// Flow 06 - Order & pour. Screen 10. Cancel confirmation sheet body
+  ///
+  /// In en, this message translates to:
+  /// **'{guest} will be told it\'s cancelled. This can\'t be undone.'**
+  String queueCancelOrderConfirmBody(String guest);
+
+  /// Flow 06 - Order & pour. Screen 10. Cancel confirmation sheet dismiss
+  ///
+  /// In en, this message translates to:
+  /// **'Keep pouring'**
+  String get queueCancelOrderConfirmKeep;
+
+  /// Flow 06 - Order & pour. Screen 10b. Sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'How {host} makes it'**
+  String queueMethodSheetTitle(String host);
+
+  /// Flow 06 - Order & pour. Screen 10b. Sheet subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'{cocktail} · {method}'**
+  String queueMethodSubtitle(String cocktail, String method);
+
+  /// Flow 06 - Order & pour. Screen 10b. Prep time chip
+  ///
+  /// In en, this message translates to:
+  /// **'~{minutes} min'**
+  String queueMethodMinutes(int minutes);
+
+  /// Flow 06 - Order & pour. Screen 10b. Countdown chip on a timed step
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} s'**
+  String queueMethodTimerSeconds(int seconds);
+
+  /// Flow 06 - Order & pour. Screen 12. First sheet's title, for a multi-ingredient drink
+  ///
+  /// In en, this message translates to:
+  /// **'What ran out?'**
+  String get queueWhatRanOutTitle;
+
+  /// Flow 06 - Order & pour. Screen 12. Out-of sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Out of {ingredient}?'**
+  String queueOutOfTitle(String ingredient);
+
+  /// Flow 06 - Order & pour. Screen 12. Out-of sheet subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Bottle\'s empty · {count, plural, =1{1 drink uses it} other{{count} drinks use it}}'**
+  String queueOutOfSubtitle(int count);
+
+  /// Flow 06 - Order & pour. Screen 12. Per-drink row detail
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{nobody waiting} =1{1 waiting in the queue} other{{count} waiting in the queue}}'**
+  String queueWaitingInQueue(int count);
+
+  /// Flow 06 - Order & pour. Screen 12. Amber aside title, naming the first affected guest
+  ///
+  /// In en, this message translates to:
+  /// **'{guest} gets told, with options'**
+  String queueGuestsToldTitle(String guest);
+
+  /// Flow 06 - Order & pour. Screen 12. Amber aside title when nobody is waiting yet
+  ///
+  /// In en, this message translates to:
+  /// **'Guests get told, with options'**
+  String get queueGuestsToldGeneric;
+
+  /// Flow 06 - Order & pour. Screen 12. Amber aside detail
+  ///
+  /// In en, this message translates to:
+  /// **'“{host} ran out of {ingredient}” — plus drinks still pourable, one tap to swap.'**
+  String queueGuestsToldBody(String host, String ingredient);
+
+  /// Flow 06 - Order & pour. Screen 12. Primary button
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Pull 1 drink from the menu} other{Pull {count} drinks from the menu}}'**
+  String queuePullDrinks(int count);
+
+  /// Flow 06 - Order & pour. Screen 12. Ghost button that pulls just the order being poured
+  ///
+  /// In en, this message translates to:
+  /// **'Only this order — keep them on the menu'**
+  String get queueKeepOnMenu;
+
+  /// Flow 06 - Order & pour. Screen 08. Landed-order banner title
+  ///
+  /// In en, this message translates to:
+  /// **'{guest} ordered {count, plural, =1{1 drink} other{{count} drinks}}'**
+  String queueOrderLandedTitle(String guest, int count);
+
+  /// Flow 06 - Order & pour. Screen 08. Suffix naming who a drink in the landed banner is for
+  ///
+  /// In en, this message translates to:
+  /// **'for {name}'**
+  String queueForFriend(String name);
+
+  /// Flow 06 - Order & pour. Screen 08. Card title replacing the menu rail once orders are queued
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting on you'**
+  String get queueWaitingOnYouTitle;
+
+  /// Flow 06 - Order & pour. Screen 08. Waiting-on-you card's mono count
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 in line} other{{count} in line}}'**
+  String queueInLineBadge(int count);
+
+  /// Flow 06 - Order & pour. Screen 08. Waiting-on-you row
+  ///
+  /// In en, this message translates to:
+  /// **'{drink} · {guest}'**
+  String queueDrinkForGuest(String drink, String guest);
+
+  /// Flow 06 - Order & pour. Guest shell. Bottom nav label for the arrival/round tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Tonight'**
+  String get roundNavTonight;
+
+  /// Flow 06 - Order & pour. Guest shell. Bottom nav label for the guest's own orders tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Your round'**
+  String get roundNavYourRound;
+
+  /// Flow 06 - Order & pour. Guest shell. Floating pill above the nav bar while a round is being built; reopens screen 02
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Your round · 1} other{Your round · {count}}}'**
+  String roundPill(int count);
+
+  /// Flow 06 - Order & pour. Guest shell. Title of the minimal paused notice
+  ///
+  /// In en, this message translates to:
+  /// **'The bar\'s paused'**
+  String get roundPausedTitle;
+
+  /// Flow 06 - Order & pour. Guest shell. Body of the paused notice
+  ///
+  /// In en, this message translates to:
+  /// **'{host} isn\'t pouring right now — you can browse the menu, but sending is off until it reopens.'**
+  String roundPausedBody(String host);
+
+  /// Flow 06 - Order & pour. Guest shell. Title of the calm ended state
+  ///
+  /// In en, this message translates to:
+  /// **'The bar\'s closed'**
+  String get roundEndedTitle;
+
+  /// Flow 06 - Order & pour. Guest shell. Body of the ended state
+  ///
+  /// In en, this message translates to:
+  /// **'{party} has ended. Thanks for stopping by.'**
+  String roundEndedBody(String party);
+
+  /// Flow 06 - Order & pour. Guest shell. Way out of the ended state; pops the screen
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get roundEndedLeave;
+
+  /// Flow 06 - Order & pour. Screens 01, Tonight arrival. Glass pill over the hero photo
+  ///
+  /// In en, this message translates to:
+  /// **'Bar open'**
+  String get roundBarOpenPill;
+
+  /// Flow 06 - Order & pour. Tonight tab, arrival view. Who is here, counted by distinct guest name
+  ///
+  /// In en, this message translates to:
+  /// **'{host} is pouring · {count, plural, =1{1 here tonight} other{{count} here tonight}}'**
+  String roundHostPouring(String host, int count);
+
+  /// Flow 06 - Order & pour. Tonight tab, arrival view. Section heading over the menu tiles
+  ///
+  /// In en, this message translates to:
+  /// **'On the menu tonight'**
+  String get roundOnMenuTonight;
+
+  /// Flow 06 - Order & pour. Tonight tab, arrival view. Link that opens the Menu tab
+  ///
+  /// In en, this message translates to:
+  /// **'All {count}'**
+  String roundSeeAll(int count);
+
+  /// Flow 06 - Order & pour. Screen 04/05. Header line under the party name
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Bar open · 1 here} other{Bar open · {count} here}}'**
+  String roundPartyOpenGuests(int count);
+
+  /// Flow 06 - Order & pour. Screen 04. Uppercase eyebrow on the round card
+  ///
+  /// In en, this message translates to:
+  /// **'Your round'**
+  String get roundYourRoundEyebrow;
+
+  /// Flow 06 - Order & pour. Screen 04. Timestamp on the round card, rendered mono/uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Sent {time}'**
+  String roundSentAt(String time);
+
+  /// Flow 06 - Order & pour. Screen 04. Shown when the guest's lead order is #1 in line
+  ///
+  /// In en, this message translates to:
+  /// **'your turn — {drink}'**
+  String roundYoureNext(String drink);
+
+  /// Flow 06 - Order & pour. Screen 04. Shown when the guest's lead order is not yet #1
+  ///
+  /// In en, this message translates to:
+  /// **'in line — {drink}'**
+  String roundInLine(String drink);
+
+  /// Flow 06 - Order & pour. Screens 04/05. Progress bar segment label
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get roundStageSent;
+
+  /// Flow 06 - Order & pour. Screens 04/05. Progress bar segment label
+  ///
+  /// In en, this message translates to:
+  /// **'In line'**
+  String get roundStageInLine;
+
+  /// Flow 06 - Order & pour. Screens 04/05. Progress bar segment label
+  ///
+  /// In en, this message translates to:
+  /// **'Mixing'**
+  String get roundStageMixing;
+
+  /// Flow 06 - Order & pour. Screens 04/05. Progress bar segment label
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get roundStageReady;
+
+  /// Flow 06 - Order & pour. Screen 04 round-mate row, and the Your round tab status chip
+  ///
+  /// In en, this message translates to:
+  /// **'#{n} in line'**
+  String roundOrderPositionInLine(int n);
+
+  /// Flow 06 - Order & pour. Screen 04/05 round-mate row trailing text, and the screen 05 pill
+  ///
+  /// In en, this message translates to:
+  /// **'Mixing now'**
+  String get roundMixingNow;
+
+  /// Flow 06 - Order & pour. Your round tab. Bare status chip label
+  ///
+  /// In en, this message translates to:
+  /// **'Mixing'**
+  String get roundStatusMixing;
+
+  /// Flow 06 - Order & pour. Round-mate rows and the Your round tab. Status label
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get roundStatusReady;
+
+  /// Flow 06 - Order & pour. Round-mate rows and the Your round tab. Status label
+  ///
+  /// In en, this message translates to:
+  /// **'Served'**
+  String get roundStatusServed;
+
+  /// Flow 06 - Order & pour. Round-mate rows and the Your round tab. Status label
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get roundStatusCancelled;
+
+  /// Flow 06 - Order & pour. Round-mate rows and the Your round tab. Status label for a stock pull
+  ///
+  /// In en, this message translates to:
+  /// **'Pulled'**
+  String get roundStatusPulled;
+
+  /// Flow 06 - Order & pour. Screen 04. Heading over the menu rail
+  ///
+  /// In en, this message translates to:
+  /// **'While you wait'**
+  String get roundWhileYouWait;
+
+  /// Flow 06 - Order & pour. Screen 04. Link that opens the Menu tab
+  ///
+  /// In en, this message translates to:
+  /// **'Full menu'**
+  String get roundFullMenu;
+
+  /// Flow 06 - Order & pour. Screen 05. Headline when the mixing order is the guest's own
+  ///
+  /// In en, this message translates to:
+  /// **'{host}\'s pouring your {drink}'**
+  String roundMixingHeadlineMine(String host, String drink);
+
+  /// Flow 06 - Order & pour. Screen 05. Headline when the mixing order is for a friend
+  ///
+  /// In en, this message translates to:
+  /// **'{host}\'s pouring {friend}\'s {drink}'**
+  String roundMixingHeadlineFriend(String host, String friend, String drink);
+
+  /// Flow 06 - Order & pour. Screen 05. Lock aside under the mixing card
+  ///
+  /// In en, this message translates to:
+  /// **'Too late to cancel — it\'s already in the glass.'**
+  String get roundCancelLocked;
+
+  /// Flow 06 - Order & pour. Screen 05. Reassurance aside
+  ///
+  /// In en, this message translates to:
+  /// **'Pocket it — we\'ll buzz you when it hits the counter.'**
+  String get roundPocketIt;
+
+  /// Flow 06 - Order & pour. Screen 07. Ticking pill, rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'Ready · {elapsed} ago'**
+  String roundReadySince(String elapsed);
+
+  /// Flow 06 - Order & pour. Screen 07. The big headline
+  ///
+  /// In en, this message translates to:
+  /// **'Grab it\nwhile it\'s cold'**
+  String get roundGrabIt;
+
+  /// Flow 06 - Order & pour. Screen 07. Body line when the order carries a note
+  ///
+  /// In en, this message translates to:
+  /// **'{drink}, {note} — on the counter with your name on it.'**
+  String roundReadyLineWithNote(String drink, String note);
+
+  /// Flow 06 - Order & pour. Screen 07. Body line when the order carries no note
+  ///
+  /// In en, this message translates to:
+  /// **'{drink} — on the counter with your name on it.'**
+  String roundReadyLineNoNote(String drink);
+
+  /// Flow 06 - Order & pour. Screen 07. Primary button; acknowledges locally only
+  ///
+  /// In en, this message translates to:
+  /// **'On my way'**
+  String get roundOnMyWay;
+
+  /// Flow 06 - Order & pour. Screen 07. Footnote under the primary button
+  ///
+  /// In en, this message translates to:
+  /// **'{host} marks it served when it\'s handed over.'**
+  String roundServedFootnote(String host);
+
+  /// Flow 06 - Order & pour. Screen 13. Uppercase pill on the amber card
+  ///
+  /// In en, this message translates to:
+  /// **'Pulled from the menu'**
+  String get roundPulledPill;
+
+  /// Flow 06 - Order & pour. Screen 13. Headline naming what ran out
+  ///
+  /// In en, this message translates to:
+  /// **'{host} ran out of {ingredient}'**
+  String roundPulledTitle(String host, String ingredient);
+
+  /// Flow 06 - Order & pour. Screen 13. First sentence of the body, naming the pulled drink
+  ///
+  /// In en, this message translates to:
+  /// **'Your {drink} is off the list.'**
+  String roundPulledIntro(String drink);
+
+  /// Flow 06 - Order & pour. Screen 13. Label for a round-mate order that is the guest's own
+  ///
+  /// In en, this message translates to:
+  /// **'Your {drink}'**
+  String roundOthersLabelMine(String drink);
+
+  /// Flow 06 - Order & pour. Screen 13. Label for a round-mate order sent for a friend
+  ///
+  /// In en, this message translates to:
+  /// **'{friend}\'s {drink}'**
+  String roundOthersLabelFriend(String friend, String drink);
+
+  /// Flow 06 - Order & pour. Screen 13. Second sentence of the body, naming what else in the round survives
+  ///
+  /// In en, this message translates to:
+  /// **'{label} is still coming — #{position} in line.'**
+  String roundStillComingAt(String label, int position);
+
+  /// Flow 06 - Order & pour. Screen 13. Heading over the swap suggestions
+  ///
+  /// In en, this message translates to:
+  /// **'Swap it for'**
+  String get roundSwapTitle;
+
+  /// Flow 06 - Order & pour. Screen 13. Subline under the swap heading
+  ///
+  /// In en, this message translates to:
+  /// **'Still pourable right now'**
+  String get roundSwapSubtitle;
+
+  /// Flow 06 - Order & pour. Screen 13. Sub-label on a swap suggestion a round-mate already ordered
+  ///
+  /// In en, this message translates to:
+  /// **'What {friend}\'s having'**
+  String roundSwapMateLabel(String friend);
+
+  /// Flow 06 - Order & pour. Screen 13. Button that sends a one-drink round for the suggestion
+  ///
+  /// In en, this message translates to:
+  /// **'Swap in'**
+  String get roundSwapIn;
+
+  /// Flow 06 - Order & pour. Screen 13. Dismisses the pull without swapping
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing for now, thanks'**
+  String get roundNothingForNow;
+
+  /// Flow 06 - Order & pour. Screen 13. Snackbar when Swap in fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t send the swap — try again.'**
+  String get roundSwapFailed;
+
+  /// Flow 06 - Order & pour. Menu tab. Calm empty state title
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing on the menu'**
+  String get roundMenuEmptyTitle;
+
+  /// Flow 06 - Order & pour. Menu tab. Calm empty state body
+  ///
+  /// In en, this message translates to:
+  /// **'{host} hasn\'t added any drinks yet.'**
+  String roundMenuEmptyBody(String host);
+
+  /// Flow 06 - Order & pour. Menu tab. Calm loading state, never a bare spinner
+  ///
+  /// In en, this message translates to:
+  /// **'Loading the menu…'**
+  String get roundMenuLoading;
+
+  /// Flow 06 - Order & pour. Screen 01. Chip under the hero title
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 ingredient} other{{n} ingredients}}'**
+  String roundIngredientsCount(int n);
+
+  /// Flow 06 - Order & pour. Screen 01. Uppercase eyebrow over the who-chips
+  ///
+  /// In en, this message translates to:
+  /// **'Who\'s it for'**
+  String get roundWhosItFor;
+
+  /// Flow 06 - Order & pour. Screen 01. Default who-chip, the sender themself
+  ///
+  /// In en, this message translates to:
+  /// **'Me'**
+  String get roundMe;
+
+  /// Flow 06 - Order & pour. Screen 01. Who-chip that opens the friend-name sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Someone else'**
+  String get roundSomeoneElse;
+
+  /// Flow 06 - Order & pour. Screen 01. Title of the friend-name sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Who\'s it for?'**
+  String get roundSomeoneElseTitle;
+
+  /// Flow 06 - Order & pour. Screen 01. Text field hint in the friend-name sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Friend\'s name'**
+  String get roundSomeoneElseHint;
+
+  /// Flow 06 - Order & pour. Screen 01. Confirms the friend-name sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get roundSomeoneElseAdd;
+
+  /// Flow 06 - Order & pour. Screen 01. Stepper card title
+  ///
+  /// In en, this message translates to:
+  /// **'How many'**
+  String get roundHowMany;
+
+  /// Flow 06 - Order & pour. Screen 01. Stepper card subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Each one queues on its own'**
+  String get roundHowManySub;
+
+  /// Flow 06 - Order & pour. Screen 01. Placeholder text in the note row before one is entered
+  ///
+  /// In en, this message translates to:
+  /// **'Heavy on the lime, no straw…'**
+  String get roundNoteHint;
+
+  /// Flow 06 - Order & pour. Screen 01. Trailing link on the note row when empty
+  ///
+  /// In en, this message translates to:
+  /// **'Add note'**
+  String get roundAddNote;
+
+  /// Flow 06 - Order & pour. Screen 01. Trailing link on the note row once a note exists
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get roundEditNote;
+
+  /// Flow 06 - Order & pour. Screen 01. Title of the note-entry sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Add a note'**
+  String get roundNoteSheetTitle;
+
+  /// Flow 06 - Order & pour. Screen 01. Text field hint in the note-entry sheet
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. heavy on the lime, no straw'**
+  String get roundNoteSheetHint;
+
+  /// Flow 06 - Order & pour. Screen 01. Confirms the note-entry sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get roundNoteSheetSave;
+
+  /// Flow 06 - Order & pour. Screen 01. Bold lead-in of the queue aside
+  ///
+  /// In en, this message translates to:
+  /// **'{n} ahead of you'**
+  String roundAheadBold(int n);
+
+  /// Flow 06 - Order & pour. Screen 01. Rest of the queue aside sentence, appended after roundAheadBold
+  ///
+  /// In en, this message translates to:
+  /// **' in {host}\'s queue right now.'**
+  String roundAheadRest(String host);
+
+  /// Flow 06 - Order & pour. Screen 01. Primary button
+  ///
+  /// In en, this message translates to:
+  /// **'Add to round'**
+  String get roundAddToRound;
+
+  /// Flow 06 - Order & pour. Screen 02 and the Your round tab. Title
+  ///
+  /// In en, this message translates to:
+  /// **'Your round'**
+  String get roundYourRoundTitle;
+
+  /// Flow 06 - Order & pour. Screen 02. Subtitle under the title
+  ///
+  /// In en, this message translates to:
+  /// **'{host} pours one at a time'**
+  String roundPoursOneAtATime(String host);
+
+  /// Flow 06 - Order & pour. Screen 02. Mono count, rendered uppercase
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 drink} other{{n} drinks}}'**
+  String roundDrinksCount(int n);
+
+  /// Flow 06 - Order & pour. Screen 02 row. Who the drink is for, the sender
+  ///
+  /// In en, this message translates to:
+  /// **'for you'**
+  String get roundForYou;
+
+  /// Flow 06 - Order & pour. Screen 02 row. Who the drink is for, a friend
+  ///
+  /// In en, this message translates to:
+  /// **'for {name}'**
+  String roundForFriend(String name);
+
+  /// Flow 06 - Order & pour. Screen 02. Aside when the round has one drink
+  ///
+  /// In en, this message translates to:
+  /// **'{ahead} ahead of you. Sending puts you at #{position}.'**
+  String roundAheadSendingSingle(int ahead, int position);
+
+  /// Flow 06 - Order & pour. Screen 02. Aside when the round has several drinks
+  ///
+  /// In en, this message translates to:
+  /// **'{ahead} ahead of you. Sending puts you at #{a}–#{b}.'**
+  String roundAheadSendingRange(int ahead, int a, int b);
+
+  /// Flow 06 - Order & pour. Screen 02. Primary button, host's first name
+  ///
+  /// In en, this message translates to:
+  /// **'Send to {host}'**
+  String roundSendTo(String host);
+
+  /// Flow 06 - Order & pour. Screen 02. Closes the sheet to add another drink
+  ///
+  /// In en, this message translates to:
+  /// **'Add one more'**
+  String get roundAddOneMore;
+
+  /// Flow 06 - Order & pour. Screen 02. Snackbar on a failed send
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t send your round — try again.'**
+  String get roundSendFailed;
+
+  /// Flow 06 - Order & pour. Screen 03. Headline
+  ///
+  /// In en, this message translates to:
+  /// **'Order\'s in'**
+  String get roundOrdersIn;
+
+  /// Flow 06 - Order & pour. Screen 03. Body under the headline
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{One drink in {host}\'s queue. We\'ll buzz you the second it\'s ready.} other{{count} drinks in {host}\'s queue. We\'ll buzz you the second one of them is ready.}}'**
+  String roundOrdersInBody(int count, String host);
+
+  /// Flow 06 - Order & pour. Screen 03. Small label under each glass tile's position
+  ///
+  /// In en, this message translates to:
+  /// **'in line'**
+  String get roundInLineTag;
+
+  /// Flow 06 - Order & pour. Screen 03. Primary button
+  ///
+  /// In en, this message translates to:
+  /// **'Back to the menu'**
+  String get roundBackToMenu;
+
+  /// Flow 06 - Order & pour. Screen 03. Secondary action
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel the round'**
+  String get roundCancelRound;
+
+  /// Flow 06 - Order & pour. Screen 03. Footnote under Cancel the round
+  ///
+  /// In en, this message translates to:
+  /// **'You can pull an order out until {host} starts pouring it.'**
+  String roundCancelRoundFootnote(String host);
+
+  /// Flow 06 - Order & pour. Screen 03. Snackbar after Cancel the round when some orders could not be pulled
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{One order was already pouring and stayed.} other{{n} orders were already pouring and stayed.}}'**
+  String roundCancelRoundKept(int n);
+
+  /// Flow 06 - Order & pour. Your round tab. Summary line under the title
+  ///
+  /// In en, this message translates to:
+  /// **'{total, plural, =1{1 tonight} other{{total} tonight}} · {coming, plural, =1{1 still coming} other{{coming} still coming}}'**
+  String roundTonightSummary(int total, int coming);
+
+  /// Flow 06 - Order & pour. Your round tab. Identity reassurance card
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re {name} tonight'**
+  String roundYoureTonight(String name);
+
+  /// Flow 06 - Order & pour. The buzz banner. Timestamp label
+  ///
+  /// In en, this message translates to:
+  /// **'now'**
+  String get roundBuzzNow;
+
+  /// Flow 06 - Order & pour. The buzz banner. Headline when the ready order is the guest's own
+  ///
+  /// In en, this message translates to:
+  /// **'Your {drink} is ready'**
+  String roundBuzzReadyMine(String drink);
+
+  /// Flow 06 - Order & pour. The buzz banner. Headline when the ready order is for a friend
+  ///
+  /// In en, this message translates to:
+  /// **'{friend}\'s {drink} is ready'**
+  String roundBuzzReadyFriend(String friend, String drink);
+
+  /// Flow 06 - Order & pour. The buzz banner. First clause of the body
+  ///
+  /// In en, this message translates to:
+  /// **'On the counter at {party}.'**
+  String roundBuzzBody(String party);
+
+  /// Flow 06 - Order & pour. The buzz banner. Second clause, appended when another round drink is still coming
+  ///
+  /// In en, this message translates to:
+  /// **'{drink} is next up.'**
+  String roundBuzzNextUp(String drink);
+
+  /// Flow 06 - Order & pour. Any screen. Snackbar when a single-order cancel loses the race to the host
+  ///
+  /// In en, this message translates to:
+  /// **'Too late — it\'s already being poured.'**
+  String get roundCancelTooLate;
+
+  /// Flow 06 - Order & pour. Screens 01/02. Reason shown when the primary send action is disabled
+  ///
+  /// In en, this message translates to:
+  /// **'Sending is off while the bar\'s paused.'**
+  String get roundSendingPaused;
+
+  /// Flow 06 - Order & pour. Screen 01. Tooltip for the glass back button
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get roundBack;
 }
 
 class _AppLocalizationsDelegate

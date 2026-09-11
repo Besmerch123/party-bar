@@ -64,6 +64,12 @@ class PartyRepository {
     }
   }
 
+  /// One party, live — status, menu and all. Null once it is deleted.
+  Stream<Party?> streamParty(String partyId) => _partiesCollection
+      .doc(partyId)
+      .snapshots()
+      .map((snapshot) => snapshot.exists ? _partyFromSnapshot(snapshot) : null);
+
   /// Get parties hosted by a specific user
   Stream<List<Party>> getPartiesByHostId(String hostId) {
     return _partiesCollection

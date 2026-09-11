@@ -13,3 +13,4 @@ export 'shopping_list.dart';
 export 'user.dart';
 export 'party.dart';
 export 'order.dart';
+export 'order_queue.dart';

@@ -106,13 +106,11 @@ class PartyStatusControl extends StatelessWidget {
       // Navigate to host dashboard
       context.push('${AppRoutes.activePartyHost}/${party.id}', extra: party);
     } else {
-      // Navigate to guest screen
-      // For guests, we need the party code and guest name
-      // You might want to pass guest name from somewhere or prompt for it
+      // The guest route needs the party itself and a name to order under.
       context.push(
-        AppRoutes.activePartyGuest,
+        '${AppRoutes.activePartyGuest}/${party.id}',
         extra: {
-          'partyCode': party.joinCode,
+          'party': party,
           'guestName': 'Guest', // TODO: Get actual guest name from user profile
         },
       );

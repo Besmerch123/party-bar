@@ -2707,4 +2707,779 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get hostPauseInstead => 'Краще поставити бар на паузу';
+
+  @override
+  String get queueBarTitle => 'Бар';
+
+  @override
+  String get queueBack => 'Назад';
+
+  @override
+  String get queuePause => 'Призупинити бар';
+
+  @override
+  String queueSublineInLine(int inLine, int poured) {
+    return '$inLine у черзі · $poured подано сьогодні';
+  }
+
+  @override
+  String queueSublineOnCounter(int onCounter, int inLine) {
+    return '$onCounter на стійці · $inLine у черзі';
+  }
+
+  @override
+  String get queuePausedRowTitle => 'Гості зараз не можуть замовляти';
+
+  @override
+  String get queuePausedRowBody =>
+      'Бар на паузі — відкрийте знову, коли будете готові.';
+
+  @override
+  String get queueOnTheCounterEyebrow => 'На стійці';
+
+  @override
+  String queueGuestBuzzed(String guest, String wait) {
+    return '$guest · сповіщено $wait тому';
+  }
+
+  @override
+  String queueGuestBuzzedForFriend(String guest, String forName, String wait) {
+    return '$guest, для $forName · сповіщено $wait тому';
+  }
+
+  @override
+  String get queueHandedOver => 'Віддано';
+
+  @override
+  String get queueBuzzAgain => 'Сповістити ще раз';
+
+  @override
+  String get queueBackToMixing => 'Назад до змішування';
+
+  @override
+  String queueBuzzedAgainSnack(String guest) {
+    return '$guest сповіщено ще раз';
+  }
+
+  @override
+  String get queuePouringEyebrow => 'Наливається зараз';
+
+  @override
+  String get queueNextUpEyebrow => 'Наступний';
+
+  @override
+  String queueGuestWaiting(String guest, String wait) {
+    return '$guest · чекає $wait';
+  }
+
+  @override
+  String queueGuestWaitingForFriend(String guest, String forName, String wait) {
+    return '$guest, для $forName · чекає $wait';
+  }
+
+  @override
+  String get queueStartPouring => 'Почати наливати';
+
+  @override
+  String get queueSkipCantMake => 'Пропустити · не вийде зробити';
+
+  @override
+  String queueIngredientsMethodChip(int count, String method) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count інгредієнта',
+      many: '$count інгредієнтів',
+      few: '$count інгредієнти',
+      one: '$count інгредієнт',
+    );
+    return '$_temp0 · $method';
+  }
+
+  @override
+  String get queuePourPill => 'Наливати';
+
+  @override
+  String queueInLineHeader(int count) {
+    return 'У черзі · $count';
+  }
+
+  @override
+  String get queueOldestFirst => 'Спочатку найстаріші';
+
+  @override
+  String get queueNewTag => 'Нове';
+
+  @override
+  String get queueRowSheetPourNow => 'Наливати зараз';
+
+  @override
+  String queueSkipConfirmTitle(String name) {
+    return 'Пропустити $name?';
+  }
+
+  @override
+  String get queueSkipConfirmBody =>
+      'Гостю повідомлять, що напою не буде. Це незворотно.';
+
+  @override
+  String get queueSkipConfirmCancel => 'Не треба';
+
+  @override
+  String get queueStatPoured => 'Подано';
+
+  @override
+  String get queueStatAvgWait => 'Сер. очікування';
+
+  @override
+  String get queueStatTopDrink => 'Популярний напій';
+
+  @override
+  String get queueStatEmpty => '—';
+
+  @override
+  String get queueEmptyBody =>
+      'Ніхто не чекає — замовлення з’являться тут одразу, як їх надішлють.';
+
+  @override
+  String get queueEmptyShowQr => 'Показати QR-код';
+
+  @override
+  String queuePouringPill(String time) {
+    return 'Наливається · $time';
+  }
+
+  @override
+  String queueForGuestPosition(String guest, int position) {
+    return 'для $guest · #$position у черзі';
+  }
+
+  @override
+  String queueForGuestFromSender(String forName, String guest) {
+    return 'для $forName · від $guest';
+  }
+
+  @override
+  String queueNoteLabel(String guest) {
+    return '$guest просить';
+  }
+
+  @override
+  String queueHowHostMakesItRow(String host, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Як $host готує · $count кроку',
+      many: 'Як $host готує · $count кроків',
+      few: 'Як $host готує · $count кроки',
+      one: 'Як $host готує · $count крок',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String queueReadyBuzz(String guest) {
+    return 'Готово — сповістити $guest';
+  }
+
+  @override
+  String get queueOutOfSomething => 'Щось закінчилось';
+
+  @override
+  String get queueCancelOrder => 'Скасувати замовлення';
+
+  @override
+  String queueCancelOrderConfirmTitle(String name) {
+    return 'Скасувати $name?';
+  }
+
+  @override
+  String queueCancelOrderConfirmBody(String guest) {
+    return '$guest повідомлять, що замовлення скасовано. Це незворотно.';
+  }
+
+  @override
+  String get queueCancelOrderConfirmKeep => 'Наливати далі';
+
+  @override
+  String queueMethodSheetTitle(String host) {
+    return 'Як $host готує';
+  }
+
+  @override
+  String queueMethodSubtitle(String cocktail, String method) {
+    return '$cocktail · $method';
+  }
+
+  @override
+  String queueMethodMinutes(int minutes) {
+    return '~$minutes хв';
+  }
+
+  @override
+  String queueMethodTimerSeconds(int seconds) {
+    return '$seconds с';
+  }
+
+  @override
+  String get queueWhatRanOutTitle => 'Що закінчилось?';
+
+  @override
+  String queueOutOfTitle(String ingredient) {
+    return 'Закінчився $ingredient?';
+  }
+
+  @override
+  String queueOutOfSubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count напою використовують це',
+      many: '$count напоїв використовують це',
+      few: '$count напої використовують це',
+      one: '$count напій використовує це',
+    );
+    return 'Пляшка порожня · $_temp0';
+  }
+
+  @override
+  String queueWaitingInQueue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count чекає в черзі',
+      many: '$count чекають в черзі',
+      few: '$count чекають в черзі',
+      one: '$count чекає в черзі',
+      zero: 'ніхто не чекає',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String queueGuestsToldTitle(String guest) {
+    return '$guest отримає повідомлення з варіантами';
+  }
+
+  @override
+  String get queueGuestsToldGeneric =>
+      'Гості отримають повідомлення з варіантами';
+
+  @override
+  String queueGuestsToldBody(String host, String ingredient) {
+    return '«$host закінчив(ла) $ingredient» — і напої, які ще можна налити, одним дотиком.';
+  }
+
+  @override
+  String queuePullDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Прибрати $count напою з меню',
+      many: 'Прибрати $count напоїв з меню',
+      few: 'Прибрати $count напої з меню',
+      one: 'Прибрати $count напій з меню',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get queueKeepOnMenu => 'Лише це замовлення — залишити в меню';
+
+  @override
+  String queueOrderLandedTitle(String guest, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count напою',
+      many: '$count напоїв',
+      few: '$count напої',
+      one: '$count напій',
+    );
+    return '$guest замовив(ла) $_temp0';
+  }
+
+  @override
+  String queueForFriend(String name) {
+    return 'для $name';
+  }
+
+  @override
+  String get queueWaitingOnYouTitle => 'Чекають на вас';
+
+  @override
+  String queueInLineBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count у черзі',
+      many: '$count у черзі',
+      few: '$count у черзі',
+      one: '$count у черзі',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String queueDrinkForGuest(String drink, String guest) {
+    return '$drink · $guest';
+  }
+
+  @override
+  String get roundNavTonight => 'Сьогодні';
+
+  @override
+  String get roundNavYourRound => 'Твоє коло';
+
+  @override
+  String roundPill(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Твоє коло · $count',
+      many: 'Твоє коло · $count',
+      few: 'Твоє коло · $count',
+      one: 'Твоє коло · $count',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roundPausedTitle => 'Бар на паузі';
+
+  @override
+  String roundPausedBody(String host) {
+    return 'Зараз $host не наливає — меню можна переглядати, але надсилати замовлення поки не можна.';
+  }
+
+  @override
+  String get roundEndedTitle => 'Бар зачинено';
+
+  @override
+  String roundEndedBody(String party) {
+    return '$party завершилася. Дякуємо, що завітали.';
+  }
+
+  @override
+  String get roundEndedLeave => 'Готово';
+
+  @override
+  String get roundBarOpenPill => 'Бар відкрито';
+
+  @override
+  String roundHostPouring(String host, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count тут сьогодні',
+      many: '$count тут сьогодні',
+      few: '$count тут сьогодні',
+      one: '$count тут сьогодні',
+    );
+    return '$host наливає · $_temp0';
+  }
+
+  @override
+  String get roundOnMenuTonight => 'У меню сьогодні';
+
+  @override
+  String roundSeeAll(int count) {
+    return 'Усі $count';
+  }
+
+  @override
+  String roundPartyOpenGuests(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Бар відкрито · $count тут',
+      many: 'Бар відкрито · $count тут',
+      few: 'Бар відкрито · $count тут',
+      one: 'Бар відкрито · $count тут',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roundYourRoundEyebrow => 'Твоє коло';
+
+  @override
+  String roundSentAt(String time) {
+    return 'Надіслано $time';
+  }
+
+  @override
+  String roundYoureNext(String drink) {
+    return 'твоя черга — $drink';
+  }
+
+  @override
+  String roundInLine(String drink) {
+    return 'у черзі — $drink';
+  }
+
+  @override
+  String get roundStageSent => 'Надіслано';
+
+  @override
+  String get roundStageInLine => 'У черзі';
+
+  @override
+  String get roundStageMixing => 'Готується';
+
+  @override
+  String get roundStageReady => 'Готово';
+
+  @override
+  String roundOrderPositionInLine(int n) {
+    return '#$n у черзі';
+  }
+
+  @override
+  String get roundMixingNow => 'Готується зараз';
+
+  @override
+  String get roundStatusMixing => 'Готується';
+
+  @override
+  String get roundStatusReady => 'Готово';
+
+  @override
+  String get roundStatusServed => 'Подано';
+
+  @override
+  String get roundStatusCancelled => 'Скасовано';
+
+  @override
+  String get roundStatusPulled => 'Прибрано';
+
+  @override
+  String get roundWhileYouWait => 'Поки чекаєш';
+
+  @override
+  String get roundFullMenu => 'Усе меню';
+
+  @override
+  String roundMixingHeadlineMine(String host, String drink) {
+    return '$host наливає твій $drink';
+  }
+
+  @override
+  String roundMixingHeadlineFriend(String host, String friend, String drink) {
+    return '$host наливає $drink для $friend';
+  }
+
+  @override
+  String get roundCancelLocked => 'Скасовувати вже пізно — це вже в келиху.';
+
+  @override
+  String get roundPocketIt =>
+      'Сховай телефон у кишеню — сповістимо, коли напій буде на барі.';
+
+  @override
+  String roundReadySince(String elapsed) {
+    return 'Готово · $elapsed тому';
+  }
+
+  @override
+  String get roundGrabIt => 'Забирай,\nпоки холодний';
+
+  @override
+  String roundReadyLineWithNote(String drink, String note) {
+    return '$drink, $note — на барній стійці з твоїм ім\'ям.';
+  }
+
+  @override
+  String roundReadyLineNoNote(String drink) {
+    return '$drink — на барній стійці з твоїм ім\'ям.';
+  }
+
+  @override
+  String get roundOnMyWay => 'Вже йду';
+
+  @override
+  String roundServedFootnote(String host) {
+    return '$host позначає напій поданим, коли його вручають.';
+  }
+
+  @override
+  String get roundPulledPill => 'Прибрано з меню';
+
+  @override
+  String roundPulledTitle(String host, String ingredient) {
+    return 'У $host закінчився $ingredient';
+  }
+
+  @override
+  String roundPulledIntro(String drink) {
+    return 'Твій $drink прибрали з меню.';
+  }
+
+  @override
+  String roundOthersLabelMine(String drink) {
+    return 'Твій $drink';
+  }
+
+  @override
+  String roundOthersLabelFriend(String friend, String drink) {
+    return '$drink для $friend';
+  }
+
+  @override
+  String roundStillComingAt(String label, int position) {
+    return '$label ще в дорозі — #$position у черзі.';
+  }
+
+  @override
+  String get roundSwapTitle => 'Заміни на';
+
+  @override
+  String get roundSwapSubtitle => 'Це ще можна налити прямо зараз';
+
+  @override
+  String roundSwapMateLabel(String friend) {
+    return 'Те, що п\'є $friend';
+  }
+
+  @override
+  String get roundSwapIn => 'Замінити';
+
+  @override
+  String get roundNothingForNow => 'Поки нічого, дякую';
+
+  @override
+  String get roundSwapFailed => 'Не вдалося надіслати заміну — спробуй ще раз.';
+
+  @override
+  String get roundMenuEmptyTitle => 'Меню поки порожнє';
+
+  @override
+  String roundMenuEmptyBody(String host) {
+    return 'У $host поки немає напоїв у меню.';
+  }
+
+  @override
+  String get roundMenuLoading => 'Завантажуємо меню…';
+
+  @override
+  String roundIngredientsCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n інгредієнта',
+      many: '$n інгредієнтів',
+      few: '$n інгредієнти',
+      one: '$n інгредієнт',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roundWhosItFor => 'Для кого';
+
+  @override
+  String get roundMe => 'Я';
+
+  @override
+  String get roundSomeoneElse => 'Хтось інший';
+
+  @override
+  String get roundSomeoneElseTitle => 'Для кого це?';
+
+  @override
+  String get roundSomeoneElseHint => 'Ім\'я друга';
+
+  @override
+  String get roundSomeoneElseAdd => 'Додати';
+
+  @override
+  String get roundHowMany => 'Скільки';
+
+  @override
+  String get roundHowManySub => 'Кожен стає в чергу окремо';
+
+  @override
+  String get roundNoteHint => 'Побільше лайма, без соломинки…';
+
+  @override
+  String get roundAddNote => 'Додати нотатку';
+
+  @override
+  String get roundEditNote => 'Змінити';
+
+  @override
+  String get roundNoteSheetTitle => 'Додати нотатку';
+
+  @override
+  String get roundNoteSheetHint => 'напр., побільше лайма, без соломинки';
+
+  @override
+  String get roundNoteSheetSave => 'Зберегти';
+
+  @override
+  String roundAheadBold(int n) {
+    return '$n попереду тебе';
+  }
+
+  @override
+  String roundAheadRest(String host) {
+    return ' у черзі до $host прямо зараз.';
+  }
+
+  @override
+  String get roundAddToRound => 'Додати в коло';
+
+  @override
+  String get roundYourRoundTitle => 'Твоє коло';
+
+  @override
+  String roundPoursOneAtATime(String host) {
+    return '$host наливає по одному';
+  }
+
+  @override
+  String roundDrinksCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n напою',
+      many: '$n напоїв',
+      few: '$n напої',
+      one: '$n напій',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roundForYou => 'для тебе';
+
+  @override
+  String roundForFriend(String name) {
+    return 'для $name';
+  }
+
+  @override
+  String roundAheadSendingSingle(int ahead, int position) {
+    return '$ahead попереду тебе. Після надсилання будеш на #$position.';
+  }
+
+  @override
+  String roundAheadSendingRange(int ahead, int a, int b) {
+    return '$ahead попереду тебе. Після надсилання будеш на #$a–#$b.';
+  }
+
+  @override
+  String roundSendTo(String host) {
+    return 'Надіслати $host';
+  }
+
+  @override
+  String get roundAddOneMore => 'Додати ще один';
+
+  @override
+  String get roundSendFailed => 'Не вдалося надіслати коло — спробуй ще раз.';
+
+  @override
+  String get roundOrdersIn => 'Замовлення надіслано';
+
+  @override
+  String roundOrdersInBody(int count, String host) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count напою у черзі до $host. Сповістимо, щойно перший з них буде готовий.',
+      many:
+          '$count напоїв у черзі до $host. Сповістимо, щойно перший з них буде готовий.',
+      few:
+          '$count напої у черзі до $host. Сповістимо, щойно перший з них буде готовий.',
+      one: '$count напій у черзі до $host. Сповістимо, щойно він буде готовий.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roundInLineTag => 'у черзі';
+
+  @override
+  String get roundBackToMenu => 'До меню';
+
+  @override
+  String get roundCancelRound => 'Скасувати коло';
+
+  @override
+  String roundCancelRoundFootnote(String host) {
+    return 'Замовлення можна прибрати, доки $host не почне його наливати.';
+  }
+
+  @override
+  String roundCancelRoundKept(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n замовлення вже наливали, тож вони залишились.',
+      many: '$n замовлень вже наливали, тож вони залишились.',
+      few: '$n замовлення вже наливали, тож вони залишились.',
+      one: '$n замовлення вже наливали, тож воно залишилось.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String roundTonightSummary(int total, int coming) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: '$total сьогодні',
+      many: '$total сьогодні',
+      few: '$total сьогодні',
+      one: '$total сьогодні',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      coming,
+      locale: localeName,
+      other: '$coming ще в дорозі',
+      many: '$coming ще в дорозі',
+      few: '$coming ще в дорозі',
+      one: '$coming ще в дорозі',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String roundYoureTonight(String name) {
+    return 'Сьогодні ти — $name';
+  }
+
+  @override
+  String get roundBuzzNow => 'щойно';
+
+  @override
+  String roundBuzzReadyMine(String drink) {
+    return 'Твій $drink готовий';
+  }
+
+  @override
+  String roundBuzzReadyFriend(String friend, String drink) {
+    return '$drink для $friend готовий';
+  }
+
+  @override
+  String roundBuzzBody(String party) {
+    return 'На барній стійці на $party.';
+  }
+
+  @override
+  String roundBuzzNextUp(String drink) {
+    return '$drink — наступний.';
+  }
+
+  @override
+  String get roundCancelTooLate => 'Вже пізно — це вже наливають.';
+
+  @override
+  String get roundSendingPaused => 'Надсилання вимкнено, поки бар на паузі.';
+
+  @override
+  String get roundBack => 'Назад';
 }

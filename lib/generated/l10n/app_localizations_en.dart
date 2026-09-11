@@ -2638,4 +2638,746 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hostPauseInstead => 'Pause the bar instead';
+
+  @override
+  String get queueBarTitle => 'The bar';
+
+  @override
+  String get queueBack => 'Back';
+
+  @override
+  String get queuePause => 'Pause the bar';
+
+  @override
+  String queueSublineInLine(int inLine, int poured) {
+    return '$inLine in line · $poured poured tonight';
+  }
+
+  @override
+  String queueSublineOnCounter(int onCounter, int inLine) {
+    return '$onCounter on the counter · $inLine in line';
+  }
+
+  @override
+  String get queuePausedRowTitle => 'Guests can\'t order right now';
+
+  @override
+  String get queuePausedRowBody =>
+      'The bar is paused — reopen it whenever you\'re ready.';
+
+  @override
+  String get queueOnTheCounterEyebrow => 'On the counter';
+
+  @override
+  String queueGuestBuzzed(String guest, String wait) {
+    return '$guest · buzzed $wait ago';
+  }
+
+  @override
+  String queueGuestBuzzedForFriend(String guest, String forName, String wait) {
+    return '$guest, for $forName · buzzed $wait ago';
+  }
+
+  @override
+  String get queueHandedOver => 'Handed it over';
+
+  @override
+  String get queueBuzzAgain => 'Buzz again';
+
+  @override
+  String get queueBackToMixing => 'Back to mixing';
+
+  @override
+  String queueBuzzedAgainSnack(String guest) {
+    return 'Buzzed $guest again';
+  }
+
+  @override
+  String get queuePouringEyebrow => 'Pouring now';
+
+  @override
+  String get queueNextUpEyebrow => 'Next up';
+
+  @override
+  String queueGuestWaiting(String guest, String wait) {
+    return '$guest · waiting $wait';
+  }
+
+  @override
+  String queueGuestWaitingForFriend(String guest, String forName, String wait) {
+    return '$guest, for $forName · waiting $wait';
+  }
+
+  @override
+  String get queueStartPouring => 'Start pouring';
+
+  @override
+  String get queueSkipCantMake => 'Skip · can\'t make it';
+
+  @override
+  String queueIngredientsMethodChip(int count, String method) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ingredients',
+      one: '1 ingredient',
+    );
+    return '$_temp0 · $method';
+  }
+
+  @override
+  String get queuePourPill => 'Pour';
+
+  @override
+  String queueInLineHeader(int count) {
+    return 'In line · $count';
+  }
+
+  @override
+  String get queueOldestFirst => 'Oldest first';
+
+  @override
+  String get queueNewTag => 'New';
+
+  @override
+  String get queueRowSheetPourNow => 'Pour now';
+
+  @override
+  String queueSkipConfirmTitle(String name) {
+    return 'Skip $name?';
+  }
+
+  @override
+  String get queueSkipConfirmBody =>
+      'They\'ll be told it\'s not coming. This can\'t be undone.';
+
+  @override
+  String get queueSkipConfirmCancel => 'Never mind';
+
+  @override
+  String get queueStatPoured => 'Poured';
+
+  @override
+  String get queueStatAvgWait => 'Avg wait';
+
+  @override
+  String get queueStatTopDrink => 'Top drink';
+
+  @override
+  String get queueStatEmpty => '—';
+
+  @override
+  String get queueEmptyBody =>
+      'Nobody\'s waiting — orders land here the second they\'re sent.';
+
+  @override
+  String get queueEmptyShowQr => 'Show the QR';
+
+  @override
+  String queuePouringPill(String time) {
+    return 'Pouring · $time';
+  }
+
+  @override
+  String queueForGuestPosition(String guest, int position) {
+    return 'for $guest · #$position in line';
+  }
+
+  @override
+  String queueForGuestFromSender(String forName, String guest) {
+    return 'for $forName · from $guest';
+  }
+
+  @override
+  String queueNoteLabel(String guest) {
+    return '$guest asked for';
+  }
+
+  @override
+  String queueHowHostMakesItRow(String host, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'How $host makes it · $count steps',
+      one: 'How $host makes it · 1 step',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String queueReadyBuzz(String guest) {
+    return 'Ready — buzz $guest';
+  }
+
+  @override
+  String get queueOutOfSomething => 'Out of something';
+
+  @override
+  String get queueCancelOrder => 'Cancel order';
+
+  @override
+  String queueCancelOrderConfirmTitle(String name) {
+    return 'Cancel $name?';
+  }
+
+  @override
+  String queueCancelOrderConfirmBody(String guest) {
+    return '$guest will be told it\'s cancelled. This can\'t be undone.';
+  }
+
+  @override
+  String get queueCancelOrderConfirmKeep => 'Keep pouring';
+
+  @override
+  String queueMethodSheetTitle(String host) {
+    return 'How $host makes it';
+  }
+
+  @override
+  String queueMethodSubtitle(String cocktail, String method) {
+    return '$cocktail · $method';
+  }
+
+  @override
+  String queueMethodMinutes(int minutes) {
+    return '~$minutes min';
+  }
+
+  @override
+  String queueMethodTimerSeconds(int seconds) {
+    return '$seconds s';
+  }
+
+  @override
+  String get queueWhatRanOutTitle => 'What ran out?';
+
+  @override
+  String queueOutOfTitle(String ingredient) {
+    return 'Out of $ingredient?';
+  }
+
+  @override
+  String queueOutOfSubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count drinks use it',
+      one: '1 drink uses it',
+    );
+    return 'Bottle\'s empty · $_temp0';
+  }
+
+  @override
+  String queueWaitingInQueue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count waiting in the queue',
+      one: '1 waiting in the queue',
+      zero: 'nobody waiting',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String queueGuestsToldTitle(String guest) {
+    return '$guest gets told, with options';
+  }
+
+  @override
+  String get queueGuestsToldGeneric => 'Guests get told, with options';
+
+  @override
+  String queueGuestsToldBody(String host, String ingredient) {
+    return '“$host ran out of $ingredient” — plus drinks still pourable, one tap to swap.';
+  }
+
+  @override
+  String queuePullDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pull $count drinks from the menu',
+      one: 'Pull 1 drink from the menu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get queueKeepOnMenu => 'Only this order — keep them on the menu';
+
+  @override
+  String queueOrderLandedTitle(String guest, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count drinks',
+      one: '1 drink',
+    );
+    return '$guest ordered $_temp0';
+  }
+
+  @override
+  String queueForFriend(String name) {
+    return 'for $name';
+  }
+
+  @override
+  String get queueWaitingOnYouTitle => 'Waiting on you';
+
+  @override
+  String queueInLineBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count in line',
+      one: '1 in line',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String queueDrinkForGuest(String drink, String guest) {
+    return '$drink · $guest';
+  }
+
+  @override
+  String get roundNavTonight => 'Tonight';
+
+  @override
+  String get roundNavYourRound => 'Your round';
+
+  @override
+  String roundPill(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Your round · $count',
+      one: 'Your round · 1',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roundPausedTitle => 'The bar\'s paused';
+
+  @override
+  String roundPausedBody(String host) {
+    return '$host isn\'t pouring right now — you can browse the menu, but sending is off until it reopens.';
+  }
+
+  @override
+  String get roundEndedTitle => 'The bar\'s closed';
+
+  @override
+  String roundEndedBody(String party) {
+    return '$party has ended. Thanks for stopping by.';
+  }
+
+  @override
+  String get roundEndedLeave => 'Done';
+
+  @override
+  String get roundBarOpenPill => 'Bar open';
+
+  @override
+  String roundHostPouring(String host, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count here tonight',
+      one: '1 here tonight',
+    );
+    return '$host is pouring · $_temp0';
+  }
+
+  @override
+  String get roundOnMenuTonight => 'On the menu tonight';
+
+  @override
+  String roundSeeAll(int count) {
+    return 'All $count';
+  }
+
+  @override
+  String roundPartyOpenGuests(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Bar open · $count here',
+      one: 'Bar open · 1 here',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roundYourRoundEyebrow => 'Your round';
+
+  @override
+  String roundSentAt(String time) {
+    return 'Sent $time';
+  }
+
+  @override
+  String roundYoureNext(String drink) {
+    return 'your turn — $drink';
+  }
+
+  @override
+  String roundInLine(String drink) {
+    return 'in line — $drink';
+  }
+
+  @override
+  String get roundStageSent => 'Sent';
+
+  @override
+  String get roundStageInLine => 'In line';
+
+  @override
+  String get roundStageMixing => 'Mixing';
+
+  @override
+  String get roundStageReady => 'Ready';
+
+  @override
+  String roundOrderPositionInLine(int n) {
+    return '#$n in line';
+  }
+
+  @override
+  String get roundMixingNow => 'Mixing now';
+
+  @override
+  String get roundStatusMixing => 'Mixing';
+
+  @override
+  String get roundStatusReady => 'Ready';
+
+  @override
+  String get roundStatusServed => 'Served';
+
+  @override
+  String get roundStatusCancelled => 'Cancelled';
+
+  @override
+  String get roundStatusPulled => 'Pulled';
+
+  @override
+  String get roundWhileYouWait => 'While you wait';
+
+  @override
+  String get roundFullMenu => 'Full menu';
+
+  @override
+  String roundMixingHeadlineMine(String host, String drink) {
+    return '$host\'s pouring your $drink';
+  }
+
+  @override
+  String roundMixingHeadlineFriend(String host, String friend, String drink) {
+    return '$host\'s pouring $friend\'s $drink';
+  }
+
+  @override
+  String get roundCancelLocked =>
+      'Too late to cancel — it\'s already in the glass.';
+
+  @override
+  String get roundPocketIt =>
+      'Pocket it — we\'ll buzz you when it hits the counter.';
+
+  @override
+  String roundReadySince(String elapsed) {
+    return 'Ready · $elapsed ago';
+  }
+
+  @override
+  String get roundGrabIt => 'Grab it\nwhile it\'s cold';
+
+  @override
+  String roundReadyLineWithNote(String drink, String note) {
+    return '$drink, $note — on the counter with your name on it.';
+  }
+
+  @override
+  String roundReadyLineNoNote(String drink) {
+    return '$drink — on the counter with your name on it.';
+  }
+
+  @override
+  String get roundOnMyWay => 'On my way';
+
+  @override
+  String roundServedFootnote(String host) {
+    return '$host marks it served when it\'s handed over.';
+  }
+
+  @override
+  String get roundPulledPill => 'Pulled from the menu';
+
+  @override
+  String roundPulledTitle(String host, String ingredient) {
+    return '$host ran out of $ingredient';
+  }
+
+  @override
+  String roundPulledIntro(String drink) {
+    return 'Your $drink is off the list.';
+  }
+
+  @override
+  String roundOthersLabelMine(String drink) {
+    return 'Your $drink';
+  }
+
+  @override
+  String roundOthersLabelFriend(String friend, String drink) {
+    return '$friend\'s $drink';
+  }
+
+  @override
+  String roundStillComingAt(String label, int position) {
+    return '$label is still coming — #$position in line.';
+  }
+
+  @override
+  String get roundSwapTitle => 'Swap it for';
+
+  @override
+  String get roundSwapSubtitle => 'Still pourable right now';
+
+  @override
+  String roundSwapMateLabel(String friend) {
+    return 'What $friend\'s having';
+  }
+
+  @override
+  String get roundSwapIn => 'Swap in';
+
+  @override
+  String get roundNothingForNow => 'Nothing for now, thanks';
+
+  @override
+  String get roundSwapFailed => 'Couldn\'t send the swap — try again.';
+
+  @override
+  String get roundMenuEmptyTitle => 'Nothing on the menu';
+
+  @override
+  String roundMenuEmptyBody(String host) {
+    return '$host hasn\'t added any drinks yet.';
+  }
+
+  @override
+  String get roundMenuLoading => 'Loading the menu…';
+
+  @override
+  String roundIngredientsCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n ingredients',
+      one: '1 ingredient',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roundWhosItFor => 'Who\'s it for';
+
+  @override
+  String get roundMe => 'Me';
+
+  @override
+  String get roundSomeoneElse => 'Someone else';
+
+  @override
+  String get roundSomeoneElseTitle => 'Who\'s it for?';
+
+  @override
+  String get roundSomeoneElseHint => 'Friend\'s name';
+
+  @override
+  String get roundSomeoneElseAdd => 'Add';
+
+  @override
+  String get roundHowMany => 'How many';
+
+  @override
+  String get roundHowManySub => 'Each one queues on its own';
+
+  @override
+  String get roundNoteHint => 'Heavy on the lime, no straw…';
+
+  @override
+  String get roundAddNote => 'Add note';
+
+  @override
+  String get roundEditNote => 'Edit';
+
+  @override
+  String get roundNoteSheetTitle => 'Add a note';
+
+  @override
+  String get roundNoteSheetHint => 'e.g. heavy on the lime, no straw';
+
+  @override
+  String get roundNoteSheetSave => 'Save';
+
+  @override
+  String roundAheadBold(int n) {
+    return '$n ahead of you';
+  }
+
+  @override
+  String roundAheadRest(String host) {
+    return ' in $host\'s queue right now.';
+  }
+
+  @override
+  String get roundAddToRound => 'Add to round';
+
+  @override
+  String get roundYourRoundTitle => 'Your round';
+
+  @override
+  String roundPoursOneAtATime(String host) {
+    return '$host pours one at a time';
+  }
+
+  @override
+  String roundDrinksCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n drinks',
+      one: '1 drink',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roundForYou => 'for you';
+
+  @override
+  String roundForFriend(String name) {
+    return 'for $name';
+  }
+
+  @override
+  String roundAheadSendingSingle(int ahead, int position) {
+    return '$ahead ahead of you. Sending puts you at #$position.';
+  }
+
+  @override
+  String roundAheadSendingRange(int ahead, int a, int b) {
+    return '$ahead ahead of you. Sending puts you at #$a–#$b.';
+  }
+
+  @override
+  String roundSendTo(String host) {
+    return 'Send to $host';
+  }
+
+  @override
+  String get roundAddOneMore => 'Add one more';
+
+  @override
+  String get roundSendFailed => 'Couldn\'t send your round — try again.';
+
+  @override
+  String get roundOrdersIn => 'Order\'s in';
+
+  @override
+  String roundOrdersInBody(int count, String host) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count drinks in $host\'s queue. We\'ll buzz you the second one of them is ready.',
+      one:
+          'One drink in $host\'s queue. We\'ll buzz you the second it\'s ready.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roundInLineTag => 'in line';
+
+  @override
+  String get roundBackToMenu => 'Back to the menu';
+
+  @override
+  String get roundCancelRound => 'Cancel the round';
+
+  @override
+  String roundCancelRoundFootnote(String host) {
+    return 'You can pull an order out until $host starts pouring it.';
+  }
+
+  @override
+  String roundCancelRoundKept(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n orders were already pouring and stayed.',
+      one: 'One order was already pouring and stayed.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String roundTonightSummary(int total, int coming) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: '$total tonight',
+      one: '1 tonight',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      coming,
+      locale: localeName,
+      other: '$coming still coming',
+      one: '1 still coming',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String roundYoureTonight(String name) {
+    return 'You\'re $name tonight';
+  }
+
+  @override
+  String get roundBuzzNow => 'now';
+
+  @override
+  String roundBuzzReadyMine(String drink) {
+    return 'Your $drink is ready';
+  }
+
+  @override
+  String roundBuzzReadyFriend(String friend, String drink) {
+    return '$friend\'s $drink is ready';
+  }
+
+  @override
+  String roundBuzzBody(String party) {
+    return 'On the counter at $party.';
+  }
+
+  @override
+  String roundBuzzNextUp(String drink) {
+    return '$drink is next up.';
+  }
+
+  @override
+  String get roundCancelTooLate => 'Too late — it\'s already being poured.';
+
+  @override
+  String get roundSendingPaused => 'Sending is off while the bar\'s paused.';
+
+  @override
+  String get roundBack => 'Back';
 }

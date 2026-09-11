@@ -20,10 +20,13 @@ class ElasticService {
     : _functions = functions ?? FirebaseFunctions.instance,
       cacheDuration = const Duration(hours: 12);
 
-  /// Initialize the cache store (call this once during app startup)
-  Future<void> initialize() async {
-    if (_initialized) return;
+  Future<void>? _initFuture;
 
+  /// Initialize the cache store. Safe to race: concurrent first searches
+  /// share one open, rather than each assigning the late [_cacheBox].
+  Future<void> initialize() => _initFuture ??= _openCache();
+
+  Future<void> _openCache() async {
     final cacheDir = await getApplicationDocumentsDirectory();
     Hive.init('${cacheDir.path}/elastic_cache');
 
