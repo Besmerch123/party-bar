@@ -157,17 +157,27 @@ class PartyRepository {
   /// Find a party by join code
   Future<Party?> findPartyByJoinCode(String joinCode) async {
     try {
+      // Flow 07 — the code is looked up whatever state its party is in, and
+      // the caller decides what that means. Filtering to `active` here made
+      // a paused bar unjoinable (pause stops orders, not arrivals) and made
+      // an ended party indistinguishable from a typo, which is the one
+      // distinction screen 04 exists to draw.
       final snapshot = await _partiesCollection
           .where('joinCode', isEqualTo: joinCode.toUpperCase())
-          .where('status', isEqualTo: PartyStatus.active.name)
-          .limit(1)
+          .limit(5)
           .get();
 
       if (snapshot.docs.isEmpty) {
         return null;
       }
 
-      return _partyFromSnapshot(snapshot.docs.first);
+      // Codes are random and never reused, so more than one match means a
+      // collision across nights. A party still running wins; otherwise the
+      // most recent one, which is the one whoever typed this meant.
+      final parties = snapshot.docs.map(_partyFromSnapshot).toList()
+        ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
+      return parties.firstWhere((p) => p.isLive, orElse: () => parties.first);
     } catch (e) {
       throw Exception('Failed to find party by join code: $e');
     }

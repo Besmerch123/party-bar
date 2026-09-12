@@ -2,47 +2,67 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/models.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/party_cocktails.dart';
 import '../../providers/round_draft.dart';
 import '../../services/guest_identity.dart';
+import '../../services/guest_session.dart';
 import '../../services/order_service.dart';
 import '../../services/party_service.dart';
 import '../../theme/theme.dart';
+import '../../utils/app_router.dart';
 import '../../utils/localization_helper.dart';
-import '../../widgets/auth/auth_controls.dart';
 import '../../widgets/common/app_bottom_nav.dart';
 import '../../widgets/party/guest/buzz_banner.dart';
+import '../../widgets/party/guest/guest_name_gate.dart';
+import '../../widgets/party/guest/leave_party_sheet.dart';
 import '../../widgets/party/guest/menu_tab.dart';
+import '../../widgets/party/guest/paused_bar.dart';
 import '../../widgets/party/guest/tonight_tab.dart';
 import '../../widgets/party/guest/your_round_sheet.dart';
 import '../../widgets/party/guest/your_round_tab.dart';
 import '../../widgets/party/order_bits.dart' show hostFirstName;
 import 'guest/add_to_round_screen.dart';
+import 'guest/party_ended_screen.dart';
 import 'guest/round_sent_screen.dart';
 
 /// Flow 06 — the guest's side of the loop: build a round, send it, watch it
-/// move, grab it. Reached from the join form with the [Party] and the name.
+/// move, grab it. Flow 07 owns how someone arrives here and how they leave:
+/// the party is remembered on this phone ([GuestSession]) until it ends, the
+/// name is asked at the first send rather than at the door, and the paused
+/// and ended states are this screen's, not a placeholder's.
 ///
 /// This widget owns the live data — the party, every order at it, and which
 /// of them are this phone's — and hands it to the tabs below as plain data,
-/// so each of them renders without touching Firebase. It also owns the two
-/// pieces of purely local state Flow 06 needs: the round being built before
-/// it is sent ([RoundDraft]), and the buzz — there is no push notification
-/// in this app, so a ready order (or a re-buzz) is caught by diffing
-/// successive order snapshots and answered with a haptic and an in-app
-/// banner instead.
+/// so each of them renders without touching Firebase. It also owns the three
+/// pieces of purely local state the guest needs: the round being built before
+/// it is sent ([RoundDraft]), the name this phone orders under, and the buzz
+/// — there is no push notification in this app, so a ready order (or a
+/// re-buzz) is caught by diffing successive order snapshots and answered with
+/// a haptic and an in-app banner instead.
 class GuestPartyScreen extends StatefulWidget {
   const GuestPartyScreen({
     super.key,
     required this.party,
-    required this.guestName,
+    this.guestName,
+    this.welcome = false,
   });
 
   final Party party;
-  final String guestName;
+
+  /// Only ever a seed. A guest who has never ordered has no name yet, and is
+  /// asked for one on the tap that sends their first round.
+  final String? guestName;
+
+  /// True when a link or a QR opened this directly, which is the one arrival
+  /// that needs a word of confirmation — nothing else on screen says a door
+  /// was just passed through.
+  final bool welcome;
 
   @override
   State<GuestPartyScreen> createState() => _GuestPartyScreenState();
@@ -58,23 +78,43 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
   Party? _party;
   List<CocktailOrder> _orders = const [];
   String? _guestId;
+  String? _name;
 
   Set<String> _dismissedPulls = const {};
   bool _firstOrdersSnapshot = true;
   List<CocktailOrder> _previousMine = const [];
 
   int _tab = 0;
+  bool _welcome = false;
+  Timer? _welcomeTimer;
 
   CocktailOrder? _buzzOrder;
   Cocktail? _buzzNext;
 
   Party get _current => _party ?? widget.party;
+  bool get _paused => _current.status == PartyStatus.paused;
+  String get _host => hostFirstName(_current.hostName);
   String get _dismissedPullsKey => 'round_dismissed_pulls_${widget.party.id}';
 
   @override
   void initState() {
     super.initState();
     _cocktails.ensure(widget.party.availableCocktailIds);
+
+    // The name outlives a single party — a guest is asked once, not once per
+    // party — so the phone's remembered one is the seed for this one.
+    _name = widget.guestName ?? context.read<AuthenticationProvider>().guestName;
+
+    // Until the host closes the bar, reopening the app lands back here.
+    GuestSession.remember(widget.party.id);
+
+    if (widget.welcome) {
+      _welcome = true;
+      _welcomeTimer = Timer(
+        const Duration(seconds: 4),
+        () => mounted ? setState(() => _welcome = false) : null,
+      );
+    }
 
     GuestIdentity.deviceId().then((id) {
       if (!mounted) return;
@@ -84,6 +124,8 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
     _loadDismissedPulls();
 
     _partySub = PartyService().streamParty(widget.party.id).listen((party) {
+      // A party that ended is no longer somewhere to come back to.
+      if (party?.isEnded ?? false) GuestSession.forget();
       if (mounted) setState(() => _party = party ?? widget.party);
     });
     _ordersSub = OrderService().streamPartyOrders(widget.party.id).listen(_onOrders);
@@ -91,6 +133,7 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
 
   @override
   void dispose() {
+    _welcomeTimer?.cancel();
     _partySub?.cancel();
     _ordersSub?.cancel();
     _draft.dispose();
@@ -115,7 +158,16 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
 
     final id = _guestId;
     if (id != null) {
-      final mine = ordersOf(all, guestId: id, guestName: widget.guestName);
+      final mine = ordersOf(all, guestId: id, guestName: _name);
+
+      // This phone has ordered before but does not remember what it called
+      // itself — cleared storage, a reinstall, an order sent before the name
+      // was kept. The orders themselves know, and they are the only place
+      // the host reads it from anyway.
+      if (_name == null && mine.isNotEmpty) {
+        _name = mine.last.guestName;
+      }
+
       if (!_firstOrdersSnapshot) {
         _detectBuzz(previous: _previousMine, current: mine, all: all);
       }
@@ -171,7 +223,47 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
   List<CocktailOrder> get _myOrders {
     final id = _guestId;
     if (id == null) return const [];
-    return ordersOf(_orders, guestId: id, guestName: widget.guestName);
+    return ordersOf(_orders, guestId: id, guestName: _name);
+  }
+
+  /// Flow 07 · screen 03. The name is not a door — it is asked on the tap
+  /// that sends the round, and that same tap is what sends it. Returns null
+  /// if the guest backed out, which cancels the send with the round intact.
+  Future<String?> _resolveName({int? drinks}) async {
+    final auth = context.read<AuthenticationProvider>();
+
+    final name = await showGuestNameGate(
+      context,
+      hostName: _host,
+      drinks: drinks,
+      initialName: _name,
+    );
+    if (name == null) return null;
+
+    // Kept beyond this party: a guest is asked their name once, not once per
+    // party, and the next door prefills it.
+    await auth.setGuestName(name);
+    if (mounted) setState(() => _name = name);
+    return name;
+  }
+
+  Future<void> _changeName() async {
+    await _resolveName();
+  }
+
+  Future<void> _leaveParty() async {
+    final router = GoRouter.of(context);
+    final left = await showLeavePartySheet(context, party: _current);
+    if (left != true) return;
+
+    await GuestSession.forget();
+    if (!mounted) return;
+
+    if (router.canPop()) {
+      router.pop();
+    } else {
+      router.go(AppRoutes.partyHub);
+    }
   }
 
   Future<void> _openAddToRound(Cocktail cocktail) async {
@@ -183,7 +275,7 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
           draft: _draft,
           aheadOfNewOrder: aheadOfNewOrder(_orders),
           orderedTonight: orderedTonight(_orders)[cocktail.id] ?? 0,
-          guestName: widget.guestName,
+          guestName: _name,
         ),
       ),
     );
@@ -201,8 +293,9 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
       cocktails: _cocktails,
       aheadOfNewOrder: aheadOfNewOrder(_orders),
       guestId: id,
-      guestName: widget.guestName,
-      paused: _current.status == PartyStatus.paused,
+      guestName: _name,
+      resolveName: _resolveName,
+      paused: _paused,
     );
 
     if (sentIds != null && sentIds.isNotEmpty && mounted) {
@@ -224,6 +317,29 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
     }
   }
 
+  void _done() {
+    final router = GoRouter.of(context);
+    if (router.canPop()) {
+      router.pop();
+    } else {
+      router.go(AppRoutes.partyHub);
+    }
+  }
+
+  /// "Midnight Orchard · still #2 in line" — what the pause did not touch.
+  String? _stillInLine() {
+    final waiting = _myOrders.where((o) => o.isPending).toList();
+    if (waiting.isEmpty) return null;
+    final order = waiting.first;
+    final title =
+        _cocktails.byId(order.cocktailId)?.title.translate(context) ??
+        order.cocktailId;
+    return context.l10n.joinPausedStillInLine(
+      title,
+      positionOf(order, _orders) ?? 1,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final party = _current;
@@ -233,9 +349,17 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
       return const Scaffold(backgroundColor: AppColors.ground, body: SizedBox.shrink());
     }
 
-    if (party.status == PartyStatus.ended) return _EndedScaffold(party: party);
-
     final myOrders = _myOrders;
+
+    if (party.status == PartyStatus.ended) {
+      return PartyEndedScreen(
+        party: party,
+        myOrders: myOrders,
+        onDone: _done,
+      );
+    }
+
+    final name = _name ?? '';
 
     final tabs = <Widget>[
       TonightTab(
@@ -243,14 +367,22 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
         allOrders: _orders,
         myOrders: myOrders,
         guestId: id,
-        guestName: widget.guestName,
+        guestName: name,
         cocktails: _cocktails,
         dismissedPulls: _dismissedPulls,
         onDismissPull: _dismissPull,
         onOpenMenu: () => setState(() => _tab = 1),
       ),
       MenuTab(party: party, allOrders: _orders, cocktails: _cocktails, onTapCocktail: _openAddToRound),
-      YourRoundTab(party: party, allOrders: _orders, myOrders: myOrders, guestName: widget.guestName, cocktails: _cocktails),
+      YourRoundTab(
+        party: party,
+        allOrders: _orders,
+        myOrders: myOrders,
+        guestName: _name,
+        cocktails: _cocktails,
+        onChangeName: _changeName,
+        onLeave: _leaveParty,
+      ),
     ];
 
     return Scaffold(
@@ -261,7 +393,27 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
           return Stack(
             children: [
               IndexedStack(index: _tab, children: tabs),
-              if (party.status == PartyStatus.paused) _PausedNotice(hostName: party.hostName),
+              if (_paused)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  child: PausedNotice(
+                    hostName: _host,
+                    stillInLine: _stillInLine(),
+                  ),
+                ),
+              // A paused bar is the more urgent of the two, and they would
+              // otherwise draw on top of each other.
+              if (_welcome && !_paused)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  child: _ArrivalBanner(
+                    onDismissed: () => setState(() => _welcome = false),
+                  ),
+                ),
               if (_buzzOrder != null)
                 Positioned(
                   left: 0,
@@ -288,7 +440,12 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (!_draft.isEmpty)
+                    if (_paused)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                        child: PausedFooter(hostName: _host),
+                      )
+                    else if (!_draft.isEmpty)
                       Padding(
                         padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                         child: _RoundPill(count: _draft.length, onTap: _openYourRound),
@@ -308,6 +465,64 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+/// Flow 07 · screen 02 — the only thing a link arrival is told. It says a
+/// door was passed, then gets out of the way of the drinks.
+class _ArrivalBanner extends StatelessWidget {
+  const _ArrivalBanner({required this.onDismissed});
+
+  final VoidCallback onDismissed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.screenEdge,
+          8,
+          AppSpacing.screenEdge,
+          0,
+        ),
+        child: Dismissible(
+          key: const ValueKey('guest-arrival'),
+          direction: DismissDirection.up,
+          onDismissed: (_) => onDismissed(),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(12, 9, 15, 9),
+              decoration: BoxDecoration(
+                // Opaque for the same reason as the paused notice: this
+                // lands over whatever photograph the tab is holding.
+                color: Color.alphaBlend(AppColors.readyWash, AppColors.sheet),
+                borderRadius: AppRadius.pillAll,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.check_circle,
+                    size: 17,
+                    color: AppColors.ready,
+                  ),
+                  const SizedBox(width: 9),
+                  Text(
+                    context.l10n.joinYoureIn,
+                    style: AppTypography.cardTitle.copyWith(
+                      fontSize: 12.5,
+                      color: AppColors.ready,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -342,88 +557,6 @@ class _RoundPill extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// A clear, minimal notice — Flow 07 owns the full paused design.
-class _PausedNotice extends StatelessWidget {
-  const _PausedNotice({required this.hostName});
-
-  final String hostName;
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      left: 0,
-      right: 0,
-      top: 0,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(AppSpacing.screenEdge, 8, AppSpacing.screenEdge, 0),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
-            decoration: BoxDecoration(color: AppColors.lowWash, borderRadius: BorderRadius.circular(14)),
-            child: Row(
-              children: [
-                const Icon(Icons.pause_circle, size: 18, color: AppColors.low),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    context.l10n.roundPausedBody(hostFirstName(hostName)),
-                    style: AppTypography.meta.copyWith(fontSize: 11.5, fontWeight: FontWeight.w600, color: AppColors.ink),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// A calm dead end once the host ends the party — Flow 07 owns the full
-/// after-party design; this is just the way out.
-class _EndedScaffold extends StatelessWidget {
-  const _EndedScaffold({required this.party});
-
-  final Party party;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Scaffold(
-      backgroundColor: AppColors.ground,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenEdge * 1.5),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.local_bar_outlined, size: 40, color: AppColors.ink.withValues(alpha: .3)),
-              const SizedBox(height: 20),
-              Text(l10n.roundEndedTitle, style: AppTypography.title.copyWith(fontSize: 28), textAlign: TextAlign.center),
-              const SizedBox(height: 12),
-              Text(
-                l10n.roundEndedBody(party.name),
-                textAlign: TextAlign.center,
-                style: AppTypography.body,
-              ),
-              const SizedBox(height: 26),
-              SizedBox(
-                width: double.infinity,
-                child: AuthPillButton(
-                  label: l10n.roundEndedLeave,
-                  primary: true,
-                  height: AppSizes.buttonGhost,
-                  onPressed: () => Navigator.of(context).maybePop(),
-                ),
-              ),
-            ],
           ),
         ),
       ),

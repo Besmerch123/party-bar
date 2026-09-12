@@ -3482,4 +3482,244 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get roundBack => 'Назад';
+
+  @override
+  String get joinTitle => 'Який код?';
+
+  @override
+  String get joinSubtitle =>
+      'Шість символів — на екрані господаря або на холодильнику.';
+
+  @override
+  String get joinCodeSemantics => 'Код вечірки, шість символів';
+
+  @override
+  String get joinLinkHint =>
+      'Господар надіслав посилання? Просто торкнись його — воно впускає саме.';
+
+  @override
+  String joinCodeMore(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Ще $n символу',
+      many: 'Ще $n символів',
+      few: 'Ще $n символи',
+      one: 'Ще $n символ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get joinCta => 'Приєднатися';
+
+  @override
+  String get joinRetry => 'Спробувати ще';
+
+  @override
+  String get joinClose => 'Закрити';
+
+  @override
+  String get joinFailedNotFound => 'Немає вечірки з таким кодом.';
+
+  @override
+  String get joinFailedNotFoundHint =>
+      'Нуль і літера O на екрані однакові — варто глянути ще раз.';
+
+  @override
+  String joinFailedEnded(String time) {
+    return 'Ця вечірка завершилась о $time.';
+  }
+
+  @override
+  String get joinFailedEndedNoTime => 'Ця вечірка вже завершилась.';
+
+  @override
+  String get joinFailedEndedHint =>
+      'Коди ніколи не повторюються, тож це означає лише одне — ніч скінчилась.';
+
+  @override
+  String get joinFailedOffline => 'Не вдалося дістатись бару.';
+
+  @override
+  String get joinFailedOfflineHint =>
+      'Код лишився тут — торкнись, щоб спробувати ще раз.';
+
+  @override
+  String get joinAskForLink => 'Попроси господаря надіслати посилання';
+
+  @override
+  String get joinOpening => 'Відчиняємо бар…';
+
+  @override
+  String get joinYoureIn => 'Ти всередині';
+
+  @override
+  String get joinNameTitle => 'Спершу одне';
+
+  @override
+  String joinNameBody(String host) {
+    return '$host має щось вигукнути, коли твій напій буде готовий.';
+  }
+
+  @override
+  String get joinNameLabel => 'Твоє імʼя';
+
+  @override
+  String get joinNameHint => 'Сем';
+
+  @override
+  String get joinNameRequired => 'Потрібне лише імʼя.';
+
+  @override
+  String joinNameVisibility(String host) {
+    return 'Це бачить $host і список видачі. Більше ніхто.';
+  }
+
+  @override
+  String get joinAgeConfirm => 'Мені є 18, і я пʼю відповідально';
+
+  @override
+  String get joinAgeRequired => 'Постав позначку вище, щоб надіслати.';
+
+  @override
+  String get joinNameRemember =>
+      'Цей телефон памʼятатиме тебе до кінця вечірки.';
+
+  @override
+  String joinSendToBar(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Надіслати в бар · $n напою',
+      many: 'Надіслати в бар · $n напоїв',
+      few: 'Надіслати в бар · $n напої',
+      one: 'Надіслати в бар · $n напій',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get joinChangeName => 'Змінити';
+
+  @override
+  String get joinLeaveParty => 'Залишити вечірку';
+
+  @override
+  String joinLeaveTitle(String party) {
+    return 'Залишити $party?';
+  }
+
+  @override
+  String get joinLeaveBody =>
+      'Надіслані напої лишаться в черзі — цей телефон просто перестане за ними стежити. Код впустить назад.';
+
+  @override
+  String get joinLeaveConfirm => 'Залишити';
+
+  @override
+  String get joinStay => 'Лишитись';
+
+  @override
+  String joinEndedTitle(String host) {
+    return '$host зачинив бар';
+  }
+
+  @override
+  String joinEndedBody(String party) {
+    return '$party завершилась.';
+  }
+
+  @override
+  String get joinEndedYourNight => 'Твоя ніч';
+
+  @override
+  String joinEndedDrinksLabel(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'напою',
+      many: 'напоїв',
+      few: 'напої',
+      one: 'напій',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String joinEndedFriendsLabel(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'для друзів',
+      many: 'для друзів',
+      few: 'для друзів',
+      one: 'для друга',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get joinEndedHereLabel => 'тут';
+
+  @override
+  String joinEndedHours(int hours) {
+    return '$hoursГ';
+  }
+
+  @override
+  String get joinEndedFootnote => 'Код більше не працює.';
+
+  @override
+  String get joinEndedDone => 'Готово';
+
+  @override
+  String get joinPausedPill => 'Бар на паузі';
+
+  @override
+  String joinPausedTitle(String host) {
+    return '$host поставив бар на паузу';
+  }
+
+  @override
+  String get joinPausedBody =>
+      'Нових замовлень поки що немає. Твоє досі в черзі — нічого не загубилось.';
+
+  @override
+  String get joinPausedLocked => 'Замовлення вимкнені';
+
+  @override
+  String joinPausedNudge(String host) {
+    return 'Ми штовхнемо тебе, щойно $host відкриє його знову.';
+  }
+
+  @override
+  String joinBackTo(String party) {
+    return 'Назад до $party';
+  }
+
+  @override
+  String get joinAskForLinkMessage =>
+      'Скинь мені посилання на свою вечірку в PartyBar?';
+
+  @override
+  String get joinNameSave => 'Зберегти';
+
+  @override
+  String joinPausedStillInLine(String drink, int position) {
+    return '$drink · досі #$position у черзі';
+  }
+
+  @override
+  String joinPausedGuests(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Скоро повернемось · $count тут',
+      many: 'Скоро повернемось · $count тут',
+      few: 'Скоро повернемось · $count тут',
+      one: 'Скоро повернемось · $count тут',
+    );
+    return '$_temp0';
+  }
 }

@@ -5191,6 +5191,324 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back'**
   String get roundBack;
+
+  /// Flow 07 - Join a party. Screen 01. The headline over the six-character field
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s the code?'**
+  String get joinTitle;
+
+  /// Flow 07 - Join a party. Screen 01. Where to find the code
+  ///
+  /// In en, this message translates to:
+  /// **'Six characters, on the host\'s screen or stuck to the fridge.'**
+  String get joinSubtitle;
+
+  /// Flow 07 - Join a party. Screen 01. Semantic label for the code field
+  ///
+  /// In en, this message translates to:
+  /// **'Party code, six characters'**
+  String get joinCodeSemantics;
+
+  /// Flow 07 - Join a party. Screen 01. The reminder that the fast door exists
+  ///
+  /// In en, this message translates to:
+  /// **'Got a link from the host? Just tap it — it lets you in on its own.'**
+  String get joinLinkHint;
+
+  /// Flow 07 - Join a party. Screen 01. Disabled button label while the code is unfinished
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{One more character} other{{n} more characters}}'**
+  String joinCodeMore(int n);
+
+  /// Flow 07 - Join a party. Screen 01. The button once six characters are in
+  ///
+  /// In en, this message translates to:
+  /// **'Join the party'**
+  String get joinCta;
+
+  /// Flow 07 - Join a party. Screen 04. The button after a code was refused
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get joinRetry;
+
+  /// Flow 07 - Join a party. Screen 01. Tooltip on the close button
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get joinClose;
+
+  /// Flow 07 - Join a party. Screen 04. A code nobody is using
+  ///
+  /// In en, this message translates to:
+  /// **'No party with that code.'**
+  String get joinFailedNotFound;
+
+  /// Flow 07 - Join a party. Screen 04. Why a code might be wrong without the guest being careless
+  ///
+  /// In en, this message translates to:
+  /// **'Zero and O look the same on a phone screen — worth a second look.'**
+  String get joinFailedNotFoundHint;
+
+  /// Flow 07 - Join a party. Screen 04. A real code whose night is over
+  ///
+  /// In en, this message translates to:
+  /// **'That party ended at {time}.'**
+  String joinFailedEnded(String time);
+
+  /// Flow 07 - Join a party. Screen 04. The same, when we do not know when it closed
+  ///
+  /// In en, this message translates to:
+  /// **'That party is already over.'**
+  String get joinFailedEndedNoTime;
+
+  /// Flow 07 - Join a party. Screen 04. Why an ended code is not a typo
+  ///
+  /// In en, this message translates to:
+  /// **'Codes are never reused, so this can only mean the night is done.'**
+  String get joinFailedEndedHint;
+
+  /// Flow 07 - Join a party. Screen 04. A network failure, never blamed on the guest
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t reach the bar.'**
+  String get joinFailedOffline;
+
+  /// Flow 07 - Join a party. Screen 04. What happens next after a network failure
+  ///
+  /// In en, this message translates to:
+  /// **'Your code is still here — tap to try it again.'**
+  String get joinFailedOfflineHint;
+
+  /// Flow 07 - Join a party. Screen 04. The way out of the slow door
+  ///
+  /// In en, this message translates to:
+  /// **'Ask the host to send the link instead'**
+  String get joinAskForLink;
+
+  /// Flow 07 - Join a party. Screen 02. While a tapped link resolves
+  ///
+  /// In en, this message translates to:
+  /// **'Opening the bar…'**
+  String get joinOpening;
+
+  /// Flow 07 - Join a party. Screen 02. The one-line confirmation after arriving by link or QR
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re in'**
+  String get joinYoureIn;
+
+  /// Flow 07 - Join a party. Screen 03. Asked once, on the first send
+  ///
+  /// In en, this message translates to:
+  /// **'One thing first'**
+  String get joinNameTitle;
+
+  /// Flow 07 - Join a party. Screen 03. Why the name is needed at all
+  ///
+  /// In en, this message translates to:
+  /// **'{host} needs something to shout when your drink is ready.'**
+  String joinNameBody(String host);
+
+  /// Flow 07 - Join a party. Screen 03. Field eyebrow
+  ///
+  /// In en, this message translates to:
+  /// **'Your name'**
+  String get joinNameLabel;
+
+  /// Flow 07 - Join a party. Screen 03. Field placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Sam'**
+  String get joinNameHint;
+
+  /// Flow 07 - Join a party. Screen 03. Validation when the field is left empty
+  ///
+  /// In en, this message translates to:
+  /// **'A name is all we need.'**
+  String get joinNameRequired;
+
+  /// Flow 07 - Join a party. Screen 03. Who the name reaches
+  ///
+  /// In en, this message translates to:
+  /// **'{host} and the pickup list see this. Nobody else.'**
+  String joinNameVisibility(String host);
+
+  /// Flow 07 - Join a party. Screen 03. The 18+ line, which rides on the send rather than gating the door
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m over 18 and drinking responsibly'**
+  String get joinAgeConfirm;
+
+  /// Flow 07 - Join a party. Screen 03. Shown when send is tapped without the 18+ line ticked
+  ///
+  /// In en, this message translates to:
+  /// **'Tick the line above to send.'**
+  String get joinAgeRequired;
+
+  /// Flow 07 - Join a party. Screen 03. What is kept after the first send
+  ///
+  /// In en, this message translates to:
+  /// **'This phone will remember you until the party ends.'**
+  String get joinNameRemember;
+
+  /// Flow 07 - Join a party. Screen 03. The send that also commits the name
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{Send to the bar · 1 drink} other{Send to the bar · {n} drinks}}'**
+  String joinSendToBar(int n);
+
+  /// Flow 07 - Join a party. Screen 05. Swap the name this phone orders under
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get joinChangeName;
+
+  /// Flow 07 - Join a party. Screen 05. The quiet way out
+  ///
+  /// In en, this message translates to:
+  /// **'Leave the party'**
+  String get joinLeaveParty;
+
+  /// Flow 07 - Join a party. Screen 05. Confirmation title
+  ///
+  /// In en, this message translates to:
+  /// **'Leave {party}?'**
+  String joinLeaveTitle(String party);
+
+  /// Flow 07 - Join a party. Screen 05. What leaving does and does not do
+  ///
+  /// In en, this message translates to:
+  /// **'Drinks already sent stay in the queue — this phone just stops following them. The code lets you back in.'**
+  String get joinLeaveBody;
+
+  /// Flow 07 - Join a party. Screen 05. Confirm leaving
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get joinLeaveConfirm;
+
+  /// Flow 07 - Join a party. Screen 05. Cancel leaving
+  ///
+  /// In en, this message translates to:
+  /// **'Stay'**
+  String get joinStay;
+
+  /// Flow 07 - Join a party. Screen 06. The party ended while the guest was holding the phone
+  ///
+  /// In en, this message translates to:
+  /// **'{host} closed the bar'**
+  String joinEndedTitle(String host);
+
+  /// Flow 07 - Join a party. Screen 06. The sentence under the title
+  ///
+  /// In en, this message translates to:
+  /// **'{party} is done for the night.'**
+  String joinEndedBody(String party);
+
+  /// Flow 07 - Join a party. Screen 06. Eyebrow over the guest's own three numbers
+  ///
+  /// In en, this message translates to:
+  /// **'Your night'**
+  String get joinEndedYourNight;
+
+  /// Flow 07 - Join a party. Screen 06. Label under the drinks count
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{drink} other{drinks}}'**
+  String joinEndedDrinksLabel(int n);
+
+  /// Flow 07 - Join a party. Screen 06. Label under the count of drinks ordered for other people
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, one{for a friend} other{for friends}}'**
+  String joinEndedFriendsLabel(int n);
+
+  /// Flow 07 - Join a party. Screen 06. Label under how long the guest stayed
+  ///
+  /// In en, this message translates to:
+  /// **'here'**
+  String get joinEndedHereLabel;
+
+  /// Flow 07 - Join a party. Screen 06. How long the guest was at the party, in whole hours
+  ///
+  /// In en, this message translates to:
+  /// **'{hours}H'**
+  String joinEndedHours(int hours);
+
+  /// Flow 07 - Join a party. Screen 06. What the guest can no longer do
+  ///
+  /// In en, this message translates to:
+  /// **'The code has stopped working.'**
+  String get joinEndedFootnote;
+
+  /// Flow 07 - Join a party. Screen 06. The way out
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get joinEndedDone;
+
+  /// Flow 07 - Join a party. Screen 07. The status pill in place of BAR OPEN
+  ///
+  /// In en, this message translates to:
+  /// **'Bar paused'**
+  String get joinPausedPill;
+
+  /// Flow 07 - Join a party. Screen 07. What happened
+  ///
+  /// In en, this message translates to:
+  /// **'{host} paused the bar'**
+  String joinPausedTitle(String host);
+
+  /// Flow 07 - Join a party. Screen 07. Reassurance that nothing was dropped
+  ///
+  /// In en, this message translates to:
+  /// **'No new orders for a moment. Yours is still in the queue — nothing was lost.'**
+  String get joinPausedBody;
+
+  /// Flow 07 - Join a party. Screen 07. The footer strip in place of the round pill
+  ///
+  /// In en, this message translates to:
+  /// **'Ordering is off'**
+  String get joinPausedLocked;
+
+  /// Flow 07 - Join a party. Screen 07. What happens next
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll get a nudge the second {host} opens it again.'**
+  String joinPausedNudge(String host);
+
+  /// Flow 07 - Join a party. The party tab. Returning to the party this phone is already at
+  ///
+  /// In en, this message translates to:
+  /// **'Back to {party}'**
+  String joinBackTo(String party);
+
+  /// Flow 07 - Join a party. Screen 04. The message the share sheet sends to the host
+  ///
+  /// In en, this message translates to:
+  /// **'Send me the link to your PartyBar party?'**
+  String get joinAskForLinkMessage;
+
+  /// Flow 07 - Join a party. Screen 05. Commit a changed name
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get joinNameSave;
+
+  /// Flow 07 - Join a party. Screen 07. The order the pause did not touch
+  ///
+  /// In en, this message translates to:
+  /// **'{drink} · still #{position} in line'**
+  String joinPausedStillInLine(String drink, int position);
+
+  /// Flow 07 - Join a party. Screen 07. The header line under the party name while the bar is paused, in place of roundPartyOpenGuests
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Back in a bit · 1 here} other{Back in a bit · {count} here}}'**
+  String joinPausedGuests(int count);
 }
 
 class _AppLocalizationsDelegate

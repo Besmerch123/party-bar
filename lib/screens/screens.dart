@@ -9,6 +9,9 @@ export 'explore/explore_search_screen.dart';
 export 'explore/make_it_now_screen.dart';
 export 'party/party_hub_screen.dart';
 export 'party/join_party_screen.dart';
+// Flow 07 - join a party. The fast door, which resolves a link, a QR or a
+// remembered party and then becomes the party itself.
+export 'party/party_door_screen.dart';
 export 'party/create_party_screen.dart';
 export 'party/party_details_screen.dart';
 // Flow 06 - order & pour. The host's queue and the guest's party.

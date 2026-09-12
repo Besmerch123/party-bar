@@ -43,6 +43,28 @@
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<!-- Flow 07 - the fast door. Hands an incoming URL to the Flutter
+	     router, which answers /j/<code>. -->
+	<key>FlutterDeepLinkingEnabled</key>
+	<true/>
+	<!-- partybar://app/j/K7QM4P. The host is "app" so the code lands in the
+	     URL's path, which is the only part go_router matches. The https
+	     form the QR carries needs an Associated Domains entitlement and an
+	     apple-app-site-association file on partybar.app; until those exist
+	     it opens Safari and the guest falls back to the code. -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>app.partybar.join</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>partybar</string>
+			</array>
+		</dict>
+	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 </dict>

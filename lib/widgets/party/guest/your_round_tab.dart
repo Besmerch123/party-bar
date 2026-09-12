@@ -6,13 +6,15 @@ import '../../../providers/party_cocktails.dart';
 import '../../../theme/theme.dart';
 import '../../../utils/localization_helper.dart';
 import '../../common/app_bottom_nav.dart';
+import '../../auth/auth_controls.dart';
 import '../../common/app_chip.dart';
 import '../order_bits.dart';
 import 'round_bits.dart';
 
-/// Flow 06 · Your round tab (a light version of Flow 07 · 05) — every order
-/// this phone has sent tonight, newest first, each carrying where it stands.
-/// No Change/Leave actions live here; that is Flow 07's tab, not this one's.
+/// Flow 07 · screen 05 — the only page in the party that is about the guest
+/// rather than the drinks: every order this phone has sent tonight, newest
+/// first, each carrying where it stands, and underneath them the two things
+/// only this guest can decide — who this phone is, and whether it stays.
 class YourRoundTab extends StatelessWidget {
   const YourRoundTab({
     super.key,
@@ -21,13 +23,21 @@ class YourRoundTab extends StatelessWidget {
     required this.myOrders,
     required this.guestName,
     required this.cocktails,
+    required this.onChangeName,
+    required this.onLeave,
   });
 
   final Party party;
   final List<CocktailOrder> allOrders;
   final List<CocktailOrder> myOrders;
-  final String guestName;
+
+  /// Null until the first round is sent — there is nothing to change yet,
+  /// and the identity row stays away rather than naming an empty guest.
+  final String? guestName;
+
   final PartyCocktails cocktails;
+  final VoidCallback onChangeName;
+  final VoidCallback onLeave;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +46,11 @@ class YourRoundTab extends StatelessWidget {
     final stillComing = myOrders.where((o) => o.isOpen).length;
 
     return SingleChildScrollView(
+      // This tab has no photo hero to bleed under the status bar, so it
+      // clears it itself rather than putting the title behind the clock.
       padding: EdgeInsets.fromLTRB(
         AppSpacing.screenEdge,
-        16,
+        MediaQuery.paddingOf(context).top + 16,
         AppSpacing.screenEdge,
         AppBottomNav.insetOf(context) + 70,
       ),
@@ -57,23 +69,10 @@ class YourRoundTab extends StatelessWidget {
             l10n.roundTonightSummary(myOrders.length, stillComing),
             style: AppTypography.meta.copyWith(fontSize: 12.5, fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 18),
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(color: AppColors.sheet, borderRadius: BorderRadius.circular(16)),
-            child: Row(
-              children: [
-                GuestInitial(name: guestName, size: 34, highlighted: true),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    l10n.roundYoureTonight(guestName),
-                    style: AppTypography.cardTitle.copyWith(fontSize: 13.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          if (guestName case final name?) ...[
+            const SizedBox(height: 18),
+            _IdentityRow(name: name, onChange: onChangeName),
+          ],
           const SizedBox(height: 22),
           if (ordered.isEmpty)
             Padding(
@@ -87,6 +86,60 @@ class YourRoundTab extends StatelessWidget {
               _OrderCard(order: order, cocktail: cocktails.byId(order.cocktailId), allOrders: allOrders),
               const SizedBox(height: 10),
             ],
+          const SizedBox(height: 16),
+          AuthGhostAction(label: l10n.joinLeaveParty, onPressed: onLeave),
+        ],
+      ),
+    );
+  }
+}
+
+/// Who this phone is tonight, and the one tap that changes it. The name is
+/// the whole of a guest's account, so this is the whole of their settings.
+class _IdentityRow extends StatelessWidget {
+  const _IdentityRow({required this.name, required this.onChange});
+
+  final String name;
+  final VoidCallback onChange;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(14, 14, 8, 14),
+      decoration: BoxDecoration(color: AppColors.sheet, borderRadius: BorderRadius.circular(16)),
+      child: Row(
+        children: [
+          GuestInitial(name: name, size: 34, highlighted: true),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  l10n.roundYoureTonight(name),
+                  style: AppTypography.cardTitle.copyWith(fontSize: 13.5),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  l10n.joinNameRemember,
+                  style: AppTypography.meta.copyWith(fontSize: 11),
+                ),
+              ],
+            ),
+          ),
+          TextButton(
+            onPressed: onChange,
+            child: Text(
+              l10n.joinChangeName,
+              style: AppTypography.buttonSecondary.copyWith(
+                fontSize: 12.5,
+                color: AppColors.signalLight,
+              ),
+            ),
+          ),
         ],
       ),
     );

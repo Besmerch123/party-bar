@@ -3602,16 +3602,28 @@
   "@queueSublineInLine": {
     "description": "Flow 06 - Order & pour. Screen 09. Header subline when nothing is on the counter",
     "placeholders": {
-      "inLine": {"type": "int", "example": "4"},
-      "poured": {"type": "int", "example": "11"}
+      "inLine": {
+        "type": "int",
+        "example": "4"
+      },
+      "poured": {
+        "type": "int",
+        "example": "11"
+      }
     }
   },
   "queueSublineOnCounter": "{onCounter} on the counter · {inLine} in line",
   "@queueSublineOnCounter": {
     "description": "Flow 06 - Order & pour. Screen 11. Header subline once something is ready",
     "placeholders": {
-      "onCounter": {"type": "int", "example": "1"},
-      "inLine": {"type": "int", "example": "3"}
+      "onCounter": {
+        "type": "int",
+        "example": "1"
+      },
+      "inLine": {
+        "type": "int",
+        "example": "3"
+      }
     }
   },
   "queuePausedRowTitle": "Guests can't order right now",
@@ -3630,17 +3642,32 @@
   "@queueGuestBuzzed": {
     "description": "Flow 06 - Order & pour. Screen 11. On-the-counter row, drink is for the sender",
     "placeholders": {
-      "guest": {"type": "String", "example": "Sam"},
-      "wait": {"type": "String", "example": "1m"}
+      "guest": {
+        "type": "String",
+        "example": "Sam"
+      },
+      "wait": {
+        "type": "String",
+        "example": "1m"
+      }
     }
   },
   "queueGuestBuzzedForFriend": "{guest}, for {forName} · buzzed {wait} ago",
   "@queueGuestBuzzedForFriend": {
     "description": "Flow 06 - Order & pour. Screen 11. On-the-counter row, drink is for a friend",
     "placeholders": {
-      "guest": {"type": "String", "example": "Sam"},
-      "forName": {"type": "String", "example": "Marta"},
-      "wait": {"type": "String", "example": "1m"}
+      "guest": {
+        "type": "String",
+        "example": "Sam"
+      },
+      "forName": {
+        "type": "String",
+        "example": "Marta"
+      },
+      "wait": {
+        "type": "String",
+        "example": "1m"
+      }
     }
   },
   "queueHandedOver": "Handed it over",
@@ -3659,7 +3686,10 @@
   "@queueBuzzedAgainSnack": {
     "description": "Flow 06 - Order & pour. Screen 11. Snackbar after Buzz again",
     "placeholders": {
-      "guest": {"type": "String", "example": "Sam"}
+      "guest": {
+        "type": "String",
+        "example": "Sam"
+      }
     }
   },
   "queuePouringEyebrow": "Pouring now",
@@ -3674,17 +3704,32 @@
   "@queueGuestWaiting": {
     "description": "Flow 06 - Order & pour. Screens 09/11. Next up / in line row, drink is for the sender",
     "placeholders": {
-      "guest": {"type": "String", "example": "Marta"},
-      "wait": {"type": "String", "example": "6m"}
+      "guest": {
+        "type": "String",
+        "example": "Marta"
+      },
+      "wait": {
+        "type": "String",
+        "example": "6m"
+      }
     }
   },
   "queueGuestWaitingForFriend": "{guest}, for {forName} · waiting {wait}",
   "@queueGuestWaitingForFriend": {
     "description": "Flow 06 - Order & pour. Screens 09/11. Next up / in line row, drink is for a friend",
     "placeholders": {
-      "guest": {"type": "String", "example": "Sam"},
-      "forName": {"type": "String", "example": "Marta"},
-      "wait": {"type": "String", "example": "2m"}
+      "guest": {
+        "type": "String",
+        "example": "Sam"
+      },
+      "forName": {
+        "type": "String",
+        "example": "Marta"
+      },
+      "wait": {
+        "type": "String",
+        "example": "2m"
+      }
     }
   },
   "queueStartPouring": "Start pouring",
@@ -3699,8 +3744,14 @@
   "@queueIngredientsMethodChip": {
     "description": "Flow 06 - Order & pour. Screen 09. Next up chip: ingredient count and build method",
     "placeholders": {
-      "count": {"type": "int", "example": "4"},
-      "method": {"type": "String", "example": "Stirred"}
+      "count": {
+        "type": "int",
+        "example": "4"
+      },
+      "method": {
+        "type": "String",
+        "example": "Stirred"
+      }
     }
   },
   "queuePourPill": "Pour",
@@ -3711,7 +3762,10 @@
   "@queueInLineHeader": {
     "description": "Flow 06 - Order & pour. Screen 09. In line section eyebrow",
     "placeholders": {
-      "count": {"type": "int", "example": "3"}
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
     }
   },
   "queueOldestFirst": "Oldest first",
@@ -3730,7 +3784,10 @@
   "@queueSkipConfirmTitle": {
     "description": "Flow 06 - Order & pour. Screen 09. Skip confirmation sheet title",
     "placeholders": {
-      "name": {"type": "String", "example": "Negroni"}
+      "name": {
+        "type": "String",
+        "example": "Negroni"
+      }
     }
   },
   "queueSkipConfirmBody": "They'll be told it's not coming. This can't be undone.",
@@ -3769,45 +3826,72 @@
   "@queuePouringPill": {
     "description": "Flow 06 - Order & pour. Screen 10. Header pill with the running stopwatch",
     "placeholders": {
-      "time": {"type": "String", "example": "0:42"}
+      "time": {
+        "type": "String",
+        "example": "0:42"
+      }
     }
   },
   "queueForGuestPosition": "for {guest} · #{position} in line",
   "@queueForGuestPosition": {
     "description": "Flow 06 - Order & pour. Screen 10. Header line, drink is for the sender",
     "placeholders": {
-      "guest": {"type": "String", "example": "Sam"},
-      "position": {"type": "int", "example": "3"}
+      "guest": {
+        "type": "String",
+        "example": "Sam"
+      },
+      "position": {
+        "type": "int",
+        "example": "3"
+      }
     }
   },
   "queueForGuestFromSender": "for {forName} · from {guest}",
   "@queueForGuestFromSender": {
     "description": "Flow 06 - Order & pour. Screen 10. Header line, drink is for a friend",
     "placeholders": {
-      "forName": {"type": "String", "example": "Marta"},
-      "guest": {"type": "String", "example": "Sam"}
+      "forName": {
+        "type": "String",
+        "example": "Marta"
+      },
+      "guest": {
+        "type": "String",
+        "example": "Sam"
+      }
     }
   },
   "queueNoteLabel": "{guest} asked for",
   "@queueNoteLabel": {
     "description": "Flow 06 - Order & pour. Screen 10. Amber note callout eyebrow",
     "placeholders": {
-      "guest": {"type": "String", "example": "Sam"}
+      "guest": {
+        "type": "String",
+        "example": "Sam"
+      }
     }
   },
   "queueHowHostMakesItRow": "{count, plural, =1{How {host} makes it · 1 step} other{How {host} makes it · {count} steps}}",
   "@queueHowHostMakesItRow": {
     "description": "Flow 06 - Order & pour. Screen 10. Row that opens the method sheet",
     "placeholders": {
-      "host": {"type": "String", "example": "Kate"},
-      "count": {"type": "int", "example": "3"}
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      },
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
     }
   },
   "queueReadyBuzz": "Ready — buzz {guest}",
   "@queueReadyBuzz": {
     "description": "Flow 06 - Order & pour. Screens 10/10b. Primary button that marks an order ready",
     "placeholders": {
-      "guest": {"type": "String", "example": "Sam"}
+      "guest": {
+        "type": "String",
+        "example": "Sam"
+      }
     }
   },
   "queueOutOfSomething": "Out of something",
@@ -3822,14 +3906,20 @@
   "@queueCancelOrderConfirmTitle": {
     "description": "Flow 06 - Order & pour. Screen 10. Cancel confirmation sheet title",
     "placeholders": {
-      "name": {"type": "String", "example": "Gin & Tonic"}
+      "name": {
+        "type": "String",
+        "example": "Gin & Tonic"
+      }
     }
   },
   "queueCancelOrderConfirmBody": "{guest} will be told it's cancelled. This can't be undone.",
   "@queueCancelOrderConfirmBody": {
     "description": "Flow 06 - Order & pour. Screen 10. Cancel confirmation sheet body",
     "placeholders": {
-      "guest": {"type": "String", "example": "Sam"}
+      "guest": {
+        "type": "String",
+        "example": "Sam"
+      }
     }
   },
   "queueCancelOrderConfirmKeep": "Keep pouring",
@@ -3840,29 +3930,44 @@
   "@queueMethodSheetTitle": {
     "description": "Flow 06 - Order & pour. Screen 10b. Sheet title",
     "placeholders": {
-      "host": {"type": "String", "example": "Kate"}
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
     }
   },
   "queueMethodSubtitle": "{cocktail} · {method}",
   "@queueMethodSubtitle": {
     "description": "Flow 06 - Order & pour. Screen 10b. Sheet subtitle",
     "placeholders": {
-      "cocktail": {"type": "String", "example": "Midnight Orchard"},
-      "method": {"type": "String", "example": "Shaken"}
+      "cocktail": {
+        "type": "String",
+        "example": "Midnight Orchard"
+      },
+      "method": {
+        "type": "String",
+        "example": "Shaken"
+      }
     }
   },
   "queueMethodMinutes": "~{minutes} min",
   "@queueMethodMinutes": {
     "description": "Flow 06 - Order & pour. Screen 10b. Prep time chip",
     "placeholders": {
-      "minutes": {"type": "int", "example": "3"}
+      "minutes": {
+        "type": "int",
+        "example": "3"
+      }
     }
   },
   "queueMethodTimerSeconds": "{seconds} s",
   "@queueMethodTimerSeconds": {
     "description": "Flow 06 - Order & pour. Screen 10b. Countdown chip on a timed step",
     "placeholders": {
-      "seconds": {"type": "int", "example": "12"}
+      "seconds": {
+        "type": "int",
+        "example": "12"
+      }
     }
   },
   "queueWhatRanOutTitle": "What ran out?",
@@ -3873,28 +3978,40 @@
   "@queueOutOfTitle": {
     "description": "Flow 06 - Order & pour. Screen 12. Out-of sheet title",
     "placeholders": {
-      "ingredient": {"type": "String", "example": "gin"}
+      "ingredient": {
+        "type": "String",
+        "example": "gin"
+      }
     }
   },
   "queueOutOfSubtitle": "Bottle's empty · {count, plural, =1{1 drink uses it} other{{count} drinks use it}}",
   "@queueOutOfSubtitle": {
     "description": "Flow 06 - Order & pour. Screen 12. Out-of sheet subtitle",
     "placeholders": {
-      "count": {"type": "int", "example": "2"}
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
     }
   },
   "queueWaitingInQueue": "{count, plural, =0{nobody waiting} =1{1 waiting in the queue} other{{count} waiting in the queue}}",
   "@queueWaitingInQueue": {
     "description": "Flow 06 - Order & pour. Screen 12. Per-drink row detail",
     "placeholders": {
-      "count": {"type": "int", "example": "1"}
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
     }
   },
   "queueGuestsToldTitle": "{guest} gets told, with options",
   "@queueGuestsToldTitle": {
     "description": "Flow 06 - Order & pour. Screen 12. Amber aside title, naming the first affected guest",
     "placeholders": {
-      "guest": {"type": "String", "example": "Sam"}
+      "guest": {
+        "type": "String",
+        "example": "Sam"
+      }
     }
   },
   "queueGuestsToldGeneric": "Guests get told, with options",
@@ -3905,15 +4022,24 @@
   "@queueGuestsToldBody": {
     "description": "Flow 06 - Order & pour. Screen 12. Amber aside detail",
     "placeholders": {
-      "host": {"type": "String", "example": "Kate"},
-      "ingredient": {"type": "String", "example": "gin"}
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      },
+      "ingredient": {
+        "type": "String",
+        "example": "gin"
+      }
     }
   },
   "queuePullDrinks": "{count, plural, =1{Pull 1 drink from the menu} other{Pull {count} drinks from the menu}}",
   "@queuePullDrinks": {
     "description": "Flow 06 - Order & pour. Screen 12. Primary button",
     "placeholders": {
-      "count": {"type": "int", "example": "2"}
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
     }
   },
   "queueKeepOnMenu": "Only this order — keep them on the menu",
@@ -3924,15 +4050,24 @@
   "@queueOrderLandedTitle": {
     "description": "Flow 06 - Order & pour. Screen 08. Landed-order banner title",
     "placeholders": {
-      "guest": {"type": "String", "example": "Sam"},
-      "count": {"type": "int", "example": "2"}
+      "guest": {
+        "type": "String",
+        "example": "Sam"
+      },
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
     }
   },
   "queueForFriend": "for {name}",
   "@queueForFriend": {
     "description": "Flow 06 - Order & pour. Screen 08. Suffix naming who a drink in the landed banner is for",
     "placeholders": {
-      "name": {"type": "String", "example": "Marta"}
+      "name": {
+        "type": "String",
+        "example": "Marta"
+      }
     }
   },
   "queueWaitingOnYouTitle": "Waiting on you",
@@ -3943,15 +4078,24 @@
   "@queueInLineBadge": {
     "description": "Flow 06 - Order & pour. Screen 08. Waiting-on-you card's mono count",
     "placeholders": {
-      "count": {"type": "int", "example": "4"}
+      "count": {
+        "type": "int",
+        "example": "4"
+      }
     }
   },
   "queueDrinkForGuest": "{drink} · {guest}",
   "@queueDrinkForGuest": {
     "description": "Flow 06 - Order & pour. Screen 08. Waiting-on-you row",
     "placeholders": {
-      "drink": {"type": "String", "example": "Negroni"},
-      "guest": {"type": "String", "example": "Marta"}
+      "drink": {
+        "type": "String",
+        "example": "Negroni"
+      },
+      "guest": {
+        "type": "String",
+        "example": "Marta"
+      }
     }
   },
   "roundNavTonight": "Tonight",
@@ -4655,5 +4799,310 @@
   "roundBack": "Back",
   "@roundBack": {
     "description": "Flow 06 - Order & pour. Screen 01. Tooltip for the glass back button"
+  },
+  "joinTitle": "What's the code?",
+  "@joinTitle": {
+    "description": "Flow 07 - Join a party. Screen 01. The headline over the six-character field"
+  },
+  "joinSubtitle": "Six characters, on the host's screen or stuck to the fridge.",
+  "@joinSubtitle": {
+    "description": "Flow 07 - Join a party. Screen 01. Where to find the code"
+  },
+  "joinCodeSemantics": "Party code, six characters",
+  "@joinCodeSemantics": {
+    "description": "Flow 07 - Join a party. Screen 01. Semantic label for the code field"
+  },
+  "joinLinkHint": "Got a link from the host? Just tap it — it lets you in on its own.",
+  "@joinLinkHint": {
+    "description": "Flow 07 - Join a party. Screen 01. The reminder that the fast door exists"
+  },
+  "joinCodeMore": "{n, plural, one{One more character} other{{n} more characters}}",
+  "@joinCodeMore": {
+    "description": "Flow 07 - Join a party. Screen 01. Disabled button label while the code is unfinished",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "joinCta": "Join the party",
+  "@joinCta": {
+    "description": "Flow 07 - Join a party. Screen 01. The button once six characters are in"
+  },
+  "joinRetry": "Try again",
+  "@joinRetry": {
+    "description": "Flow 07 - Join a party. Screen 04. The button after a code was refused"
+  },
+  "joinClose": "Close",
+  "@joinClose": {
+    "description": "Flow 07 - Join a party. Screen 01. Tooltip on the close button"
+  },
+  "joinFailedNotFound": "No party with that code.",
+  "@joinFailedNotFound": {
+    "description": "Flow 07 - Join a party. Screen 04. A code nobody is using"
+  },
+  "joinFailedNotFoundHint": "Zero and O look the same on a phone screen — worth a second look.",
+  "@joinFailedNotFoundHint": {
+    "description": "Flow 07 - Join a party. Screen 04. Why a code might be wrong without the guest being careless"
+  },
+  "joinFailedEnded": "That party ended at {time}.",
+  "@joinFailedEnded": {
+    "description": "Flow 07 - Join a party. Screen 04. A real code whose night is over",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "01:20"
+      }
+    }
+  },
+  "joinFailedEndedNoTime": "That party is already over.",
+  "@joinFailedEndedNoTime": {
+    "description": "Flow 07 - Join a party. Screen 04. The same, when we do not know when it closed"
+  },
+  "joinFailedEndedHint": "Codes are never reused, so this can only mean the night is done.",
+  "@joinFailedEndedHint": {
+    "description": "Flow 07 - Join a party. Screen 04. Why an ended code is not a typo"
+  },
+  "joinFailedOffline": "Couldn't reach the bar.",
+  "@joinFailedOffline": {
+    "description": "Flow 07 - Join a party. Screen 04. A network failure, never blamed on the guest"
+  },
+  "joinFailedOfflineHint": "Your code is still here — tap to try it again.",
+  "@joinFailedOfflineHint": {
+    "description": "Flow 07 - Join a party. Screen 04. What happens next after a network failure"
+  },
+  "joinAskForLink": "Ask the host to send the link instead",
+  "@joinAskForLink": {
+    "description": "Flow 07 - Join a party. Screen 04. The way out of the slow door"
+  },
+  "joinOpening": "Opening the bar…",
+  "@joinOpening": {
+    "description": "Flow 07 - Join a party. Screen 02. While a tapped link resolves"
+  },
+  "joinYoureIn": "You're in",
+  "@joinYoureIn": {
+    "description": "Flow 07 - Join a party. Screen 02. The one-line confirmation after arriving by link or QR"
+  },
+  "joinNameTitle": "One thing first",
+  "@joinNameTitle": {
+    "description": "Flow 07 - Join a party. Screen 03. Asked once, on the first send"
+  },
+  "joinNameBody": "{host} needs something to shout when your drink is ready.",
+  "@joinNameBody": {
+    "description": "Flow 07 - Join a party. Screen 03. Why the name is needed at all",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "joinNameLabel": "Your name",
+  "@joinNameLabel": {
+    "description": "Flow 07 - Join a party. Screen 03. Field eyebrow"
+  },
+  "joinNameHint": "Sam",
+  "@joinNameHint": {
+    "description": "Flow 07 - Join a party. Screen 03. Field placeholder"
+  },
+  "joinNameRequired": "A name is all we need.",
+  "@joinNameRequired": {
+    "description": "Flow 07 - Join a party. Screen 03. Validation when the field is left empty"
+  },
+  "joinNameVisibility": "{host} and the pickup list see this. Nobody else.",
+  "@joinNameVisibility": {
+    "description": "Flow 07 - Join a party. Screen 03. Who the name reaches",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "joinAgeConfirm": "I'm over 18 and drinking responsibly",
+  "@joinAgeConfirm": {
+    "description": "Flow 07 - Join a party. Screen 03. The 18+ line, which rides on the send rather than gating the door"
+  },
+  "joinAgeRequired": "Tick the line above to send.",
+  "@joinAgeRequired": {
+    "description": "Flow 07 - Join a party. Screen 03. Shown when send is tapped without the 18+ line ticked"
+  },
+  "joinNameRemember": "This phone will remember you until the party ends.",
+  "@joinNameRemember": {
+    "description": "Flow 07 - Join a party. Screen 03. What is kept after the first send"
+  },
+  "joinSendToBar": "{n, plural, one{Send to the bar · 1 drink} other{Send to the bar · {n} drinks}}",
+  "@joinSendToBar": {
+    "description": "Flow 07 - Join a party. Screen 03. The send that also commits the name",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "joinChangeName": "Change",
+  "@joinChangeName": {
+    "description": "Flow 07 - Join a party. Screen 05. Swap the name this phone orders under"
+  },
+  "joinLeaveParty": "Leave the party",
+  "@joinLeaveParty": {
+    "description": "Flow 07 - Join a party. Screen 05. The quiet way out"
+  },
+  "joinLeaveTitle": "Leave {party}?",
+  "@joinLeaveTitle": {
+    "description": "Flow 07 - Join a party. Screen 05. Confirmation title",
+    "placeholders": {
+      "party": {
+        "type": "String",
+        "example": "Kate's Birthday"
+      }
+    }
+  },
+  "joinLeaveBody": "Drinks already sent stay in the queue — this phone just stops following them. The code lets you back in.",
+  "@joinLeaveBody": {
+    "description": "Flow 07 - Join a party. Screen 05. What leaving does and does not do"
+  },
+  "joinLeaveConfirm": "Leave",
+  "@joinLeaveConfirm": {
+    "description": "Flow 07 - Join a party. Screen 05. Confirm leaving"
+  },
+  "joinStay": "Stay",
+  "@joinStay": {
+    "description": "Flow 07 - Join a party. Screen 05. Cancel leaving"
+  },
+  "joinEndedTitle": "{host} closed the bar",
+  "@joinEndedTitle": {
+    "description": "Flow 07 - Join a party. Screen 06. The party ended while the guest was holding the phone",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "joinEndedBody": "{party} is done for the night.",
+  "@joinEndedBody": {
+    "description": "Flow 07 - Join a party. Screen 06. The sentence under the title",
+    "placeholders": {
+      "party": {
+        "type": "String",
+        "example": "Kate's Birthday"
+      }
+    }
+  },
+  "joinEndedYourNight": "Your night",
+  "@joinEndedYourNight": {
+    "description": "Flow 07 - Join a party. Screen 06. Eyebrow over the guest's own three numbers"
+  },
+  "joinEndedDrinksLabel": "{n, plural, one{drink} other{drinks}}",
+  "@joinEndedDrinksLabel": {
+    "description": "Flow 07 - Join a party. Screen 06. Label under the drinks count",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "joinEndedFriendsLabel": "{n, plural, one{for a friend} other{for friends}}",
+  "@joinEndedFriendsLabel": {
+    "description": "Flow 07 - Join a party. Screen 06. Label under the count of drinks ordered for other people",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "joinEndedHereLabel": "here",
+  "@joinEndedHereLabel": {
+    "description": "Flow 07 - Join a party. Screen 06. Label under how long the guest stayed"
+  },
+  "joinEndedHours": "{hours}H",
+  "@joinEndedHours": {
+    "description": "Flow 07 - Join a party. Screen 06. How long the guest was at the party, in whole hours",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "joinEndedFootnote": "The code has stopped working.",
+  "@joinEndedFootnote": {
+    "description": "Flow 07 - Join a party. Screen 06. What the guest can no longer do"
+  },
+  "joinEndedDone": "Done",
+  "@joinEndedDone": {
+    "description": "Flow 07 - Join a party. Screen 06. The way out"
+  },
+  "joinPausedPill": "Bar paused",
+  "@joinPausedPill": {
+    "description": "Flow 07 - Join a party. Screen 07. The status pill in place of BAR OPEN"
+  },
+  "joinPausedTitle": "{host} paused the bar",
+  "@joinPausedTitle": {
+    "description": "Flow 07 - Join a party. Screen 07. What happened",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "joinPausedBody": "No new orders for a moment. Yours is still in the queue — nothing was lost.",
+  "@joinPausedBody": {
+    "description": "Flow 07 - Join a party. Screen 07. Reassurance that nothing was dropped"
+  },
+  "joinPausedLocked": "Ordering is off",
+  "@joinPausedLocked": {
+    "description": "Flow 07 - Join a party. Screen 07. The footer strip in place of the round pill"
+  },
+  "joinPausedNudge": "You'll get a nudge the second {host} opens it again.",
+  "@joinPausedNudge": {
+    "description": "Flow 07 - Join a party. Screen 07. What happens next",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "joinBackTo": "Back to {party}",
+  "@joinBackTo": {
+    "description": "Flow 07 - Join a party. The party tab. Returning to the party this phone is already at",
+    "placeholders": {
+      "party": {
+        "type": "String",
+        "example": "Kate's Birthday"
+      }
+    }
+  },
+  "joinAskForLinkMessage": "Send me the link to your PartyBar party?",
+  "@joinAskForLinkMessage": {
+    "description": "Flow 07 - Join a party. Screen 04. The message the share sheet sends to the host"
+  },
+  "joinNameSave": "Save",
+  "@joinNameSave": {
+    "description": "Flow 07 - Join a party. Screen 05. Commit a changed name"
+  },
+  "joinPausedStillInLine": "{drink} · still #{position} in line",
+  "@joinPausedStillInLine": {
+    "description": "Flow 07 - Join a party. Screen 07. The order the pause did not touch",
+    "placeholders": {
+      "drink": {
+        "type": "String",
+        "example": "Midnight Orchard"
+      },
+      "position": {
+        "type": "int"
+      }
+    }
+  },
+  "joinPausedGuests": "{count, plural, =1{Back in a bit · 1 here} other{Back in a bit · {count} here}}",
+  "@joinPausedGuests": {
+    "description": "Flow 07 - Join a party. Screen 07. The header line under the party name while the bar is paused, in place of roundPartyOpenGuests",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

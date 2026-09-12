@@ -24,7 +24,7 @@ class AddToRoundScreen extends StatefulWidget {
     required this.draft,
     required this.aheadOfNewOrder,
     required this.orderedTonight,
-    required this.guestName,
+    this.guestName,
   });
 
   final Party party;
@@ -32,7 +32,9 @@ class AddToRoundScreen extends StatefulWidget {
   final RoundDraft draft;
 
   /// The name this phone orders under — the "Me" chip carries its initial.
-  final String guestName;
+  /// Null before the first round is sent, when the chip falls back to the
+  /// initial of the word "Me" itself.
+  final String? guestName;
 
   /// [aheadOfNewOrder] from the orders snapshot at the moment the screen
   /// opened — good enough for a screen open only a few seconds.
@@ -87,6 +89,11 @@ class _AddToRoundScreenState extends State<AddToRoundScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final cocktail = widget.cocktail;
+
+    // Flow 07 · screen 07 — a round can still be built while the bar is
+    // paused, but the pill must not claim it is open.
+    final paused = widget.party.status == PartyStatus.paused;
+
     final chips = <String>[
       if (cocktail.equipments.where((e) => e.kind == EquipmentKind.glassware).firstOrNull
           case final glass?)
@@ -127,16 +134,24 @@ class _AddToRoundScreenState extends State<AddToRoundScreen> {
                               Container(
                                 width: 7,
                                 height: 7,
-                                decoration: const BoxDecoration(
-                                  color: AppColors.signal,
+                                decoration: BoxDecoration(
+                                  color: paused ? AppColors.low : AppColors.signal,
                                   shape: BoxShape.circle,
-                                  boxShadow: [BoxShadow(color: AppColors.signal, blurRadius: 8)],
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: paused ? AppColors.low : AppColors.signal,
+                                      blurRadius: 8,
+                                    ),
+                                  ],
                                 ),
                               ),
                               const SizedBox(width: 8),
                               Flexible(
                                 child: Text(
-                                  l10n.roundBarOpenPill.toUpperCase(),
+                                  (paused
+                                          ? l10n.joinPausedPill
+                                          : l10n.roundBarOpenPill)
+                                      .toUpperCase(),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: AppTypography.label,

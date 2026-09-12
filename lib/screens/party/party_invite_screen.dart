@@ -20,8 +20,10 @@ const _backdrop = 'assets/images/onboarding/midnight_orchard.jpg';
 /// comes back to: a QR big enough to scan across a kitchen, the code to read
 /// out, and the system share sheet.
 ///
-/// The QR carries the bare code. There is no app link yet, so a camera
-/// shows the code rather than opening the join screen (Flow 07's seam).
+/// Flow 07 · screen 02 — the QR carries [partyJoinLink], not the bare code,
+/// so the system camera opens the party rather than showing six characters
+/// to retype. The code under it stays, because it is the one thing that can
+/// be read out loud across a kitchen.
 class PartyInviteScreen extends StatelessWidget {
   const PartyInviteScreen({super.key, required this.party});
 
@@ -117,7 +119,7 @@ class PartyInviteScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: QrImageView(
-                                data: party.joinCode,
+                                data: partyJoinLink(party.joinCode),
                                 padding: EdgeInsets.zero,
                                 backgroundColor: Colors.white,
                                 eyeStyle: const QrEyeStyle(
@@ -184,7 +186,8 @@ class PartyInviteScreen extends StatelessWidget {
                         primary: true,
                         height: AppSizes.buttonPrimary,
                         onPressed: () => Share.share(
-                          l10n.hostShareText(party.name, party.joinCode),
+                          '${l10n.hostShareText(party.name, party.joinCode)}\n'
+                          '${partyJoinLink(party.joinCode)}',
                         ),
                       ),
                       const SizedBox(height: 10),

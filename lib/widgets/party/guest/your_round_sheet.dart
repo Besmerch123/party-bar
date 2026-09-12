@@ -19,6 +19,11 @@ import 'round_bits.dart';
 /// direct reference rather than through a `Provider` — `showModalBottomSheet`
 /// mounts its content on the app's root navigator, which sits outside the
 /// guest shell's own provider scope.
+///
+/// Flow 07 · screen 03 — [guestName] is null for a guest who has not ordered
+/// yet. The send then goes through [resolveName] first, so the name is asked
+/// on the tap that sends rather than on the way in, and that one tap still
+/// finishes the job.
 Future<List<String>?> showYourRoundSheet(
   BuildContext context, {
   required Party party,
@@ -26,7 +31,8 @@ Future<List<String>?> showYourRoundSheet(
   required PartyCocktails cocktails,
   required int aheadOfNewOrder,
   required String guestId,
-  required String guestName,
+  required String? guestName,
+  required Future<String?> Function({int? drinks}) resolveName,
   required bool paused,
 }) {
   return showHostSheet<List<String>>(
@@ -38,6 +44,7 @@ Future<List<String>?> showYourRoundSheet(
       aheadOfNewOrder: aheadOfNewOrder,
       guestId: guestId,
       guestName: guestName,
+      resolveName: resolveName,
       paused: paused,
     ),
   );
@@ -51,6 +58,7 @@ class _YourRoundSheet extends StatefulWidget {
     required this.aheadOfNewOrder,
     required this.guestId,
     required this.guestName,
+    required this.resolveName,
     required this.paused,
   });
 
@@ -59,7 +67,8 @@ class _YourRoundSheet extends StatefulWidget {
   final PartyCocktails cocktails;
   final int aheadOfNewOrder;
   final String guestId;
-  final String guestName;
+  final String? guestName;
+  final Future<String?> Function({int? drinks}) resolveName;
   final bool paused;
 
   @override
@@ -73,11 +82,19 @@ class _YourRoundSheetState extends State<_YourRoundSheet> {
     final l10n = context.l10n;
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
+
+    // Screen 03. A guest with no name yet is asked for one here, and backing
+    // out of that leaves the round exactly as it was.
+    final name =
+        widget.guestName ??
+        await widget.resolveName(drinks: widget.draft.length);
+    if (name == null || !mounted) return;
+
     setState(() => _sending = true);
     try {
       final ids = await OrderService().sendRound(
         partyId: widget.party.id,
-        guestName: widget.guestName,
+        guestName: name,
         guestId: widget.guestId,
         items: widget.draft.items,
       );

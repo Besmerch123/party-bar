@@ -399,6 +399,13 @@ class _PartyHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final guests = allOrders.map((o) => o.guestName).toSet().length;
+
+    // Flow 07 · screen 07 — the header is the first thing a returning guest
+    // reads, so a paused bar says so here rather than only in the notice
+    // that scrolls away.
+    final paused = party.status == PartyStatus.paused;
+    final dot = paused ? AppColors.low : AppColors.signal;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(AppSpacing.screenEdge, 4, AppSpacing.screenEdge, 0),
       child: Row(
@@ -419,16 +426,18 @@ class _PartyHeader extends StatelessWidget {
                     Container(
                       width: 6,
                       height: 6,
-                      decoration: const BoxDecoration(
-                        color: AppColors.signal,
+                      decoration: BoxDecoration(
+                        color: dot,
                         shape: BoxShape.circle,
-                        boxShadow: [BoxShadow(color: AppColors.signal, blurRadius: 8)],
+                        boxShadow: [BoxShadow(color: dot, blurRadius: 8)],
                       ),
                     ),
                     const SizedBox(width: 7),
                     Flexible(
                       child: Text(
-                        context.l10n.roundPartyOpenGuests(guests),
+                        paused
+                            ? context.l10n.joinPausedGuests(guests)
+                            : context.l10n.roundPartyOpenGuests(guests),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTypography.meta.copyWith(fontSize: 11.5, fontWeight: FontWeight.w600),

@@ -317,6 +317,7 @@ void main() {
                   aheadOfNewOrder: 2,
                   guestId: 'sam-phone',
                   guestName: 'Sam',
+                  resolveName: ({int? drinks}) async => 'Sam',
                   paused: false,
                 ),
                 child: const Text('open'),

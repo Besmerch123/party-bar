@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../models/auth.dart';
 import '../../models/models.dart';
 import '../../providers/auth_provider.dart';
+import '../../services/guest_session.dart';
 import '../../services/party_service.dart';
 import '../../theme/theme.dart';
 import '../../utils/app_router.dart';
@@ -37,6 +38,26 @@ class _PartyHubScreenState extends State<PartyHubScreen> {
   PartyService? _service;
   Stream<List<Party>>? _hosted;
   String? _hostedFor;
+
+  /// Flow 07 — the party this phone is a guest at, if any. The design's
+  /// fourth door: the phone remembers, so coming back is a tap rather than
+  /// six characters. Dropped the moment the host closes the bar.
+  Stream<Party?>? _guestParty;
+
+  @override
+  void initState() {
+    super.initState();
+    GuestSession.partyId().then((id) {
+      if (!mounted || id == null) return;
+      setState(() {
+        _guestParty = (_service ??= PartyService()).streamParty(id);
+      });
+    });
+  }
+
+  void _openGuestParty(Party party) {
+    context.push('${AppRoutes.activePartyGuest}/${party.id}', extra: party);
+  }
 
   /// One subscription per signed-in account, rebuilt only when the account
   /// changes — not on every rebuild of the tab.
@@ -87,22 +108,43 @@ class _PartyHubScreenState extends State<PartyHubScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.ground,
-      body: stream == null
-          ? _BarClosed(parties: const [], onHost: _createParty, onOpen: _openParty)
-          : StreamBuilder<List<Party>>(
-              stream: stream,
-              builder: (context, snapshot) {
-                final parties = snapshot.data ?? const <Party>[];
-                final live = parties.where((p) => p.isLive).firstOrNull;
-                if (live != null) return LivePartyHub(party: live);
+      body: StreamBuilder<Party?>(
+        stream: _guestParty,
+        builder: (context, guestSnapshot) {
+          // Only a party still live is somewhere to go back to; one that
+          // ended belongs to whoever is clearing up, not to this tab.
+          final guestParty = guestSnapshot.data?.isLive ?? false
+              ? guestSnapshot.data
+              : null;
 
-                return _BarClosed(
-                  parties: parties,
-                  onHost: _createParty,
-                  onOpen: _openParty,
-                );
-              },
-            ),
+          if (stream == null) {
+            return _BarClosed(
+              parties: const [],
+              guestParty: guestParty,
+              onHost: _createParty,
+              onOpen: _openParty,
+              onRejoin: _openGuestParty,
+            );
+          }
+
+          return StreamBuilder<List<Party>>(
+            stream: stream,
+            builder: (context, snapshot) {
+              final parties = snapshot.data ?? const <Party>[];
+              final live = parties.where((p) => p.isLive).firstOrNull;
+              if (live != null) return LivePartyHub(party: live);
+
+              return _BarClosed(
+                parties: parties,
+                guestParty: guestParty,
+                onHost: _createParty,
+                onOpen: _openParty,
+                onRejoin: _openGuestParty,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
@@ -112,13 +154,21 @@ class _PartyHubScreenState extends State<PartyHubScreen> {
 class _BarClosed extends StatelessWidget {
   const _BarClosed({
     required this.parties,
+    required this.guestParty,
     required this.onHost,
     required this.onOpen,
+    required this.onRejoin,
   });
 
   final List<Party> parties;
+
+  /// A live party this phone is a guest at — someone else's bar, so it never
+  /// joins [_cards] below, which are the host's own.
+  final Party? guestParty;
+
   final VoidCallback onHost;
   final ValueChanged<Party> onOpen;
+  final ValueChanged<Party> onRejoin;
 
   /// Anything live first, then every draft, then only the last party that
   /// ended — the recap worth a glance, not an archive.
@@ -202,14 +252,25 @@ class _BarClosed extends StatelessWidget {
                               onPressed: onHost,
                             ),
                             const SizedBox(height: 10),
-                            AuthPillButton(
-                              label: l10n.hostJoinWithCode,
-                              icon: Icons.qr_code_scanner,
-                              height: AppSizes.buttonSecondary,
-                              background: AppColors.glass,
-                              foreground: AppColors.ink,
-                              onPressed: () => context.push(AppRoutes.joinParty),
-                            ),
+                            if (guestParty case final party?)
+                              AuthPillButton(
+                                label: l10n.joinBackTo(party.name),
+                                icon: Icons.nightlife,
+                                height: AppSizes.buttonSecondary,
+                                background: AppColors.signalWash,
+                                foreground: AppColors.ink,
+                                onPressed: () => onRejoin(party),
+                              )
+                            else
+                              AuthPillButton(
+                                label: l10n.hostJoinWithCode,
+                                icon: Icons.qr_code_scanner,
+                                height: AppSizes.buttonSecondary,
+                                background: AppColors.glass,
+                                foreground: AppColors.ink,
+                                onPressed: () =>
+                                    context.push(AppRoutes.joinParty),
+                              ),
                           ],
                         ),
                       ),

@@ -12,5 +12,6 @@ export 'equipment.dart';
 export 'shopping_list.dart';
 export 'user.dart';
 export 'party.dart';
+export 'join.dart';
 export 'order.dart';
 export 'order_queue.dart';

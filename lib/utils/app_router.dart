@@ -23,7 +23,15 @@ class AppRoutes {
   /// screen already has.
   static const String makeItNow = '/cocktail/make';
   static const String partyHub = '/party';
+
+  /// Flow 07 · screens 01 and 04 — the slow door. Takes an optional `?code=`
+  /// so a failed link can hand over what it was carrying.
   static const String joinParty = '/party/join';
+
+  /// Flow 07 · screen 02 — the fast door. `partybar.app/j/K7QM4P` and
+  /// `partybar://j/K7QM4P` both arrive here, and so does the phone coming
+  /// back to a party it remembers.
+  static const String joinLink = '/j';
   static const String createParty = '/party/create';
   static const String partyDetails = '/party/details';
 
@@ -144,11 +152,28 @@ GoRouter createAppRouter({required bool showWelcome}) {
       ),
 
       // Party Routes (Protected)
-      // Joining is not guarded. A guest orders on a name alone — screens 08
-      // and 09 of flow 03 assume no account is ever created here.
+      // Joining is not guarded. A guest orders on a name alone, and is not
+      // asked even for that until the first round is sent.
       GoRoute(
         path: AppRoutes.joinParty,
-        builder: (context, state) => const JoinPartyScreen(),
+        builder: (context, state) => JoinPartyScreen(
+          initialCode: joinCodeFrom(
+            state.uri.queryParameters['code'] ?? '',
+          ),
+        ),
+      ),
+
+      // Flow 07 · screen 02. One tap in a group chat, or a QR the system
+      // camera read: no code screen, no name, straight to the drinks. A
+      // link whose code is not six characters is not a link at all, and
+      // falls back to the slow door with an empty field.
+      GoRoute(
+        path: '${AppRoutes.joinLink}/:code',
+        builder: (context, state) {
+          final code = joinCodeFrom(state.pathParameters['code'] ?? '');
+          if (code == null) return const JoinPartyScreen();
+          return PartyDoorScreen(code: code);
+        },
       ),
 
       // Hosting is. A party needs an owner so a link can point at it.
@@ -200,14 +225,18 @@ GoRouter createAppRouter({required bool showWelcome}) {
           );
         },
       ),
-      // Unguarded, for the same reason as joining.
+      // Unguarded, for the same reason as joining. The party travels as
+      // `extra` from the door that just resolved it; arriving without one —
+      // a cold link, or the phone returning to a party it remembers — loads
+      // it by id instead.
       GoRoute(
         path: '${AppRoutes.activePartyGuest}/:id',
         builder: (context, state) {
-          final extras = state.extra as Map<String, dynamic>;
-          final guestName = extras['guestName']! as String;
-          final party = extras['party'] as Party;
-          return GuestPartyScreen(party: party, guestName: guestName);
+          final partyId = state.pathParameters['id']!;
+          final party = state.extra;
+          return party is Party
+              ? GuestPartyScreen(party: party)
+              : PartyDoorScreen(partyId: partyId);
         },
       ),
 

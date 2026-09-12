@@ -20,9 +20,46 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            <!-- Hands an incoming VIEW intent's URI to the Flutter router
+                 instead of just bringing the app to the front. Without it
+                 the filters below open the app on whatever it was last
+                 showing, and the link's code is dropped. -->
+            <meta-data
+              android:name="flutter_deeplinking_enabled"
+              android:value="true"
+              />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+            <!-- Flow 07 - the fast door. go_router answers /j/<code> on the
+                 route these deliver.
+
+                 The https filter is the one a group chat renders as a link
+                 and the one the QR carries. It stays unverified until
+                 partybar.app/.well-known/assetlinks.json exists - until then
+                 Android will not auto-open it, and the guest falls back to
+                 the code.
+
+                 The custom scheme is ours outright and works the moment the
+                 app is installed. Its host is "app" and not "j" so that the
+                 code lands in the URI's *path*, which is the only part
+                 go_router matches: partybar://app/j/K7QM4P. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="partybar" android:host="app" android:pathPrefix="/j/"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="https"
+                    android:host="partybar.app"
+                    android:pathPrefix="/j/"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

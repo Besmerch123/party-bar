@@ -3380,4 +3380,234 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get roundBack => 'Back';
+
+  @override
+  String get joinTitle => 'What\'s the code?';
+
+  @override
+  String get joinSubtitle =>
+      'Six characters, on the host\'s screen or stuck to the fridge.';
+
+  @override
+  String get joinCodeSemantics => 'Party code, six characters';
+
+  @override
+  String get joinLinkHint =>
+      'Got a link from the host? Just tap it — it lets you in on its own.';
+
+  @override
+  String joinCodeMore(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n more characters',
+      one: 'One more character',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get joinCta => 'Join the party';
+
+  @override
+  String get joinRetry => 'Try again';
+
+  @override
+  String get joinClose => 'Close';
+
+  @override
+  String get joinFailedNotFound => 'No party with that code.';
+
+  @override
+  String get joinFailedNotFoundHint =>
+      'Zero and O look the same on a phone screen — worth a second look.';
+
+  @override
+  String joinFailedEnded(String time) {
+    return 'That party ended at $time.';
+  }
+
+  @override
+  String get joinFailedEndedNoTime => 'That party is already over.';
+
+  @override
+  String get joinFailedEndedHint =>
+      'Codes are never reused, so this can only mean the night is done.';
+
+  @override
+  String get joinFailedOffline => 'Couldn\'t reach the bar.';
+
+  @override
+  String get joinFailedOfflineHint =>
+      'Your code is still here — tap to try it again.';
+
+  @override
+  String get joinAskForLink => 'Ask the host to send the link instead';
+
+  @override
+  String get joinOpening => 'Opening the bar…';
+
+  @override
+  String get joinYoureIn => 'You\'re in';
+
+  @override
+  String get joinNameTitle => 'One thing first';
+
+  @override
+  String joinNameBody(String host) {
+    return '$host needs something to shout when your drink is ready.';
+  }
+
+  @override
+  String get joinNameLabel => 'Your name';
+
+  @override
+  String get joinNameHint => 'Sam';
+
+  @override
+  String get joinNameRequired => 'A name is all we need.';
+
+  @override
+  String joinNameVisibility(String host) {
+    return '$host and the pickup list see this. Nobody else.';
+  }
+
+  @override
+  String get joinAgeConfirm => 'I\'m over 18 and drinking responsibly';
+
+  @override
+  String get joinAgeRequired => 'Tick the line above to send.';
+
+  @override
+  String get joinNameRemember =>
+      'This phone will remember you until the party ends.';
+
+  @override
+  String joinSendToBar(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Send to the bar · $n drinks',
+      one: 'Send to the bar · 1 drink',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get joinChangeName => 'Change';
+
+  @override
+  String get joinLeaveParty => 'Leave the party';
+
+  @override
+  String joinLeaveTitle(String party) {
+    return 'Leave $party?';
+  }
+
+  @override
+  String get joinLeaveBody =>
+      'Drinks already sent stay in the queue — this phone just stops following them. The code lets you back in.';
+
+  @override
+  String get joinLeaveConfirm => 'Leave';
+
+  @override
+  String get joinStay => 'Stay';
+
+  @override
+  String joinEndedTitle(String host) {
+    return '$host closed the bar';
+  }
+
+  @override
+  String joinEndedBody(String party) {
+    return '$party is done for the night.';
+  }
+
+  @override
+  String get joinEndedYourNight => 'Your night';
+
+  @override
+  String joinEndedDrinksLabel(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'drinks',
+      one: 'drink',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String joinEndedFriendsLabel(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'for friends',
+      one: 'for a friend',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get joinEndedHereLabel => 'here';
+
+  @override
+  String joinEndedHours(int hours) {
+    return '${hours}H';
+  }
+
+  @override
+  String get joinEndedFootnote => 'The code has stopped working.';
+
+  @override
+  String get joinEndedDone => 'Done';
+
+  @override
+  String get joinPausedPill => 'Bar paused';
+
+  @override
+  String joinPausedTitle(String host) {
+    return '$host paused the bar';
+  }
+
+  @override
+  String get joinPausedBody =>
+      'No new orders for a moment. Yours is still in the queue — nothing was lost.';
+
+  @override
+  String get joinPausedLocked => 'Ordering is off';
+
+  @override
+  String joinPausedNudge(String host) {
+    return 'You\'ll get a nudge the second $host opens it again.';
+  }
+
+  @override
+  String joinBackTo(String party) {
+    return 'Back to $party';
+  }
+
+  @override
+  String get joinAskForLinkMessage =>
+      'Send me the link to your PartyBar party?';
+
+  @override
+  String get joinNameSave => 'Save';
+
+  @override
+  String joinPausedStillInLine(String drink, int position) {
+    return '$drink · still #$position in line';
+  }
+
+  @override
+  String joinPausedGuests(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Back in a bit · $count here',
+      one: 'Back in a bit · 1 here',
+    );
+    return '$_temp0';
+  }
 }
