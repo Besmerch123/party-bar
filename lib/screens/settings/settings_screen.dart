@@ -29,15 +29,22 @@ const kAppVersion = '1.0.0';
 /// language work with no account, "Your nights" and notifications have
 /// nowhere to point without one.
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({super.key, AccountService? accountService, PartyService? partyService})
+    : _accountService = accountService,
+      _partyService = partyService;
+
+  /// Test seams only: production always leaves these null and gets real
+  /// services. Nothing in the app passes them.
+  final AccountService? _accountService;
+  final PartyService? _partyService;
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final _accountService = AccountService();
-  final _partyService = PartyService();
+  late final AccountService _accountService = widget._accountService ?? AccountService();
+  late final PartyService _partyService = widget._partyService ?? PartyService();
 
   // Memoized rather than called straight from `build()`: a fresh
   // `.snapshots()`/`.getHostedParties()` call is never `==` to the last one,
@@ -88,7 +95,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final unit = context.watch<MeasureUnitProvider>().unit;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         bottom: false,
         child: ListView(
@@ -101,7 +107,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             Text(
               l10n.navigationSettings,
-              style: AppTypography.title.copyWith(fontSize: 30, height: 1),
+              style: AppTypography.titleCompact,
             ),
             const SizedBox(height: 18),
             if (auth.isAuthenticated)
@@ -114,7 +120,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               textAlign: TextAlign.center,
               style: AppTypography.meta.copyWith(
                 fontSize: 11.5,
-                color: AppColors.ink.withValues(alpha: .3),
+                color: AppColors.inkGhost,
               ),
             ),
           ],
@@ -152,7 +158,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     children: [
                       Text(
                         name,
-                        style: AppTypography.section.copyWith(fontSize: 15),
+                        style: AppTypography.section,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -161,7 +167,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         auth.user?.email ?? '',
                         style: AppTypography.meta.copyWith(
                           fontSize: 11.5,
-                          color: AppColors.ink.withValues(alpha: .45),
+                          color: AppColors.inkMeta,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -172,7 +178,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Icon(
                   Icons.chevron_right,
                   size: 20,
-                  color: AppColors.ink.withValues(alpha: .3),
+                  color: AppColors.inkGhost,
                 ),
               ],
             ),
@@ -266,7 +272,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         l10n.settingsGuestNameCaption,
                         style: AppTypography.meta.copyWith(
                           fontSize: 11.5,
-                          color: AppColors.ink.withValues(alpha: .45),
+                          color: AppColors.inkMeta,
                         ),
                       ),
                     ],
@@ -324,7 +330,7 @@ class _MeasuresCard extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Text(l10n.settingsMeasures, style: AppTypography.cardTitle.copyWith(fontSize: 13.5)),
+                child: Text(l10n.settingsMeasures, style: AppTypography.cardTitle),
               ),
               MeasureUnitSegment(
                 unit: unit,
@@ -366,7 +372,7 @@ class _MeasuresCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Icon(Icons.chevron_right, size: 17, color: AppColors.ink.withValues(alpha: .3)),
+                    Icon(Icons.chevron_right, size: 17, color: AppColors.inkGhost),
                   ],
                 ),
               ),
@@ -402,7 +408,7 @@ class _SignInHero extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             l10n.settingsNoAccountBody,
-            style: AppTypography.body.copyWith(fontSize: 12.5, color: AppColors.ink.withValues(alpha: .6)),
+            style: AppTypography.body.copyWith(fontSize: 12.5, color: AppColors.inkBody),
           ),
           const SizedBox(height: 16),
           SizedBox(

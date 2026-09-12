@@ -178,7 +178,6 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
         if (!didPop) setState(() => _step = 0);
       },
       child: Scaffold(
-        backgroundColor: AppColors.ground,
         body: SafeArea(
           child: _step == 0 ? _buildNameStep() : _buildMenuStep(),
         ),
@@ -244,7 +243,7 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
                 Text(
                   l10n.hostWhenLabel.toUpperCase(),
                   style: AppTypography.label.copyWith(
-                    color: AppColors.ink.withValues(alpha: .45),
+                    color: AppColors.inkMeta,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -646,7 +645,7 @@ class _StepBar extends StatelessWidget {
             '$step / 2',
             style: AppTypography.mono.copyWith(
               letterSpacing: 0,
-              color: AppColors.ink.withValues(alpha: .45),
+              color: AppColors.inkMeta,
             ),
           ),
           const SignedInChip(),
@@ -702,7 +701,7 @@ class _NameField extends StatelessWidget {
                 hintText: context.l10n.hostNameHint,
                 hintStyle: AppTypography.section.copyWith(
                   fontSize: 17,
-                  color: AppColors.ink.withValues(alpha: .3),
+                  color: AppColors.inkGhost,
                 ),
               ),
             ),
@@ -713,7 +712,7 @@ class _NameField extends StatelessWidget {
             style: AppTypography.mono.copyWith(
               fontWeight: FontWeight.w400,
               letterSpacing: 0,
-              color: AppColors.ink.withValues(alpha: .35),
+              color: AppColors.inkFaint,
             ),
           ),
         ],
@@ -767,7 +766,7 @@ class _WhenToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ink = selected ? AppColors.ground : AppColors.ink.withValues(alpha: .6);
+    final ink = selected ? AppColors.ground : AppColors.inkBody;
 
     return Semantics(
       button: true,
@@ -836,7 +835,7 @@ class HostInfoNote extends StatelessWidget {
               text,
               style: AppTypography.meta.copyWith(
                 fontSize: 12,
-                color: AppColors.ink.withValues(alpha: .6),
+                color: AppColors.inkBody,
               ),
             ),
           ),

@@ -135,7 +135,6 @@ class _ShareCardScreenState extends State<ShareCardScreen> {
     final size = _shape.logicalSize;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         child: Column(
           children: [
@@ -232,7 +231,7 @@ class _ShareCardScreenState extends State<ShareCardScreen> {
                     style: AppTypography.meta.copyWith(
                       fontSize: 11.5,
                       height: 1.5,
-                      color: AppColors.ink.withValues(alpha: .35),
+                      color: AppColors.inkFaint,
                     ),
                   ),
                 ],
@@ -312,7 +311,7 @@ class _ShapeChip extends StatelessWidget {
                 fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
                 color: selected
                     ? AppColors.ground
-                    : AppColors.ink.withValues(alpha: .6),
+                    : AppColors.inkBody,
               ),
             ),
           ),

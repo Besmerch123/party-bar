@@ -9,6 +9,7 @@ import '../../screens/auth/auth_screen.dart';
 import '../../theme/theme.dart';
 import '../../utils/app_router.dart';
 import '../../utils/localization_helper.dart';
+import '../common/app_sheet.dart';
 import 'auth_controls.dart';
 
 /// Flow 03 · screen 01 — the barrier.
@@ -30,14 +31,11 @@ Future<bool> showAuthBarrierSheet(
   required AuthReason reason,
   String? redirectPath,
 }) async {
-  final signedIn = await showModalBottomSheet<bool>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    useSafeArea: true,
+  final signedIn = await showAppSheet<bool>(
+    context,
     // Scrollable, because a small phone with the text turned up runs out of
     // room before the barrier runs out of argument.
-    builder: (_) => SingleChildScrollView(
+    (_) => SingleChildScrollView(
       child: AuthBarrierSheet(reason: reason, redirectPath: redirectPath),
     ),
   );

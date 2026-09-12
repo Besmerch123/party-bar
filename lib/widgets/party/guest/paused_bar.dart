@@ -76,7 +76,7 @@ class PausedNotice extends StatelessWidget {
                           style: AppTypography.body.copyWith(
                             fontSize: 12,
                             height: 1.45,
-                            color: AppColors.ink.withValues(alpha: .62),
+                            color: AppColors.inkBody,
                           ),
                         ),
                       ],

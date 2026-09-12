@@ -94,7 +94,6 @@ class _MenuAllCocktailsScreenState extends State<MenuAllCocktailsScreen> {
       ..sort((a, b) => distance(a.$2).compareTo(distance(b.$2)));
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -289,7 +288,7 @@ class _Eyebrow extends StatelessWidget {
             style: AppTypography.meta.copyWith(
               fontSize: 11.5,
               fontWeight: FontWeight.w600,
-              color: AppColors.ink.withValues(alpha: .45),
+              color: AppColors.inkMeta,
             ),
           ),
       ],

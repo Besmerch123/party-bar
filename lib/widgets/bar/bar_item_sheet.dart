@@ -9,6 +9,7 @@ import '../../theme/theme.dart';
 import '../../utils/app_router.dart';
 import '../../utils/bar_labels.dart';
 import '../../utils/localization_helper.dart';
+import '../common/app_sheet.dart';
 import 'bar_row.dart';
 
 /// Flow 04 · screen 05 — the item sheet.
@@ -17,13 +18,7 @@ import 'bar_row.dart';
 /// note, one way out. Whatever unlocks because of this bottle gets a couple
 /// of photos, never a counter that reads like a campaign.
 Future<void> showBarItemSheet(BuildContext context, String key) {
-  return showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    useSafeArea: true,
-    builder: (_) => _BarItemSheet(itemKey: key),
-  );
+  return showAppSheet<void>(context, (_) => _BarItemSheet(itemKey: key));
 }
 
 class _BarItemSheet extends StatefulWidget {

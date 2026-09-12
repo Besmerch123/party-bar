@@ -16,15 +16,14 @@ import 'package:party_bar/theme/theme.dart';
 import 'package:party_bar/widgets/party/queue/out_of_stock_sheet.dart';
 import 'package:party_bar/widgets/party/queue/queue_body.dart';
 
+import 'support/harness.dart';
+
 /// Flow 06 (host) layout smoke tests — the queue, the pour and the out-of
 /// sheet hold together at a small phone and a large text scale, following
 /// the harness in `test/bar_ran_out_test.dart`.
 
-const _sizes = <String, Size>{
-  'iPhone 14 Pro': Size(390, 844),
-  'small phone': Size(320, 568),
-};
-const _textScales = <double>[1.0, 1.5];
+const _sizes = testSizes;
+const _textScales = standardTextScales;
 
 const delegates = <LocalizationsDelegate<dynamic>>[
   AppLocalizations.delegate,

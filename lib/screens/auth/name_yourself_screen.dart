@@ -79,7 +79,6 @@ class _NameYourselfScreenState extends State<NameYourselfScreen> {
     // the button someone is reaching for must not be the thing that scrolls
     // away.
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -214,7 +213,7 @@ class _AvatarRow extends StatelessWidget {
                   child: Icon(
                     Icons.person,
                     size: 34,
-                    color: AppColors.ink.withValues(alpha: .3),
+                    color: AppColors.inkGhost,
                   ),
                 ),
                 Positioned(

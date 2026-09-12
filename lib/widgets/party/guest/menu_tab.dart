@@ -141,7 +141,7 @@ class _Empty extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.local_bar_outlined, size: 34, color: AppColors.ink.withValues(alpha: .3)),
+            Icon(Icons.local_bar_outlined, size: 34, color: AppColors.inkGhost),
             const SizedBox(height: 14),
             Text(title, style: AppTypography.section, textAlign: TextAlign.center),
             if (body != null) ...[

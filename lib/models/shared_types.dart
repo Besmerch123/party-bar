@@ -54,16 +54,24 @@ abstract class FirestoreTransformer<TDocument, TEntity> {
   TDocument toDocument(TEntity entity);
 }
 
-/// Helper to convert Firestore Timestamp to DateTime
-DateTime? timestampToDateTime(dynamic timestamp) {
-  if (timestamp == null) return null;
-  if (timestamp is Timestamp) return timestamp.toDate();
-  if (timestamp is String) return DateTime.parse(timestamp);
+/// Decodes a Firestore date field. The same field can legitimately hold a
+/// `Timestamp` (written by `FieldValue.serverTimestamp()`) or an `int` of
+/// epoch millis (written by a model's `toMap()`), and older documents, or
+/// ones read straight back from local JSON, hold ISO-8601 strings. A
+/// document written by one code path and read by another can disagree, so
+/// every model decodes dates through this one place instead of assuming a
+/// shape.
+DateTime? firestoreDate(Object? value) {
+  if (value == null) return null;
+  if (value is Timestamp) return value.toDate();
+  if (value is int) return DateTime.fromMillisecondsSinceEpoch(value);
+  if (value is String) return DateTime.tryParse(value);
+  if (value is DateTime) return value;
   return null;
 }
 
-/// Helper to convert DateTime to Firestore Timestamp
-Timestamp? dateTimeToTimestamp(DateTime? dateTime) {
-  if (dateTime == null) return null;
-  return Timestamp.fromDate(dateTime);
-}
+/// [firestoreDate], falling back to [fallback] when the field is missing,
+/// unparseable, or an unexpected type — for the non-nullable date fields
+/// (`createdAt` and the like) that used to do `?? 0`.
+DateTime firestoreDateOr(Object? value, DateTime fallback) =>
+    firestoreDate(value) ?? fallback;

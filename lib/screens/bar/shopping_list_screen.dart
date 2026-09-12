@@ -63,7 +63,6 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
     final canClearTicked = ticked.isNotEmpty;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         child: Column(
           children: [
@@ -80,12 +79,12 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                 children: [
                   Text(
                     l10n.shoppingListTitle,
-                    style: AppTypography.title.copyWith(fontSize: 30, height: 1),
+                    style: AppTypography.titleCompact,
                   ),
                   const SizedBox(height: 9),
                   Text(
                     l10n.shoppingListSubtitle(unticked.length),
-                    style: AppTypography.meta.copyWith(fontSize: 12.5),
+                    style: AppTypography.meta,
                   ),
                 ],
               ),
@@ -423,7 +422,7 @@ class _AddSomethingRow extends StatelessWidget {
                 Expanded(
                   child: Text(
                     l10n.shoppingListAddSomething,
-                    style: AppTypography.body.copyWith(fontSize: 13.5, color: AppColors.inkMeta),
+                    style: AppTypography.body.copyWith(color: AppColors.inkMeta),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

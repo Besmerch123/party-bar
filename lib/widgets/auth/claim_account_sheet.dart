@@ -8,6 +8,7 @@ import '../../models/auth.dart';
 import '../../providers/auth_provider.dart';
 import '../../theme/theme.dart';
 import '../../utils/localization_helper.dart';
+import '../common/app_sheet.dart';
 import 'auth_controls.dart';
 
 /// Opens the one offer to keep a guest's night, made after the party ends.
@@ -28,14 +29,11 @@ Future<void> showClaimAccountSheet(
 
   unawaited(auth.markClaimPromptSeen());
 
-  return showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    useSafeArea: true,
+  return showAppSheet<void>(
+    context,
     // Scrollable, because a small phone with the text turned up runs out of
     // room before this sheet runs out of argument.
-    builder: (_) => SingleChildScrollView(
+    (_) => SingleChildScrollView(
       child: ClaimAccountSheet(
         partyName: partyName,
         drinkImageUrls: drinkImageUrls,

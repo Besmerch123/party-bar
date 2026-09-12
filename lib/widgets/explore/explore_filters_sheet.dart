@@ -8,6 +8,7 @@ import '../../theme/theme.dart';
 import '../../utils/cocktail_labels.dart';
 import '../../utils/localization_helper.dart';
 import '../common/app_chip.dart';
+import '../common/app_sheet.dart';
 import 'explore_chrome.dart';
 
 /// Opens Explore's one filter surface.
@@ -15,13 +16,7 @@ import 'explore_chrome.dart';
 /// Sort and every facet live in a single sheet so there is never a second,
 /// hidden place a person would have to remember to check.
 Future<void> showExploreFiltersSheet(BuildContext context) {
-  return showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    useSafeArea: true,
-    builder: (_) => const ExploreFiltersSheet(),
-  );
+  return showAppSheet<void>(context, (_) => const ExploreFiltersSheet());
 }
 
 /// The body of the filter sheet.

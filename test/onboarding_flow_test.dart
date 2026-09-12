@@ -16,11 +16,10 @@ import 'package:party_bar/widgets/onboarding/value_bar_step.dart';
 import 'package:party_bar/widgets/onboarding/value_orders_step.dart';
 import 'package:party_bar/widgets/onboarding/vibe_step.dart';
 
+import 'support/harness.dart';
+
 /// The drawn size, plus a deliberately cramped phone the flow must survive.
-const _sizes = <String, Size>{
-  'iPhone 14 Pro': Size(390, 844),
-  'small phone': Size(320, 568),
-};
+const _sizes = testSizes;
 
 void main() {
   late OnboardingProvider provider;

@@ -15,6 +15,7 @@ import '../../providers/explore_provider.dart';
 import '../../theme/theme.dart';
 import '../../utils/bar_labels.dart';
 import '../../utils/localization_helper.dart';
+import '../common/app_sheet.dart';
 
 /// Flow 04 · screen 09 — "Two away", the one place outside the ran-out
 /// checklist a gap is named: reached from a recipe the shelf is two or three
@@ -26,13 +27,7 @@ import '../../utils/localization_helper.dart';
 /// host was already asking ("what is actually stopping me from making
 /// this?") rather than nagging about one they were not.
 Future<void> showTwoAwaySheet(BuildContext context, Cocktail cocktail) {
-  return showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    useSafeArea: true,
-    builder: (_) => _TwoAwaySheet(cocktail: cocktail),
-  );
+  return showAppSheet<void>(context, (_) => _TwoAwaySheet(cocktail: cocktail));
 }
 
 class _TwoAwaySheet extends StatefulWidget {
@@ -185,7 +180,7 @@ class _TwoAwaySheetState extends State<_TwoAwaySheet> {
               child: Text(
                 l10n.twoAwayFootnote,
                 textAlign: TextAlign.center,
-                style: AppTypography.meta.copyWith(fontSize: 11.5),
+                style: AppTypography.caption,
               ),
             ),
           ],

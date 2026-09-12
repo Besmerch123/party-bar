@@ -217,22 +217,19 @@ class PartyRepository {
   /// A write this device just made reaches the hosted-parties stream before
   /// the server has stamped it, so every server timestamp can still be null
   /// here — a fresh draft reads as created "now" rather than crashing.
+  ///
+  /// Date fields pass through unconverted: [Party.fromMap] decodes whatever
+  /// shape Firestore handed back (`Timestamp` or an `int` of epoch millis)
+  /// through the shared codec, so there is nothing to normalise here.
   Party _partyFromSnapshot(DocumentSnapshot snapshot) {
     final data = snapshot.data() as Map<String, dynamic>;
-    int? millis(String key) =>
-        (data[key] as Timestamp?)?.millisecondsSinceEpoch;
 
     return Party.fromMap({
       ...data,
       'id': snapshot.id,
-      'createdAt': millis('createdAt') ?? DateTime.now().millisecondsSinceEpoch,
-      'endedAt': millis('endedAt'),
-      'scheduledFor': millis('scheduledFor'),
-      'wentLiveAt': millis('wentLiveAt') ??
-          (data['status'] == PartyStatus.active.name
-              ? DateTime.now().millisecondsSinceEpoch
-              : null),
-      'pausedAt': millis('pausedAt'),
+      'createdAt': data['createdAt'] ?? DateTime.now(),
+      'wentLiveAt': data['wentLiveAt'] ??
+          (data['status'] == PartyStatus.active.name ? DateTime.now() : null),
     });
   }
 }

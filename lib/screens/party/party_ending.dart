@@ -1,6 +1,6 @@
 import '../../data/cocktail_repository.dart';
+import '../../data/order_repository.dart';
 import '../../models/models.dart';
-import '../../services/order_service.dart';
 import '../bar/ran_out_screen.dart';
 
 /// What the Flow 04 ran-out checklist opens with once a party ends.
@@ -35,7 +35,7 @@ Future<RanOutArgs> ranOutArgsFor(Party party) async {
 /// ingredient — the busiest bottles are the ones most likely to actually be
 /// empty, which is what the checklist sorts by.
 Future<(int?, Map<String, int>)> _pourTally(String partyId) async {
-  final orders = await OrderService().streamPartyOrders(partyId).first;
+  final orders = await OrderRepository().streamPartyOrders(partyId).first;
   final delivered = orders
       .where((order) => order.status == OrderStatus.delivered)
       .toList(growable: false);

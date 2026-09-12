@@ -143,7 +143,6 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
 
     if (_isLoading) {
       return const Scaffold(
-        backgroundColor: AppColors.ground,
         body: Center(child: CircularProgressIndicator()),
       );
     }
@@ -151,7 +150,6 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
     final cocktail = _cocktail;
     if (cocktail == null) {
       return Scaffold(
-        backgroundColor: AppColors.ground,
         body: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -189,7 +187,6 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
     final authenticated = context.watch<AuthenticationProvider>().isAuthenticated;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: Stack(
         children: [
           _Photo(imageUrl: cocktail.image, height: photoHeight),
@@ -517,7 +514,7 @@ class _EyebrowMetaRow extends StatelessWidget {
           Flexible(
             child: Text(
               meta,
-              style: AppTypography.meta.copyWith(fontSize: 11.5),
+              style: AppTypography.caption,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

@@ -44,7 +44,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
     final bar = context.watch<BarProvider>();
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         bottom: false,
         child: Column(

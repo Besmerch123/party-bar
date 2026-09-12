@@ -40,6 +40,15 @@ abstract final class AppTypography {
     height: 1.0,
   );
 
+  /// [title] one step down — screen titles sharing a bar with a nav icon or
+  /// back button, where the full 36 competes with the chrome around it.
+  static TextStyle get titleCompact => _sans(
+    size: 30,
+    weight: FontWeight.w800,
+    letterSpacing: -1.26,
+    height: 1.0,
+  );
+
   /// Card and hero titles that sit inside content rather than owning a screen.
   static TextStyle get heading =>
       _sans(size: 26, weight: FontWeight.w800, letterSpacing: -0.91, height: 1.05);
@@ -59,6 +68,15 @@ abstract final class AppTypography {
 
   static TextStyle get meta => _sans(
     size: 12.5,
+    weight: FontWeight.w500,
+    height: 1.5,
+    color: AppColors.inkMeta,
+  );
+
+  /// A notch below [meta] — badges, stat captions and helper lines too small
+  /// to carry [meta]'s size but still sentence-cased (unlike [label]).
+  static TextStyle get caption => _sans(
+    size: 11.5,
     weight: FontWeight.w500,
     height: 1.5,
     color: AppColors.inkMeta,

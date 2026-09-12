@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/order_repository.dart';
 import '../../../models/models.dart';
 import '../../../providers/party_cocktails.dart';
 import '../../../providers/round_draft.dart';
-import '../../../services/order_service.dart';
 import '../../../theme/theme.dart';
 import '../../../utils/localization_helper.dart';
 import '../../auth/auth_controls.dart';
@@ -92,7 +92,7 @@ class _YourRoundSheetState extends State<_YourRoundSheet> {
 
     setState(() => _sending = true);
     try {
-      final ids = await OrderService().sendRound(
+      final ids = await OrderRepository().sendRound(
         partyId: widget.party.id,
         guestName: name,
         guestId: widget.guestId,
@@ -135,7 +135,7 @@ class _YourRoundSheetState extends State<_YourRoundSheet> {
                 ),
                 Text(
                   l10n.roundDrinksCount(items.length).toUpperCase(),
-                  style: AppTypography.measure.copyWith(fontSize: 12, color: AppColors.ink.withValues(alpha: .45)),
+                  style: AppTypography.measure.copyWith(fontSize: 12, color: AppColors.inkMeta),
                 ),
               ],
             ),
@@ -228,7 +228,7 @@ class _DraftRow extends StatelessWidget {
                   style: AppTypography.cardTitle.copyWith(fontSize: 15),
                 ),
                 const SizedBox(height: 7),
-                Text(forLabel(context, forName: item.forName), style: AppTypography.meta.copyWith(fontSize: 11.5, fontWeight: FontWeight.w600)),
+                Text(forLabel(context, forName: item.forName), style: AppTypography.caption.copyWith(fontWeight: FontWeight.w600)),
                 if (item.note case final note?) ...[
                   const SizedBox(height: 8),
                   OrderNoteChip(note: note, small: true),
@@ -238,7 +238,7 @@ class _DraftRow extends StatelessWidget {
           ),
           IconButton(
             onPressed: onRemove,
-            icon: Icon(Icons.close, size: 19, color: AppColors.ink.withValues(alpha: .3)),
+            icon: Icon(Icons.close, size: 19, color: AppColors.inkGhost),
           ),
         ],
       ),

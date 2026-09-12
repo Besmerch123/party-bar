@@ -130,7 +130,7 @@ class ShareCard extends StatelessWidget {
                       style: AppTypography.meta.copyWith(
                         fontSize: 12,
                         height: 1.35,
-                        color: AppColors.ink.withValues(alpha: .62),
+                        color: AppColors.inkBody,
                       ),
                     ),
                   ],

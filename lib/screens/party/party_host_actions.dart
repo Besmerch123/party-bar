@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../data/order_repository.dart';
 import '../../models/models.dart';
-import '../../services/order_service.dart';
 import '../../services/party_service.dart';
 import '../../utils/app_router.dart';
 import '../../utils/localization_helper.dart';
@@ -84,7 +84,7 @@ Future<void> endParty(
       final failed = context.l10n.hostSaveFailed;
       final router = GoRouter.of(context);
       try {
-        await OrderService().cancelForPartyEnd(orders);
+        await OrderRepository().cancelForPartyEnd(orders);
         // Counted after the cancellations, so a drink that was still in the
         // queue never lands in the night's total.
         await PartyService().closeParty(

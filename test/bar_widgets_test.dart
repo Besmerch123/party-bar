@@ -8,6 +8,8 @@ import 'package:party_bar/generated/l10n/app_localizations.dart';
 import 'package:party_bar/theme/theme.dart';
 import 'package:party_bar/widgets/bar/bar_row.dart';
 
+import 'support/harness.dart';
+
 /// Flow 04's row is the one widget every My bar screen is built from, so it
 /// has to survive the same two things that break any repeated layout: a
 /// narrow phone, and someone who has turned their text up. These tests are
@@ -15,12 +17,9 @@ import 'package:party_bar/widgets/bar/bar_row.dart';
 /// catalogue — so they keep passing while the models and provider are still
 /// being built out from under them.
 
-const _sizes = <String, Size>{
-  'iPhone 14 Pro': Size(390, 844),
-  'small phone': Size(320, 568),
-};
+const _sizes = testSizes;
 
-const _textScales = <double>[1.0, 1.5];
+const _textScales = standardTextScales;
 
 void main() {
   setUp(() {

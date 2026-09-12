@@ -12,9 +12,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'PartyBar';
 
   @override
-  String get navigationHome => 'Home';
-
-  @override
   String get navigationExplore => 'Explore';
 
   @override
@@ -27,50 +24,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navigationSettings => 'Settings';
 
   @override
-  String get navigationProfile => 'Profile';
-
-  @override
   String get language => 'Language';
 
   @override
   String get skip => 'Skip';
 
   @override
-  String get getStarted => 'Get Started';
-
-  @override
   String get next => 'Next';
-
-  @override
-  String get previous => 'Previous';
-
-  @override
-  String get onboardingTitle1 => 'Discover Amazing Cocktails';
-
-  @override
-  String get onboardingDescription1 =>
-      'Browse through hundreds of cocktail recipes with detailed instructions and ingredients.';
-
-  @override
-  String get onboardingTitle2 => 'Join Party Events';
-
-  @override
-  String get onboardingDescription2 =>
-      'Enter party codes to join events and order cocktails directly from the host.';
-
-  @override
-  String get onboardingTitle3 => 'Create Your Own Parties';
-
-  @override
-  String get onboardingDescription3 =>
-      'Host your own cocktail parties and manage orders from your guests.';
-
-  @override
-  String get onboardingTitle4 => 'Build Your Collection';
-
-  @override
-  String get onboardingDescription4 =>
-      'Create personal cocktail bars and save your favorite recipes.';
 
   @override
   String get loading => 'Loading...';
@@ -97,32 +57,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categories => 'Categories';
 
   @override
-  String pageOfPages(int current, int total) {
-    return '$current of $total';
-  }
-
-  @override
-  String get exploreCocktails => 'Explore Cocktails';
-
-  @override
-  String get filterCocktails => 'Filter Cocktails';
-
-  @override
-  String get filtersApply => 'Apply filters';
-
-  @override
-  String get filtersClear => 'Clear all';
-
-  @override
   String get searchCocktailsHint => 'Search cocktails...';
 
   @override
   String get clearAll => 'Clear All';
-
-  @override
-  String cocktailsFound(int count) {
-    return '$count cocktails found';
-  }
 
   @override
   String get noCocktailsFound => 'No cocktails found';
@@ -137,136 +75,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorLoadingCocktails => 'Error Loading Cocktails';
 
   @override
-  String get unknownError => 'Unknown error';
-
-  @override
   String get retry => 'Retry';
-
-  @override
-  String failedToRefresh(String error) {
-    return 'Failed to refresh: $error';
-  }
-
-  @override
-  String get login => 'Log in';
 
   @override
   String get logout => 'Logout';
 
   @override
-  String get logoutSuccess => 'Successfully logged out';
-
-  @override
-  String get logoutError => 'Failed to logout. Please try again.';
-
-  @override
   String get signIn => 'Sign In';
-
-  @override
-  String get signUp => 'Sign Up';
-
-  @override
-  String get signInSuccess => 'Successfully signed in';
-
-  @override
-  String get signUpSuccess => 'Account created successfully';
-
-  @override
-  String get emailHint => 'Enter your email';
-
-  @override
-  String get emailRequired => 'Email is required';
-
-  @override
-  String get emailInvalid => 'Please enter a valid email';
-
-  @override
-  String get password => 'Password';
-
-  @override
-  String get passwordHint => 'Enter your password';
-
-  @override
-  String get passwordRequired => 'Password is required';
-
-  @override
-  String get passwordTooShort => 'Password must be at least 6 characters';
-
-  @override
-  String get confirmPassword => 'Confirm Password';
-
-  @override
-  String get confirmPasswordHint => 'Re-enter your password';
-
-  @override
-  String get confirmPasswordRequired => 'Please confirm your password';
-
-  @override
-  String get passwordsDoNotMatch => 'Passwords do not match';
-
-  @override
-  String get createAccount => 'Create Account';
-
-  @override
-  String get welcomeBack => 'Welcome Back';
-
-  @override
-  String get signUpSubtitle => 'Create a new account to get started';
-
-  @override
-  String get signInSubtitle => 'Sign in to your account';
-
-  @override
-  String get orContinueWith => 'Or continue with';
-
-  @override
-  String get continueWithGoogle => 'Continue with Google';
-
-  @override
-  String get authenticationRequired => 'Authentication Required';
-
-  @override
-  String get authenticationRequiredMessage =>
-      'This feature is available only for authenticated users. Please sign in to continue.';
-
-  @override
-  String get signInToContinue => 'Sign In to Continue';
 
   @override
   String get partyHub => 'Party Hub';
 
   @override
-  String get welcomeToPartyBar => 'Welcome to PartyBar!';
-
-  @override
-  String get joinOrCreateParty =>
-      'Join a party or create your own cocktail experience';
-
-  @override
   String get joinParty => 'Join Party';
 
   @override
-  String get joinPartySubtitle => 'Enter a party code to join the fun';
-
-  @override
   String get createParty => 'Create Party';
-
-  @override
-  String get createPartySubtitle => 'Host your own cocktail party';
-
-  @override
-  String get partyQuickInfo =>
-      'Hosts can manage orders and guests can browse cocktails in real-time!';
-
-  @override
-  String get createPartyTitle => 'Create Party';
-
-  @override
-  String get createYourParty => 'Create Your Party';
-
-  @override
-  String get createPartyDescription =>
-      'Set up your cocktail party and invite guests';
 
   @override
   String get partyDetails => 'Party Details';
@@ -275,36 +99,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partyNameLabel => 'Party Name *';
 
   @override
-  String get partyNameHint => 'e.g., Sarah\'s Birthday Bash';
-
-  @override
   String get partyDescriptionLabel => 'Description (Optional)';
 
   @override
-  String get partyDescriptionHint => 'Tell guests about your party...';
-
-  @override
-  String get selectAvailableCocktails => 'Select Available Cocktails *';
-
-  @override
-  String selectedCount(int count) {
-    return '$count selected';
-  }
-
-  @override
-  String get allClassic => 'All Classic';
-
-  @override
-  String get tikiAndFrozen => 'Tiki & Frozen';
-
-  @override
-  String get createPartyButton => 'Create Party';
-
-  @override
   String get pleaseEnterPartyName => 'Please enter a party name';
-
-  @override
-  String get pleaseSelectCocktail => 'Please select at least one cocktail';
 
   @override
   String get cocktail => 'Cocktail';
@@ -346,9 +144,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partyStatus => 'Party Status';
 
   @override
-  String get startParty => 'Start Party';
-
-  @override
   String get pauseParty => 'Pause Party';
 
   @override
@@ -381,24 +176,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goToPartyMenu => 'Go to Party Menu';
-
-  @override
-  String get partyAdminPanel => 'Party Admin';
-
-  @override
-  String get myHostedParties => 'My Hosted Parties';
-
-  @override
-  String get viewMyParties => 'View My Parties';
-
-  @override
-  String get noHostedParties => 'You haven\'t hosted any parties yet';
-
-  @override
-  String get createFirstParty => 'Create your first party to get started!';
-
-  @override
-  String get viewDetails => 'View Details';
 
   @override
   String cocktailsSelected(int count) {
@@ -446,62 +223,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get noPendingOrders => 'No pending orders';
-
-  @override
-  String get ordersWillAppear => 'Orders will appear here as guests place them';
-
-  @override
-  String get unknownCocktail => 'Unknown Cocktail';
-
-  @override
-  String forGuest(String guestName) {
-    return 'For: $guestName';
-  }
-
-  @override
   String ordered(String time) {
     return 'Ordered: $time';
   }
 
   @override
-  String get justNow => 'Just now';
-
-  @override
-  String minutesAgo(int minutes) {
-    return '${minutes}m ago';
-  }
-
-  @override
-  String hoursAgo(int hours) {
-    return '${hours}h ago';
-  }
-
-  @override
-  String get startPreparing => 'Start Preparing';
-
-  @override
   String get markReady => 'Mark Ready';
-
-  @override
-  String get markDelivered => 'Mark Delivered';
-
-  @override
-  String get newOrders => 'New Orders';
 
   @override
   String get preparing => 'Preparing';
 
   @override
-  String get readyForPickup => 'Ready for Pickup';
-
-  @override
   String get orders => 'Orders';
-
-  @override
-  String ordersCount(int count) {
-    return 'Orders ($count)';
-  }
 
   @override
   String get stats => 'Stats';
@@ -513,45 +246,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalOrders => 'Total Orders';
 
   @override
-  String get completed => 'Completed';
-
-  @override
   String get pending => 'Pending';
-
-  @override
-  String get activeTime => 'Active Time';
-
-  @override
-  String get partyOverview => 'Party Overview';
-
-  @override
-  String get popularCocktails => 'Popular Cocktails';
-
-  @override
-  String get noOrdersYet => 'No orders yet';
-
-  @override
-  String availableCocktails(int count) {
-    return 'Available Cocktails ($count)';
-  }
-
-  @override
-  String get noCocktailsAvailable => 'No cocktails available';
-
-  @override
-  String get addCocktailsToMenu => 'Add cocktails to the party menu';
-
-  @override
-  String get errorLoadingCocktailsList => 'Error loading cocktails';
-
-  @override
-  String get partyCopiedToClipboard => 'Party code copied to clipboard!';
-
-  @override
-  String get partyQRCode => 'Party QR Code';
-
-  @override
-  String get qrCodeMock => 'QR CODE\n(Mock)';
 
   @override
   String code(String code) {
@@ -562,143 +257,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get close => 'Close';
 
   @override
-  String get partyResumed => 'Party resumed';
-
-  @override
-  String get partyPausedMessage => 'Party paused';
-
-  @override
-  String failedToUpdateOrder(String error) {
-    return 'Failed to update order: $error';
-  }
-
-  @override
-  String failedToUpdatePartyStatus(String error) {
-    return 'Failed to update party status: $error';
-  }
-
-  @override
-  String orderMarkedAs(String cocktail, String guest, String status) {
-    return '$cocktail for $guest marked as $status';
-  }
-
-  @override
   String errorWithMessage(String message) {
     return 'Error: $message';
   }
 
   @override
-  String get joinPartyTitle => 'Join Party';
-
-  @override
-  String get joinTheParty => 'Join the Party!';
-
-  @override
-  String get enterPartyCodeToOrder =>
-      'Enter the party code to start ordering cocktails';
-
-  @override
-  String get yourName => 'Your Name';
-
-  @override
-  String get enterYourName => 'Enter your name';
-
-  @override
-  String get partyCode => 'Party Code';
-
-  @override
-  String get enterPartyCode => 'Enter 6-digit party code';
-
-  @override
-  String get scanQRCode => 'Scan QR Code';
-
-  @override
-  String get qrCodeScannedSuccess => 'QR Code scanned successfully!';
-
-  @override
-  String get pleaseEnterNameAndCode =>
-      'Please enter both party code and your name';
-
-  @override
-  String get askHostForCode =>
-      'Ask the party host for the 6-digit party code or scan their QR code';
-
-  @override
-  String get partyNotFound =>
-      'Party not found. Please check the code and try again.';
-
-  @override
-  String get joiningParty => 'Joining party...';
-
-  @override
-  String get orderCocktail => 'Order Cocktail';
-
-  @override
   String get specialRequests => 'Special Requests';
-
-  @override
-  String get specialRequestsHint => 'e.g., extra lime, no sugar...';
 
   @override
   String get optional => '(optional)';
 
   @override
-  String orderConfirmation(String cocktailName) {
-    return 'Order $cocktailName';
-  }
-
-  @override
-  String orderConfirmMessage(String cocktailName) {
-    return 'Are you sure you want to order $cocktailName?';
-  }
-
-  @override
-  String cocktailOrderedSuccess(String cocktailName) {
-    return '$cocktailName ordered successfully!';
-  }
-
-  @override
-  String failedToOrderCocktail(String error) {
-    return 'Failed to order cocktail: $error';
-  }
-
-  @override
   String get myOrders => 'My Orders';
-
-  @override
-  String get myStats => 'My Stats';
-
-  @override
-  String get ordersPlaced => 'Orders Placed';
-
-  @override
-  String get cocktailsTried => 'Cocktails Tried';
-
-  @override
-  String get favoriteCocktail => 'Favorite Cocktail';
-
-  @override
-  String get noFavoriteYet => 'No favorite yet';
-
-  @override
-  String get youHaventOrderedYet => 'You haven\'t ordered any cocktails yet';
-
-  @override
-  String get startOrderingFromMenu => 'Start ordering from the menu!';
-
-  @override
-  String get alreadyTried => 'Already tried';
 
   @override
   String welcome(String name) {
     return 'Welcome, $name!';
   }
-
-  @override
-  String get viewRecipe => 'View Recipe';
-
-  @override
-  String get orderNow => 'Order Now';
 
   @override
   String get later => 'Later';
@@ -1243,9 +818,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cocktailAddToParty => 'Add to a party';
 
   @override
-  String get cocktailIngredientsTitle => 'Ingredients';
-
-  @override
   String get cocktailRecipeCopied => 'Recipe copied to clipboard';
 
   @override
@@ -1326,9 +898,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authContinueApple => 'Continue with Apple';
-
-  @override
-  String get authAppleSoon => 'Soon';
 
   @override
   String authLegalLine(String terms, String privacy) {
@@ -1469,20 +1038,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guestHaveAccount => 'Have an account? Sign in';
 
   @override
-  String get claimHeadline => 'That was a night';
-
-  @override
-  String claimSubline(int count, String party) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count drinks · $party',
-      one: '1 drink · $party',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String claimTitle(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1529,9 +1084,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authErrorRetry => 'Try again';
-
-  @override
-  String get authBack => 'Back';
 
   @override
   String get authClose => 'Close';
@@ -1813,9 +1365,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String barAddCustomToList(String query) {
     return 'Not here? Add “$query” to your list';
   }
-
-  @override
-  String get barCustomItem => 'Your own bottle';
 
   @override
   String get barSearchListHint => 'What do you need?';
@@ -2361,9 +1910,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hostSaveForLater => 'Save the draft for later';
 
   @override
-  String get hostDraftLoadFailed => 'Couldn’t load this party.';
-
-  @override
   String get hostGoLiveTitle => 'Open the bar?';
 
   @override
@@ -2595,28 +2141,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get hostEndBody =>
       'The code stops working and the queue closes. This one can’t be undone.';
-
-  @override
-  String hostEndWaiting(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count orders are still waiting',
-      one: '1 order is still waiting',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String hostEndWaitingDetail(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'They will be marked unserved',
-      one: 'It will be marked unserved',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get hostEndPoured => 'Poured';
@@ -2957,25 +2481,6 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
-
-  @override
-  String get roundPausedTitle => 'The bar\'s paused';
-
-  @override
-  String roundPausedBody(String host) {
-    return '$host isn\'t pouring right now — you can browse the menu, but sending is off until it reopens.';
-  }
-
-  @override
-  String get roundEndedTitle => 'The bar\'s closed';
-
-  @override
-  String roundEndedBody(String party) {
-    return '$party has ended. Thanks for stopping by.';
-  }
-
-  @override
-  String get roundEndedLeave => 'Done';
 
   @override
   String get roundBarOpenPill => 'Bar open';
@@ -3387,9 +2892,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get joinSubtitle =>
       'Six characters, on the host\'s screen or stuck to the fridge.';
-
-  @override
-  String get joinCodeSemantics => 'Party code, six characters';
 
   @override
   String get joinLinkHint =>
@@ -3898,9 +3400,6 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
-
-  @override
-  String get presetRemove => 'Forget this menu';
 
   @override
   String get nightsTitle => 'Your nights';

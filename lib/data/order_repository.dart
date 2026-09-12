@@ -176,22 +176,17 @@ class OrderRepository {
   /// A write this device just made reaches the stream before the server has
   /// stamped it, so every server timestamp can still be null here. A fresh
   /// order reads as sent "now"; the others stay null for that one frame.
+  ///
+  /// Date fields pass through unconverted: [CocktailOrder.fromMap] decodes
+  /// whatever shape Firestore handed back (`Timestamp` or an `int` of epoch
+  /// millis) through the shared codec, so there is nothing to normalise here.
   CocktailOrder _orderFromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data() ?? const <String, dynamic>{};
-    int? millis(String key) {
-      final value = data[key];
-      return value is Timestamp ? value.millisecondsSinceEpoch : null;
-    }
 
     return CocktailOrder.fromMap({
       ...data,
       'id': snapshot.id,
-      'createdAt': millis('createdAt') ?? DateTime.now().millisecondsSinceEpoch,
-      'preparedAt': millis('preparedAt'),
-      'readyAt': millis('readyAt'),
-      'deliveredAt': millis('deliveredAt'),
-      'buzzedAt': millis('buzzedAt'),
-      'cancelledAt': millis('cancelledAt'),
+      'createdAt': data['createdAt'] ?? DateTime.now(),
     });
   }
 }

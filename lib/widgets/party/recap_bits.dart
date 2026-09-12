@@ -160,7 +160,7 @@ class DrinkTallyRow extends StatelessWidget {
                         name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTypography.cardTitle.copyWith(fontSize: 13.5),
+                        style: AppTypography.cardTitle,
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -170,7 +170,7 @@ class DrinkTallyRow extends StatelessWidget {
                         fontSize: 12,
                         color: leader
                             ? AppColors.signalLight
-                            : AppColors.ink.withValues(alpha: .6),
+                            : AppColors.inkBody,
                       ),
                     ),
                   ],
@@ -262,7 +262,7 @@ class RecapActionCard extends StatelessWidget {
                   style: AppTypography.meta.copyWith(
                     fontSize: 11.5,
                     height: 1.3,
-                    color: AppColors.ink.withValues(alpha: .45),
+                    color: AppColors.inkMeta,
                   ),
                 ),
               ],
@@ -454,7 +454,7 @@ class NightRow extends StatelessWidget {
                         style: AppTypography.meta.copyWith(
                           fontSize: 11.5,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.ink.withValues(alpha: .45),
+                          color: AppColors.inkMeta,
                         ),
                       ),
                     ],
@@ -465,7 +465,7 @@ class NightRow extends StatelessWidget {
                     Icon(
                       Icons.chevron_right,
                       size: 20,
-                      color: AppColors.ink.withValues(alpha: .3),
+                      color: AppColors.inkGhost,
                     ),
               ],
             ),

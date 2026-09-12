@@ -132,7 +132,6 @@ class _PartyHubScreenState extends State<PartyHubScreen> {
     final stream = _hostedStreamFor(uid);
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: StreamBuilder<Party?>(
         stream: _guestParty,
         builder: (context, guestSnapshot) {
@@ -274,7 +273,7 @@ class _BarClosed extends StatelessWidget {
                               child: Text(
                                 l10n.hostNothingPouringBody,
                                 style: AppTypography.body.copyWith(
-                                  color: AppColors.ink.withValues(alpha: .62),
+                                  color: AppColors.inkBody,
                                 ),
                               ),
                             ),

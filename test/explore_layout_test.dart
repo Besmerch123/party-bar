@@ -14,17 +14,16 @@ import 'package:party_bar/widgets/explore/cocktail_cards.dart';
 import 'package:party_bar/widgets/explore/explore_chrome.dart';
 import 'package:party_bar/widgets/explore/zero_results.dart';
 
+import 'support/harness.dart';
+
 /// Explore's shared vocabulary carries every screen in the flow, so it has to
 /// survive the two things that actually break layouts in the field: a narrow
 /// phone, and someone who has turned their text up.
 
-const _sizes = <String, Size>{
-  'iPhone 14 Pro': Size(390, 844),
-  'small phone': Size(320, 568),
-};
+const _sizes = testSizes;
 
 /// Large enough to catch a fixed-height card that cannot hold its own words.
-const _textScales = <double>[1.0, 1.5];
+const _textScales = standardTextScales;
 
 Ingredient _ingredient(String id, {int? unlocks}) => Ingredient(
   id: id,

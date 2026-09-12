@@ -19,17 +19,16 @@ import 'package:party_bar/services/elastic_service.dart';
 import 'package:party_bar/theme/theme.dart';
 import 'package:party_bar/widgets/bar/two_away_sheet.dart';
 
+import 'support/harness.dart';
+
 /// Flow 04 screens 08 ("what ran out?") and 09 ("two away") — the one-time
 /// upkeep checklist a party leaves behind, and the one other place outside
 /// it a gap in the shelf is ever named. No Firebase reaches these tests: the
 /// couple of cases that touch [ExploreProvider] hand it a fake repository
 /// instead of the real, Firestore-backed one.
 
-const _sizes = <String, Size>{
-  'iPhone 14 Pro': Size(390, 844),
-  'small phone': Size(320, 568),
-};
-const _textScales = <double>[1.0, 1.5];
+const _sizes = testSizes;
+const _textScales = standardTextScales;
 
 /// The path `RanOutScreen._exit` falls back to when it cannot pop — kept as
 /// a literal rather than importing the real `AppRoutes`, which drags in

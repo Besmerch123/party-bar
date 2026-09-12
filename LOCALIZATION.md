@@ -2,6 +2,17 @@
 
 This Flutter app uses the official Flutter localization system with ARB (Application Resource Bundle) files.
 
+`app_en.arb` and `app_uk.arb` currently carry 903 keys each, in identical
+order, with no per-language gaps. Keys are only ever removed once nothing
+references them: a key is reached exclusively as `l10n.<key>`,
+`context.l10n.<key>`, or `AppLocalizations.of(context).<key>` (there is no
+reflection to dispatch a key name built at runtime), so
+`grep -rn '\.l10n\.\|l10n\.' lib test` for a key's exact name is the reliable
+way to check whether it's still used before deleting it. A prune of 143
+long-dead keys (orphaned by the email-auth lane, an old admin panel, and a
+pre-redesign onboarding carousel, none of which ship anymore) took the
+template from 1046 keys down to the current 903.
+
 ## 📁 Project Structure
 
 ```
@@ -166,7 +177,10 @@ final locale = context.read<LocaleProvider>().currentLocale;
 await context.read<LocaleProvider>().setLocale(SupportedLocale.uk);
 ```
 
-The language switcher is already implemented in `ProfileScreen`.
+The language switcher lives in Settings → Language
+(`lib/screens/settings/language_screen.dart`), not on the profile screen — it
+also drives the "Follow my phone" toggle (`LocaleProvider.setFollowSystem`),
+which stays on until someone picks a language by hand.
 
 ## 📝 Best Practices
 
@@ -268,9 +282,9 @@ dependencies:
 
 Check these files for working examples:
 
-1. **lib/screens/welcome/onboarding_screen.dart** - Multiple translated strings with placeholders
-2. **lib/screens/profile/profile_screen.dart** - Simple translated title
-3. **lib/widgets/cocktails/cocktail_ingredients.dart** - Mixing static labels with dynamic DB content
+1. **lib/widgets/onboarding/bottles_step.dart** - Multiple translated strings with placeholders (`l10n.onboardingBottlesAdded(...)`, `l10n.bottleUnlocksMore(bottle.unlocks)`)
+2. **lib/screens/settings/language_screen.dart** - A simple screen built entirely from `context.l10n`, including a placeholder call (`settingsLanguageFollowsPhoneCaption`)
+3. **lib/widgets/explore/cocktail_cards.dart** - Mixing static ARB labels (`l10n.exploreMissingBadge(...)`) with dynamic DB content (`cocktail.title.translate(context)`)
 4. **lib/providers/locale_provider.dart** - Locale management
 
 ## 🐛 Troubleshooting

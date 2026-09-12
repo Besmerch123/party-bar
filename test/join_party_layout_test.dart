@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import 'package:party_bar/generated/l10n/app_localizations.dart';
 import 'package:party_bar/models/models.dart';
-import 'package:party_bar/providers/locale_provider.dart';
 import 'package:party_bar/providers/party_cocktails.dart';
 import 'package:party_bar/screens/party/guest/party_ended_screen.dart';
-import 'package:party_bar/theme/theme.dart';
 import 'package:party_bar/widgets/party/guest/guest_name_gate.dart';
 import 'package:party_bar/widgets/party/guest/paused_bar.dart';
 import 'package:party_bar/widgets/party/guest/your_round_tab.dart';
 import 'package:party_bar/widgets/party/join_code_field.dart';
+
+import 'support/harness.dart';
 
 /// Flow 07 — the door's own screens with fake data, at a couple of sizes and
 /// a large text scale. Nothing here touches Firebase: the join screen itself
 /// resolves a code through [PartyService] and is covered by the pieces it is
 /// built from instead.
 
-const _sizes = <String, Size>{
-  'iPhone 14 Pro': Size(390, 844),
-  'small phone': Size(320, 568),
-};
-const _textScales = <double>[1.0, 1.5];
+const _sizes = testSizes;
+const _textScales = standardTextScales;
 
 final _t0 = DateTime(2026, 9, 12, 22, 30);
 
@@ -63,43 +57,6 @@ void main() {
     GoogleFonts.config.allowRuntimeFetching = false;
   });
 
-  const delegates = <LocalizationsDelegate<dynamic>>[
-    AppLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ];
-
-  Future<void> pump(
-    WidgetTester tester,
-    Widget child, {
-    Size size = const Size(390, 844),
-    double textScale = 1.0,
-  }) async {
-    tester.view
-      ..physicalSize = size
-      ..devicePixelRatio = 1.0;
-    addTearDown(tester.view.reset);
-
-    await tester.pumpWidget(
-      ChangeNotifierProvider(
-        create: (_) => LocaleProvider(),
-        child: MaterialApp(
-          theme: AppTheme.dark,
-          localizationsDelegates: delegates,
-          supportedLocales: const [Locale('en'), Locale('uk')],
-          builder: (context, widget) => MediaQuery.withClampedTextScaling(
-            minScaleFactor: textScale,
-            maxScaleFactor: textScale,
-            child: widget!,
-          ),
-          home: child,
-        ),
-      ),
-    );
-    await tester.pump();
-  }
-
   group('01 · the code field', () {
     testWidgets('draws one box per character, filled as far as it is typed', (
       tester,
@@ -109,7 +66,7 @@ void main() {
       final focusNode = FocusNode();
       addTearDown(focusNode.dispose);
 
-      await pump(
+      await pumpLocaleAware(
         tester,
         Scaffold(
           body: Padding(
@@ -133,7 +90,7 @@ void main() {
       final focusNode = FocusNode();
       addTearDown(focusNode.dispose);
 
-      await pump(
+      await pumpLocaleAware(
         tester,
         Scaffold(
           body: Padding(
@@ -157,7 +114,7 @@ void main() {
       final focusNode = FocusNode();
       addTearDown(focusNode.dispose);
 
-      await pump(
+      await pumpLocaleAware(
         tester,
         Scaffold(
           body: Padding(
@@ -180,7 +137,7 @@ void main() {
     ) async {
       String? committed;
 
-      await pump(
+      await pumpLocaleAware(
         tester,
         Builder(
           builder: (context) => Scaffold(
@@ -228,7 +185,7 @@ void main() {
     testWidgets('the rename has nothing to send and nothing to confirm', (
       tester,
     ) async {
-      await pump(
+      await pumpLocaleAware(
         tester,
         Builder(
           builder: (context) => Scaffold(
@@ -262,7 +219,7 @@ void main() {
       final cocktails = PartyCocktails(load: (_) async => null);
       addTearDown(cocktails.dispose);
 
-      await pump(
+      await pumpLocaleAware(
         tester,
         Scaffold(
           body: YourRoundTab(
@@ -288,7 +245,7 @@ void main() {
       final cocktails = PartyCocktails(load: (_) async => null);
       addTearDown(cocktails.dispose);
 
-      await pump(
+      await pumpLocaleAware(
         tester,
         Scaffold(
           body: YourRoundTab(
@@ -309,7 +266,7 @@ void main() {
 
   group('06 · party ended', () {
     testWidgets('counts the guest\'s night, not the party\'s', (tester) async {
-      await pump(
+      await pumpLocaleAware(
         tester,
         PartyEndedScreen(
           party: _party(status: PartyStatus.ended),
@@ -332,7 +289,7 @@ void main() {
     testWidgets('floors an arrival minutes before closing at one hour', (
       tester,
     ) async {
-      await pump(
+      await pumpLocaleAware(
         tester,
         PartyEndedScreen(
           party: _party(status: PartyStatus.ended),
@@ -352,7 +309,7 @@ void main() {
         testWidgets('06 party ended on a $device at ${scale}x text', (
           tester,
         ) async {
-          await pump(
+          await pumpLocaleAware(
             tester,
             PartyEndedScreen(
               party: _party(status: PartyStatus.ended),
@@ -368,7 +325,7 @@ void main() {
         testWidgets('07 bar paused on a $device at ${scale}x text', (
           tester,
         ) async {
-          await pump(
+          await pumpLocaleAware(
             tester,
             Scaffold(
               body: Stack(

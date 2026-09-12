@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../models/auth.dart';
 import '../../providers/auth_provider.dart';
 import '../../screens/auth/auth_barrier_screen.dart';
-import '../../theme/theme.dart';
 
 /// Guards the few routes that genuinely need an owner.
 ///
@@ -37,7 +36,6 @@ class AuthGuard extends StatelessWidget {
         // has had one all along.
         if (!auth.isResolved) {
           return const Scaffold(
-            backgroundColor: AppColors.ground,
             body: Center(child: CircularProgressIndicator()),
           );
         }

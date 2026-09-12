@@ -29,7 +29,7 @@ class CocktailRepository {
 
       return snapshot.docs.map((doc) => (doc.id, doc.data())).toList();
     } catch (e) {
-      print('Error fetching cocktail documents: $e');
+      if (kDebugMode) debugPrint('Error fetching cocktail documents: $e');
       return [];
     }
   }
@@ -46,7 +46,7 @@ class CocktailRepository {
           .map((doc) => _transformer.fromFirestore(doc, locale))
           .toList();
     } catch (e) {
-      print('Error fetching cocktails: $e');
+      if (kDebugMode) debugPrint('Error fetching cocktails: $e');
       return [];
     }
   }
@@ -71,7 +71,7 @@ class CocktailRepository {
 
       return (doc.id, doc.data()!);
     } catch (e) {
-      print('Error fetching cocktail document: $e');
+      if (kDebugMode) debugPrint('Error fetching cocktail document: $e');
       return null;
     }
   }
@@ -90,7 +90,7 @@ class CocktailRepository {
 
       return _transformer.fromFirestoreWithRelations(doc, relations);
     } catch (e) {
-      print('Error fetching cocktail: $e');
+      if (kDebugMode) debugPrint('Error fetching cocktail: $e');
       return null;
     }
   }
@@ -124,7 +124,7 @@ class CocktailRepository {
 
       return cocktails;
     } catch (e) {
-      print('Error fetching cocktails by IDs: $e');
+      if (kDebugMode) debugPrint('Error fetching cocktails by IDs: $e');
       return [];
     }
   }
@@ -177,8 +177,7 @@ class CocktailRepository {
         hasNextPage: searchResult.hasNextPage,
         hasPreviousPage: searchResult.hasPreviousPage,
       );
-    } catch (e) {
-      print('Error searching cocktails: $e');
+    } catch (_) {
       rethrow;
     }
   }
@@ -256,7 +255,7 @@ class IngredientRepository {
 
       return ingredients;
     } catch (e) {
-      print('Error fetching ingredients by paths: $e');
+      if (kDebugMode) debugPrint('Error fetching ingredients by paths: $e');
       return [];
     }
   }
@@ -309,7 +308,7 @@ class EquipmentRepository {
 
       return equipments;
     } catch (e) {
-      print('Error fetching equipments by paths: $e');
+      if (kDebugMode) debugPrint('Error fetching equipments by paths: $e');
       return [];
     }
   }

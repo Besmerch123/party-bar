@@ -137,13 +137,10 @@ class CocktailOrder {
     };
   }
 
-  /// Dates arrive as epoch milliseconds — the repository converts Firestore
-  /// timestamps before they get here.
+  /// Dates arrive as whatever Firestore last wrote for that field — a
+  /// `Timestamp` from `FieldValue.serverTimestamp()`, or epoch millis from a
+  /// `toMap()` — [firestoreDate] takes either.
   factory CocktailOrder.fromMap(Map<String, dynamic> map) {
-    DateTime? optionalDate(String key) => map[key] != null
-        ? DateTime.fromMillisecondsSinceEpoch(map[key] as int)
-        : null;
-
     final title = map['outOfIngredientTitle'];
 
     return CocktailOrder(
@@ -157,14 +154,17 @@ class CocktailOrder {
         (e) => e.name == map['status'],
         orElse: () => OrderStatus.pending,
       ),
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] ?? 0),
-      preparedAt: optionalDate('preparedAt'),
-      readyAt: optionalDate('readyAt'),
-      deliveredAt: optionalDate('deliveredAt'),
+      createdAt: firestoreDateOr(
+        map['createdAt'],
+        DateTime.fromMillisecondsSinceEpoch(0),
+      ),
+      preparedAt: firestoreDate(map['preparedAt']),
+      readyAt: firestoreDate(map['readyAt']),
+      deliveredAt: firestoreDate(map['deliveredAt']),
       roundId: map['roundId'],
       forName: map['forName'],
-      buzzedAt: optionalDate('buzzedAt'),
-      cancelledAt: optionalDate('cancelledAt'),
+      buzzedAt: firestoreDate(map['buzzedAt']),
+      cancelledAt: firestoreDate(map['cancelledAt']),
       cancelReason: CancelReason.values
           .where((reason) => reason.name == map['cancelReason'])
           .firstOrNull,

@@ -10,6 +10,7 @@ library;
 
 import 'bar_item.dart';
 import 'recipe.dart' show enumByName;
+import 'shared_types.dart';
 
 /// Why something ended up on the list.
 enum ShoppingReason { ranOut, recipe, manual }
@@ -120,7 +121,12 @@ class ShoppingEntry {
     reason: enumByName(ShoppingReason.values, json['reason']) ?? ShoppingReason.manual,
     context: json['context'] as String?,
     ticked: json['ticked'] as bool? ?? false,
-    addedAt: DateTime.parse(json['addedAt'] as String),
+    // Stored locally as ISO-8601 (see [toJson]); read through the same
+    // tolerant codec as Firestore dates.
+    addedAt: firestoreDateOr(
+      json['addedAt'],
+      DateTime.fromMillisecondsSinceEpoch(0),
+    ),
   );
 }
 

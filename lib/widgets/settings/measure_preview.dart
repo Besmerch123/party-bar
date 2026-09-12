@@ -20,7 +20,10 @@ const kMeasurePreviewIngredients = [
 String measurePreviewSummary(AppLocalizations l10n, MeasureUnit unit) {
   return kMeasurePreviewIngredients
       .take(2)
-      .map((entry) => '${measureLabel(l10n, entry.$2, displayUnit: unit)} ${entry.$1}')
+      .map(
+        (entry) =>
+            '${measureLabel(l10n, entry.$2, displayUnit: unit)} ${entry.$1}',
+      )
       .join(' · ');
 }
 
@@ -64,7 +67,8 @@ class MeasurePreviewList extends StatelessWidget {
               ),
             ],
           ),
-          if (entry != kMeasurePreviewIngredients.last) const SizedBox(height: 11),
+          if (entry != kMeasurePreviewIngredients.last)
+            const SizedBox(height: 11),
         ],
       ],
     );
@@ -108,44 +112,71 @@ class MeasureUnitSegment extends StatelessWidget {
 
   Widget _segment(String label, String code, MeasureUnit value) {
     final selected = unit == value;
+    final labelColor = selected
+        ? AppColors.ground
+        : AppColors.inkBody;
+    final codeColor = selected
+        ? AppColors.ground.withValues(alpha: .5)
+        : AppColors.inkFaint;
+
+    // The compact pill (index card) only has room for the short code — the
+    // full mode's spelled-out label doesn't fit next to a card title even at
+    // 1.0x, and every extra pixel of text scale made it worse.
     final child = AnimatedContainer(
       duration: AppMotion.tap,
-      height: compact ? null : 52,
-      padding: compact ? const EdgeInsets.symmetric(horizontal: 15, vertical: 7) : null,
+      constraints: compact ? null : const BoxConstraints(minHeight: 52),
+      padding: compact
+          ? const EdgeInsets.symmetric(horizontal: 15, vertical: 7)
+          : const EdgeInsets.symmetric(vertical: 8),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: selected ? Colors.white : Colors.transparent,
         borderRadius: BorderRadius.circular(compact ? 999 : 16),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            label,
-            style: (compact ? AppTypography.buttonSecondary : AppTypography.cardTitle).copyWith(
-              fontSize: compact ? 11.5 : 15,
-              fontWeight: FontWeight.w700,
-              color: selected ? AppColors.ground : AppColors.ink.withValues(alpha: .6),
-            ),
-          ),
-          if (!compact) ...[
-            const SizedBox(width: 8),
-            Text(
+      child: compact
+          ? Text(
               code,
-              style: AppTypography.mono.copyWith(
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTypography.buttonSecondary.copyWith(
                 fontSize: 11.5,
-                color: selected
-                    ? AppColors.ground.withValues(alpha: .5)
-                    : AppColors.ink.withValues(alpha: .35),
+                fontWeight: FontWeight.w700,
+                color: labelColor,
               ),
+            )
+          // `Wrap` instead of a fixed-width `Row`: at the plain 1.0x baseline
+          // the label and code sit on one line same as before, and only drop
+          // to a second line once a narrower phone or a bumped text scale
+          // leaves no room for both side by side.
+          : Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 8,
+              runSpacing: 2,
+              children: [
+                Text(
+                  label,
+                  style: AppTypography.cardTitle.copyWith(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: labelColor,
+                  ),
+                ),
+                Text(
+                  code,
+                  style: AppTypography.mono.copyWith(
+                    fontSize: 11.5,
+                    color: codeColor,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ],
-      ),
     );
 
     return compact
         ? GestureDetector(onTap: () => onChanged(value), child: child)
-        : Expanded(child: GestureDetector(onTap: () => onChanged(value), child: child));
+        : Expanded(
+            child: GestureDetector(onTap: () => onChanged(value), child: child),
+          );
   }
 }

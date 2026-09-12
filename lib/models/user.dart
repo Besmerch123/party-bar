@@ -1,3 +1,5 @@
+import 'shared_types.dart';
+
 /// The account behind a signed-in person — Flow 09's "one question: what do
 /// guests read?" plus the handful of fields nothing else in the app owns yet.
 ///
@@ -75,8 +77,14 @@ class User {
       notifyDrinkReady: map['notifyDrinkReady'] ?? map['notificationsEnabled'] ?? true,
       notifyNewOrder: map['notifyNewOrder'] ?? map['notificationsEnabled'] ?? true,
       notifyRecapMorning: map['notifyRecapMorning'] ?? false,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] ?? 0),
-      lastLoginAt: DateTime.fromMillisecondsSinceEpoch(map['lastLoginAt'] ?? 0),
+      createdAt: firestoreDateOr(
+        map['createdAt'],
+        DateTime.fromMillisecondsSinceEpoch(0),
+      ),
+      lastLoginAt: firestoreDateOr(
+        map['lastLoginAt'],
+        DateTime.fromMillisecondsSinceEpoch(0),
+      ),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:party_bar/models/cocktail.dart';
@@ -153,8 +154,7 @@ class ElasticService {
       _cacheResult(cacheKey, searchResult);
 
       return searchResult;
-    } catch (e) {
-      print('Error searching cocktails via Elasticsearch: $e');
+    } catch (_) {
       rethrow;
     }
   }
@@ -228,8 +228,9 @@ class ElasticService {
 
       _cacheBox.put(cacheKey, jsonEncode(cacheData));
     } catch (e) {
-      print('Error caching search result: $e');
-      // Don't throw - caching failure shouldn't break the app
+      // Don't throw - caching failure shouldn't break the app. Worth a debug
+      // log since nothing else surfaces it.
+      if (kDebugMode) debugPrint('Error caching search result: $e');
     }
   }
 

@@ -10,6 +10,7 @@ import '../../providers/measure_unit_provider.dart';
 import '../../theme/theme.dart';
 import '../../utils/cocktail_labels.dart';
 import '../../utils/localization_helper.dart';
+import '../../widgets/common/app_sheet.dart';
 import '../../widgets/common/glass.dart';
 
 /// The hands-busy guided pour: one instruction at a time, in the largest type
@@ -132,13 +133,7 @@ class _MakeItNowScreenState extends State<MakeItNowScreen> {
 
   Future<void> _openRecipeSheet() {
     final cocktail = widget.cocktail;
-    return showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      useSafeArea: true,
-      builder: (_) => _RecipeSheet(cocktail: cocktail),
-    );
+    return showAppSheet<void>(context, (_) => _RecipeSheet(cocktail: cocktail));
   }
 
   void _finish(String cocktailName) {
@@ -164,7 +159,6 @@ class _MakeItNowScreenState extends State<MakeItNowScreen> {
     final photoHeight = math.min(430.0, MediaQuery.sizeOf(context).height * 0.5);
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: Stack(
         children: [
           Positioned(
@@ -553,7 +547,7 @@ class _TimerCard extends StatelessWidget {
                       const SizedBox(height: 3),
                       Text(
                         hint,
-                        style: AppTypography.meta.copyWith(fontSize: 11.5),
+                        style: AppTypography.caption,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -911,7 +905,6 @@ class _NoStepsScreen extends StatelessWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         child: Column(
           children: [

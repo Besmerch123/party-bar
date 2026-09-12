@@ -20,7 +20,7 @@ class HostFilterPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ink = selected ? AppColors.ground : AppColors.ink.withValues(alpha: .6);
+    final ink = selected ? AppColors.ground : AppColors.inkBody;
 
     return Semantics(
       button: onTap != null,

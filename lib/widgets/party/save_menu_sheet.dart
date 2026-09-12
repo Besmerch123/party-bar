@@ -127,7 +127,7 @@ class _SaveMenuSheetState extends State<_SaveMenuSheet> {
             style: AppTypography.meta.copyWith(
               fontSize: 11.5,
               height: 1.5,
-              color: AppColors.ink.withValues(alpha: _ready ? .35 : .55),
+              color: _ready ? AppColors.inkFaint : AppColors.ink.withValues(alpha: .55),
             ),
           ),
         ],
@@ -157,7 +157,7 @@ class _NameField extends StatelessWidget {
           Icon(
             Icons.bookmark_outline,
             size: 19,
-            color: AppColors.ink.withValues(alpha: .35),
+            color: AppColors.inkFaint,
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -180,7 +180,7 @@ class _NameField extends StatelessWidget {
                 hintStyle: AppTypography.section.copyWith(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.ink.withValues(alpha: .3),
+                  color: AppColors.inkGhost,
                 ),
               ),
             ),
@@ -215,7 +215,7 @@ class _KeepRow extends StatelessWidget {
             Icon(
               icon,
               size: 17,
-              color: kept ? AppColors.ready : AppColors.ink.withValues(alpha: .3),
+              color: kept ? AppColors.ready : AppColors.inkGhost,
             ),
             const SizedBox(width: 11),
             Expanded(
@@ -331,7 +331,7 @@ class _PresetRow extends StatelessWidget {
                       style: AppTypography.meta.copyWith(
                         fontSize: 11.5,
                         height: 1.3,
-                        color: AppColors.ink.withValues(alpha: .45),
+                        color: AppColors.inkMeta,
                       ),
                     ),
                   ],
@@ -340,7 +340,7 @@ class _PresetRow extends StatelessWidget {
               Icon(
                 Icons.chevron_right,
                 size: 20,
-                color: AppColors.ink.withValues(alpha: .3),
+                color: AppColors.inkGhost,
               ),
             ],
           ),

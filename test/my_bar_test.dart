@@ -26,6 +26,8 @@ import 'package:party_bar/utils/app_router.dart';
 import 'package:party_bar/widgets/bar/bar_item_sheet.dart';
 import 'package:party_bar/widgets/bar/bar_row.dart';
 
+import 'support/harness.dart';
+
 /// Flow 04 · screens 01, 03, 04 and the item sheet — the shelf a host
 /// actually lives on. No Firebase anywhere here: the catalogue, the
 /// cocktail feed and the signed-out auth state are all fakes, the same way
@@ -500,11 +502,8 @@ void main() {
   });
 
   group('layout holds under a narrow phone and a bumped text scale', () {
-    const sizes = <String, Size>{
-      'iPhone 14 Pro': Size(390, 844),
-      'small phone': Size(320, 568),
-    };
-    const scales = <double>[1.0, 1.5];
+    const sizes = testSizes;
+    const scales = standardTextScales;
 
     Future<BarProvider> layoutBar() async {
       final bar = await buildBar();

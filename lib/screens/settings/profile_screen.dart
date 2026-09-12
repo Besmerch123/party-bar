@@ -24,15 +24,22 @@ import 'settings_screen.dart' show kAppVersion, showAboutPartyBarDialog;
 /// Not a bio, not a stats page — the footer is the one exception, and it
 /// only ever reads numbers the recap screens already own.
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, AccountService? accountService, PartyService? partyService})
+    : _accountService = accountService,
+      _partyService = partyService;
+
+  /// Test seams only: production always leaves these null and gets real
+  /// services. Nothing in the app passes them.
+  final AccountService? _accountService;
+  final PartyService? _partyService;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final _accountService = AccountService();
-  final _partyService = PartyService();
+  late final AccountService _accountService = widget._accountService ?? AccountService();
+  late final PartyService _partyService = widget._partyService ?? PartyService();
 
   // A field, not a `build()`-time call: `setState` runs often on this screen
   // (every keystroke's debounce, every allergen edit) and a fresh
@@ -124,10 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final bar = context.watch<BarProvider>();
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       appBar: AppBar(
-        backgroundColor: AppColors.ground,
-        surfaceTintColor: Colors.transparent,
         leading: BackButton(onPressed: () => context.pop()),
         actions: [
           Padding(
@@ -141,7 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   style: AppTypography.meta.copyWith(
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.ink.withValues(alpha: .35),
+                    color: AppColors.inkFaint,
                   ),
                 ),
               ),
@@ -171,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       textAlign: TextAlign.center,
                       style: AppTypography.meta.copyWith(
                         fontSize: 12,
-                        color: AppColors.ink.withValues(alpha: .45),
+                        color: AppColors.inkMeta,
                       ),
                     ),
                   ),
@@ -256,7 +260,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   textAlign: TextAlign.center,
                   style: AppTypography.meta.copyWith(
                     fontSize: 11.5,
-                    color: AppColors.ink.withValues(alpha: .35),
+                    color: AppColors.inkFaint,
                   ),
                 );
               },

@@ -76,7 +76,7 @@ class OrderLandedBanner extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: AppTypography.meta.copyWith(
                     fontSize: 12,
-                    color: AppColors.ink.withValues(alpha: .6),
+                    color: AppColors.inkBody,
                   ),
                 ),
               ],
@@ -143,7 +143,7 @@ class WaitingOnYouCard extends StatelessWidget {
                   Text(l10n.queueWaitingOnYouTitle, style: AppTypography.cardTitle.copyWith(fontSize: 12.5)),
                   Text(
                     l10n.queueInLineBadge(line.length).toUpperCase(),
-                    style: AppTypography.mono.copyWith(fontSize: 11, color: AppColors.signalLight),
+                    style: AppTypography.mono.copyWith(color: AppColors.signalLight),
                   ),
                 ],
               ),
@@ -198,7 +198,7 @@ class _WaitingRow extends StatelessWidget {
             ),
           )
         else
-          Text(formatWait(age), style: AppTypography.mono.copyWith(fontSize: 11)),
+          Text(formatWait(age), style: AppTypography.mono),
       ],
     );
   }

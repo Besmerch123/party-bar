@@ -166,7 +166,6 @@ class _JoinPartyScreenState extends State<JoinPartyScreen> {
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
@@ -218,7 +217,7 @@ class _JoinPartyScreenState extends State<JoinPartyScreen> {
                           child: Text(
                             l10n.joinSubtitle,
                             style: AppTypography.body.copyWith(
-                              color: AppColors.ink.withValues(alpha: .6),
+                              color: AppColors.inkBody,
                             ),
                           ),
                         ),
@@ -465,7 +464,7 @@ class _AskForLinkRow extends StatelessWidget {
               Icon(
                 Icons.chevron_right,
                 size: 18,
-                color: AppColors.ink.withValues(alpha: .3),
+                color: AppColors.inkGhost,
               ),
             ],
           ),

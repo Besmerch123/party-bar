@@ -109,7 +109,6 @@ class _Opening extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,

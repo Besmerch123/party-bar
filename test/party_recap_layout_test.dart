@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:party_bar/generated/l10n/app_localizations.dart';
 import 'package:party_bar/models/models.dart';
-import 'package:party_bar/providers/locale_provider.dart';
 import 'package:party_bar/services/menu_presets.dart';
-import 'package:party_bar/theme/theme.dart';
 import 'package:party_bar/widgets/party/end_party_sheet.dart';
 import 'package:party_bar/widgets/party/recap_bits.dart';
 import 'package:party_bar/widgets/party/save_menu_sheet.dart';
 import 'package:party_bar/widgets/party/share_card.dart';
+
+import 'support/harness.dart';
 
 /// Flow 08 — the pieces the recap is drawn from, with fake data, at a couple
 /// of sizes and a large text scale. Nothing here touches Firebase: the recap
 /// screens themselves stream a party's orders and are covered by the
 /// arithmetic in party_recap_test.dart plus the widgets below.
 
-const _sizes = <String, Size>{
-  'iPhone 14 Pro': Size(390, 844),
-  'small phone': Size(320, 568),
-};
-const _textScales = <double>[1.0, 1.5];
+const _sizes = testSizes;
+const _textScales = standardTextScales;
 
 final _live = DateTime(2026, 9, 4, 21, 0);
 
@@ -62,43 +56,6 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  const delegates = <LocalizationsDelegate<dynamic>>[
-    AppLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ];
-
-  Future<void> pump(
-    WidgetTester tester,
-    Widget child, {
-    Size size = const Size(390, 844),
-    double textScale = 1.0,
-  }) async {
-    tester.view
-      ..physicalSize = size
-      ..devicePixelRatio = 1.0;
-    addTearDown(tester.view.reset);
-
-    await tester.pumpWidget(
-      ChangeNotifierProvider(
-        create: (_) => LocaleProvider(),
-        child: MaterialApp(
-          theme: AppTheme.dark,
-          localizationsDelegates: delegates,
-          supportedLocales: const [Locale('en'), Locale('uk')],
-          builder: (context, widget) => MediaQuery.withClampedTextScaling(
-            minScaleFactor: textScale,
-            maxScaleFactor: textScale,
-            child: widget!,
-          ),
-          home: child,
-        ),
-      ),
-    );
-    await tester.pump();
-  }
-
   /// Opens a sheet the way the app does — from a context under a Navigator.
   Future<void> openSheet(
     WidgetTester tester,
@@ -106,7 +63,7 @@ void main() {
     Size size = const Size(390, 844),
     double textScale = 1.0,
   }) async {
-    await pump(
+    await pumpLocaleAware(
       tester,
       Scaffold(
         body: Builder(
@@ -204,7 +161,7 @@ void main() {
 
   group('02 · the recap’s pieces', () {
     testWidgets('a tally with no bar still reads as a tally', (tester) async {
-      await pump(
+      await pumpLocaleAware(
         tester,
         const Scaffold(
           body: Padding(
@@ -225,7 +182,7 @@ void main() {
     });
 
     testWidgets('a chart of two draws a bar apiece', (tester) async {
-      await pump(
+      await pumpLocaleAware(
         tester,
         const Scaffold(
           body: Padding(
@@ -257,7 +214,7 @@ void main() {
     testWidgets('stat tiles survive three long labels side by side', (
       tester,
     ) async {
-      await pump(
+      await pumpLocaleAware(
         tester,
         Scaffold(
           body: Padding(
@@ -281,7 +238,7 @@ void main() {
 
   group('03 · the share card', () {
     testWidgets('counts people by default and names nobody', (tester) async {
-      await pump(
+      await pumpLocaleAware(
         tester,
         const Scaffold(
           body: Center(
@@ -305,7 +262,7 @@ void main() {
     });
 
     testWidgets('names guests only when it is handed names', (tester) async {
-      await pump(
+      await pumpLocaleAware(
         tester,
         const Scaffold(
           body: Center(
@@ -385,7 +342,7 @@ void main() {
 
   group('06 · the archive’s pieces', () {
     testWidgets('a night card carries its own numbers', (tester) async {
-      await pump(
+      await pumpLocaleAware(
         tester,
         Scaffold(
           body: Padding(

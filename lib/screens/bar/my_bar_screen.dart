@@ -105,7 +105,6 @@ class _MyBarScreenState extends State<MyBarScreen> {
     // ground colour until there is a real answer.
     if (!bar.isInitialized) {
       return const Scaffold(
-        backgroundColor: AppColors.ground,
         body: SizedBox.shrink(),
       );
     }
@@ -120,7 +119,6 @@ class _MyBarScreenState extends State<MyBarScreen> {
     final showStarters = _showStarters && !allStartersOnShelf;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         bottom: false,
         child: showStarters

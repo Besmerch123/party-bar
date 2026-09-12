@@ -58,7 +58,6 @@ class PartyEndedScreen extends StatelessWidget {
     final forFriends = poured.where((o) => o.forName != null).length;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         child: Column(
           children: [
@@ -98,7 +97,7 @@ class PartyEndedScreen extends StatelessWidget {
                     Text(
                       l10n.joinEndedBody(party.name),
                       style: AppTypography.body.copyWith(
-                        color: AppColors.ink.withValues(alpha: .62),
+                        color: AppColors.inkBody,
                       ),
                     ),
                     const SizedBox(height: 28),
@@ -145,7 +144,7 @@ class PartyEndedScreen extends StatelessWidget {
                   Text(
                     l10n.joinEndedFootnote,
                     textAlign: TextAlign.center,
-                    style: AppTypography.meta.copyWith(fontSize: 11.5),
+                    style: AppTypography.caption,
                   ),
                 ],
               ),
@@ -230,7 +229,7 @@ class _Stat extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           label,
-          style: AppTypography.meta.copyWith(fontSize: 11.5),
+          style: AppTypography.caption,
         ),
       ],
     );

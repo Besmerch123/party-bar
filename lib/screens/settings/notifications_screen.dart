@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/models.dart';
@@ -8,6 +7,7 @@ import '../../services/account_service.dart';
 import '../../theme/theme.dart';
 import '../../utils/localization_helper.dart';
 import '../../widgets/settings/settings_rows.dart';
+import '../../widgets/settings/settings_subpage.dart';
 
 /// Flow 09 · screen 06 — three things worth a buzz, and nothing else.
 ///
@@ -19,14 +19,19 @@ import '../../widgets/settings/settings_rows.dart';
 /// document is the seam a real send path will read from later, and someone
 /// signed in today should be able to say what they'd want.
 class NotificationsScreen extends StatefulWidget {
-  const NotificationsScreen({super.key});
+  const NotificationsScreen({super.key, AccountService? accountService})
+    : _accountService = accountService;
+
+  /// Test seam only: production always leaves this null and gets a real
+  /// [AccountService]. Nothing in the app passes this.
+  final AccountService? _accountService;
 
   @override
   State<NotificationsScreen> createState() => _NotificationsScreenState();
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-  final _accountService = AccountService();
+  late final AccountService _accountService = widget._accountService ?? AccountService();
 
   String get _uid => context.read<AuthenticationProvider>().user!.uid;
 
@@ -49,92 +54,65 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Scaffold(
-      backgroundColor: AppColors.ground,
-      appBar: AppBar(
-        backgroundColor: AppColors.ground,
-        surfaceTintColor: Colors.transparent,
-        leading: BackButton(onPressed: () => context.pop()),
-      ),
-      body: SafeArea(
-        child: StreamBuilder<User?>(
-          stream: _profile,
-          builder: (context, snapshot) {
-            final user = snapshot.data;
-            final drinkReady = user?.notifyDrinkReady ?? true;
-            final newOrder = user?.notifyNewOrder ?? true;
-            final recapMorning = user?.notifyRecapMorning ?? false;
+    return StreamBuilder<User?>(
+      stream: _profile,
+      builder: (context, snapshot) {
+        final user = snapshot.data;
+        final drinkReady = user?.notifyDrinkReady ?? true;
+        final newOrder = user?.notifyNewOrder ?? true;
+        final recapMorning = user?.notifyRecapMorning ?? false;
 
-            return ListView(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.screenEdge,
-                0,
-                AppSpacing.screenEdge,
-                30,
-              ),
+        return SettingsSubpageScaffold(
+          title: l10n.settingsNotifications,
+          body: l10n.settingsNotificationsBody,
+          children: [
+            SettingsRowGroup(
               children: [
-                Text(
-                  l10n.settingsNotifications,
-                  style: AppTypography.title.copyWith(fontSize: 30, height: 1),
+                SettingsToggleRow(
+                  title: l10n.settingsNotifyDrinkReady,
+                  subtitle: l10n.settingsNotifyDrinkReadyCaption,
+                  value: drinkReady,
+                  onChanged: (value) => _set(drinkReady: value),
                 ),
-                const SizedBox(height: 14),
-                Text(
-                  l10n.settingsNotificationsBody,
-                  style: AppTypography.body.copyWith(
-                    fontSize: 13,
-                    color: AppColors.ink.withValues(alpha: .6),
-                  ),
+                SettingsToggleRow(
+                  title: l10n.settingsNotifyNewOrder,
+                  subtitle: l10n.settingsNotifyNewOrderCaption,
+                  value: newOrder,
+                  onChanged: (value) => _set(newOrder: value),
                 ),
-                const SizedBox(height: 22),
-                SettingsRowGroup(
-                  children: [
-                    SettingsToggleRow(
-                      title: l10n.settingsNotifyDrinkReady,
-                      subtitle: l10n.settingsNotifyDrinkReadyCaption,
-                      value: drinkReady,
-                      onChanged: (value) => _set(drinkReady: value),
-                    ),
-                    SettingsToggleRow(
-                      title: l10n.settingsNotifyNewOrder,
-                      subtitle: l10n.settingsNotifyNewOrderCaption,
-                      value: newOrder,
-                      onChanged: (value) => _set(newOrder: value),
-                    ),
-                    SettingsToggleRow(
-                      title: l10n.settingsNotifyRecap,
-                      subtitle: l10n.settingsNotifyRecapCaption,
-                      value: recapMorning,
-                      onChanged: (value) => _set(recapMorning: value),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 18),
-                SettingsRowGroup(
-                  children: [
-                    SettingsInfoRowGroupItem(
-                      icon: Icons.block,
-                      text: l10n.settingsNotifyNoteNever,
-                    ),
-                    SettingsInfoRowGroupItem(
-                      icon: Icons.bedtime_outlined,
-                      text: l10n.settingsNotifyNoteNoQuietHours,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  l10n.settingsNotifyFootnote,
-                  textAlign: TextAlign.center,
-                  style: AppTypography.meta.copyWith(
-                    fontSize: 11.5,
-                    color: AppColors.ink.withValues(alpha: .35),
-                  ),
+                SettingsToggleRow(
+                  title: l10n.settingsNotifyRecap,
+                  subtitle: l10n.settingsNotifyRecapCaption,
+                  value: recapMorning,
+                  onChanged: (value) => _set(recapMorning: value),
                 ),
               ],
-            );
-          },
-        ),
-      ),
+            ),
+            const SizedBox(height: 18),
+            SettingsRowGroup(
+              children: [
+                SettingsInfoRowGroupItem(
+                  icon: Icons.block,
+                  text: l10n.settingsNotifyNoteNever,
+                ),
+                SettingsInfoRowGroupItem(
+                  icon: Icons.bedtime_outlined,
+                  text: l10n.settingsNotifyNoteNoQuietHours,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.settingsNotifyFootnote,
+              textAlign: TextAlign.center,
+              style: AppTypography.meta.copyWith(
+                fontSize: 11.5,
+                color: AppColors.inkFaint,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

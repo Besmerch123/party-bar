@@ -217,7 +217,6 @@ class _DraftPartyScreenState extends State<DraftPartyScreen> {
         .firstOrNull;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: Stack(
         children: [
           Positioned(
@@ -290,7 +289,7 @@ class _DraftPartyScreenState extends State<DraftPartyScreen> {
                                   count,
                                 ),
                           style: AppTypography.body.copyWith(
-                            color: AppColors.ink.withValues(alpha: .62),
+                            color: AppColors.inkBody,
                           ),
                         ),
                         const SizedBox(height: 22),
@@ -428,7 +427,7 @@ class _DraftRow extends StatelessWidget {
               Icon(
                 Icons.chevron_right,
                 size: 18,
-                color: AppColors.ink.withValues(alpha: .3),
+                color: AppColors.inkGhost,
               ),
             ],
           ),
@@ -460,7 +459,7 @@ class _DeadCodeRow extends StatelessWidget {
             Icon(
               Icons.qr_code_2,
               size: 18,
-              color: AppColors.ink.withValues(alpha: .35),
+              color: AppColors.inkFaint,
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -476,7 +475,7 @@ class _DeadCodeRow extends StatelessWidget {
               code,
               style: AppTypography.measure.copyWith(
                 fontSize: 12.5,
-                color: AppColors.ink.withValues(alpha: .35),
+                color: AppColors.inkFaint,
               ),
             ),
             const SizedBox(width: 8),
@@ -536,7 +535,7 @@ class _ShoppingCard extends StatelessWidget {
                   body,
                   style: AppTypography.meta.copyWith(
                     fontSize: 12,
-                    color: AppColors.ink.withValues(alpha: .6),
+                    color: AppColors.inkBody,
                   ),
                 ),
               ],

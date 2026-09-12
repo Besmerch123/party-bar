@@ -23,10 +23,19 @@ abstract final class AppColors {
   static const dangerLight = Color(0xFFFFA9A9);
   static const dangerWash = Color(0x29FF5C5C);
 
-  // Ink ramp: title / body / meta / hairline
+  // Ink ramp: title / body / meta / faint / ghost / hairline
   static const ink = Color(0xFFFFFFFF);
   static const inkBody = Color(0x99FFFFFF);
   static const inkMeta = Color(0x73FFFFFF);
+
+  /// Dimmer than [inkMeta] — quiet decorative icons and de-emphasised meta
+  /// text overrides. The largest coherent cluster found below [inkMeta]
+  /// when ~146 drifted call sites were sorted by intent.
+  static const inkFaint = Color(0x59FFFFFF);
+
+  /// Dimmer still — the resting state of disclosure chevrons, unfocused
+  /// borders and toggled-off controls.
+  static const inkGhost = Color(0x4DFFFFFF);
   static const hairline = Color(0x1FFFFFFF);
 
   // Glass — only ever layered over photography.

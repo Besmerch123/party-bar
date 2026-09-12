@@ -6,6 +6,7 @@ import 'package:party_bar/utils/localization_helper.dart';
 import 'package:party_bar/widgets/cocktails/cocktail_categories.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:party_bar/theme/theme.dart';
+import 'package:party_bar/widgets/common/app_sheet.dart';
 
 /// Bottom sheet for adding cocktails to a party
 ///
@@ -30,13 +31,12 @@ class AddCocktailsBottomSheet extends StatefulWidget {
     BuildContext context, {
     List<String> alreadyAddedCocktailIds = const [],
   }) {
-    return showModalBottomSheet<List<Cocktail>>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => AddCocktailsBottomSheet(
+    return showAppSheet<List<Cocktail>>(
+      context,
+      (context) => AddCocktailsBottomSheet(
         alreadyAddedCocktailIds: alreadyAddedCocktailIds,
       ),
+      useSafeArea: false,
     );
   }
 

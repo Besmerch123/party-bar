@@ -92,7 +92,7 @@ class _BuzzBannerState extends State<BuzzBanner> {
                           style: AppTypography.label.copyWith(letterSpacing: .4),
                         ),
                       ),
-                      Text(l10n.roundBuzzNow, style: AppTypography.meta.copyWith(fontSize: 11.5)),
+                      Text(l10n.roundBuzzNow, style: AppTypography.caption),
                     ],
                   ),
                   const SizedBox(height: 10),

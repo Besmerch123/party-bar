@@ -57,7 +57,7 @@ class YourRoundTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(l10n.roundYourRoundTitle, style: AppTypography.title.copyWith(fontSize: 30)),
+          Text(l10n.roundYourRoundTitle, style: AppTypography.titleCompact),
           const SizedBox(height: 10),
           Row(
             children: [
@@ -67,7 +67,7 @@ class YourRoundTab extends StatelessWidget {
           const SizedBox(height: 14),
           Text(
             l10n.roundTonightSummary(myOrders.length, stillComing),
-            style: AppTypography.meta.copyWith(fontSize: 12.5, fontWeight: FontWeight.w600),
+            style: AppTypography.meta.copyWith(fontWeight: FontWeight.w600),
           ),
           if (guestName case final name?) ...[
             const SizedBox(height: 18),
@@ -120,7 +120,7 @@ class _IdentityRow extends StatelessWidget {
               children: [
                 Text(
                   l10n.roundYoureTonight(name),
-                  style: AppTypography.cardTitle.copyWith(fontSize: 13.5),
+                  style: AppTypography.cardTitle,
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -179,7 +179,7 @@ class _OrderCard extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   '${forLabel(context, forName: order.forName)} · $time',
-                  style: AppTypography.meta.copyWith(fontSize: 11.5, fontWeight: FontWeight.w600),
+                  style: AppTypography.caption.copyWith(fontWeight: FontWeight.w600),
                 ),
               ],
             ),

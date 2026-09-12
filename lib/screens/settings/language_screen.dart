@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/shared_types.dart';
@@ -8,6 +7,7 @@ import '../../theme/theme.dart';
 import '../../utils/language_labels.dart';
 import '../../utils/localization_helper.dart';
 import '../../widgets/settings/settings_rows.dart';
+import '../../widgets/settings/settings_subpage.dart';
 
 /// Flow 09 · screen 04 — EN / UK, plus the device default as a real option.
 ///
@@ -23,46 +23,30 @@ class LanguageScreen extends StatelessWidget {
     final locale = context.watch<LocaleProvider>();
     final deviceLocale = WidgetsBinding.instance.platformDispatcher.locale;
 
-    return Scaffold(
-      backgroundColor: AppColors.ground,
-      appBar: AppBar(
-        backgroundColor: AppColors.ground,
-        surfaceTintColor: Colors.transparent,
-        leading: BackButton(onPressed: () => context.pop()),
-      ),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(AppSpacing.screenEdge, 0, AppSpacing.screenEdge, 30),
-          children: [
-            Text(l10n.language, style: AppTypography.title.copyWith(fontSize: 30, height: 1)),
-            const SizedBox(height: 14),
-            Text(
-              l10n.settingsLanguageBody,
-              style: AppTypography.body.copyWith(fontSize: 13, color: AppColors.ink.withValues(alpha: .6)),
-            ),
-            const SizedBox(height: 22),
-            for (final value in SupportedLocale.values) ...[
-              _LanguageOption(
-                flag: value == SupportedLocale.en ? '🇬🇧' : '🇺🇦',
-                name: languageDisplayName(value),
-                selected: !locale.followsSystem && locale.currentLocale == value,
-                onTap: () => locale.setLocale(value),
-              ),
-              const SizedBox(height: 10),
-            ],
-            SettingsToggleRow(
-              title: l10n.settingsLanguageFollowsPhone,
-              subtitle: l10n.settingsLanguageFollowsPhoneCaption(languageDisplayName(_localeOf(deviceLocale))),
-              value: locale.followsSystem,
-              onChanged: (value) => locale.setFollowSystem(value, deviceLocale: deviceLocale),
-            ),
-            const SizedBox(height: 18),
-            SettingsInfoRow(icon: Icons.group_outlined, text: l10n.settingsLanguageNoteGuests),
-            const SizedBox(height: 10),
-            SettingsInfoRow(icon: Icons.edit_note_outlined, text: l10n.settingsLanguageNoteOwnRecipes),
-          ],
+    return SettingsSubpageScaffold(
+      title: l10n.language,
+      body: l10n.settingsLanguageBody,
+      children: [
+        for (final value in SupportedLocale.values) ...[
+          _LanguageOption(
+            flag: value == SupportedLocale.en ? '🇬🇧' : '🇺🇦',
+            name: languageDisplayName(value),
+            selected: !locale.followsSystem && locale.currentLocale == value,
+            onTap: () => locale.setLocale(value),
+          ),
+          const SizedBox(height: 10),
+        ],
+        SettingsToggleRow(
+          title: l10n.settingsLanguageFollowsPhone,
+          subtitle: l10n.settingsLanguageFollowsPhoneCaption(languageDisplayName(_localeOf(deviceLocale))),
+          value: locale.followsSystem,
+          onChanged: (value) => locale.setFollowSystem(value, deviceLocale: deviceLocale),
         ),
-      ),
+        const SizedBox(height: 18),
+        SettingsInfoRow(icon: Icons.group_outlined, text: l10n.settingsLanguageNoteGuests),
+        const SizedBox(height: 10),
+        SettingsInfoRow(icon: Icons.edit_note_outlined, text: l10n.settingsLanguageNoteOwnRecipes),
+      ],
     );
   }
 
@@ -102,7 +86,7 @@ class _LanguageOption extends StatelessWidget {
               Text(flag, style: const TextStyle(fontSize: 28)),
               const SizedBox(width: 15),
               Expanded(
-                child: Text(name, style: AppTypography.section.copyWith(fontSize: 15)),
+                child: Text(name, style: AppTypography.section),
               ),
               Icon(
                 selected ? Icons.check_circle : Icons.radio_button_unchecked,

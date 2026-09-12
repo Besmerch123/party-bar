@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../data/order_repository.dart';
 import '../../generated/l10n/app_localizations.dart';
 import '../../models/models.dart';
 import '../../providers/party_cocktails.dart';
-import '../../services/order_service.dart';
 import '../../services/party_service.dart';
 import '../../theme/theme.dart';
 import '../../utils/app_router.dart';
@@ -74,7 +74,7 @@ class _PartyRecapScreenState extends State<PartyRecapScreen> {
       _onParty(_party!);
     }
 
-    _ordersSub = OrderService().streamPartyOrders(widget.partyId).listen((
+    _ordersSub = OrderRepository().streamPartyOrders(widget.partyId).listen((
       orders,
     ) {
       _cocktails.ensure(orders.map((o) => o.cocktailId));
@@ -166,7 +166,6 @@ class _PartyRecapScreenState extends State<PartyRecapScreen> {
 
     if (party == null) {
       return Scaffold(
-        backgroundColor: AppColors.ground,
         body: SafeArea(
           child: _missing
               ? _Missing(message: l10n.recapMissing, onClose: _exit)
@@ -191,7 +190,6 @@ class _PartyRecapScreenState extends State<PartyRecapScreen> {
         : recap.tallies.first.cocktailId;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: Stack(
         children: [
           _Hero(image: heroId == null ? null : _image(heroId)),
@@ -227,7 +225,7 @@ class _PartyRecapScreenState extends State<PartyRecapScreen> {
                           style: AppTypography.meta.copyWith(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.ink.withValues(alpha: .6),
+                            color: AppColors.inkBody,
                           ),
                         ),
                         const SizedBox(height: 24),
@@ -254,7 +252,7 @@ class _PartyRecapScreenState extends State<PartyRecapScreen> {
                         if (recap.isEmpty)
                           Text(
                             l10n.recapNothingPoured,
-                            style: AppTypography.body.copyWith(fontSize: 13.5),
+                            style: AppTypography.body,
                           )
                         else ...[
                           Text(

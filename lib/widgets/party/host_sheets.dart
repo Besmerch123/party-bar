@@ -4,20 +4,14 @@ import '../../models/models.dart';
 import '../../theme/theme.dart';
 import '../../utils/localization_helper.dart';
 import '../auth/auth_controls.dart';
+import '../common/app_sheet.dart';
 
 /// The pale amber a warning title is set in.
 const kHostLowLight = Color(0xFFF5C97A);
 
 /// Opens a Flow 05 sheet: transparent route, the sheet draws its own top.
-Future<T?> showHostSheet<T>(BuildContext context, WidgetBuilder builder) {
-  return showModalBottomSheet<T>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    useSafeArea: true,
-    builder: builder,
-  );
-}
+Future<T?> showHostSheet<T>(BuildContext context, WidgetBuilder builder) =>
+    showAppSheet<T>(context, builder);
 
 /// The sheet every Flow 05 decision rises in — go live, manage, end.
 class HostSheet extends StatelessWidget {
@@ -178,7 +172,7 @@ class HostConsequenceRow extends StatelessWidget {
                     style: AppTypography.meta.copyWith(
                       fontSize: 11.5,
                       height: 1.3,
-                      color: AppColors.ink.withValues(alpha: .45),
+                      color: AppColors.inkMeta,
                     ),
                   ),
                 ],
@@ -277,7 +271,7 @@ Future<bool> showGoLiveSheet(BuildContext context, Party party) async {
               style: AppTypography.meta.copyWith(
                 fontSize: 11.5,
                 fontWeight: FontWeight.w600,
-                color: AppColors.ink.withValues(alpha: .45),
+                color: AppColors.inkMeta,
               ),
             ),
           ],

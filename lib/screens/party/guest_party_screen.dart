@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../data/order_repository.dart';
 import '../../models/models.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/party_cocktails.dart';
@@ -132,7 +133,7 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
       }
       if (mounted) setState(() => _party = party ?? widget.party);
     });
-    _ordersSub = OrderService().streamPartyOrders(widget.party.id).listen(_onOrders);
+    _ordersSub = OrderRepository().streamPartyOrders(widget.party.id).listen(_onOrders);
   }
 
   @override
@@ -307,7 +308,7 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
         MaterialPageRoute(
           builder: (_) => RoundSentScreen(
             party: _current,
-            orders: OrderService().streamPartyOrders(widget.party.id),
+            orders: OrderRepository().streamPartyOrders(widget.party.id),
             roundIds: sentIds,
             cocktails: _cocktails,
             onBackToMenu: () {
@@ -358,7 +359,7 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
     final id = _guestId;
 
     if (id == null) {
-      return const Scaffold(backgroundColor: AppColors.ground, body: SizedBox.shrink());
+      return const Scaffold(body: SizedBox.shrink());
     }
 
     final myOrders = _myOrders;
@@ -399,7 +400,6 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
     ];
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: ListenableBuilder(
         listenable: Listenable.merge([_draft, _cocktails]),
         builder: (context, _) {

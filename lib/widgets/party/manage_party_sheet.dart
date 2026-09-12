@@ -212,12 +212,12 @@ class _ManageRow extends StatelessWidget {
     final valueStyle = monoValue
         ? AppTypography.measure.copyWith(
             fontSize: 12,
-            color: AppColors.ink.withValues(alpha: .45),
+            color: AppColors.inkMeta,
           )
         : AppTypography.meta.copyWith(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: AppColors.ink.withValues(alpha: .45),
+            color: AppColors.inkMeta,
           );
 
     return Material(
@@ -232,7 +232,7 @@ class _ManageRow extends StatelessWidget {
                 icon,
                 size: 19,
                 color: dim
-                    ? AppColors.ink.withValues(alpha: .3)
+                    ? AppColors.inkGhost
                     : AppColors.signalLight,
               ),
               const SizedBox(width: 12),
@@ -242,7 +242,7 @@ class _ManageRow extends StatelessWidget {
                   style: AppTypography.cardTitle.copyWith(
                     fontWeight: FontWeight.w600,
                     color: dim
-                        ? AppColors.ink.withValues(alpha: .45)
+                        ? AppColors.inkMeta
                         : AppColors.ink,
                   ),
                 ),
@@ -271,7 +271,7 @@ class _ManageRow extends StatelessWidget {
                 Icon(
                   Icons.chevron_right,
                   size: 18,
-                  color: AppColors.ink.withValues(alpha: .3),
+                  color: AppColors.inkGhost,
                 ),
               ],
             ],

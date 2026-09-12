@@ -150,7 +150,7 @@ class QueueBody extends StatelessWidget {
             if (nextUp != null)
               _Section(
                 label: l10n.queueNextUpEyebrow,
-                color: AppColors.ink.withValues(alpha: .45),
+                color: AppColors.inkMeta,
                 topGap: 22,
                 child: compactNextUp
                     ? _NextUpCompactRow(
@@ -187,7 +187,7 @@ class QueueBody extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppTypography.label.copyWith(
-                              color: AppColors.ink.withValues(alpha: .45),
+                              color: AppColors.inkMeta,
                             ),
                           ),
                         ),
@@ -357,7 +357,7 @@ class _PausedRow extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       l10n.queuePausedRowBody,
-                      style: AppTypography.meta.copyWith(fontSize: 11.5, height: 1.3),
+                      style: AppTypography.caption.copyWith(height: 1.3),
                     ),
                   ],
                 ),
@@ -611,7 +611,7 @@ class _PouringCompactCard extends StatelessWidget {
                       _guestLine(l10n, order, wait: formatStopwatch(elapsed), buzzed: false),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: AppTypography.meta.copyWith(fontSize: 11.5, color: kSignalPale),
+                      style: AppTypography.caption.copyWith(color: kSignalPale),
                     ),
                   ],
                 ),
@@ -674,7 +674,7 @@ class _NextUpBigCard extends StatelessWidget {
                             style: AppTypography.meta.copyWith(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.ink.withValues(alpha: .6),
+                              color: AppColors.inkBody,
                             ),
                           ),
                         ),
@@ -823,7 +823,7 @@ class _NextUpCompactRow extends StatelessWidget {
                   _guestLine(l10n, order, wait: wait, buzzed: false),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTypography.meta.copyWith(fontSize: 11.5),
+                  style: AppTypography.caption,
                 ),
               ],
             ),
@@ -898,7 +898,7 @@ class _InLineRow extends StatelessWidget {
                       _guestLine(l10n, order, wait: wait, buzzed: false),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: AppTypography.meta.copyWith(fontSize: 11.5),
+                      style: AppTypography.caption,
                     ),
                     if (order.note case final note?) ...[
                       const SizedBox(height: 7),
@@ -921,7 +921,7 @@ class _InLineRow extends StatelessWidget {
                   ),
                 )
               else if (position != null)
-                Text('#$position', style: AppTypography.mono.copyWith(fontSize: 11)),
+                Text('#$position', style: AppTypography.mono),
             ],
           ),
         ),

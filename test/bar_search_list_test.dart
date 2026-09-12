@@ -20,16 +20,15 @@ import 'package:party_bar/services/elastic_service.dart';
 import 'package:party_bar/theme/theme.dart';
 import 'package:party_bar/widgets/bar/share_list_sheet.dart';
 
+import 'support/harness.dart';
+
 /// Flow 04 screens 02 (search & add), 06 (shopping list) and 07 (share as
 /// text). No Firebase reaches these tests: [BarProvider] gets a fake
 /// catalogue source, and the couple of cases that need [ExploreProvider] hand
 /// it a fake cocktail repository instead of the real, Firestore-backed one.
 
-const _sizes = <String, Size>{
-  'iPhone 14 Pro': Size(390, 844),
-  'small phone': Size(320, 568),
-};
-const _textScales = <double>[1.0, 1.5];
+const _sizes = testSizes;
+const _textScales = standardTextScales;
 
 /// The routes [ShoppingListScreen] and the "add something else" row fall
 /// back to — literals rather than importing the real `AppRoutes`, which

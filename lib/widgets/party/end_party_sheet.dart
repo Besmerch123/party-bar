@@ -153,7 +153,7 @@ Future<EndPartyChoice?> showEndPartySheet(
           style: AppTypography.meta.copyWith(
             fontSize: 11.5,
             height: 1.5,
-            color: AppColors.ink.withValues(alpha: .35),
+            color: AppColors.inkFaint,
           ),
         ),
       ],

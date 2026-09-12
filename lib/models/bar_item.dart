@@ -14,6 +14,7 @@ import 'equipment.dart';
 import 'ingredient.dart';
 import 'onboarding.dart';
 import 'recipe.dart' show enumByName;
+import 'shared_types.dart';
 
 /// Where an item sits on the shelf and which filter chip finds it.
 enum BarSection { spirits, mixers, fresh, syrups, tools, ice, other }
@@ -299,9 +300,13 @@ class BarItem {
     image: json['image'] as String?,
     status: enumByName(BarItemStatus.values, json['status']) ?? BarItemStatus.stocked,
     note: json['note'] as String?,
-    addedAt: DateTime.parse(json['addedAt'] as String),
-    statusChangedAt: json['statusChangedAt'] == null
-        ? null
-        : DateTime.parse(json['statusChangedAt'] as String),
+    // Stored locally as ISO-8601 (see [toJson]), but read through the same
+    // tolerant codec as Firestore dates rather than a bare `DateTime.parse`
+    // that would crash the whole bar on one corrupted row.
+    addedAt: firestoreDateOr(
+      json['addedAt'],
+      DateTime.fromMillisecondsSinceEpoch(0),
+    ),
+    statusChangedAt: firestoreDate(json['statusChangedAt']),
   );
 }

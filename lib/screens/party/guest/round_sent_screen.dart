@@ -37,7 +37,6 @@ class RoundSentScreen extends StatelessWidget {
     final host = hostFirstName(party.hostName);
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: StreamBuilder<List<CocktailOrder>>(
         stream: orders,
         builder: (context, snapshot) {
@@ -88,7 +87,7 @@ class RoundSentScreen extends StatelessWidget {
                               Text(
                                 l10n.roundOrdersInBody(round.length, host),
                                 textAlign: TextAlign.center,
-                                style: AppTypography.body.copyWith(fontSize: 13.5, color: AppColors.ink.withValues(alpha: .62)),
+                                style: AppTypography.body.copyWith(fontSize: 13.5, color: AppColors.inkBody),
                               ),
                               const SizedBox(height: 28),
                               Row(
@@ -130,7 +129,7 @@ class RoundSentScreen extends StatelessWidget {
                           Text(
                             l10n.roundCancelRoundFootnote(host),
                             textAlign: TextAlign.center,
-                            style: AppTypography.meta.copyWith(fontSize: 11.5, color: AppColors.ink.withValues(alpha: .32)),
+                            style: AppTypography.caption.copyWith(color: AppColors.ink.withValues(alpha: .32)),
                           ),
                         ],
                       ),

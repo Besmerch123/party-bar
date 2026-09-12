@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../data/cocktail_repository.dart';
+import '../../data/order_repository.dart';
 import '../../models/models.dart';
 import '../../providers/bar_provider.dart';
 import '../../providers/party_cocktails.dart';
-import '../../services/order_service.dart';
 import '../../theme/theme.dart';
 import '../../utils/app_router.dart';
 import '../../utils/localization_helper.dart';
@@ -217,7 +217,7 @@ class _LivePartyHubState extends State<LivePartyHub> {
   @override
   void initState() {
     super.initState();
-    _orders = OrderService().streamPartyOrders(_party.id);
+    _orders = OrderRepository().streamPartyOrders(_party.id);
     _loadMenu();
   }
 
@@ -263,7 +263,7 @@ class _LivePartyHubState extends State<LivePartyHub> {
   Future<void> _pourFromBanner(CocktailOrder order) async {
     _dismissBanner();
     try {
-      await OrderService().startPouring(order);
+      await OrderRepository().startPouring(order);
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(
@@ -291,7 +291,7 @@ class _LivePartyHubState extends State<LivePartyHub> {
   void didUpdateWidget(covariant LivePartyHub oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.party.id != _party.id) {
-      _orders = OrderService().streamPartyOrders(_party.id);
+      _orders = OrderRepository().streamPartyOrders(_party.id);
     }
     final before = oldWidget.party.availableCocktailIds;
     final after = _party.availableCocktailIds;
@@ -615,7 +615,7 @@ class _LivePartyHubState extends State<LivePartyHub> {
                                 child: Text(
                                   l10n.hostPausedBody(waiting),
                                   style: AppTypography.body.copyWith(
-                                    color: AppColors.ink.withValues(alpha: .62),
+                                    color: AppColors.inkBody,
                                   ),
                                 ),
                               ),

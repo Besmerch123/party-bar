@@ -104,7 +104,6 @@ class _AddToRoundScreenState extends State<AddToRoundScreen> {
     ];
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: Stack(
         children: [
           SizedBox(height: 430, width: double.infinity, child: MenuCocktailImage(image: cocktail.image)),
@@ -172,7 +171,7 @@ class _AddToRoundScreenState extends State<AddToRoundScreen> {
                     children: [
                       Text(
                         cocktail.title.translate(context),
-                        style: AppTypography.title.copyWith(fontSize: 36),
+                        style: AppTypography.title,
                       ),
                       const SizedBox(height: 12),
                       Wrap(
@@ -237,9 +236,9 @@ class _AddToRoundScreenState extends State<AddToRoundScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(l10n.roundHowMany, style: AppTypography.cardTitle.copyWith(fontSize: 13.5)),
+                                    Text(l10n.roundHowMany, style: AppTypography.cardTitle),
                                     const SizedBox(height: 5),
-                                    Text(l10n.roundHowManySub, style: AppTypography.meta.copyWith(fontSize: 11.5)),
+                                    Text(l10n.roundHowManySub, style: AppTypography.caption),
                                   ],
                                 ),
                               ),

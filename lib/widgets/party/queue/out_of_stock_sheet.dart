@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../data/order_repository.dart';
 import '../../../models/models.dart';
 import '../../../providers/bar_provider.dart';
-import '../../../services/order_service.dart';
 import '../../../theme/theme.dart';
 import '../../../utils/localization_helper.dart';
 import '../../auth/auth_controls.dart';
@@ -174,7 +174,11 @@ class _OutOfIngredientSheetContentState extends State<_OutOfIngredientSheetConte
     final l10n = context.l10n;
     try {
       if (onlyThisOrder) {
-        await OrderService().pullOneForStock(widget.order, widget.ingredient);
+        await OrderRepository().cancelByHost(
+          widget.order,
+          reason: CancelReason.outOfStock,
+          outOf: widget.ingredient,
+        );
       } else {
         final cocktailIds = _toggled.toList();
         // The drink being poured is why this sheet is open, so it is pulled
@@ -189,7 +193,7 @@ class _OutOfIngredientSheetContentState extends State<_OutOfIngredientSheetConte
                 cocktailIds.contains(o.cocktailId),
           ),
         ];
-        await OrderService().pullForStock(
+        await OrderRepository().pullForStock(
           partyId: widget.party.id,
           ingredient: widget.ingredient,
           orders: orders,
@@ -244,7 +248,7 @@ class _OutOfIngredientSheetContentState extends State<_OutOfIngredientSheetConte
                   const SizedBox(height: 6),
                   Text(
                     l10n.queueOutOfSubtitle(_affected.length),
-                    style: AppTypography.meta.copyWith(fontSize: 12.5),
+                    style: AppTypography.meta,
                   ),
                 ],
               ),
@@ -299,7 +303,7 @@ class _OutOfIngredientSheetContentState extends State<_OutOfIngredientSheetConte
                 style: AppTypography.meta.copyWith(
                   fontSize: 12,
                   height: 1.5,
-                  color: AppColors.ink.withValues(alpha: .6),
+                  color: AppColors.inkBody,
                 ),
               ),
             ],

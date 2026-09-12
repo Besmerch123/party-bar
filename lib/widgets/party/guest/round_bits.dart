@@ -91,7 +91,7 @@ class RoundProgressBar extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: AppTypography.label.copyWith(
                     fontSize: 9,
-                    color: i < litCount ? litColor : AppColors.ink.withValues(alpha: .35),
+                    color: i < litCount ? litColor : AppColors.inkFaint,
                   ),
                 ),
               ),
@@ -145,7 +145,7 @@ class RoundMateRow extends StatelessWidget {
                       if (order.isForFriend)
                         TextSpan(
                           text: ' · ${l10n.roundForFriend(order.forName!)}',
-                          style: AppTypography.meta.copyWith(fontSize: 12.5, fontWeight: FontWeight.w500),
+                          style: AppTypography.meta.copyWith(fontWeight: FontWeight.w500),
                         ),
                     ],
                   ),
@@ -188,19 +188,19 @@ class RoundMateRow extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               l10n.roundMixingNow,
-              style: AppTypography.meta.copyWith(fontSize: 11.5, color: AppColors.signalLight),
+              style: AppTypography.caption.copyWith(color: AppColors.signalLight),
             ),
           ],
         );
       case OrderStatus.ready:
         return Text(
           l10n.roundStatusReady,
-          style: AppTypography.meta.copyWith(fontSize: 11.5, color: AppColors.ready, fontWeight: FontWeight.w600),
+          style: AppTypography.caption.copyWith(color: AppColors.ready, fontWeight: FontWeight.w600),
         );
       case OrderStatus.delivered:
         return Text(
           l10n.roundStatusServed,
-          style: AppTypography.meta.copyWith(fontSize: 11, color: AppColors.ink.withValues(alpha: .35)),
+          style: AppTypography.meta.copyWith(fontSize: 11, color: AppColors.inkFaint),
         );
       case OrderStatus.cancelled:
         return Text(
@@ -229,7 +229,7 @@ class _CancelLink extends StatelessWidget {
             style: AppTypography.meta.copyWith(
               fontSize: 11.5,
               fontWeight: FontWeight.w600,
-              color: AppColors.ink.withValues(alpha: .45),
+              color: AppColors.inkMeta,
             ),
           ),
         ),

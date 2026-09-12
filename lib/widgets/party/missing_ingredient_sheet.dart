@@ -10,6 +10,7 @@ import '../../theme/theme.dart';
 import '../../utils/cocktail_labels.dart';
 import '../../utils/localization_helper.dart';
 import '../auth/auth_controls.dart';
+import '../common/app_sheet.dart';
 import 'menu_cocktail_tile.dart';
 
 /// The name every menu-picker screen (search, all cocktails) is pushed
@@ -47,12 +48,9 @@ Future<void> toggleOnMenu(BuildContext context, Cocktail cocktail) async {
       .where((c) => makeabilityOf(c, bar.shelf).isMakeable)
       .length;
 
-  final choice = await showModalBottomSheet<_MissingChoice>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    useSafeArea: true,
-    builder: (_) => _MissingIngredientSheet(
+  final choice = await showAppSheet<_MissingChoice>(
+    context,
+    (_) => _MissingIngredientSheet(
       cocktail: cocktail,
       makeability: makeability,
       makeableCount: makeableCount,
@@ -304,7 +302,7 @@ class _IngredientRow extends StatelessWidget {
               Text(
                 measureLabel(l10n, measure!, displayUnit: unit),
                 style: AppTypography.measure.copyWith(
-                  color: AppColors.ink.withValues(alpha: .62),
+                  color: AppColors.inkBody,
                 ),
               ),
           ],

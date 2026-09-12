@@ -125,13 +125,13 @@ class _GuestNameGateState extends State<_GuestNameGate> {
               Icon(
                 Icons.visibility_outlined,
                 size: 16,
-                color: AppColors.ink.withValues(alpha: .35),
+                color: AppColors.inkFaint,
               ),
               const SizedBox(width: 9),
               Expanded(
                 child: Text(
                   l10n.joinNameVisibility(widget.hostName),
-                  style: AppTypography.meta.copyWith(fontSize: 11.5),
+                  style: AppTypography.caption,
                 ),
               ),
             ],
@@ -171,7 +171,7 @@ class _GuestNameGateState extends State<_GuestNameGate> {
           Text(
             l10n.joinNameRemember,
             textAlign: TextAlign.center,
-            style: AppTypography.meta.copyWith(fontSize: 11.5),
+            style: AppTypography.caption,
           ),
         ],
       ),
@@ -193,7 +193,7 @@ class _AgeConfirm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final border = errored ? AppColors.low : AppColors.ink.withValues(alpha: .3);
+    final border = errored ? AppColors.low : AppColors.inkGhost;
 
     return Semantics(
       checked: checked,

@@ -7,12 +7,12 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../generated/l10n/app_localizations.dart';
+import '../../../data/order_repository.dart';
 import '../../../models/auth.dart';
 import '../../../models/models.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/party_cocktails.dart';
 import '../../../services/guest_identity.dart';
-import '../../../services/order_service.dart';
 import '../../../services/party_service.dart';
 import '../../../theme/theme.dart';
 import '../../../utils/app_router.dart';
@@ -65,7 +65,7 @@ class _GuestRecapScreenState extends State<GuestRecapScreen> {
       if (mounted) setState(() => _guestId = id);
     });
 
-    _ordersSub = OrderService().streamPartyOrders(widget.partyId).listen((
+    _ordersSub = OrderRepository().streamPartyOrders(widget.partyId).listen((
       orders,
     ) {
       _cocktails.ensure(orders.map((o) => o.cocktailId));
@@ -132,7 +132,6 @@ class _GuestRecapScreenState extends State<GuestRecapScreen> {
     }
     if (party == null || guestId == null) {
       return const Scaffold(
-        backgroundColor: AppColors.ground,
         body: Center(child: CircularProgressIndicator()),
       );
     }
@@ -164,7 +163,6 @@ class _GuestRecapScreenState extends State<GuestRecapScreen> {
     final story = _story(l10n, recap, host, lastCocktail);
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: Stack(
         children: [
           Positioned.fill(
@@ -262,7 +260,7 @@ class _GuestRecapScreenState extends State<GuestRecapScreen> {
                             style: AppTypography.body.copyWith(
                               fontSize: 13.5,
                               height: 1.6,
-                              color: AppColors.ink.withValues(alpha: .62),
+                              color: AppColors.inkBody,
                             ),
                           ),
                         ),
@@ -334,7 +332,7 @@ class _GuestRecapScreenState extends State<GuestRecapScreen> {
                         style: AppTypography.meta.copyWith(
                           fontSize: 11.5,
                           height: 1.5,
-                          color: AppColors.ink.withValues(alpha: .35),
+                          color: AppColors.inkFaint,
                         ),
                       ),
                     ],
@@ -402,7 +400,6 @@ class _Gone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.screenEdge),

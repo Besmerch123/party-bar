@@ -16,8 +16,11 @@ class LivePartyConflict implements Exception {
 /// Service class for handling Party-related business logic.
 /// Database operations are delegated to PartyRepository.
 class PartyService {
-  final PartyRepository _repository = PartyRepository();
-  final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
+  // Resolved on first use rather than in the constructor, so a subclass that
+  // overrides every method — a test double — never touches Firebase before
+  // it has been initialized. Same seam as AuthService and AccountService.
+  late final PartyRepository _repository = PartyRepository();
+  late final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
 
   /// Get current user
   auth.User? get _currentUser => _auth.currentUser;

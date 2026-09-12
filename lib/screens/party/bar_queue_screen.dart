@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../data/order_repository.dart';
 import '../../models/models.dart';
 import '../../providers/party_cocktails.dart';
-import '../../services/order_service.dart';
 import '../../services/party_service.dart';
-import '../../theme/theme.dart';
 import '../../utils/localization_helper.dart';
 import '../../widgets/party/queue/queue_body.dart';
 import '../../widgets/party/queue/queue_sheets.dart';
@@ -44,7 +43,7 @@ class _BarQueueScreenState extends State<BarQueueScreen> {
   void initState() {
     super.initState();
     _party = PartyService().streamParty(widget.party.id);
-    _orders = OrderService().streamPartyOrders(widget.party.id);
+    _orders = OrderRepository().streamPartyOrders(widget.party.id);
     _cocktails.ensure(widget.party.availableCocktailIds);
     // Names and photos arrive after the orders do; nothing else would
     // rebuild the queue when they land.
@@ -80,7 +79,7 @@ class _BarQueueScreenState extends State<BarQueueScreen> {
 
   Future<void> _startPouring(Party party, CocktailOrder order, List<CocktailOrder> all) async {
     try {
-      await OrderService().startPouring(order);
+      await OrderRepository().startPouring(order);
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.hostSaveFailed)));
@@ -103,7 +102,7 @@ class _BarQueueScreenState extends State<BarQueueScreen> {
     final go = await showSkipConfirmSheet(context, cocktailName: name);
     if (!go || !mounted) return;
     try {
-      await OrderService().skip(order);
+      await OrderRepository().cancelByHost(order);
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.hostSaveFailed)));
@@ -125,7 +124,7 @@ class _BarQueueScreenState extends State<BarQueueScreen> {
     final messenger = ScaffoldMessenger.of(context);
     final l10n = context.l10n;
     try {
-      await OrderService().buzz(order);
+      await OrderRepository().buzz(order);
       messenger.showSnackBar(SnackBar(content: Text(l10n.queueBuzzedAgainSnack(order.guestName))));
     } catch (_) {
       messenger.showSnackBar(SnackBar(content: Text(l10n.hostSaveFailed)));
@@ -146,7 +145,6 @@ class _BarQueueScreenState extends State<BarQueueScreen> {
     return ChangeNotifierProvider.value(
       value: _cocktails,
       child: Scaffold(
-        backgroundColor: AppColors.ground,
         body: StreamBuilder<Party?>(
           stream: _party,
           initialData: widget.party,
@@ -196,9 +194,9 @@ class _BarQueueScreenState extends State<BarQueueScreen> {
                   onSkip: (order) => _skipWithConfirm(order),
                   onTapPouring: (order) => _openPouring(current, order),
                   onTapInLineRow: (order) => _tapInLineRow(current, order, all),
-                  onMarkServed: (order) => _run(() => OrderService().markServed(order)),
+                  onMarkServed: (order) => _run(() => OrderRepository().markServed(order)),
                   onBuzzAgain: (order) => _buzzAgain(order),
-                  onBackToMixing: (order) => _run(() => OrderService().backToMixing(order)),
+                  onBackToMixing: (order) => _run(() => OrderRepository().backToMixing(order)),
                 );
               },
             );

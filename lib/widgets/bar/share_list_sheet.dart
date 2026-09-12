@@ -9,6 +9,7 @@ import '../../providers/bar_provider.dart';
 import '../../theme/theme.dart';
 import '../../utils/bar_labels.dart';
 import '../../utils/localization_helper.dart';
+import '../common/app_sheet.dart';
 
 /// Flow 04 · screen 07 — the plain-text version of the shopping list, for
 /// whoever is actually walking the aisles and has no reason to install
@@ -19,12 +20,9 @@ import '../../utils/localization_helper.dart';
 /// [_ShareListSheetState._includeWhy] lives only for the life of the sheet,
 /// not as a preference the shelf remembers between opens.
 Future<void> showShareListSheet(BuildContext context) {
-  return showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    useSafeArea: true,
-    builder: (_) => const SingleChildScrollView(child: _ShareListSheet()),
+  return showAppSheet<void>(
+    context,
+    (_) => const SingleChildScrollView(child: _ShareListSheet()),
   );
 }
 
@@ -110,7 +108,7 @@ class _ShareListSheetState extends State<_ShareListSheet> {
           Text(
             l10n.shareListPlainNote,
             textAlign: TextAlign.center,
-            style: AppTypography.meta.copyWith(fontSize: 11.5),
+            style: AppTypography.caption,
           ),
           const SizedBox(height: 20),
           Row(
@@ -312,7 +310,7 @@ class _IncludeWhyRow extends StatelessWidget {
               Expanded(
                 child: Text(
                   l10n.shareListIncludeWhy,
-                  style: AppTypography.cardTitle.copyWith(fontSize: 13.5),
+                  style: AppTypography.cardTitle,
                 ),
               ),
               Switch(value: value, onChanged: onChanged),

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import 'package:party_bar/generated/l10n/app_localizations.dart';
 import 'package:party_bar/models/models.dart';
-import 'package:party_bar/providers/locale_provider.dart';
 import 'package:party_bar/providers/party_cocktails.dart';
 import 'package:party_bar/providers/round_draft.dart';
 import 'package:party_bar/screens/party/guest/add_to_round_screen.dart';
@@ -14,16 +10,15 @@ import 'package:party_bar/theme/theme.dart';
 import 'package:party_bar/widgets/party/guest/tonight_tab.dart';
 import 'package:party_bar/widgets/party/guest/your_round_sheet.dart';
 
+import 'support/harness.dart';
+
 /// Flow 06 — the guest side's four Tonight states (in line, mixing, ready,
 /// pulled) and screens 01/02, laid out with fake data at a couple of sizes
 /// and a large text scale. No Firebase: every widget here takes plain data,
 /// per the flow's own testability rule.
 
-const _sizes = <String, Size>{
-  'iPhone 14 Pro': Size(390, 844),
-  'small phone': Size(320, 568),
-};
-const _textScales = <double>[1.0, 1.5];
+const _sizes = testSizes;
+const _textScales = standardTextScales;
 
 final _t0 = DateTime(2026, 9, 12, 22, 30);
 
@@ -104,43 +99,6 @@ void main() {
     GoogleFonts.config.allowRuntimeFetching = false;
   });
 
-  const delegates = <LocalizationsDelegate<dynamic>>[
-    AppLocalizations.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ];
-
-  Future<void> pump(
-    WidgetTester tester,
-    Widget child, {
-    Size size = const Size(390, 844),
-    double textScale = 1.0,
-  }) async {
-    tester.view
-      ..physicalSize = size
-      ..devicePixelRatio = 1.0;
-    addTearDown(tester.view.reset);
-
-    await tester.pumpWidget(
-      ChangeNotifierProvider(
-        create: (_) => LocaleProvider(),
-        child: MaterialApp(
-          theme: AppTheme.dark,
-          localizationsDelegates: delegates,
-          supportedLocales: const [Locale('en'), Locale('uk')],
-          builder: (context, widget) => MediaQuery.withClampedTextScaling(
-            minScaleFactor: textScale,
-            maxScaleFactor: textScale,
-            child: widget!,
-          ),
-          home: child,
-        ),
-      ),
-    );
-    await tester.pump();
-  }
-
   Map<String, List<CocktailOrder>> states() => {
     'in line': [
       _order('a'),
@@ -175,7 +133,7 @@ void main() {
           testWidgets('$state lays out on a $device at ${scale}x text', (tester) async {
             final cocktails = await _cocktails();
 
-            await pump(
+            await pumpLocaleAware(
               tester,
               Scaffold(
                 backgroundColor: AppColors.ground,
@@ -204,7 +162,7 @@ void main() {
     testWidgets('the arrival view (no round yet) lays out with no drinks ordered', (tester) async {
       final cocktails = await _cocktails();
 
-      await pump(
+      await pumpLocaleAware(
         tester,
         Scaffold(
           backgroundColor: AppColors.ground,
@@ -233,7 +191,7 @@ void main() {
       final cocktails = await _cocktails();
       final orders = states()['pulled']!;
 
-      await pump(
+      await pumpLocaleAware(
         tester,
         Scaffold(
           backgroundColor: AppColors.ground,
@@ -265,7 +223,7 @@ void main() {
           final draft = RoundDraft();
           addTearDown(draft.dispose);
 
-          await pump(
+          await pumpLocaleAware(
             tester,
             AddToRoundScreen(
               party: _party(),
@@ -288,7 +246,7 @@ void main() {
       final draft = RoundDraft();
       addTearDown(draft.dispose);
 
-      await pump(
+      await pumpLocaleAware(
         tester,
         AddToRoundScreen(party: _party(), cocktail: _gt, draft: draft, aheadOfNewOrder: 0, orderedTonight: 0, guestName: 'Sam'),
       );
@@ -303,7 +261,7 @@ void main() {
 
   group('screen 02 · Your round', () {
     Future<void> openSheet(WidgetTester tester, RoundDraft draft, PartyCocktails cocktails) async {
-      await pump(
+      await pumpLocaleAware(
         tester,
         Builder(
           builder: (context) => Scaffold(

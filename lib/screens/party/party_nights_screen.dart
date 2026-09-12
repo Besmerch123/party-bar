@@ -81,10 +81,7 @@ class _PartyNightsScreenState extends State<PartyNightsScreen> {
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       appBar: AppBar(
-        backgroundColor: AppColors.ground,
-        surfaceTintColor: Colors.transparent,
         leading: BackButton(onPressed: () => context.pop()),
       ),
       body: StreamBuilder<List<Party>>(
@@ -126,7 +123,7 @@ class _PartyNightsScreenState extends State<PartyNightsScreen> {
         children: [
           Text(
             l10n.nightsTitle,
-            style: AppTypography.title.copyWith(fontSize: 30, height: 1),
+            style: AppTypography.titleCompact,
           ),
           const SizedBox(height: 12),
           Text(
@@ -146,7 +143,7 @@ class _PartyNightsScreenState extends State<PartyNightsScreen> {
           if (nights.isEmpty)
             Text(
               l10n.nightsEmptyBody,
-              style: AppTypography.body.copyWith(fontSize: 13.5),
+              style: AppTypography.body,
             )
           else ...[
             NightHeroCard(
@@ -214,13 +211,13 @@ class _PresetsRow extends StatelessWidget {
               Expanded(
                 child: Text(
                   context.l10n.presetSavedMenus(count),
-                  style: AppTypography.cardTitle.copyWith(fontSize: 13.5),
+                  style: AppTypography.cardTitle,
                 ),
               ),
               Icon(
                 Icons.chevron_right,
                 size: 20,
-                color: AppColors.ink.withValues(alpha: .3),
+                color: AppColors.inkGhost,
               ),
             ],
           ),
@@ -254,7 +251,7 @@ class YourNightsRow extends StatelessWidget {
               Icon(
                 Icons.history,
                 size: 17,
-                color: AppColors.ink.withValues(alpha: .6),
+                color: AppColors.inkBody,
               ),
               const SizedBox(width: 9),
               Text(

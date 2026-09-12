@@ -139,7 +139,7 @@ class _MethodSheetContentState extends State<_MethodSheetContent> {
                   cocktail.title.translate(context),
                   methodLabel(l10n, cocktail.method!),
                 ),
-          style: AppTypography.meta.copyWith(fontSize: 12.5),
+          style: AppTypography.meta,
         ),
         const SizedBox(height: 16),
         Wrap(
@@ -257,7 +257,7 @@ class _StepCard extends StatelessWidget {
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                     height: 1.4,
-                    color: AppColors.ink.withValues(alpha: first ? 1 : .82),
+                    color: first ? AppColors.ink : AppColors.ink.withValues(alpha: .82),
                   ),
                 ),
                 if (step.body case final body?) ...[

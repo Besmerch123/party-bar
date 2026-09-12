@@ -49,7 +49,6 @@ class PartyInviteScreen extends StatelessWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -103,7 +102,7 @@ class PartyInviteScreen extends StatelessWidget {
                             l10n.hostBarOpenBody,
                             textAlign: TextAlign.center,
                             style: AppTypography.body.copyWith(
-                              color: AppColors.ink.withValues(alpha: .62),
+                              color: AppColors.inkBody,
                             ),
                           ),
                           const SizedBox(height: 26),
@@ -160,7 +159,7 @@ class PartyInviteScreen extends StatelessWidget {
                                   Icon(
                                     Icons.content_copy,
                                     size: 19,
-                                    color: AppColors.ink.withValues(alpha: .6),
+                                    color: AppColors.inkBody,
                                   ),
                                 ],
                               ),

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../data/order_repository.dart';
 import '../../../models/models.dart';
 import '../../../providers/party_cocktails.dart';
-import '../../../services/order_service.dart';
 import '../../../theme/theme.dart';
 import '../../../utils/cocktail_labels.dart';
 import '../../../utils/localization_helper.dart';
@@ -151,7 +151,7 @@ class _TonightTabState extends State<TonightTab> {
     final messenger = ScaffoldMessenger.of(context);
     final l10n = context.l10n;
     try {
-      await OrderService().cancelByGuest(order);
+      await OrderRepository().cancelByGuest(order);
     } on OrderAlreadyPouring {
       messenger.showSnackBar(SnackBar(content: Text(l10n.roundCancelTooLate)));
     } catch (e) {
@@ -164,7 +164,7 @@ class _TonightTabState extends State<TonightTab> {
     final l10n = context.l10n;
     setState(() => _swapBusy = true);
     try {
-      await OrderService().sendRound(
+      await OrderRepository().sendRound(
         partyId: widget.party.id,
         guestName: widget.guestName,
         guestId: widget.guestId,
@@ -249,7 +249,7 @@ class _ArrivalView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(party.name, style: AppTypography.title.copyWith(fontSize: 30)),
+                Text(party.name, style: AppTypography.titleCompact),
                 const SizedBox(height: 10),
                 Text(
                   l10n.roundHostPouring(hostFirstName(party.hostName), guests),
@@ -440,7 +440,7 @@ class _PartyHeader extends StatelessWidget {
                             : context.l10n.roundPartyOpenGuests(guests),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTypography.meta.copyWith(fontSize: 11.5, fontWeight: FontWeight.w600),
+                        style: AppTypography.caption.copyWith(fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],
@@ -562,7 +562,7 @@ class _RoundCardView extends StatelessWidget {
                             : l10n.roundSentAt(sentTime),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTypography.measure.copyWith(fontSize: 11, color: AppColors.ink.withValues(alpha: .45)),
+                        style: AppTypography.measure.copyWith(fontSize: 11, color: AppColors.inkMeta),
                       ),
                     ],
                   ),
@@ -584,12 +584,12 @@ class _RoundCardView extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.lock, size: 17, color: AppColors.ink.withValues(alpha: .45)),
+                          Icon(Icons.lock, size: 17, color: AppColors.inkMeta),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
                               l10n.roundCancelLocked,
-                              style: AppTypography.meta.copyWith(fontSize: 11.5, height: 1.45),
+                              style: AppTypography.caption.copyWith(height: 1.45),
                             ),
                           ),
                         ],
@@ -867,7 +867,7 @@ class _ReadyView extends StatelessWidget {
                 Text(
                   l10n.roundServedFootnote(hostFirstName(party.hostName)),
                   textAlign: TextAlign.center,
-                  style: AppTypography.meta.copyWith(fontSize: 11.5, color: AppColors.ink.withValues(alpha: .35)),
+                  style: AppTypography.caption.copyWith(color: AppColors.inkFaint),
                 ),
               ],
             ),
@@ -990,7 +990,7 @@ class _PulledView extends StatelessWidget {
                           ),
                       ],
                     ),
-                    style: AppTypography.body.copyWith(fontSize: 13.5, height: 1.55, color: AppColors.ink.withValues(alpha: .65)),
+                    style: AppTypography.body.copyWith(height: 1.55, color: AppColors.ink.withValues(alpha: .65)),
                   ),
                 ],
               ),
@@ -1003,7 +1003,7 @@ class _PulledView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(l10n.roundSwapTitle, style: AppTypography.section.copyWith(fontSize: 15)),
+                  Text(l10n.roundSwapTitle, style: AppTypography.section),
                   const SizedBox(height: 6),
                   Text(l10n.roundSwapSubtitle, style: AppTypography.meta.copyWith(fontSize: 12)),
                   const SizedBox(height: 14),
@@ -1028,7 +1028,7 @@ class _PulledView extends StatelessWidget {
           Center(
             child: TextButton(
               onPressed: onDismiss,
-              child: Text(l10n.roundNothingForNow, style: AppTypography.meta.copyWith(fontSize: 12.5, fontWeight: FontWeight.w600)),
+              child: Text(l10n.roundNothingForNow, style: AppTypography.meta.copyWith(fontWeight: FontWeight.w600)),
             ),
           ),
         ],
@@ -1065,7 +1065,7 @@ class _SwapRow extends StatelessWidget {
                   matesLabel ?? cocktailMeta(context.l10n, cocktail),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTypography.meta.copyWith(fontSize: 11.5, fontWeight: FontWeight.w600),
+                  style: AppTypography.caption.copyWith(fontWeight: FontWeight.w600),
                 ),
               ],
             ),

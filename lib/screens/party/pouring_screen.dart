@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../data/order_repository.dart';
 import '../../models/models.dart';
 import '../../providers/measure_unit_provider.dart';
 import '../../providers/party_cocktails.dart';
-import '../../services/order_service.dart';
 import '../../theme/theme.dart';
 import '../../utils/cocktail_labels.dart';
 import '../../utils/localization_helper.dart';
@@ -49,7 +49,7 @@ class _PouringScreenState extends State<PouringScreen> {
   void initState() {
     super.initState();
     _order = widget.order;
-    _orders = OrderService().streamPartyOrders(widget.party.id);
+    _orders = OrderRepository().streamPartyOrders(widget.party.id);
     widget.cocktails.ensure({widget.order.cocktailId});
   }
 
@@ -67,7 +67,7 @@ class _PouringScreenState extends State<PouringScreen> {
 
   Future<void> _markReady() async {
     try {
-      await OrderService().markReady(_order);
+      await OrderRepository().markReady(_order);
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.hostSaveFailed)));
@@ -85,7 +85,7 @@ class _PouringScreenState extends State<PouringScreen> {
     );
     if (!go || !mounted) return;
     try {
-      await OrderService().skip(_order);
+      await OrderRepository().cancelByHost(_order);
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.hostSaveFailed)));
@@ -218,7 +218,6 @@ class _PouringBodyState extends State<PouringBody> {
     ].join(' · ');
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         child: Column(
           children: [
@@ -273,7 +272,7 @@ class _PouringBodyState extends State<PouringBody> {
                             style: AppTypography.meta.copyWith(
                               fontSize: 12.5,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.ink.withValues(alpha: .6),
+                              color: AppColors.inkBody,
                             ),
                           ),
                         ),
@@ -295,7 +294,7 @@ class _PouringBodyState extends State<PouringBody> {
                         Text(
                           l10n.queuePourPill.toUpperCase(),
                           style: AppTypography.label.copyWith(
-                            color: AppColors.ink.withValues(alpha: .45),
+                            color: AppColors.inkMeta,
                           ),
                         ),
                         if (hint.isNotEmpty)
@@ -539,10 +538,10 @@ class _MethodRow extends StatelessWidget {
                   label,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTypography.body.copyWith(fontSize: 13.5, fontWeight: FontWeight.w700),
+                  style: AppTypography.body.copyWith(fontWeight: FontWeight.w700),
                 ),
               ),
-              Icon(Icons.expand_less, size: 20, color: AppColors.ink.withValues(alpha: .35)),
+              Icon(Icons.expand_less, size: 20, color: AppColors.inkFaint),
             ],
           ),
         ),

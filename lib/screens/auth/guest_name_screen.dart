@@ -79,7 +79,6 @@ class _GuestNameScreenState extends State<GuestNameScreen> {
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: Stack(
         fit: StackFit.expand,
         children: [

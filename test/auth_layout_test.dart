@@ -25,15 +25,14 @@ import 'package:party_bar/widgets/auth/auth_barrier_sheet.dart';
 import 'package:party_bar/widgets/auth/claim_account_sheet.dart';
 import 'package:party_bar/widgets/auth/signed_in_banner.dart';
 
+import 'support/harness.dart';
+
 /// The remaining flow 03 surfaces, drawn at 390x844. They have to survive the
 /// two things that actually break layouts in the field: a narrower phone, and
 /// someone who has turned their text up.
-const _sizes = <String, Size>{
-  'iPhone 14 Pro': Size(390, 844),
-  'small phone': Size(320, 568),
-};
+const _sizes = testSizes;
 
-const _textScales = <double>[1.0, 1.4];
+const _textScales = standardTextScales;
 
 class _StubUser implements fb.User {
   @override

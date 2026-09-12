@@ -83,7 +83,6 @@ class _BarSearchScreenState extends State<BarSearchScreen> {
     final bar = context.watch<BarProvider>();
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Column(

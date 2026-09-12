@@ -6,6 +6,7 @@ import '../../providers/bar_provider.dart';
 import '../../theme/theme.dart';
 import '../../utils/app_router.dart';
 import '../../utils/localization_helper.dart';
+import '../common/app_sheet.dart';
 
 /// Opens the sheet that marks where browsing ends and an account begins.
 ///
@@ -15,13 +16,7 @@ import '../../utils/localization_helper.dart';
 /// app asks for an account, and it asks by naming what the person keeps
 /// rather than what they are missing.
 Future<void> showAuthGateSheet(BuildContext context, {required String cocktailName}) {
-  return showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    useSafeArea: true,
-    builder: (_) => AuthGateSheet(cocktailName: cocktailName),
-  );
+  return showAppSheet<void>(context, (_) => AuthGateSheet(cocktailName: cocktailName));
 }
 
 class AuthGateSheet extends StatelessWidget {
@@ -65,12 +60,12 @@ class AuthGateSheet extends StatelessWidget {
           const SizedBox(height: 18),
           Text(
             l10n.authGateSaveTitle(cocktailName),
-            style: AppTypography.title.copyWith(fontSize: 30, height: 1.05),
+            style: AppTypography.titleCompact.copyWith(height: 1.05),
           ),
           const SizedBox(height: 12),
           Text(
             l10n.authGateSaveBody,
-            style: AppTypography.body.copyWith(fontSize: 13.5, height: 1.6),
+            style: AppTypography.body.copyWith(height: 1.6),
           ),
           const SizedBox(height: 20),
           _BenefitList(bottleCount: bottleCount),

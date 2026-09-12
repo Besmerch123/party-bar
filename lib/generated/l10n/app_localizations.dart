@@ -104,12 +104,6 @@ abstract class AppLocalizations {
   /// **'PartyBar'**
   String get appTitle;
 
-  /// Home navigation item
-  ///
-  /// In en, this message translates to:
-  /// **'Home'**
-  String get navigationHome;
-
   /// Explore navigation item
   ///
   /// In en, this message translates to:
@@ -134,12 +128,6 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get navigationSettings;
 
-  /// Profile navigation item
-  ///
-  /// In en, this message translates to:
-  /// **'Profile'**
-  String get navigationProfile;
-
   /// Language setting label
   ///
   /// In en, this message translates to:
@@ -152,71 +140,11 @@ abstract class AppLocalizations {
   /// **'Skip'**
   String get skip;
 
-  /// Button to start using the app
-  ///
-  /// In en, this message translates to:
-  /// **'Get Started'**
-  String get getStarted;
-
   /// Next button
   ///
   /// In en, this message translates to:
   /// **'Next'**
   String get next;
-
-  /// Previous button
-  ///
-  /// In en, this message translates to:
-  /// **'Previous'**
-  String get previous;
-
-  /// First onboarding screen title
-  ///
-  /// In en, this message translates to:
-  /// **'Discover Amazing Cocktails'**
-  String get onboardingTitle1;
-
-  /// First onboarding screen description
-  ///
-  /// In en, this message translates to:
-  /// **'Browse through hundreds of cocktail recipes with detailed instructions and ingredients.'**
-  String get onboardingDescription1;
-
-  /// Second onboarding screen title
-  ///
-  /// In en, this message translates to:
-  /// **'Join Party Events'**
-  String get onboardingTitle2;
-
-  /// Second onboarding screen description
-  ///
-  /// In en, this message translates to:
-  /// **'Enter party codes to join events and order cocktails directly from the host.'**
-  String get onboardingDescription2;
-
-  /// Third onboarding screen title
-  ///
-  /// In en, this message translates to:
-  /// **'Create Your Own Parties'**
-  String get onboardingTitle3;
-
-  /// Third onboarding screen description
-  ///
-  /// In en, this message translates to:
-  /// **'Host your own cocktail parties and manage orders from your guests.'**
-  String get onboardingDescription3;
-
-  /// Fourth onboarding screen title
-  ///
-  /// In en, this message translates to:
-  /// **'Build Your Collection'**
-  String get onboardingTitle4;
-
-  /// Fourth onboarding screen description
-  ///
-  /// In en, this message translates to:
-  /// **'Create personal cocktail bars and save your favorite recipes.'**
-  String get onboardingDescription4;
 
   /// Loading indicator text
   ///
@@ -266,36 +194,6 @@ abstract class AppLocalizations {
   /// **'Categories'**
   String get categories;
 
-  /// Page indicator
-  ///
-  /// In en, this message translates to:
-  /// **'{current} of {total}'**
-  String pageOfPages(int current, int total);
-
-  /// Explore screen title
-  ///
-  /// In en, this message translates to:
-  /// **'Explore Cocktails'**
-  String get exploreCocktails;
-
-  /// Bottom sheet title to filter cocktails
-  ///
-  /// In en, this message translates to:
-  /// **'Filter Cocktails'**
-  String get filterCocktails;
-
-  /// Button text to apply selected filters
-  ///
-  /// In en, this message translates to:
-  /// **'Apply filters'**
-  String get filtersApply;
-
-  /// Button text to clear selected filters
-  ///
-  /// In en, this message translates to:
-  /// **'Clear all'**
-  String get filtersClear;
-
   /// Hint text in the search field
   ///
   /// In en, this message translates to:
@@ -307,12 +205,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Clear All'**
   String get clearAll;
-
-  /// Number of cocktails in search results
-  ///
-  /// In en, this message translates to:
-  /// **'{count} cocktails found'**
-  String cocktailsFound(int count);
 
   /// Empty state title when no cocktails match the search
   ///
@@ -338,29 +230,11 @@ abstract class AppLocalizations {
   /// **'Error Loading Cocktails'**
   String get errorLoadingCocktails;
 
-  /// Fallback error message
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown error'**
-  String get unknownError;
-
   /// Button to retry a failed operation
   ///
   /// In en, this message translates to:
   /// **'Retry'**
   String get retry;
-
-  /// Error message when refresh fails
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to refresh: {error}'**
-  String failedToRefresh(String error);
-
-  /// Login button text
-  ///
-  /// In en, this message translates to:
-  /// **'Log in'**
-  String get login;
 
   /// Logout button text
   ///
@@ -368,161 +242,11 @@ abstract class AppLocalizations {
   /// **'Logout'**
   String get logout;
 
-  /// Success message after logout
-  ///
-  /// In en, this message translates to:
-  /// **'Successfully logged out'**
-  String get logoutSuccess;
-
-  /// Error message when logout fails
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to logout. Please try again.'**
-  String get logoutError;
-
   /// Sign in tab and button text
   ///
   /// In en, this message translates to:
   /// **'Sign In'**
   String get signIn;
-
-  /// Sign up tab and button text
-  ///
-  /// In en, this message translates to:
-  /// **'Sign Up'**
-  String get signUp;
-
-  /// Success message after sign in
-  ///
-  /// In en, this message translates to:
-  /// **'Successfully signed in'**
-  String get signInSuccess;
-
-  /// Success message after sign up
-  ///
-  /// In en, this message translates to:
-  /// **'Account created successfully'**
-  String get signUpSuccess;
-
-  /// Email field hint
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your email'**
-  String get emailHint;
-
-  /// Email validation error
-  ///
-  /// In en, this message translates to:
-  /// **'Email is required'**
-  String get emailRequired;
-
-  /// Email validation error
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter a valid email'**
-  String get emailInvalid;
-
-  /// Password field label
-  ///
-  /// In en, this message translates to:
-  /// **'Password'**
-  String get password;
-
-  /// Password field hint
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your password'**
-  String get passwordHint;
-
-  /// Password validation error
-  ///
-  /// In en, this message translates to:
-  /// **'Password is required'**
-  String get passwordRequired;
-
-  /// Password validation error
-  ///
-  /// In en, this message translates to:
-  /// **'Password must be at least 6 characters'**
-  String get passwordTooShort;
-
-  /// Confirm password field label
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm Password'**
-  String get confirmPassword;
-
-  /// Confirm password field hint
-  ///
-  /// In en, this message translates to:
-  /// **'Re-enter your password'**
-  String get confirmPasswordHint;
-
-  /// Confirm password validation error
-  ///
-  /// In en, this message translates to:
-  /// **'Please confirm your password'**
-  String get confirmPasswordRequired;
-
-  /// Password match validation error
-  ///
-  /// In en, this message translates to:
-  /// **'Passwords do not match'**
-  String get passwordsDoNotMatch;
-
-  /// Sign up page title
-  ///
-  /// In en, this message translates to:
-  /// **'Create Account'**
-  String get createAccount;
-
-  /// Sign in page title
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome Back'**
-  String get welcomeBack;
-
-  /// Sign up page subtitle
-  ///
-  /// In en, this message translates to:
-  /// **'Create a new account to get started'**
-  String get signUpSubtitle;
-
-  /// Sign in page subtitle
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in to your account'**
-  String get signInSubtitle;
-
-  /// Divider text for social login
-  ///
-  /// In en, this message translates to:
-  /// **'Or continue with'**
-  String get orContinueWith;
-
-  /// Google sign in button text
-  ///
-  /// In en, this message translates to:
-  /// **'Continue with Google'**
-  String get continueWithGoogle;
-
-  /// Title for authentication barrier screen
-  ///
-  /// In en, this message translates to:
-  /// **'Authentication Required'**
-  String get authenticationRequired;
-
-  /// Message explaining authentication requirement
-  ///
-  /// In en, this message translates to:
-  /// **'This feature is available only for authenticated users. Please sign in to continue.'**
-  String get authenticationRequiredMessage;
-
-  /// Button text to navigate to login
-  ///
-  /// In en, this message translates to:
-  /// **'Sign In to Continue'**
-  String get signInToContinue;
 
   /// Party Hub screen title
   ///
@@ -530,65 +254,17 @@ abstract class AppLocalizations {
   /// **'Party Hub'**
   String get partyHub;
 
-  /// Welcome message on Party Hub screen
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome to PartyBar!'**
-  String get welcomeToPartyBar;
-
-  /// Subtitle on Party Hub screen
-  ///
-  /// In en, this message translates to:
-  /// **'Join a party or create your own cocktail experience'**
-  String get joinOrCreateParty;
-
   /// Join party button title
   ///
   /// In en, this message translates to:
   /// **'Join Party'**
   String get joinParty;
 
-  /// Join party button subtitle
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a party code to join the fun'**
-  String get joinPartySubtitle;
-
   /// Create party button title
   ///
   /// In en, this message translates to:
   /// **'Create Party'**
   String get createParty;
-
-  /// Create party button subtitle
-  ///
-  /// In en, this message translates to:
-  /// **'Host your own cocktail party'**
-  String get createPartySubtitle;
-
-  /// Quick info message about party features
-  ///
-  /// In en, this message translates to:
-  /// **'Hosts can manage orders and guests can browse cocktails in real-time!'**
-  String get partyQuickInfo;
-
-  /// Create party screen title
-  ///
-  /// In en, this message translates to:
-  /// **'Create Party'**
-  String get createPartyTitle;
-
-  /// Create party screen header title
-  ///
-  /// In en, this message translates to:
-  /// **'Create Your Party'**
-  String get createYourParty;
-
-  /// Create party screen header description
-  ///
-  /// In en, this message translates to:
-  /// **'Set up your cocktail party and invite guests'**
-  String get createPartyDescription;
 
   /// Party details section header
   ///
@@ -602,65 +278,17 @@ abstract class AppLocalizations {
   /// **'Party Name *'**
   String get partyNameLabel;
 
-  /// Party name input field hint
-  ///
-  /// In en, this message translates to:
-  /// **'e.g., Sarah\'s Birthday Bash'**
-  String get partyNameHint;
-
   /// Party description input field label
   ///
   /// In en, this message translates to:
   /// **'Description (Optional)'**
   String get partyDescriptionLabel;
 
-  /// Party description input field hint
-  ///
-  /// In en, this message translates to:
-  /// **'Tell guests about your party...'**
-  String get partyDescriptionHint;
-
-  /// Cocktails selection section header
-  ///
-  /// In en, this message translates to:
-  /// **'Select Available Cocktails *'**
-  String get selectAvailableCocktails;
-
-  /// Number of selected cocktails
-  ///
-  /// In en, this message translates to:
-  /// **'{count} selected'**
-  String selectedCount(int count);
-
-  /// Quick select button for classic cocktails
-  ///
-  /// In en, this message translates to:
-  /// **'All Classic'**
-  String get allClassic;
-
-  /// Quick select button for tiki and frozen cocktails
-  ///
-  /// In en, this message translates to:
-  /// **'Tiki & Frozen'**
-  String get tikiAndFrozen;
-
-  /// Create party button text
-  ///
-  /// In en, this message translates to:
-  /// **'Create Party'**
-  String get createPartyButton;
-
   /// Validation error for empty party name
   ///
   /// In en, this message translates to:
   /// **'Please enter a party name'**
   String get pleaseEnterPartyName;
-
-  /// Validation error for no cocktails selected
-  ///
-  /// In en, this message translates to:
-  /// **'Please select at least one cocktail'**
-  String get pleaseSelectCocktail;
 
   /// Generic cocktail label
   ///
@@ -740,12 +368,6 @@ abstract class AppLocalizations {
   /// **'Party Status'**
   String get partyStatus;
 
-  /// Button to start the party
-  ///
-  /// In en, this message translates to:
-  /// **'Start Party'**
-  String get startParty;
-
   /// Button to pause the party
   ///
   /// In en, this message translates to:
@@ -812,42 +434,6 @@ abstract class AppLocalizations {
   /// **'Go to Party Menu'**
   String get goToPartyMenu;
 
-  /// Header for party admin panel
-  ///
-  /// In en, this message translates to:
-  /// **'Party Admin'**
-  String get partyAdminPanel;
-
-  /// Title for hosted parties bottom sheet
-  ///
-  /// In en, this message translates to:
-  /// **'My Hosted Parties'**
-  String get myHostedParties;
-
-  /// Button text to view hosted parties
-  ///
-  /// In en, this message translates to:
-  /// **'View My Parties'**
-  String get viewMyParties;
-
-  /// Message when user has no hosted parties
-  ///
-  /// In en, this message translates to:
-  /// **'You haven\'t hosted any parties yet'**
-  String get noHostedParties;
-
-  /// Encouragement message to create first party
-  ///
-  /// In en, this message translates to:
-  /// **'Create your first party to get started!'**
-  String get createFirstParty;
-
-  /// Button text to view party details
-  ///
-  /// In en, this message translates to:
-  /// **'View Details'**
-  String get viewDetails;
-
   /// Message showing number of selected cocktails
   ///
   /// In en, this message translates to:
@@ -884,59 +470,11 @@ abstract class AppLocalizations {
   /// **'Failed to add cocktails: {error}'**
   String failedToAddCocktails(String error);
 
-  /// Empty state title when there are no pending orders
-  ///
-  /// In en, this message translates to:
-  /// **'No pending orders'**
-  String get noPendingOrders;
-
-  /// Empty state message for orders placeholder
-  ///
-  /// In en, this message translates to:
-  /// **'Orders will appear here as guests place them'**
-  String get ordersWillAppear;
-
-  /// Fallback text when cocktail name is not found
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown Cocktail'**
-  String get unknownCocktail;
-
-  /// Label showing which guest the order is for
-  ///
-  /// In en, this message translates to:
-  /// **'For: {guestName}'**
-  String forGuest(String guestName);
-
   /// Label showing when the order was placed
   ///
   /// In en, this message translates to:
   /// **'Ordered: {time}'**
   String ordered(String time);
-
-  /// Time indicator for very recent actions
-  ///
-  /// In en, this message translates to:
-  /// **'Just now'**
-  String get justNow;
-
-  /// Time indicator for minutes ago
-  ///
-  /// In en, this message translates to:
-  /// **'{minutes}m ago'**
-  String minutesAgo(int minutes);
-
-  /// Time indicator for hours ago
-  ///
-  /// In en, this message translates to:
-  /// **'{hours}h ago'**
-  String hoursAgo(int hours);
-
-  /// Button to start preparing an order
-  ///
-  /// In en, this message translates to:
-  /// **'Start Preparing'**
-  String get startPreparing;
 
   /// Button to mark order as ready for pickup
   ///
@@ -944,41 +482,17 @@ abstract class AppLocalizations {
   /// **'Mark Ready'**
   String get markReady;
 
-  /// Button to mark order as delivered
-  ///
-  /// In en, this message translates to:
-  /// **'Mark Delivered'**
-  String get markDelivered;
-
-  /// Section title for new/pending orders
-  ///
-  /// In en, this message translates to:
-  /// **'New Orders'**
-  String get newOrders;
-
   /// Section title for orders being prepared
   ///
   /// In en, this message translates to:
   /// **'Preparing'**
   String get preparing;
 
-  /// Section title for orders ready for pickup
-  ///
-  /// In en, this message translates to:
-  /// **'Ready for Pickup'**
-  String get readyForPickup;
-
   /// Orders tab label
   ///
   /// In en, this message translates to:
   /// **'Orders'**
   String get orders;
-
-  /// Orders tab label with count
-  ///
-  /// In en, this message translates to:
-  /// **'Orders ({count})'**
-  String ordersCount(int count);
 
   /// Stats tab label
   ///
@@ -998,83 +512,11 @@ abstract class AppLocalizations {
   /// **'Total Orders'**
   String get totalOrders;
 
-  /// Label for completed orders statistic
-  ///
-  /// In en, this message translates to:
-  /// **'Completed'**
-  String get completed;
-
   /// Label for pending orders statistic
   ///
   /// In en, this message translates to:
   /// **'Pending'**
   String get pending;
-
-  /// Label for party active time statistic
-  ///
-  /// In en, this message translates to:
-  /// **'Active Time'**
-  String get activeTime;
-
-  /// Title for party statistics overview section
-  ///
-  /// In en, this message translates to:
-  /// **'Party Overview'**
-  String get partyOverview;
-
-  /// Title for popular cocktails section
-  ///
-  /// In en, this message translates to:
-  /// **'Popular Cocktails'**
-  String get popularCocktails;
-
-  /// Message when there are no orders in statistics
-  ///
-  /// In en, this message translates to:
-  /// **'No orders yet'**
-  String get noOrdersYet;
-
-  /// Title for available cocktails list with count
-  ///
-  /// In en, this message translates to:
-  /// **'Available Cocktails ({count})'**
-  String availableCocktails(int count);
-
-  /// Empty state title when no cocktails are available
-  ///
-  /// In en, this message translates to:
-  /// **'No cocktails available'**
-  String get noCocktailsAvailable;
-
-  /// Empty state message suggesting to add cocktails
-  ///
-  /// In en, this message translates to:
-  /// **'Add cocktails to the party menu'**
-  String get addCocktailsToMenu;
-
-  /// Error message when cocktails fail to load
-  ///
-  /// In en, this message translates to:
-  /// **'Error loading cocktails'**
-  String get errorLoadingCocktailsList;
-
-  /// Success message when party code is copied
-  ///
-  /// In en, this message translates to:
-  /// **'Party code copied to clipboard!'**
-  String get partyCopiedToClipboard;
-
-  /// Title for QR code dialog
-  ///
-  /// In en, this message translates to:
-  /// **'Party QR Code'**
-  String get partyQRCode;
-
-  /// Mock placeholder for QR code
-  ///
-  /// In en, this message translates to:
-  /// **'QR CODE\n(Mock)'**
-  String get qrCodeMock;
 
   /// Label showing party code
   ///
@@ -1088,125 +530,11 @@ abstract class AppLocalizations {
   /// **'Close'**
   String get close;
 
-  /// Success message when party is resumed
-  ///
-  /// In en, this message translates to:
-  /// **'Party resumed'**
-  String get partyResumed;
-
-  /// Success message when party is paused
-  ///
-  /// In en, this message translates to:
-  /// **'Party paused'**
-  String get partyPausedMessage;
-
-  /// Error message when order update fails
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to update order: {error}'**
-  String failedToUpdateOrder(String error);
-
-  /// Error message when party status update fails
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to update party status: {error}'**
-  String failedToUpdatePartyStatus(String error);
-
-  /// Success message when order status is updated
-  ///
-  /// In en, this message translates to:
-  /// **'{cocktail} for {guest} marked as {status}'**
-  String orderMarkedAs(String cocktail, String guest, String status);
-
   /// Generic error message with details
   ///
   /// In en, this message translates to:
   /// **'Error: {message}'**
   String errorWithMessage(String message);
-
-  /// Join party screen title
-  ///
-  /// In en, this message translates to:
-  /// **'Join Party'**
-  String get joinPartyTitle;
-
-  /// Join party screen header title
-  ///
-  /// In en, this message translates to:
-  /// **'Join the Party!'**
-  String get joinTheParty;
-
-  /// Join party screen header description
-  ///
-  /// In en, this message translates to:
-  /// **'Enter the party code to start ordering cocktails'**
-  String get enterPartyCodeToOrder;
-
-  /// Guest name input field label
-  ///
-  /// In en, this message translates to:
-  /// **'Your Name'**
-  String get yourName;
-
-  /// Guest name input field hint
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your name'**
-  String get enterYourName;
-
-  /// Party code input field label
-  ///
-  /// In en, this message translates to:
-  /// **'Party Code'**
-  String get partyCode;
-
-  /// Party code input field hint
-  ///
-  /// In en, this message translates to:
-  /// **'Enter 6-digit party code'**
-  String get enterPartyCode;
-
-  /// Button to scan QR code
-  ///
-  /// In en, this message translates to:
-  /// **'Scan QR Code'**
-  String get scanQRCode;
-
-  /// Success message after scanning QR code
-  ///
-  /// In en, this message translates to:
-  /// **'QR Code scanned successfully!'**
-  String get qrCodeScannedSuccess;
-
-  /// Validation error for missing name or code
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter both party code and your name'**
-  String get pleaseEnterNameAndCode;
-
-  /// Help text explaining how to get party code
-  ///
-  /// In en, this message translates to:
-  /// **'Ask the party host for the 6-digit party code or scan their QR code'**
-  String get askHostForCode;
-
-  /// Error message when party doesn't exist
-  ///
-  /// In en, this message translates to:
-  /// **'Party not found. Please check the code and try again.'**
-  String get partyNotFound;
-
-  /// Loading message while joining party
-  ///
-  /// In en, this message translates to:
-  /// **'Joining party...'**
-  String get joiningParty;
-
-  /// Button to order a cocktail
-  ///
-  /// In en, this message translates to:
-  /// **'Order Cocktail'**
-  String get orderCocktail;
 
   /// Label for special requests field
   ///
@@ -1214,41 +542,11 @@ abstract class AppLocalizations {
   /// **'Special Requests'**
   String get specialRequests;
 
-  /// Hint text for special requests field
-  ///
-  /// In en, this message translates to:
-  /// **'e.g., extra lime, no sugar...'**
-  String get specialRequestsHint;
-
   /// Indicator that a field is optional
   ///
   /// In en, this message translates to:
   /// **'(optional)'**
   String get optional;
-
-  /// Order confirmation dialog title
-  ///
-  /// In en, this message translates to:
-  /// **'Order {cocktailName}'**
-  String orderConfirmation(String cocktailName);
-
-  /// Order confirmation message
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to order {cocktailName}?'**
-  String orderConfirmMessage(String cocktailName);
-
-  /// Success message after ordering a cocktail
-  ///
-  /// In en, this message translates to:
-  /// **'{cocktailName} ordered successfully!'**
-  String cocktailOrderedSuccess(String cocktailName);
-
-  /// Error message when ordering fails
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to order cocktail: {error}'**
-  String failedToOrderCocktail(String error);
 
   /// Title for guest's personal orders section
   ///
@@ -1256,71 +554,11 @@ abstract class AppLocalizations {
   /// **'My Orders'**
   String get myOrders;
 
-  /// Title for guest's personal statistics
-  ///
-  /// In en, this message translates to:
-  /// **'My Stats'**
-  String get myStats;
-
-  /// Label for number of orders placed by guest
-  ///
-  /// In en, this message translates to:
-  /// **'Orders Placed'**
-  String get ordersPlaced;
-
-  /// Label for number of different cocktails tried
-  ///
-  /// In en, this message translates to:
-  /// **'Cocktails Tried'**
-  String get cocktailsTried;
-
-  /// Label for guest's most ordered cocktail
-  ///
-  /// In en, this message translates to:
-  /// **'Favorite Cocktail'**
-  String get favoriteCocktail;
-
-  /// Message when guest hasn't ordered anything
-  ///
-  /// In en, this message translates to:
-  /// **'No favorite yet'**
-  String get noFavoriteYet;
-
-  /// Empty state message for guest with no orders
-  ///
-  /// In en, this message translates to:
-  /// **'You haven\'t ordered any cocktails yet'**
-  String get youHaventOrderedYet;
-
-  /// Encouragement message to order cocktails
-  ///
-  /// In en, this message translates to:
-  /// **'Start ordering from the menu!'**
-  String get startOrderingFromMenu;
-
-  /// Label for cocktails the guest has already ordered
-  ///
-  /// In en, this message translates to:
-  /// **'Already tried'**
-  String get alreadyTried;
-
   /// Welcome message for guest
   ///
   /// In en, this message translates to:
   /// **'Welcome, {name}!'**
   String welcome(String name);
-
-  /// Button to view cocktail recipe
-  ///
-  /// In en, this message translates to:
-  /// **'View Recipe'**
-  String get viewRecipe;
-
-  /// Button to order a cocktail
-  ///
-  /// In en, this message translates to:
-  /// **'Order Now'**
-  String get orderNow;
 
   /// Defer action in the top-right of onboarding step 05
   ///
@@ -2216,12 +1454,6 @@ abstract class AppLocalizations {
   /// **'Add to a party'**
   String get cocktailAddToParty;
 
-  /// Flow 02 - Explore. Section header over the ingredient list
-  ///
-  /// In en, this message translates to:
-  /// **'Ingredients'**
-  String get cocktailIngredientsTitle;
-
   /// Flow 02 - Explore. Confirmation after sharing a recipe
   ///
   /// In en, this message translates to:
@@ -2353,12 +1585,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue with Apple'**
   String get authContinueApple;
-
-  /// Flow 03 - Auth. Badge on the Apple button while it is not wired yet
-  ///
-  /// In en, this message translates to:
-  /// **'Soon'**
-  String get authAppleSoon;
 
   /// Flow 03 - Auth. Legal footnote under the provider buttons. Both placeholders are rendered as links
   ///
@@ -2606,18 +1832,6 @@ abstract class AppLocalizations {
   /// **'Have an account? Sign in'**
   String get guestHaveAccount;
 
-  /// Flow 03 - Auth. Screen 09. Headline behind the claim sheet, after a party ends
-  ///
-  /// In en, this message translates to:
-  /// **'That was a night'**
-  String get claimHeadline;
-
-  /// Flow 03 - Auth. Screen 09. What the night amounted to, under the headline
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{1 drink · {party}} other{{count} drinks · {party}}}'**
-  String claimSubline(int count, String party);
-
   /// Flow 03 - Auth. Screen 09. Title of the claim sheet
   ///
   /// In en, this message translates to:
@@ -2683,12 +1897,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try again'**
   String get authErrorRetry;
-
-  /// Flow 03 - Auth. Accessibility label for the back affordance
-  ///
-  /// In en, this message translates to:
-  /// **'Back'**
-  String get authBack;
 
   /// Flow 03 - Auth. Accessibility label for the close affordance
   ///
@@ -3061,12 +2269,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not here? Add “{query}” to your list'**
   String barAddCustomToList(String query);
-
-  /// Flow 04 - My bar. Subtitle used for a custom item with no catalogue data of its own
-  ///
-  /// In en, this message translates to:
-  /// **'Your own bottle'**
-  String get barCustomItem;
 
   /// Flow 04 - My bar. Placeholder in the search field when adding to the shopping list
   ///
@@ -3782,12 +2984,6 @@ abstract class AppLocalizations {
   /// **'Save the draft for later'**
   String get hostSaveForLater;
 
-  /// Flow 05 - Host. Screen 07. Error when the draft cannot be loaded
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn’t load this party.'**
-  String get hostDraftLoadFailed;
-
   /// Flow 05 - Host. Screen 08. Go-live sheet headline
   ///
   /// In en, this message translates to:
@@ -4153,18 +3349,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The code stops working and the queue closes. This one can’t be undone.'**
   String get hostEndBody;
-
-  /// Flow 05 - Host. Screen 13. Warning when orders are still in the queue
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{1 order is still waiting} other{{count} orders are still waiting}}'**
-  String hostEndWaiting(int count);
-
-  /// Flow 05 - Host. Screen 13. Detail under the waiting warning
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{It will be marked unserved} other{They will be marked unserved}}'**
-  String hostEndWaitingDetail(int count);
 
   /// Flow 05 - Host. Screen 13. Stat eyebrow; rendered uppercase
   ///
@@ -4609,36 +3793,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{Your round · 1} other{Your round · {count}}}'**
   String roundPill(int count);
-
-  /// Flow 06 - Order & pour. Guest shell. Title of the minimal paused notice
-  ///
-  /// In en, this message translates to:
-  /// **'The bar\'s paused'**
-  String get roundPausedTitle;
-
-  /// Flow 06 - Order & pour. Guest shell. Body of the paused notice
-  ///
-  /// In en, this message translates to:
-  /// **'{host} isn\'t pouring right now — you can browse the menu, but sending is off until it reopens.'**
-  String roundPausedBody(String host);
-
-  /// Flow 06 - Order & pour. Guest shell. Title of the calm ended state
-  ///
-  /// In en, this message translates to:
-  /// **'The bar\'s closed'**
-  String get roundEndedTitle;
-
-  /// Flow 06 - Order & pour. Guest shell. Body of the ended state
-  ///
-  /// In en, this message translates to:
-  /// **'{party} has ended. Thanks for stopping by.'**
-  String roundEndedBody(String party);
-
-  /// Flow 06 - Order & pour. Guest shell. Way out of the ended state; pops the screen
-  ///
-  /// In en, this message translates to:
-  /// **'Done'**
-  String get roundEndedLeave;
 
   /// Flow 06 - Order & pour. Screens 01, Tonight arrival. Glass pill over the hero photo
   ///
@@ -5203,12 +4357,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Six characters, on the host\'s screen or stuck to the fridge.'**
   String get joinSubtitle;
-
-  /// Flow 07 - Join a party. Screen 01. Semantic label for the code field
-  ///
-  /// In en, this message translates to:
-  /// **'Party code, six characters'**
-  String get joinCodeSemantics;
 
   /// Flow 07 - Join a party. Screen 01. The reminder that the fast door exists
   ///
@@ -5821,12 +4969,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =0{Those drinks are already on the menu} =1{Added 1 drink} other{Added {count} drinks}}'**
   String presetAdded(int count);
-
-  /// Flow 05 - Host a party. Drops a saved menu from the phone
-  ///
-  /// In en, this message translates to:
-  /// **'Forget this menu'**
-  String get presetRemove;
 
   /// Flow 08 - After the party. Screen 06. Every recap, which never expires
   ///

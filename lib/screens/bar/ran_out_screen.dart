@@ -78,7 +78,6 @@ class _RanOutScreenState extends State<RanOutScreen> {
     final hasCandidates = candidates.isNotEmpty;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: Stack(
         children: [
           const _HeroPhoto(),

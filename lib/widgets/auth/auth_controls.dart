@@ -735,7 +735,7 @@ class _AuthLegalLineState extends State<AuthLegalLine> {
 
   @override
   Widget build(BuildContext context) {
-    final base = AppTypography.meta.copyWith(fontSize: 11.5, height: 1.5);
+    final base = AppTypography.caption;
     final link = base.copyWith(
       color: AppColors.signalLight,
       fontWeight: FontWeight.w600,

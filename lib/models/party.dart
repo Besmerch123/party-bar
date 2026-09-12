@@ -1,3 +1,5 @@
+import 'shared_types.dart';
+
 /// Flow 05. A party starts as a [draft] — its code dead, nobody can join —
 /// and only [PartyService.goLive] opens it. [active] and [paused] are both
 /// "live": the code works and the host has one bar to run. [ended] is the
@@ -85,10 +87,6 @@ class Party {
   }
 
   factory Party.fromMap(Map<String, dynamic> map) {
-    DateTime? optionalDate(String key) => map[key] != null
-        ? DateTime.fromMillisecondsSinceEpoch(map[key])
-        : null;
-
     return Party(
       id: map['id'] ?? '',
       name: map['name'] ?? '',
@@ -102,13 +100,16 @@ class Party {
         (e) => e.name == map['status'],
         orElse: () => PartyStatus.active,
       ),
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] ?? 0),
-      endedAt: optionalDate('endedAt'),
+      createdAt: firestoreDateOr(
+        map['createdAt'],
+        DateTime.fromMillisecondsSinceEpoch(0),
+      ),
+      endedAt: firestoreDate(map['endedAt']),
       totalOrders: map['totalOrders']?.toInt() ?? 0,
       description: map['description'],
-      scheduledFor: optionalDate('scheduledFor'),
-      wentLiveAt: optionalDate('wentLiveAt'),
-      pausedAt: optionalDate('pausedAt'),
+      scheduledFor: firestoreDate(map['scheduledFor']),
+      wentLiveAt: firestoreDate(map['wentLiveAt']),
+      pausedAt: firestoreDate(map['pausedAt']),
       drinksPoured: map['drinksPoured']?.toInt(),
       guestCount: map['guestCount']?.toInt(),
     );

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/bar.dart';
 import '../models/bar_item.dart';
 import '../models/onboarding.dart';
+import '../models/shared_types.dart';
 import '../models/shopping_list.dart';
 import '../models/user.dart';
 
@@ -108,22 +109,18 @@ class AccountService implements BarAccountSync {
     return _userFromData(data, uid);
   });
 
-  /// [claimLocalState] writes `createdAt`/`lastLoginAt` as
-  /// [FieldValue.serverTimestamp] — real Firestore `Timestamp`s, not the
-  /// millisecond ints [User.fromMap] expects. A write this device just made
-  /// can also reach a listener before the server has stamped it, same as
-  /// [PartyRepository]'s parties.
+  /// [User.fromMap] decodes whatever shape the field arrives in, so the only
+  /// thing left to say here is what a *missing* stamp means: a write this
+  /// device just made can reach a listener before the server has stamped it,
+  /// and "now" is a truer reading of that than the epoch.
   User _userFromData(Map<String, dynamic> data, String uid) {
-    int? millis(String key) {
-      final value = data[key];
-      return value is Timestamp ? value.millisecondsSinceEpoch : value as int?;
-    }
+    final now = DateTime.now();
 
     return User.fromMap({
       ...data,
       'id': uid,
-      'createdAt': millis('createdAt') ?? DateTime.now().millisecondsSinceEpoch,
-      'lastLoginAt': millis('lastLoginAt') ?? DateTime.now().millisecondsSinceEpoch,
+      'createdAt': firestoreDate(data['createdAt']) ?? now,
+      'lastLoginAt': firestoreDate(data['lastLoginAt']) ?? now,
     });
   }
 

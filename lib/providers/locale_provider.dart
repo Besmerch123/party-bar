@@ -111,12 +111,6 @@ class LocaleProvider extends ChangeNotifier {
     }
   }
 
-  /// Adopts a device [Locale]. Never a manual pick, so it never touches
-  /// [followsSystem] — [setFollowSystem] is what callers actually want when
-  /// the device's language is the point.
-  Future<void> setLocaleFromFlutter(Locale locale) =>
-      _applyLocale(_parseSupportedLocale(locale.languageCode));
-
   /// Parse string to SupportedLocale
   SupportedLocale _parseSupportedLocale(String code) {
     switch (code) {
@@ -128,51 +122,4 @@ class LocaleProvider extends ChangeNotifier {
     }
   }
 
-  /// Initialize from system locale (only if no saved preference exists)
-  Future<void> initializeFromSystem(BuildContext context) async {
-    // Only use system locale if we haven't saved a preference yet
-    final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey(_localeKey)) {
-      final systemLocale = Localizations.localeOf(context);
-      await setLocaleFromFlutter(systemLocale);
-    }
-  }
-}
-
-/// Extension to easily get locale from BuildContext
-extension LocaleContext on BuildContext {
-  /// Get current locale from LocaleProvider
-  /// Requires LocaleProvider to be provided above in the widget tree
-  SupportedLocale get currentLocale {
-    try {
-      // If using Provider package
-      final provider = this
-          .dependOnInheritedWidgetOfExactType<LocaleProviderInheritedWidget>();
-      return provider?.locale ?? SupportedLocale.en;
-    } catch (e) {
-      return SupportedLocale.en;
-    }
-  }
-}
-
-/// InheritedWidget wrapper for LocaleProvider
-/// This allows accessing locale without Provider package
-class LocaleProviderInheritedWidget extends InheritedWidget {
-  final SupportedLocale locale;
-
-  const LocaleProviderInheritedWidget({
-    Key? key,
-    required this.locale,
-    required Widget child,
-  }) : super(key: key, child: child);
-
-  static LocaleProviderInheritedWidget? of(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<LocaleProviderInheritedWidget>();
-  }
-
-  @override
-  bool updateShouldNotify(LocaleProviderInheritedWidget oldWidget) {
-    return locale != oldWidget.locale;
-  }
 }

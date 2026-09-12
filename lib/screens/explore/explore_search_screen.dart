@@ -117,7 +117,6 @@ class _ExploreSearchScreenState extends State<ExploreSearchScreen> {
     final bar = context.watch<BarProvider>();
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -650,7 +649,7 @@ class _ResultsList extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     sortNote(l10n, sort),
-                    style: AppTypography.meta.copyWith(fontSize: 11.5),
+                    style: AppTypography.caption,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

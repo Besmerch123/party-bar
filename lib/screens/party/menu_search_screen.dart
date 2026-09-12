@@ -109,7 +109,6 @@ class _MenuSearchScreenState extends State<MenuSearchScreen> {
     final short = rows.where((row) => row.$2.missing.isNotEmpty).firstOrNull;
 
     return Scaffold(
-      backgroundColor: AppColors.ground,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +150,7 @@ class _MenuSearchScreenState extends State<MenuSearchScreen> {
                     child: Text(
                       l10n.hostSearchMatches(rows.length).toUpperCase(),
                       style: AppTypography.label.copyWith(
-                        color: AppColors.ink.withValues(alpha: .45),
+                        color: AppColors.inkMeta,
                       ),
                     ),
                   ),

@@ -10,20 +10,26 @@ import '../../utils/app_router.dart';
 import '../../utils/localization_helper.dart';
 import '../../widgets/settings/delete_account_sheet.dart';
 import '../../widgets/settings/settings_rows.dart';
+import '../../widgets/settings/settings_subpage.dart';
 
 /// Flow 09 · screen 07 — leaving, counted out loud.
 ///
 /// Sign-out is refused while a hosted party is still live: there is nowhere
 /// for its queue to go once the host who could see it signs out.
 class AccountDataScreen extends StatefulWidget {
-  const AccountDataScreen({super.key});
+  const AccountDataScreen({super.key, PartyService? partyService})
+    : _partyService = partyService;
+
+  /// Test seam only: production always leaves this null and gets a real
+  /// [PartyService]. Nothing in the app passes this.
+  final PartyService? _partyService;
 
   @override
   State<AccountDataScreen> createState() => _AccountDataScreenState();
 }
 
 class _AccountDataScreenState extends State<AccountDataScreen> {
-  final _partyService = PartyService();
+  late final PartyService _partyService = widget._partyService ?? PartyService();
 
   void _comingSoon() {
     final l10n = context.l10n;
@@ -84,71 +90,59 @@ class _AccountDataScreenState extends State<AccountDataScreen> {
     final since = user?.metadata.creationTime;
     final locale = Localizations.localeOf(context).toLanguageTag();
 
-    return Scaffold(
-      backgroundColor: AppColors.ground,
-      appBar: AppBar(
-        backgroundColor: AppColors.ground,
-        surfaceTintColor: Colors.transparent,
-        leading: BackButton(onPressed: () => context.pop()),
-      ),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(AppSpacing.screenEdge, 0, AppSpacing.screenEdge, 30),
+    return SettingsSubpageScaffold(
+      title: l10n.settingsAccountData,
+      children: [
+        SettingsRowGroup(
           children: [
-            Text(l10n.settingsAccountData, style: AppTypography.title.copyWith(fontSize: 30, height: 1)),
-            const SizedBox(height: 20),
-            SettingsRowGroup(
-              children: [
-                SettingsRow(
-                  icon: Icons.mail_outline,
-                  label: user?.email ?? '',
-                  value: since == null
-                      ? null
-                      : l10n.settingsAccountSince(DateFormat.yMMMd(locale).format(since)),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            SettingsRowGroup(
-              children: [
-                SettingsRow(
-                  icon: Icons.download_outlined,
-                  label: l10n.settingsDownloadData,
-                  onTap: _comingSoon,
-                ),
-                SettingsRow(
-                  icon: Icons.gavel_outlined,
-                  label: l10n.settingsTermsPrivacy,
-                  onTap: _comingSoon,
-                ),
-                SettingsRow(
-                  icon: Icons.forum_outlined,
-                  label: l10n.settingsSendFeedback,
-                  onTap: _comingSoon,
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            SettingsRowGroup(
-              children: [
-                SettingsRow(
-                  icon: Icons.logout,
-                  label: l10n.logout,
-                  iconColor: AppColors.ink.withValues(alpha: .6),
-                  onTap: _signOut,
-                ),
-                SettingsRow(
-                  icon: Icons.delete_forever_outlined,
-                  label: l10n.settingsDeleteAccount,
-                  iconColor: AppColors.danger,
-                  labelColor: AppColors.dangerLight,
-                  onTap: _delete,
-                ),
-              ],
+            SettingsRow(
+              icon: Icons.mail_outline,
+              label: user?.email ?? '',
+              value: since == null
+                  ? null
+                  : l10n.settingsAccountSince(DateFormat.yMMMd(locale).format(since)),
             ),
           ],
         ),
-      ),
+        const SizedBox(height: 16),
+        SettingsRowGroup(
+          children: [
+            SettingsRow(
+              icon: Icons.download_outlined,
+              label: l10n.settingsDownloadData,
+              onTap: _comingSoon,
+            ),
+            SettingsRow(
+              icon: Icons.gavel_outlined,
+              label: l10n.settingsTermsPrivacy,
+              onTap: _comingSoon,
+            ),
+            SettingsRow(
+              icon: Icons.forum_outlined,
+              label: l10n.settingsSendFeedback,
+              onTap: _comingSoon,
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        SettingsRowGroup(
+          children: [
+            SettingsRow(
+              icon: Icons.logout,
+              label: l10n.logout,
+              iconColor: AppColors.inkBody,
+              onTap: _signOut,
+            ),
+            SettingsRow(
+              icon: Icons.delete_forever_outlined,
+              label: l10n.settingsDeleteAccount,
+              iconColor: AppColors.danger,
+              labelColor: AppColors.dangerLight,
+              onTap: _delete,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

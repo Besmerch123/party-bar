@@ -56,7 +56,11 @@ class SettingsRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           child: Row(
             children: [
-              Icon(icon, size: 19, color: iconColor ?? AppColors.ink.withValues(alpha: .45)),
+              Icon(
+                icon,
+                size: 19,
+                color: iconColor ?? AppColors.inkMeta,
+              ),
               const SizedBox(width: 13),
               Expanded(
                 child: Text(
@@ -69,12 +73,17 @@ class SettingsRow extends StatelessWidget {
               ),
               if (value != null) ...[
                 const SizedBox(width: 10),
-                Text(
-                  value!,
-                  style: AppTypography.meta.copyWith(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.ink.withValues(alpha: .4),
+                Flexible(
+                  child: Text(
+                    value!,
+                    textAlign: TextAlign.right,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.meta.copyWith(
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.ink.withValues(alpha: .4),
+                    ),
                   ),
                 ),
               ],
@@ -83,7 +92,7 @@ class SettingsRow extends StatelessWidget {
                 Icon(
                   Icons.chevron_right,
                   size: 19,
-                  color: AppColors.ink.withValues(alpha: .3),
+                  color: AppColors.inkGhost,
                 ),
               ],
             ],
@@ -131,7 +140,9 @@ class SettingsToggleRow extends StatelessWidget {
                     Text(
                       title,
                       style: AppTypography.cardTitle.copyWith(
-                        color: dim ? AppColors.ink.withValues(alpha: .7) : AppColors.ink,
+                        color: dim
+                            ? AppColors.ink.withValues(alpha: .7)
+                            : AppColors.ink,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -139,7 +150,7 @@ class SettingsToggleRow extends StatelessWidget {
                       subtitle,
                       style: AppTypography.meta.copyWith(
                         fontSize: 11.5,
-                        color: AppColors.ink.withValues(alpha: .45),
+                        color: AppColors.inkMeta,
                       ),
                     ),
                   ],
@@ -153,7 +164,9 @@ class SettingsToggleRow extends StatelessWidget {
                 activeTrackColor: AppColors.signal,
                 inactiveThumbColor: Colors.white,
                 inactiveTrackColor: AppColors.fillStrong,
-                trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
+                trackOutlineColor: const WidgetStatePropertyAll(
+                  Colors.transparent,
+                ),
               ),
             ],
           ),
@@ -166,7 +179,11 @@ class SettingsToggleRow extends StatelessWidget {
 /// The same static note as [SettingsInfoRow], shaped to sit inside a
 /// [SettingsRowGroup] instead of standing as its own card.
 class SettingsInfoRowGroupItem extends StatelessWidget {
-  const SettingsInfoRowGroupItem({super.key, required this.icon, required this.text});
+  const SettingsInfoRowGroupItem({
+    super.key,
+    required this.icon,
+    required this.text,
+  });
 
   final IconData icon;
   final String text;
@@ -203,7 +220,12 @@ class SettingsInfoRowGroupItem extends StatelessWidget {
 /// convert" and "a party has no language" notes every Flow 09 screen uses to
 /// explain the edge it just drew.
 class SettingsInfoRow extends StatelessWidget {
-  const SettingsInfoRow({super.key, required this.icon, required this.text, this.color});
+  const SettingsInfoRow({
+    super.key,
+    required this.icon,
+    required this.text,
+    this.color,
+  });
 
   final IconData icon;
   final String text;
@@ -220,7 +242,11 @@ class SettingsInfoRow extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: color ?? AppColors.ink.withValues(alpha: .4)),
+          Icon(
+            icon,
+            size: 18,
+            color: color ?? AppColors.ink.withValues(alpha: .4),
+          ),
           const SizedBox(width: 11),
           Expanded(
             child: Text(

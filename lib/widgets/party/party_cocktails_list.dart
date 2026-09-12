@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:party_bar/data/cocktail_repository.dart';
 import 'package:party_bar/models/models.dart';
-import 'package:party_bar/services/cocktail_service.dart';
 import 'package:party_bar/services/party_service.dart';
 import 'package:party_bar/utils/localization_helper.dart';
 import 'package:party_bar/widgets/party/add_cocktails_bottom_sheet.dart';
@@ -22,7 +22,7 @@ class PartyCocktailsList extends StatefulWidget {
 }
 
 class _PartyCocktailsListState extends State<PartyCocktailsList> {
-  final CocktailService _cocktailService = CocktailService();
+  final CocktailRepository _cocktailRepository = CocktailRepository();
   final PartyService _partyService = PartyService();
 
   List<Cocktail> _cocktails = [];
@@ -56,7 +56,7 @@ class _PartyCocktailsListState extends State<PartyCocktailsList> {
     setState(() => _isLoading = true);
 
     try {
-      final cocktails = await _cocktailService.getCocktailsByIds(
+      final cocktails = await _cocktailRepository.getCocktailsByIds(
         widget.initialCocktailIds,
       );
 
