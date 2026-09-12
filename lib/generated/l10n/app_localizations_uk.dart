@@ -2583,7 +2583,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get hostEndParty => 'Завершити вечірку';
 
   @override
-  String get hostEndPartyHint => 'далі — що закінчилося';
+  String get hostEndPartyHint => 'далі — підсумок вечора';
 
   @override
   String get hostSaveFailed => 'Не вдалося зберегти. Спробуйте ще раз.';
@@ -2697,7 +2697,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get hostEndOpenFor => 'Відкрито';
 
   @override
-  String get hostEndConfirm => 'Завершити й перевірити запаси';
+  String get hostEndConfirm => 'Закрити бар';
 
   @override
   String get hostKeepPouring => 'Наливати далі';
@@ -3721,5 +3721,460 @@ class AppLocalizationsUk extends AppLocalizations {
       one: 'Скоро повернемось · $count тут',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get hostCloseTitle => 'Закрити бар?';
+
+  @override
+  String hostCloseWaitingBody(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count напою ще чекають — $names. Закриття скасує їх і пояснить чому на тих телефонах.',
+      many:
+          '$count напоїв ще чекають — $names. Закриття скасує їх і пояснить чому на тих телефонах.',
+      few:
+          '$count напої ще чекають — $names. Закриття скасує їх і пояснить чому на тих телефонах.',
+      one:
+          'Один напій ще чекає — $names. Закриття скасує його й пояснить чому на тому телефоні.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String hostClosePourFirst(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Спершу налий ці $count',
+      many: 'Спершу налий ці $count',
+      few: 'Спершу налий ці $count',
+      one: 'Спершу налий його',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String hostCloseAnyway(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Закрити все одно · скасує $count',
+      many: 'Закрити все одно · скасує $count',
+      few: 'Закрити все одно · скасує $count',
+      one: 'Закрити все одно · скасує 1',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostCloseFootnote =>
+      'Код перестає діяти тієї ж секунди. Нічого не видаляється.';
+
+  @override
+  String hostNamesPair(String first, String second) {
+    return '$first і $second';
+  }
+
+  @override
+  String hostNamesMore(String names, int count) {
+    return '$names і ще $count';
+  }
+
+  @override
+  String get hostYourNights => 'Твої вечори';
+
+  @override
+  String get recapLastNight => 'Минулої ночі';
+
+  @override
+  String get recapTonight => 'Сьогодні';
+
+  @override
+  String get recapEarlier => 'Раніше';
+
+  @override
+  String recapWhen(String date, String from, String until, String guests) {
+    return '$date · $from – $until · $guests';
+  }
+
+  @override
+  String recapWhenOpen(String date, String from, String guests) {
+    return '$date · з $from · $guests';
+  }
+
+  @override
+  String recapGuests(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count гостей',
+      many: '$count гостей',
+      few: '$count гості',
+      one: '$count гість',
+      zero: 'ще нікого',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recapPouredLabel => 'напоїв налито';
+
+  @override
+  String get recapWaitLabel => 'серед. очікування';
+
+  @override
+  String get recapRecipesLabel => 'рецептів у справі';
+
+  @override
+  String get recapNoWait => '—';
+
+  @override
+  String get recapWhatPeopleDrank => 'Що пили';
+
+  @override
+  String get recapNothingPoured =>
+      'Цього разу з бару нічого не вийшло. Вечір усе одно був.';
+
+  @override
+  String get recapRestockTitle => 'Що закінчилось';
+
+  @override
+  String recapRestockBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count пляшок робили всю роботу',
+      many: '$count пляшок робили всю роботу',
+      few: '$count пляшки робили всю роботу',
+      one: '$count пляшка робила всю роботу',
+      zero: 'Перевір полицю перед наступним разом',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recapSaveMenuTitle => 'Зберегти це меню';
+
+  @override
+  String recapSaveMenuBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count рецептів, у тому ж порядку',
+      many: '$count рецептів, у тому ж порядку',
+      few: '$count рецепти, у тому ж порядку',
+      one: '$count рецепт, у тому ж порядку',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String recapSaveMenuDone(String name) {
+    return 'Збережено як $name';
+  }
+
+  @override
+  String get recapShare => 'Поділитися підсумком';
+
+  @override
+  String get recapMissing => 'Цього вечора тут більше немає.';
+
+  @override
+  String get shareCardStory => 'Сторіс';
+
+  @override
+  String get shareCardSquare => 'Квадрат';
+
+  @override
+  String get shareCardNameGuests => 'Назвати гостей';
+
+  @override
+  String get shareCardShowWaits => 'Показати час очікування';
+
+  @override
+  String get shareCardSend => 'Надіслати в чат';
+
+  @override
+  String get shareCardFootnote =>
+      'Зберігається як зображення. Жодного посилання на вечірку.';
+
+  @override
+  String shareCardHeadline(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count напоїв',
+      many: '$count напоїв',
+      few: '$count напої',
+      one: '$count напій',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shareCardPeople(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count людей',
+      many: '$count людей',
+      few: '$count людини',
+      one: '$count людина',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shareCardUntil(String date, String time) {
+    return '$date, до $time';
+  }
+
+  @override
+  String shareCardDrinkChip(String drink, int count) {
+    return '$drink ×$count';
+  }
+
+  @override
+  String shareCardWaitChip(String wait) {
+    return '$wait очікування';
+  }
+
+  @override
+  String get shareCardFailed => 'Не вдалося зробити зображення.';
+
+  @override
+  String get presetTitle => 'Лишити це меню';
+
+  @override
+  String presetBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count рецептів у тому порядку, що були. Відкриються у два дотики.',
+      many:
+          '$count рецептів у тому порядку, що були. Відкриються у два дотики.',
+      few: '$count рецепти в тому порядку, що були. Відкриються у два дотики.',
+      one: 'Один рецепт, готовий відкритись наступного разу.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get presetNameHint => 'Ті самі дев\'ять';
+
+  @override
+  String presetKeepsRecipes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count рецептів, той самий порядок',
+      many: '$count рецептів, той самий порядок',
+      few: '$count рецепти, той самий порядок',
+      one: '$count рецепт',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get presetDropsParty => 'Без назви, коду й списку гостей';
+
+  @override
+  String get presetSave => 'Зберегти меню';
+
+  @override
+  String get presetFootnote =>
+      'Житиме поряд з іншими збереженими меню у «Провести вечірку».';
+
+  @override
+  String get presetNameRequired => 'Дай йому назву, щоб зберегти.';
+
+  @override
+  String presetSavedMenus(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count збережених меню',
+      many: '$count збережених меню',
+      few: '$count збережені меню',
+      one: '$count збережене меню',
+      zero: 'Збережені меню',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get presetPickTitle => 'Твої збережені меню';
+
+  @override
+  String presetMeta(int count, String date) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count рецептів · збережено $date',
+      many: '$count рецептів · збережено $date',
+      few: '$count рецепти · збережено $date',
+      one: '$count рецепт · збережено $date',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get presetNone =>
+      'Поки нічого не збережено. Лиши меню з вечора, який вдався — і воно з\'явиться тут.';
+
+  @override
+  String presetAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Додано $count напоїв',
+      many: 'Додано $count напоїв',
+      few: 'Додано $count напої',
+      one: 'Додано $count напій',
+      zero: 'Ці напої вже в меню',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get presetRemove => 'Забути це меню';
+
+  @override
+  String get nightsTitle => 'Твої вечори';
+
+  @override
+  String nightsSummary(String parties, String drinks, String since) {
+    return '$parties · $drinks · від $since';
+  }
+
+  @override
+  String nightsParties(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count вечірок',
+      many: '$count вечірок',
+      few: '$count вечірки',
+      one: '$count вечірка',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nightsDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count напоїв налито',
+      many: '$count напоїв налито',
+      few: '$count напої налито',
+      one: '$count напій налито',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nightsDrinksShort(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count напоїв',
+      many: '$count напоїв',
+      few: '$count напої',
+      one: '$count напій',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nightsRowMeta(String date, String drinks, String guests) {
+    return '$date · $drinks · $guests';
+  }
+
+  @override
+  String get nightsEmptyTitle => 'Ще жодного вечора';
+
+  @override
+  String get nightsEmptyBody =>
+      'Кожна закрита вечірка записує себе сюди — цифри, меню, що закінчилось.';
+
+  @override
+  String guestRecapEyebrow(String party, String date) {
+    return '$party · $date';
+  }
+
+  @override
+  String guestRecapTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ти випив\n$count',
+      many: 'Ти випив\n$count',
+      few: 'Ти випив\n$count',
+      one: 'Ти випив\nодин',
+      zero: 'Ти прийшов,\nти подивився',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String guestRecapTitleMade(int count, int drinks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ти випив $drinks,\nа зробив $count',
+      many: 'Ти випив $drinks,\nа зробив $count',
+      few: 'Ти випив $drinks,\nа зробив $count',
+      one: 'Ти випив $drinks,\nа зробив один',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String guestRecapForFriends(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count з них були для $names.',
+      many: '$count з них були для $names.',
+      few: '$count з них були для $names.',
+      one: 'Один з них був для $names.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String guestRecapLastDrink(String drink, String host) {
+    return '$drink був останнім, що вийшов з бару, перш ніж $host його закрив.';
+  }
+
+  @override
+  String guestRecapNothing(String host) {
+    return 'Цього разу ти нічого не замовив — бар був $host, а вечір твій.';
+  }
+
+  @override
+  String get guestRecapRecipe => 'Рецепт';
+
+  @override
+  String get guestRecapStartBar => 'Почни власний бар';
+
+  @override
+  String get guestRecapFootnote =>
+      'Ця сторінка лишиться на твоєму телефоні тиждень. Акаунт не потрібен.';
+
+  @override
+  String get guestRecapSee => 'Подивитись вечір';
+
+  @override
+  String get guestRecapGone => 'Той вечір уже відпустив.';
+
+  @override
+  String guestRecapYourNight(String party) {
+    return 'Твій вечір на $party';
   }
 }

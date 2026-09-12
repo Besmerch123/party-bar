@@ -124,8 +124,12 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
     _loadDismissedPulls();
 
     _partySub = PartyService().streamParty(widget.party.id).listen((party) {
-      // A party that ended is no longer somewhere to come back to.
-      if (party?.isEnded ?? false) GuestSession.forget();
+      // A party that ended is no longer somewhere to come back to — but its
+      // recap is, for a week (Flow 08 · screen 07).
+      if (party?.isEnded ?? false) {
+        GuestSession.forget();
+        GuestSession.rememberRecap(widget.party.id);
+      }
       if (mounted) setState(() => _party = party ?? widget.party);
     });
     _ordersSub = OrderService().streamPartyOrders(widget.party.id).listen(_onOrders);
@@ -317,6 +321,14 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
     }
   }
 
+  /// Flow 07 · screen 06 → Flow 08 · screen 07. The recap replaces the
+  /// closing screen rather than stacking over it: going "back" from the
+  /// night belongs at the party tab, not at a bar that has shut.
+  void _seeTheNight() => GoRouter.of(context).pushReplacement(
+    '${AppRoutes.guestRecap}/${_current.id}',
+    extra: _current,
+  );
+
   void _done() {
     final router = GoRouter.of(context);
     if (router.canPop()) {
@@ -356,6 +368,7 @@ class _GuestPartyScreenState extends State<GuestPartyScreen> {
         party: party,
         myOrders: myOrders,
         onDone: _done,
+        onSeeTheNight: _seeTheNight,
       );
     }
 

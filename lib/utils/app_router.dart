@@ -39,6 +39,17 @@ class AppRoutes {
   /// as `extra` from Go live, the live hub and Manage.
   static const String partyInvite = '/party/invite';
   static const String activePartyHost = '/party/active/host';
+
+  /// Flow 08 · screen 02 — the host's recap of one night, pushed as
+  /// '$partyRecap/:id' with the [Party] as `extra` where the caller has one.
+  static const String partyRecap = '/party/recap';
+
+  /// Flow 08 · screen 06 — every recap the host has, newest first.
+  static const String partyNights = '/party/nights';
+
+  /// Flow 08 · screen 07 — the guest's own night. Unguarded, like every
+  /// other guest screen: a guest never had an account to check.
+  static const String guestRecap = '/party/night';
   static const String activePartyGuest = '/party/active/guest';
   static const String profile = '/profile';
   static const String settings = '/settings';
@@ -179,11 +190,18 @@ GoRouter createAppRouter({required bool showWelcome}) {
       // Hosting is. A party needs an owner so a link can point at it.
       GoRoute(
         path: AppRoutes.createParty,
-        builder: (context, state) => AuthGuard(
-          redirectPath: AppRoutes.createParty,
-          reason: AuthReason.hostParty,
-          child: const CreatePartyScreen(),
-        ),
+        builder: (context, state) {
+          // Flow 08 - a saved menu can seed the draft, so the preset rides
+          // in as `extra`. Everything else about it stays behind.
+          final preset = state.extra;
+          return AuthGuard(
+            redirectPath: AppRoutes.createParty,
+            reason: AuthReason.hostParty,
+            child: CreatePartyScreen(
+              preset: preset is MenuPreset ? preset : null,
+            ),
+          );
+        },
       ),
       GoRoute(
         path: '${AppRoutes.partyDetails}/:id',
@@ -225,6 +243,45 @@ GoRouter createAppRouter({required bool showWelcome}) {
           );
         },
       ),
+      // Flow 08 - the recap and the archive. Both are the host's own, so
+      // both are guarded; a cold link loads the party by id.
+      GoRoute(
+        path: '${AppRoutes.partyRecap}/:id',
+        builder: (context, state) {
+          final partyId = state.pathParameters['id']!;
+          final party = state.extra;
+          return AuthGuard(
+            redirectPath: '${AppRoutes.partyRecap}/$partyId',
+            reason: AuthReason.hostParty,
+            child: PartyRecapScreen(
+              partyId: partyId,
+              party: party is Party ? party : null,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.partyNights,
+        builder: (context, state) => AuthGuard(
+          redirectPath: AppRoutes.partyNights,
+          reason: AuthReason.hostParty,
+          child: const PartyNightsScreen(),
+        ),
+      ),
+
+      // Flow 08 - screen 07. The guest's recap of somebody else's party,
+      // which their phone keeps for a week after the bar closes.
+      GoRoute(
+        path: '${AppRoutes.guestRecap}/:id',
+        builder: (context, state) {
+          final party = state.extra;
+          return GuestRecapScreen(
+            partyId: state.pathParameters['id']!,
+            party: party is Party ? party : null,
+          );
+        },
+      ),
+
       // Unguarded, for the same reason as joining. The party travels as
       // `extra` from the door that just resolved it; arriving without one —
       // a cold link, or the phone returning to a party it remembers — loads

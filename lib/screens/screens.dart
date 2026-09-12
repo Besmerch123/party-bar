@@ -17,6 +17,12 @@ export 'party/party_details_screen.dart';
 // Flow 06 - order & pour. The host's queue and the guest's party.
 export 'party/bar_queue_screen.dart';
 export 'party/guest_party_screen.dart';
+// Flow 08 - after the party. The host's recap and archive, the share card,
+// and the guest's own night.
+export 'party/party_recap_screen.dart';
+export 'party/party_nights_screen.dart';
+export 'party/share_card_screen.dart';
+export 'party/guest/guest_recap_screen.dart';
 export 'settings/profile_screen.dart';
 export 'settings/settings_screen.dart';
 // Flow 04 - My bar. The shelf, search (shared with the shopping list), the

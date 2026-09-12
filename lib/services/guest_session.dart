@@ -14,6 +14,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract final class GuestSession {
   static const _partyKey = 'guest_party_id';
 
+  /// Flow 08 · screen 07 — the party whose recap this phone can still read,
+  /// and when the night ended. A different key from [_partyKey] on purpose:
+  /// the binding dies with the party, the recap outlives it.
+  static const _recapKey = 'guest_recap_party_id';
+  static const _recapEndedKey = 'guest_recap_ended_at';
+
+  /// "This page stays on your phone for a week." Then it lets go.
+  static const recapLifetime = Duration(days: 7);
+
   /// The party this phone is at, or null once the night is over.
   static Future<String?> partyId() async {
     final prefs = await SharedPreferences.getInstance();
@@ -31,5 +40,44 @@ abstract final class GuestSession {
   static Future<void> forget() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_partyKey);
+  }
+
+  /// Called the moment the host closes the bar. Keeping the id rather than
+  /// the numbers means the recap is read fresh from the party's own orders —
+  /// a drink the host served after the guest pocketed their phone still
+  /// counts when the page is opened in the morning.
+  static Future<void> rememberRecap(String partyId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_recapKey, partyId);
+    await prefs.setInt(
+      _recapEndedKey,
+      DateTime.now().millisecondsSinceEpoch,
+    );
+  }
+
+  /// The recap this phone can still read, or null once the week is up. An
+  /// expired one clears itself here rather than waiting for a sweep that
+  /// nothing would ever run.
+  static Future<String?> recapPartyId() async {
+    final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getString(_recapKey);
+    if (id == null) return null;
+
+    final endedAt = prefs.getInt(_recapEndedKey);
+    if (endedAt == null) return id;
+
+    final age = DateTime.now().difference(
+      DateTime.fromMillisecondsSinceEpoch(endedAt),
+    );
+    if (age < recapLifetime) return id;
+
+    await forgetRecap();
+    return null;
+  }
+
+  static Future<void> forgetRecap() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_recapKey);
+    await prefs.remove(_recapEndedKey);
   }
 }

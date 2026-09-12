@@ -9,7 +9,6 @@ import '../../utils/localization_helper.dart';
 import '../../widgets/party/end_party_sheet.dart';
 import '../../widgets/party/manage_party_sheet.dart';
 import 'menu_all_cocktails_screen.dart';
-import 'party_ending.dart';
 
 /// The host's party-level verbs, shared by Flow 05's live hub and Flow 06's
 /// queue — pause, reopen, edit the menu, show the QR, end.
@@ -58,18 +57,23 @@ Future<List<Cocktail>?> editPartyMenu(
   return picked;
 }
 
-/// Flow 05 · screen 13. Whatever is still open is marked unserved, then the
-/// ran-out checklist is pushed *before* the status flips — ending swaps the
-/// live hub out of its tab, and a widget that is gone cannot navigate.
+/// Flow 05 · screen 13, rebuilt as Flow 08 · screen 01. Whatever is still
+/// open is marked unserved, then the party closes with the night's two
+/// numbers stamped on it.
 ///
-/// [replaceRoute] is for callers that are themselves a pushed route (the
-/// queue): the checklist takes their place instead of stacking over a party
-/// that no longer exists.
+/// Nothing is pushed afterwards. Nobody reads a recap at 01:24, and the
+/// restock is not a step the host has to walk through on the way out — both
+/// hang off [PartyRecapScreen], which the hub's ended card opens whenever
+/// the host is ready for it.
+///
+/// [popRoute] is for callers that are themselves a pushed route (the queue):
+/// they pop rather than sit on a party that no longer exists. The live hub
+/// is a tab and gets swapped out by the hosted-parties stream instead.
 Future<void> endParty(
   BuildContext context,
   Party party,
   List<CocktailOrder> orders, {
-  bool replaceRoute = false,
+  bool popRoute = false,
 }) async {
   final choice = await showEndPartySheet(context, party: party, orders: orders);
   if (!context.mounted) return;
@@ -81,13 +85,14 @@ Future<void> endParty(
       final router = GoRouter.of(context);
       try {
         await OrderService().cancelForPartyEnd(orders);
-        final args = await ranOutArgsFor(party);
-        if (replaceRoute) {
-          router.pushReplacement(AppRoutes.barRanOut, extra: args);
-        } else {
-          router.push(AppRoutes.barRanOut, extra: args);
-        }
-        await PartyService().updatePartyStatus(party.id, PartyStatus.ended);
+        // Counted after the cancellations, so a drink that was still in the
+        // queue never lands in the night's total.
+        await PartyService().closeParty(
+          party.id,
+          drinksPoured: orders.where((o) => o.isDelivered).length,
+          guestCount: guestCountOf(orders),
+        );
+        if (popRoute && router.canPop()) router.pop();
       } catch (_) {
         messenger.showSnackBar(SnackBar(content: Text(failed)));
       }
@@ -105,7 +110,7 @@ Future<void> manageParty(
   required Party party,
   required List<CocktailOrder> orders,
   required Future<void> Function() onEditMenu,
-  bool replaceRouteOnEnd = false,
+  bool popRouteOnEnd = false,
 }) async {
   final action = await showManagePartySheet(
     context,
@@ -126,12 +131,7 @@ Future<void> manageParty(
     case ManagePartyAction.invite:
       openPartyInvite(context, party);
     case ManagePartyAction.end:
-      await endParty(
-        context,
-        party,
-        orders,
-        replaceRoute: replaceRouteOnEnd,
-      );
+      await endParty(context, party, orders, popRoute: popRouteOnEnd);
     case null:
       break;
   }

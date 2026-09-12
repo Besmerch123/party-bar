@@ -18,6 +18,7 @@ import '../../widgets/common/glass.dart';
 import '../../widgets/party/host_party_card.dart';
 import '../../widgets/party/host_state_pill.dart';
 import 'live_party_hub.dart';
+import 'party_nights_screen.dart';
 
 const _heroImage = 'assets/images/onboarding/midnight_orchard.jpg';
 const _recapImage = 'assets/images/onboarding/cosmopolitan.jpg';
@@ -44,6 +45,10 @@ class _PartyHubScreenState extends State<PartyHubScreen> {
   /// six characters. Dropped the moment the host closes the bar.
   Stream<Party?>? _guestParty;
 
+  /// Flow 08 · screen 07 — a night this phone was a guest at, whose recap it
+  /// can still read. Lives a week past the party it belonged to.
+  Party? _guestRecap;
+
   @override
   void initState() {
     super.initState();
@@ -53,10 +58,27 @@ class _PartyHubScreenState extends State<PartyHubScreen> {
         _guestParty = (_service ??= PartyService()).streamParty(id);
       });
     });
+    _loadGuestRecap();
+  }
+
+  Future<void> _loadGuestRecap() async {
+    final id = await GuestSession.recapPartyId();
+    if (id == null) return;
+    try {
+      final party = await (_service ??= PartyService()).getPartyById(id);
+      if (mounted && party != null) setState(() => _guestRecap = party);
+    } catch (_) {
+      // A recap that will not load is simply not offered — the phone has
+      // nothing else riding on it.
+    }
   }
 
   void _openGuestParty(Party party) {
     context.push('${AppRoutes.activePartyGuest}/${party.id}', extra: party);
+  }
+
+  void _openGuestRecap(Party party) {
+    context.push('${AppRoutes.guestRecap}/${party.id}', extra: party);
   }
 
   /// One subscription per signed-in account, rebuilt only when the account
@@ -96,6 +118,9 @@ class _PartyHubScreenState extends State<PartyHubScreen> {
   void _openParty(Party party) {
     if (party.isLive) {
       context.push('${AppRoutes.activePartyHost}/${party.id}', extra: party);
+    } else if (party.isEnded) {
+      // Flow 08 — a night that is over is a recap, not a party to manage.
+      context.push('${AppRoutes.partyRecap}/${party.id}', extra: party);
     } else {
       context.push('${AppRoutes.partyDetails}/${party.id}');
     }
@@ -121,9 +146,11 @@ class _PartyHubScreenState extends State<PartyHubScreen> {
             return _BarClosed(
               parties: const [],
               guestParty: guestParty,
+              guestRecap: _guestRecap,
               onHost: _createParty,
               onOpen: _openParty,
               onRejoin: _openGuestParty,
+              onGuestRecap: _openGuestRecap,
             );
           }
 
@@ -137,9 +164,11 @@ class _PartyHubScreenState extends State<PartyHubScreen> {
               return _BarClosed(
                 parties: parties,
                 guestParty: guestParty,
+                guestRecap: _guestRecap,
                 onHost: _createParty,
                 onOpen: _openParty,
                 onRejoin: _openGuestParty,
+                onGuestRecap: _openGuestRecap,
               );
             },
           );
@@ -155,9 +184,11 @@ class _BarClosed extends StatelessWidget {
   const _BarClosed({
     required this.parties,
     required this.guestParty,
+    required this.guestRecap,
     required this.onHost,
     required this.onOpen,
     required this.onRejoin,
+    required this.onGuestRecap,
   });
 
   final List<Party> parties;
@@ -166,9 +197,13 @@ class _BarClosed extends StatelessWidget {
   /// joins [_cards] below, which are the host's own.
   final Party? guestParty;
 
+  /// A party this phone was a guest at, whose recap it can still read.
+  final Party? guestRecap;
+
   final VoidCallback onHost;
   final ValueChanged<Party> onOpen;
   final ValueChanged<Party> onRejoin;
+  final ValueChanged<Party> onGuestRecap;
 
   /// Anything live first, then every draft, then only the last party that
   /// ended — the recap worth a glance, not an archive.
@@ -281,6 +316,32 @@ class _BarClosed extends StatelessWidget {
                           child: _card(context, party),
                         ),
                       ],
+                      if (guestRecap case final night?) ...[
+                        if (cards.isNotEmpty) const SizedBox(height: 10),
+                        Padding(
+                          padding: AppSpacing.screen,
+                          child: HostPartyCard(
+                            title: l10n.guestRecapYourNight(night.name),
+                            meta: l10n.guestRecapFootnote,
+                            actionLabel: l10n.guestRecapSee,
+                            image: _recapImage,
+                            actionColor: AppColors.signalLight,
+                            onTap: () => onGuestRecap(night),
+                          ),
+                        ),
+                      ],
+                      if (parties.any((p) => p.isEnded)) ...[
+                        const SizedBox(height: 14),
+                        Padding(
+                          padding: AppSpacing.screen,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: YourNightsRow(
+                              onTap: () => openYourNights(context),
+                            ),
+                          ),
+                        ),
+                      ],
                       const SizedBox(height: 16),
                     ],
                   ),
@@ -310,7 +371,7 @@ class _BarClosed extends StatelessWidget {
     if (party.isEnded) {
       return HostPartyCard(
         title: party.name,
-        meta: l10n.hostEndedMeta(party.totalOrders),
+        meta: l10n.hostEndedMeta(party.drinksPoured ?? party.totalOrders),
         actionLabel: l10n.hostRecap,
         image: _recapImage,
         actionColor: AppColors.signalLight,

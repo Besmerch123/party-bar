@@ -162,6 +162,13 @@ BarNightStats barNightStatsOf(Iterable<CocktailOrder> orders) {
   );
 }
 
+/// How many people were at the bar: distinct phones, falling back to the
+/// name for orders older than Flow 06, which carry no guest id. A guest
+/// whose only drink was cancelled was still in the room, so nothing is
+/// filtered out here.
+int guestCountOf(Iterable<CocktailOrder> orders) =>
+    orders.map((o) => o.guestId ?? o.guestName).toSet().length;
+
 /// How many of each drink have been ordered tonight, cancellations aside.
 Map<String, int> orderedTonight(Iterable<CocktailOrder> orders) {
   final counts = <String, int>{};

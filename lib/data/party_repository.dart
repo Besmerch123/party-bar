@@ -98,6 +98,26 @@ class PartyRepository {
     }
   }
 
+  /// Flow 08 · screen 01 — closing the bar, with the night's two numbers
+  /// stamped on the way out so the history never has to re-read a party's
+  /// whole order list to say "31 drinks, 9 guests".
+  Future<void> closeParty(
+    String partyId, {
+    required int drinksPoured,
+    required int guestCount,
+  }) async {
+    try {
+      await _partiesCollection.doc(partyId).update({
+        'status': PartyStatus.ended.name,
+        'endedAt': FieldValue.serverTimestamp(),
+        'drinksPoured': drinksPoured,
+        'guestCount': guestCount,
+      });
+    } catch (e) {
+      throw Exception('Failed to close party: $e');
+    }
+  }
+
   /// Flow 05 · screen 08 — the one commitment. The code starts working and
   /// the live chip starts counting from the server's clock, not the phone's.
   Future<void> goLive(String partyId) async {

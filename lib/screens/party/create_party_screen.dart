@@ -15,6 +15,7 @@ import '../../widgets/auth/auth_controls.dart';
 import '../../widgets/auth/signed_in_banner.dart';
 import '../../widgets/party/host_filter_pill.dart';
 import '../../widgets/party/menu_cocktail_tile.dart';
+import '../../widgets/party/save_menu_sheet.dart';
 import '../../widgets/party/missing_ingredient_sheet.dart';
 import 'menu_all_cocktails_screen.dart';
 import 'menu_search_screen.dart';
@@ -28,7 +29,12 @@ const kPartyNameMaxLength = 40;
 /// finished, so backing out of step 1 leaves nothing behind; the draft is
 /// the only thing this screen ever creates, and its code stays dead.
 class CreatePartyScreen extends StatefulWidget {
-  const CreatePartyScreen({super.key});
+  const CreatePartyScreen({super.key, this.preset});
+
+  /// Flow 08 — a menu kept from an earlier night. Its drinks are ticked as
+  /// soon as the catalogue is in; nothing else about the party it came from
+  /// travels with it.
+  final MenuPreset? preset;
 
   @override
   State<CreatePartyScreen> createState() => _CreatePartyScreenState();
@@ -54,10 +60,14 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
 
     // The menu is built from what Explore has fetched; start that now so the
     // grid is usually ready by the time step 2 opens.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
       final explore = context.read<ExploreProvider>();
-      if (!explore.hasLoaded && !explore.isLoading) explore.load();
+      if (!explore.hasLoaded && !explore.isLoading) await explore.load();
+
+      final preset = widget.preset;
+      if (!mounted || preset == null) return;
+      _applyPreset(preset, explore);
     });
   }
 
@@ -70,6 +80,34 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
   }
 
   bool get _nameReady => _name.text.trim().isNotEmpty;
+
+  /// Ticks everything in [preset] the catalogue actually has, and says how
+  /// many that was. A recipe that has since left the catalogue is skipped in
+  /// silence — there is nothing the host could do about it here.
+  int _applyPreset(MenuPreset preset, ExploreProvider explore) {
+    final byId = {for (final cocktail in explore.fetched) cocktail.id: cocktail};
+    var added = 0;
+    for (final id in preset.cocktailIds) {
+      final cocktail = byId[id];
+      if (cocktail == null || _menu.contains(id)) continue;
+      _menu.add(cocktail);
+      added++;
+    }
+    return added;
+  }
+
+  /// Flow 08 · screen 05, coming back the other way: a saved menu reopened
+  /// into a new party.
+  Future<void> _openPresets() async {
+    final preset = await showMenuPresetPicker(context);
+    if (preset == null || !mounted) return;
+
+    final messenger = ScaffoldMessenger.of(context);
+    final added = _applyPreset(preset, context.read<ExploreProvider>());
+    messenger.showSnackBar(
+      SnackBar(content: Text(context.l10n.presetAdded(added))),
+    );
+  }
 
   void _useIdea(String idea) {
     _name.value = TextEditingValue(
@@ -325,6 +363,11 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
                   HostFilterPill(
                     label: l10n.hostMenuFilterAll,
                     onTap: () => _pushWithMenu(const MenuAllCocktailsScreen()),
+                  ),
+                  HostFilterPill(
+                    label: l10n.presetSavedMenus(0),
+                    icon: Icons.bookmark_outline,
+                    onTap: _openPresets,
                   ),
                 ],
               ),

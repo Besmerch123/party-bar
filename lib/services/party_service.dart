@@ -119,6 +119,17 @@ class PartyService {
     }
   }
 
+  /// Flow 08 — the one-way door, with the night counted on the way through.
+  Future<void> closeParty(
+    String partyId, {
+    required int drinksPoured,
+    required int guestCount,
+  }) => _repository.closeParty(
+    partyId,
+    drinksPoured: drinksPoured,
+    guestCount: guestCount,
+  );
+
   /// Update party information (name, description and when)
   Future<void> updateParty(
     String partyId, {

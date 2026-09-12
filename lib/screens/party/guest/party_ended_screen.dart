@@ -18,6 +18,7 @@ class PartyEndedScreen extends StatelessWidget {
     required this.party,
     required this.myOrders,
     required this.onDone,
+    this.onSeeTheNight,
   });
 
   final Party party;
@@ -27,6 +28,11 @@ class PartyEndedScreen extends StatelessWidget {
   final List<CocktailOrder> myOrders;
 
   final VoidCallback onDone;
+
+  /// Flow 08 · screen 07. Null only where the recap is not reachable — the
+  /// screen then ships the numbers and a single way out rather than a dead
+  /// button.
+  final VoidCallback? onSeeTheNight;
 
   /// A cancelled drink was never drunk, so it is not part of the night.
   List<CocktailOrder> get _poured =>
@@ -114,12 +120,27 @@ class PartyEndedScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  AuthPillButton(
-                    label: l10n.joinEndedDone,
-                    primary: true,
-                    height: AppSizes.buttonPrimary,
-                    onPressed: onDone,
-                  ),
+                  if (onSeeTheNight case final see?) ...[
+                    AuthPillButton(
+                      label: l10n.guestRecapSee,
+                      icon: Icons.auto_stories,
+                      primary: true,
+                      height: AppSizes.buttonPrimary,
+                      onPressed: see,
+                    ),
+                    const SizedBox(height: 10),
+                    AuthPillButton(
+                      label: l10n.joinEndedDone,
+                      height: AppSizes.buttonGhost,
+                      onPressed: onDone,
+                    ),
+                  ] else
+                    AuthPillButton(
+                      label: l10n.joinEndedDone,
+                      primary: true,
+                      height: AppSizes.buttonPrimary,
+                      onPressed: onDone,
+                    ),
                   const SizedBox(height: 14),
                   Text(
                     l10n.joinEndedFootnote,

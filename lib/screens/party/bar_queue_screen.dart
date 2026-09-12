@@ -189,7 +189,7 @@ class _BarQueueScreenState extends State<BarQueueScreen> {
                         _cocktails.resolve(current.availableCocktailIds),
                       );
                     },
-                    replaceRouteOnEnd: true,
+                    popRouteOnEnd: true,
                   ),
                   onInvite: () => openPartyInvite(context, current),
                   onStartPouring: (order) => _startPouring(current, order, all),

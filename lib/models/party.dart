@@ -26,6 +26,16 @@ class Party {
   /// When the bar was last paused, for "BAR PAUSED · 6M".
   final DateTime? pausedAt;
 
+  /// Flow 08 — what the night actually served, stamped once when the host
+  /// closes the bar. [totalOrders] counts what was *sent*, cancellations
+  /// included, so it overstates a night; this is the number the history and
+  /// the recap card show. Null for every party that ended before Flow 08,
+  /// which falls back to [totalOrders].
+  final int? drinksPoured;
+
+  /// How many people ordered, stamped alongside [drinksPoured].
+  final int? guestCount;
+
   const Party({
     required this.id,
     required this.name,
@@ -41,6 +51,8 @@ class Party {
     this.scheduledFor,
     this.wentLiveAt,
     this.pausedAt,
+    this.drinksPoured,
+    this.guestCount,
   });
 
   bool get isDraft => status == PartyStatus.draft || status == PartyStatus.idle;
@@ -67,6 +79,8 @@ class Party {
       'scheduledFor': scheduledFor?.millisecondsSinceEpoch,
       'wentLiveAt': wentLiveAt?.millisecondsSinceEpoch,
       'pausedAt': pausedAt?.millisecondsSinceEpoch,
+      'drinksPoured': drinksPoured,
+      'guestCount': guestCount,
     };
   }
 
@@ -95,6 +109,8 @@ class Party {
       scheduledFor: optionalDate('scheduledFor'),
       wentLiveAt: optionalDate('wentLiveAt'),
       pausedAt: optionalDate('pausedAt'),
+      drinksPoured: map['drinksPoured']?.toInt(),
+      guestCount: map['guestCount']?.toInt(),
     );
   }
 
@@ -114,6 +130,8 @@ class Party {
     bool clearScheduledFor = false,
     DateTime? wentLiveAt,
     DateTime? pausedAt,
+    int? drinksPoured,
+    int? guestCount,
   }) {
     return Party(
       id: id ?? this.id,
@@ -132,6 +150,8 @@ class Party {
           : scheduledFor ?? this.scheduledFor,
       wentLiveAt: wentLiveAt ?? this.wentLiveAt,
       pausedAt: pausedAt ?? this.pausedAt,
+      drinksPoured: drinksPoured ?? this.drinksPoured,
+      guestCount: guestCount ?? this.guestCount,
     );
   }
 }

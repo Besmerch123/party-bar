@@ -4067,7 +4067,7 @@ abstract class AppLocalizations {
   /// Flow 05 - Host. Screen 11. Trailing hint on the end row: ending opens the ran-out checklist
   ///
   /// In en, this message translates to:
-  /// **'then what ran out'**
+  /// **'then the recap'**
   String get hostEndPartyHint;
 
   /// Flow 05 - Host. Snackbar when a change to a live party fails
@@ -4187,7 +4187,7 @@ abstract class AppLocalizations {
   /// Flow 05 - Host. Screen 13. The one-way commit; opens the ran-out checklist
   ///
   /// In en, this message translates to:
-  /// **'End & check what ran out'**
+  /// **'Close the bar'**
   String get hostEndConfirm;
 
   /// Flow 05 - Host. Screen 13. Dismisses the end sheet
@@ -5509,6 +5509,444 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{Back in a bit · 1 here} other{Back in a bit · {count} here}}'**
   String joinPausedGuests(int count);
+
+  /// Flow 08 - After the party. Screen 01. The sheet title while drinks are still in the queue
+  ///
+  /// In en, this message translates to:
+  /// **'Close the bar?'**
+  String get hostCloseTitle;
+
+  /// Flow 08 - After the party. Screen 01. What closing costs, with the guests named
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{One drink is still waiting — {names}. Closing cancels it and tells that phone why.} other{{count} drinks are still waiting — {names}. Closing cancels them and tells those phones why.}}'**
+  String hostCloseWaitingBody(int count, String names);
+
+  /// Flow 08 - After the party. Screen 01. The primary way out of the sheet - back to the queue
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Pour that one first} other{Pour those {count} first}}'**
+  String hostClosePourFirst(int count);
+
+  /// Flow 08 - After the party. Screen 01. The irreversible second choice
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Close anyway · cancels 1} other{Close anyway · cancels {count}}}'**
+  String hostCloseAnyway(int count);
+
+  /// Flow 08 - After the party. Screen 01. What closing does and does not destroy
+  ///
+  /// In en, this message translates to:
+  /// **'The code stops working the second you close. Nothing is deleted.'**
+  String get hostCloseFootnote;
+
+  /// Flow 08 - After the party. Screen 01. Two guest names joined for the closing sheet
+  ///
+  /// In en, this message translates to:
+  /// **'{first} and {second}'**
+  String hostNamesPair(String first, String second);
+
+  /// Flow 08 - After the party. Screen 01. More waiting guests than the sentence can carry
+  ///
+  /// In en, this message translates to:
+  /// **'{names} and {count} more'**
+  String hostNamesMore(String names, int count);
+
+  /// Flow 08 - After the party. The party tab's way into the history of every recap
+  ///
+  /// In en, this message translates to:
+  /// **'Your nights'**
+  String get hostYourNights;
+
+  /// Flow 08 - After the party. Screen 02. The chip over the recap of the party that just ended
+  ///
+  /// In en, this message translates to:
+  /// **'Last night'**
+  String get recapLastNight;
+
+  /// Flow 08 - After the party. Screen 02. The chip when the recap is opened while the bar is still open
+  ///
+  /// In en, this message translates to:
+  /// **'Tonight'**
+  String get recapTonight;
+
+  /// Flow 08 - After the party. Screen 02. The chip over a recap from an older night
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier'**
+  String get recapEarlier;
+
+  /// Flow 08 - After the party. Screen 02. The line under the party name
+  ///
+  /// In en, this message translates to:
+  /// **'{date} · {from} – {until} · {guests}'**
+  String recapWhen(String date, String from, String until, String guests);
+
+  /// Flow 08 - After the party. Screen 02. The same line for a party that has not closed yet
+  ///
+  /// In en, this message translates to:
+  /// **'{date} · from {from} · {guests}'**
+  String recapWhenOpen(String date, String from, String guests);
+
+  /// Flow 08 - After the party. Screen 02. How many people ordered
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{nobody yet} =1{1 guest} other{{count} guests}}'**
+  String recapGuests(int count);
+
+  /// Flow 08 - After the party. Screen 02. The label under the one number the host earned
+  ///
+  /// In en, this message translates to:
+  /// **'drinks poured'**
+  String get recapPouredLabel;
+
+  /// Flow 08 - After the party. Screen 02. The label under the average time from sent to on the counter
+  ///
+  /// In en, this message translates to:
+  /// **'avg. wait'**
+  String get recapWaitLabel;
+
+  /// Flow 08 - After the party. Screen 02. The label under how many distinct drinks were served
+  ///
+  /// In en, this message translates to:
+  /// **'recipes used'**
+  String get recapRecipesLabel;
+
+  /// Flow 08 - After the party. Screen 02. The average wait before anything was served
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get recapNoWait;
+
+  /// Flow 08 - After the party. Screen 02. The heading over the drink tallies
+  ///
+  /// In en, this message translates to:
+  /// **'What people drank'**
+  String get recapWhatPeopleDrank;
+
+  /// Flow 08 - After the party. Screen 02. A party that served nothing - never scolding, never cheerful
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing left the bar this time. The night still counts.'**
+  String get recapNothingPoured;
+
+  /// Flow 08 - After the party. Screen 02. The card that opens the shelf checklist
+  ///
+  /// In en, this message translates to:
+  /// **'What ran out'**
+  String get recapRestockTitle;
+
+  /// Flow 08 - After the party. Screen 02. How many of the host's bottles the night actually leaned on
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Check the shelf before next time} =1{1 bottle did the pouring} other{{count} bottles did the pouring}}'**
+  String recapRestockBody(int count);
+
+  /// Flow 08 - After the party. Screen 02. The card that opens the save-a-preset sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Save this menu'**
+  String get recapSaveMenuTitle;
+
+  /// Flow 08 - After the party. Screen 02. What saving the menu keeps
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 recipe, in order} other{{count} recipes, in order}}'**
+  String recapSaveMenuBody(int count);
+
+  /// Flow 08 - After the party. Screen 02. The card once the menu has been kept
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as {name}'**
+  String recapSaveMenuDone(String name);
+
+  /// Flow 08 - After the party. Screen 02. The one commitment on the recap
+  ///
+  /// In en, this message translates to:
+  /// **'Share the recap'**
+  String get recapShare;
+
+  /// Flow 08 - After the party. Screen 02. A recap whose party could not be loaded
+  ///
+  /// In en, this message translates to:
+  /// **'That night isn’t here any more.'**
+  String get recapMissing;
+
+  /// Flow 08 - After the party. Screen 03. The tall share card shape
+  ///
+  /// In en, this message translates to:
+  /// **'Story'**
+  String get shareCardStory;
+
+  /// Flow 08 - After the party. Screen 03. The square share card shape
+  ///
+  /// In en, this message translates to:
+  /// **'Square'**
+  String get shareCardSquare;
+
+  /// Flow 08 - After the party. Screen 03. The toggle that puts guest names on the card - off by default
+  ///
+  /// In en, this message translates to:
+  /// **'Name the guests'**
+  String get shareCardNameGuests;
+
+  /// Flow 08 - After the party. Screen 03. The toggle that puts the average wait on the card
+  ///
+  /// In en, this message translates to:
+  /// **'Show wait times'**
+  String get shareCardShowWaits;
+
+  /// Flow 08 - After the party. Screen 03. Hands the image to the system share sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Send to the group chat'**
+  String get shareCardSend;
+
+  /// Flow 08 - After the party. Screen 03. What the card is and is not
+  ///
+  /// In en, this message translates to:
+  /// **'Saves as an image. No link back to the party.'**
+  String get shareCardFootnote;
+
+  /// Flow 08 - After the party. Screen 03. The card's own headline
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 drink} other{{count} drinks}}'**
+  String shareCardHeadline(int count);
+
+  /// Flow 08 - After the party. Screen 03. The card counts people rather than naming them
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 person} other{{count} people}}'**
+  String shareCardPeople(int count);
+
+  /// Flow 08 - After the party. Screen 03. When the night ended
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, until {time}'**
+  String shareCardUntil(String date, String time);
+
+  /// Flow 08 - After the party. Screen 03. One of the night's busiest drinks
+  ///
+  /// In en, this message translates to:
+  /// **'{drink} ×{count}'**
+  String shareCardDrinkChip(String drink, int count);
+
+  /// Flow 08 - After the party. Screen 03. The average wait, only when the host turned it on
+  ///
+  /// In en, this message translates to:
+  /// **'{wait} avg wait'**
+  String shareCardWaitChip(String wait);
+
+  /// Flow 08 - After the party. Screen 03. Rendering or saving the card failed
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t make the image.'**
+  String get shareCardFailed;
+
+  /// Flow 08 - After the party. Screen 05. The save-a-menu sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Keep this menu'**
+  String get presetTitle;
+
+  /// Flow 08 - After the party. Screen 05. What a preset is
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{One recipe, ready to reopen next time.} other{{count} recipes in the order you had them. Openable in two taps next time.}}'**
+  String presetBody(int count);
+
+  /// Flow 08 - After the party. Screen 05. The placeholder in the preset name field
+  ///
+  /// In en, this message translates to:
+  /// **'The birthday nine'**
+  String get presetNameHint;
+
+  /// Flow 08 - After the party. Screen 05. What travels with the preset
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 recipe} other{{count} recipes, same order}}'**
+  String presetKeepsRecipes(int count);
+
+  /// Flow 08 - After the party. Screen 05. What deliberately does not travel
+  ///
+  /// In en, this message translates to:
+  /// **'Not the name, code or guest list'**
+  String get presetDropsParty;
+
+  /// Flow 08 - After the party. Screen 05. Commits the preset
+  ///
+  /// In en, this message translates to:
+  /// **'Save the menu'**
+  String get presetSave;
+
+  /// Flow 08 - After the party. Screen 05. Where a saved menu turns up again
+  ///
+  /// In en, this message translates to:
+  /// **'Lives with your other saved menus on Host a party.'**
+  String get presetFootnote;
+
+  /// Flow 08 - After the party. Screen 05. The one thing the sheet needs
+  ///
+  /// In en, this message translates to:
+  /// **'Give it a name to save it.'**
+  String get presetNameRequired;
+
+  /// Flow 08 - After the party. Screens 05 and 06. How many menus the phone keeps
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Saved menus} =1{1 saved menu} other{{count} saved menus}}'**
+  String presetSavedMenus(int count);
+
+  /// Flow 05 - Host a party. The sheet that reopens a menu kept from an earlier night
+  ///
+  /// In en, this message translates to:
+  /// **'Your saved menus'**
+  String get presetPickTitle;
+
+  /// Flow 05 - Host a party. One saved menu in the picker
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 recipe · saved {date}} other{{count} recipes · saved {date}}}'**
+  String presetMeta(int count, String date);
+
+  /// Flow 05 - Host a party. The picker with no presets in it
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing saved yet. Keep a menu from a night that worked and it turns up here.'**
+  String get presetNone;
+
+  /// Flow 05 - Host a party. What reopening a saved menu did
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Those drinks are already on the menu} =1{Added 1 drink} other{Added {count} drinks}}'**
+  String presetAdded(int count);
+
+  /// Flow 05 - Host a party. Drops a saved menu from the phone
+  ///
+  /// In en, this message translates to:
+  /// **'Forget this menu'**
+  String get presetRemove;
+
+  /// Flow 08 - After the party. Screen 06. Every recap, which never expires
+  ///
+  /// In en, this message translates to:
+  /// **'Your nights'**
+  String get nightsTitle;
+
+  /// Flow 08 - After the party. Screen 06. The line under the title
+  ///
+  /// In en, this message translates to:
+  /// **'{parties} · {drinks} · since {since}'**
+  String nightsSummary(String parties, String drinks, String since);
+
+  /// Flow 08 - After the party. Screen 06. How many nights the host has closed
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 party} other{{count} parties}}'**
+  String nightsParties(int count);
+
+  /// Flow 08 - After the party. Screen 06. The running total across every night
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 drink poured} other{{count} drinks poured}}'**
+  String nightsDrinks(int count);
+
+  /// Flow 08 - After the party. Screen 06. The monospaced count on a night card
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 drink} other{{count} drinks}}'**
+  String nightsDrinksShort(int count);
+
+  /// Flow 08 - After the party. Screen 06. The second line of an older night
+  ///
+  /// In en, this message translates to:
+  /// **'{date} · {drinks} · {guests}'**
+  String nightsRowMeta(String date, String drinks, String guests);
+
+  /// Flow 08 - After the party. Screen 06. A host who has never closed a party
+  ///
+  /// In en, this message translates to:
+  /// **'No nights yet'**
+  String get nightsEmptyTitle;
+
+  /// Flow 08 - After the party. Screen 06. What the history will hold
+  ///
+  /// In en, this message translates to:
+  /// **'Every party you close writes itself down here — the numbers, the menu, what ran out.'**
+  String get nightsEmptyBody;
+
+  /// Flow 08 - After the party. Screen 07. Whose night this was
+  ///
+  /// In en, this message translates to:
+  /// **'{party} · {date}'**
+  String guestRecapEyebrow(String party, String date);
+
+  /// Flow 08 - After the party. Screen 07. The headline when nothing was bought for anyone else
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{You came,\nyou looked} =1{You had\none} other{You had\n{count}}}'**
+  String guestRecapTitle(int count);
+
+  /// Flow 08 - After the party. Screen 07. The headline for a guest who bought rounds
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{You had {drinks},\nand made one} other{You had {drinks},\nand made {count}}}'**
+  String guestRecapTitleMade(int count, int drinks);
+
+  /// Flow 08 - After the party. Screen 07. Who the drinks were for
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{One of them was for {names}.} other{{count} of them were for {names}.}}'**
+  String guestRecapForFriends(int count, String names);
+
+  /// Flow 08 - After the party. Screen 07. The drink the night ends on
+  ///
+  /// In en, this message translates to:
+  /// **'The {drink} was the last one out of the bar before {host} closed it.'**
+  String guestRecapLastDrink(String drink, String host);
+
+  /// Flow 08 - After the party. Screen 07. A guest who never sent a round
+  ///
+  /// In en, this message translates to:
+  /// **'You didn’t order anything this time — the bar was {host}’s, and the night was yours.'**
+  String guestRecapNothing(String host);
+
+  /// Flow 08 - After the party. Screen 07. The chip that opens the drink they ended on
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe'**
+  String get guestRecapRecipe;
+
+  /// Flow 08 - After the party. Screen 07. The only place the app asks a guest to host
+  ///
+  /// In en, this message translates to:
+  /// **'Start a bar of your own'**
+  String get guestRecapStartBar;
+
+  /// Flow 08 - After the party. Screen 07. How long the guest's recap lasts
+  ///
+  /// In en, this message translates to:
+  /// **'This page stays on your phone for a week. No account needed to read it.'**
+  String get guestRecapFootnote;
+
+  /// Flow 07 - Join a party. Screen 06. Opens the guest's own recap from the closed bar
+  ///
+  /// In en, this message translates to:
+  /// **'See the night'**
+  String get guestRecapSee;
+
+  /// Flow 08 - After the party. Screen 07. The recap a week later, or one this phone was never at
+  ///
+  /// In en, this message translates to:
+  /// **'That night has let go.'**
+  String get guestRecapGone;
+
+  /// Flow 08 - After the party. The party tab's way back into a recap the phone still holds
+  ///
+  /// In en, this message translates to:
+  /// **'Your night at {party}'**
+  String guestRecapYourNight(String party);
 }
 
 class _AppLocalizationsDelegate

@@ -3454,7 +3454,7 @@
   "@hostEndParty": {
     "description": "Flow 05 - Host. Screen 11. Row that opens the end confirmation"
   },
-  "hostEndPartyHint": "then what ran out",
+  "hostEndPartyHint": "then the recap",
   "@hostEndPartyHint": {
     "description": "Flow 05 - Host. Screen 11. Trailing hint on the end row: ending opens the ran-out checklist"
   },
@@ -3570,7 +3570,7 @@
   "@hostEndOpenFor": {
     "description": "Flow 05 - Host. Screen 13. Stat eyebrow; rendered uppercase"
   },
-  "hostEndConfirm": "End & check what ran out",
+  "hostEndConfirm": "Close the bar",
   "@hostEndConfirm": {
     "description": "Flow 05 - Host. Screen 13. The one-way commit; opens the ran-out checklist"
   },
@@ -5102,6 +5102,550 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "hostCloseTitle": "Close the bar?",
+  "@hostCloseTitle": {
+    "description": "Flow 08 - After the party. Screen 01. The sheet title while drinks are still in the queue"
+  },
+  "hostCloseWaitingBody": "{count, plural, =1{One drink is still waiting — {names}. Closing cancels it and tells that phone why.} other{{count} drinks are still waiting — {names}. Closing cancels them and tells those phones why.}}",
+  "@hostCloseWaitingBody": {
+    "description": "Flow 08 - After the party. Screen 01. What closing costs, with the guests named",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "names": {
+        "type": "String",
+        "example": "Sam’s and Olha’s"
+      }
+    }
+  },
+  "hostClosePourFirst": "{count, plural, =1{Pour that one first} other{Pour those {count} first}}",
+  "@hostClosePourFirst": {
+    "description": "Flow 08 - After the party. Screen 01. The primary way out of the sheet - back to the queue",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hostCloseAnyway": "{count, plural, =1{Close anyway · cancels 1} other{Close anyway · cancels {count}}}",
+  "@hostCloseAnyway": {
+    "description": "Flow 08 - After the party. Screen 01. The irreversible second choice",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hostCloseFootnote": "The code stops working the second you close. Nothing is deleted.",
+  "@hostCloseFootnote": {
+    "description": "Flow 08 - After the party. Screen 01. What closing does and does not destroy"
+  },
+  "hostNamesPair": "{first} and {second}",
+  "@hostNamesPair": {
+    "description": "Flow 08 - After the party. Screen 01. Two guest names joined for the closing sheet",
+    "placeholders": {
+      "first": {
+        "type": "String",
+        "example": "Sam’s"
+      },
+      "second": {
+        "type": "String",
+        "example": "Olha’s"
+      }
+    }
+  },
+  "hostNamesMore": "{names} and {count} more",
+  "@hostNamesMore": {
+    "description": "Flow 08 - After the party. Screen 01. More waiting guests than the sentence can carry",
+    "placeholders": {
+      "names": {
+        "type": "String",
+        "example": "Sam, Olha"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hostYourNights": "Your nights",
+  "@hostYourNights": {
+    "description": "Flow 08 - After the party. The party tab's way into the history of every recap"
+  },
+  "recapLastNight": "Last night",
+  "@recapLastNight": {
+    "description": "Flow 08 - After the party. Screen 02. The chip over the recap of the party that just ended"
+  },
+  "recapTonight": "Tonight",
+  "@recapTonight": {
+    "description": "Flow 08 - After the party. Screen 02. The chip when the recap is opened while the bar is still open"
+  },
+  "recapEarlier": "Earlier",
+  "@recapEarlier": {
+    "description": "Flow 08 - After the party. Screen 02. The chip over a recap from an older night"
+  },
+  "recapWhen": "{date} · {from} – {until} · {guests}",
+  "@recapWhen": {
+    "description": "Flow 08 - After the party. Screen 02. The line under the party name",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Fri 4 Sep"
+      },
+      "from": {
+        "type": "String",
+        "example": "21:00"
+      },
+      "until": {
+        "type": "String",
+        "example": "01:24"
+      },
+      "guests": {
+        "type": "String",
+        "example": "9 guests"
+      }
+    }
+  },
+  "recapWhenOpen": "{date} · from {from} · {guests}",
+  "@recapWhenOpen": {
+    "description": "Flow 08 - After the party. Screen 02. The same line for a party that has not closed yet",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Fri 4 Sep"
+      },
+      "from": {
+        "type": "String",
+        "example": "21:00"
+      },
+      "guests": {
+        "type": "String",
+        "example": "9 guests"
+      }
+    }
+  },
+  "recapGuests": "{count, plural, =0{nobody yet} =1{1 guest} other{{count} guests}}",
+  "@recapGuests": {
+    "description": "Flow 08 - After the party. Screen 02. How many people ordered",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recapPouredLabel": "drinks poured",
+  "@recapPouredLabel": {
+    "description": "Flow 08 - After the party. Screen 02. The label under the one number the host earned"
+  },
+  "recapWaitLabel": "avg. wait",
+  "@recapWaitLabel": {
+    "description": "Flow 08 - After the party. Screen 02. The label under the average time from sent to on the counter"
+  },
+  "recapRecipesLabel": "recipes used",
+  "@recapRecipesLabel": {
+    "description": "Flow 08 - After the party. Screen 02. The label under how many distinct drinks were served"
+  },
+  "recapNoWait": "—",
+  "@recapNoWait": {
+    "description": "Flow 08 - After the party. Screen 02. The average wait before anything was served"
+  },
+  "recapWhatPeopleDrank": "What people drank",
+  "@recapWhatPeopleDrank": {
+    "description": "Flow 08 - After the party. Screen 02. The heading over the drink tallies"
+  },
+  "recapNothingPoured": "Nothing left the bar this time. The night still counts.",
+  "@recapNothingPoured": {
+    "description": "Flow 08 - After the party. Screen 02. A party that served nothing - never scolding, never cheerful"
+  },
+  "recapRestockTitle": "What ran out",
+  "@recapRestockTitle": {
+    "description": "Flow 08 - After the party. Screen 02. The card that opens the shelf checklist"
+  },
+  "recapRestockBody": "{count, plural, =0{Check the shelf before next time} =1{1 bottle did the pouring} other{{count} bottles did the pouring}}",
+  "@recapRestockBody": {
+    "description": "Flow 08 - After the party. Screen 02. How many of the host's bottles the night actually leaned on",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recapSaveMenuTitle": "Save this menu",
+  "@recapSaveMenuTitle": {
+    "description": "Flow 08 - After the party. Screen 02. The card that opens the save-a-preset sheet"
+  },
+  "recapSaveMenuBody": "{count, plural, =1{1 recipe, in order} other{{count} recipes, in order}}",
+  "@recapSaveMenuBody": {
+    "description": "Flow 08 - After the party. Screen 02. What saving the menu keeps",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recapSaveMenuDone": "Saved as {name}",
+  "@recapSaveMenuDone": {
+    "description": "Flow 08 - After the party. Screen 02. The card once the menu has been kept",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "The birthday nine"
+      }
+    }
+  },
+  "recapShare": "Share the recap",
+  "@recapShare": {
+    "description": "Flow 08 - After the party. Screen 02. The one commitment on the recap"
+  },
+  "recapMissing": "That night isn’t here any more.",
+  "@recapMissing": {
+    "description": "Flow 08 - After the party. Screen 02. A recap whose party could not be loaded"
+  },
+  "shareCardStory": "Story",
+  "@shareCardStory": {
+    "description": "Flow 08 - After the party. Screen 03. The tall share card shape"
+  },
+  "shareCardSquare": "Square",
+  "@shareCardSquare": {
+    "description": "Flow 08 - After the party. Screen 03. The square share card shape"
+  },
+  "shareCardNameGuests": "Name the guests",
+  "@shareCardNameGuests": {
+    "description": "Flow 08 - After the party. Screen 03. The toggle that puts guest names on the card - off by default"
+  },
+  "shareCardShowWaits": "Show wait times",
+  "@shareCardShowWaits": {
+    "description": "Flow 08 - After the party. Screen 03. The toggle that puts the average wait on the card"
+  },
+  "shareCardSend": "Send to the group chat",
+  "@shareCardSend": {
+    "description": "Flow 08 - After the party. Screen 03. Hands the image to the system share sheet"
+  },
+  "shareCardFootnote": "Saves as an image. No link back to the party.",
+  "@shareCardFootnote": {
+    "description": "Flow 08 - After the party. Screen 03. What the card is and is not"
+  },
+  "shareCardHeadline": "{count, plural, =1{1 drink} other{{count} drinks}}",
+  "@shareCardHeadline": {
+    "description": "Flow 08 - After the party. Screen 03. The card's own headline",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shareCardPeople": "{count, plural, =1{1 person} other{{count} people}}",
+  "@shareCardPeople": {
+    "description": "Flow 08 - After the party. Screen 03. The card counts people rather than naming them",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shareCardUntil": "{date}, until {time}",
+  "@shareCardUntil": {
+    "description": "Flow 08 - After the party. Screen 03. When the night ended",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Fri 4 Sep"
+      },
+      "time": {
+        "type": "String",
+        "example": "01:24"
+      }
+    }
+  },
+  "shareCardDrinkChip": "{drink} ×{count}",
+  "@shareCardDrinkChip": {
+    "description": "Flow 08 - After the party. Screen 03. One of the night's busiest drinks",
+    "placeholders": {
+      "drink": {
+        "type": "String",
+        "example": "Cosmopolitan"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shareCardWaitChip": "{wait} avg wait",
+  "@shareCardWaitChip": {
+    "description": "Flow 08 - After the party. Screen 03. The average wait, only when the host turned it on",
+    "placeholders": {
+      "wait": {
+        "type": "String",
+        "example": "3:40"
+      }
+    }
+  },
+  "shareCardFailed": "Couldn’t make the image.",
+  "@shareCardFailed": {
+    "description": "Flow 08 - After the party. Screen 03. Rendering or saving the card failed"
+  },
+  "presetTitle": "Keep this menu",
+  "@presetTitle": {
+    "description": "Flow 08 - After the party. Screen 05. The save-a-menu sheet title"
+  },
+  "presetBody": "{count, plural, =1{One recipe, ready to reopen next time.} other{{count} recipes in the order you had them. Openable in two taps next time.}}",
+  "@presetBody": {
+    "description": "Flow 08 - After the party. Screen 05. What a preset is",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "presetNameHint": "The birthday nine",
+  "@presetNameHint": {
+    "description": "Flow 08 - After the party. Screen 05. The placeholder in the preset name field"
+  },
+  "presetKeepsRecipes": "{count, plural, =1{1 recipe} other{{count} recipes, same order}}",
+  "@presetKeepsRecipes": {
+    "description": "Flow 08 - After the party. Screen 05. What travels with the preset",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "presetDropsParty": "Not the name, code or guest list",
+  "@presetDropsParty": {
+    "description": "Flow 08 - After the party. Screen 05. What deliberately does not travel"
+  },
+  "presetSave": "Save the menu",
+  "@presetSave": {
+    "description": "Flow 08 - After the party. Screen 05. Commits the preset"
+  },
+  "presetFootnote": "Lives with your other saved menus on Host a party.",
+  "@presetFootnote": {
+    "description": "Flow 08 - After the party. Screen 05. Where a saved menu turns up again"
+  },
+  "presetNameRequired": "Give it a name to save it.",
+  "@presetNameRequired": {
+    "description": "Flow 08 - After the party. Screen 05. The one thing the sheet needs"
+  },
+  "presetSavedMenus": "{count, plural, =0{Saved menus} =1{1 saved menu} other{{count} saved menus}}",
+  "@presetSavedMenus": {
+    "description": "Flow 08 - After the party. Screens 05 and 06. How many menus the phone keeps",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "presetPickTitle": "Your saved menus",
+  "@presetPickTitle": {
+    "description": "Flow 05 - Host a party. The sheet that reopens a menu kept from an earlier night"
+  },
+  "presetMeta": "{count, plural, =1{1 recipe · saved {date}} other{{count} recipes · saved {date}}}",
+  "@presetMeta": {
+    "description": "Flow 05 - Host a party. One saved menu in the picker",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String",
+        "example": "5 Sep"
+      }
+    }
+  },
+  "presetNone": "Nothing saved yet. Keep a menu from a night that worked and it turns up here.",
+  "@presetNone": {
+    "description": "Flow 05 - Host a party. The picker with no presets in it"
+  },
+  "presetAdded": "{count, plural, =0{Those drinks are already on the menu} =1{Added 1 drink} other{Added {count} drinks}}",
+  "@presetAdded": {
+    "description": "Flow 05 - Host a party. What reopening a saved menu did",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "presetRemove": "Forget this menu",
+  "@presetRemove": {
+    "description": "Flow 05 - Host a party. Drops a saved menu from the phone"
+  },
+  "nightsTitle": "Your nights",
+  "@nightsTitle": {
+    "description": "Flow 08 - After the party. Screen 06. Every recap, which never expires"
+  },
+  "nightsSummary": "{parties} · {drinks} · since {since}",
+  "@nightsSummary": {
+    "description": "Flow 08 - After the party. Screen 06. The line under the title",
+    "placeholders": {
+      "parties": {
+        "type": "String",
+        "example": "6 parties"
+      },
+      "drinks": {
+        "type": "String",
+        "example": "118 drinks poured"
+      },
+      "since": {
+        "type": "String",
+        "example": "March"
+      }
+    }
+  },
+  "nightsParties": "{count, plural, =1{1 party} other{{count} parties}}",
+  "@nightsParties": {
+    "description": "Flow 08 - After the party. Screen 06. How many nights the host has closed",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nightsDrinks": "{count, plural, =1{1 drink poured} other{{count} drinks poured}}",
+  "@nightsDrinks": {
+    "description": "Flow 08 - After the party. Screen 06. The running total across every night",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nightsDrinksShort": "{count, plural, =1{1 drink} other{{count} drinks}}",
+  "@nightsDrinksShort": {
+    "description": "Flow 08 - After the party. Screen 06. The monospaced count on a night card",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nightsRowMeta": "{date} · {drinks} · {guests}",
+  "@nightsRowMeta": {
+    "description": "Flow 08 - After the party. Screen 06. The second line of an older night",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "16 Aug"
+      },
+      "drinks": {
+        "type": "String",
+        "example": "18 drinks"
+      },
+      "guests": {
+        "type": "String",
+        "example": "6 guests"
+      }
+    }
+  },
+  "nightsEmptyTitle": "No nights yet",
+  "@nightsEmptyTitle": {
+    "description": "Flow 08 - After the party. Screen 06. A host who has never closed a party"
+  },
+  "nightsEmptyBody": "Every party you close writes itself down here — the numbers, the menu, what ran out.",
+  "@nightsEmptyBody": {
+    "description": "Flow 08 - After the party. Screen 06. What the history will hold"
+  },
+  "guestRecapEyebrow": "{party} · {date}",
+  "@guestRecapEyebrow": {
+    "description": "Flow 08 - After the party. Screen 07. Whose night this was",
+    "placeholders": {
+      "party": {
+        "type": "String",
+        "example": "Kate’s Birthday"
+      },
+      "date": {
+        "type": "String",
+        "example": "4 Sep"
+      }
+    }
+  },
+  "guestRecapTitle": "{count, plural, =0{You came,\nyou looked} =1{You had\none} other{You had\n{count}}}",
+  "@guestRecapTitle": {
+    "description": "Flow 08 - After the party. Screen 07. The headline when nothing was bought for anyone else",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "guestRecapTitleMade": "{count, plural, =1{You had {drinks},\nand made one} other{You had {drinks},\nand made {count}}}",
+  "@guestRecapTitleMade": {
+    "description": "Flow 08 - After the party. Screen 07. The headline for a guest who bought rounds",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "drinks": {
+        "type": "int"
+      }
+    }
+  },
+  "guestRecapForFriends": "{count, plural, =1{One of them was for {names}.} other{{count} of them were for {names}.}}",
+  "@guestRecapForFriends": {
+    "description": "Flow 08 - After the party. Screen 07. Who the drinks were for",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "names": {
+        "type": "String",
+        "example": "Marta"
+      }
+    }
+  },
+  "guestRecapLastDrink": "The {drink} was the last one out of the bar before {host} closed it.",
+  "@guestRecapLastDrink": {
+    "description": "Flow 08 - After the party. Screen 07. The drink the night ends on",
+    "placeholders": {
+      "drink": {
+        "type": "String",
+        "example": "Midnight Orchard"
+      },
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "guestRecapNothing": "You didn’t order anything this time — the bar was {host}’s, and the night was yours.",
+  "@guestRecapNothing": {
+    "description": "Flow 08 - After the party. Screen 07. A guest who never sent a round",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "Kate"
+      }
+    }
+  },
+  "guestRecapRecipe": "Recipe",
+  "@guestRecapRecipe": {
+    "description": "Flow 08 - After the party. Screen 07. The chip that opens the drink they ended on"
+  },
+  "guestRecapStartBar": "Start a bar of your own",
+  "@guestRecapStartBar": {
+    "description": "Flow 08 - After the party. Screen 07. The only place the app asks a guest to host"
+  },
+  "guestRecapFootnote": "This page stays on your phone for a week. No account needed to read it.",
+  "@guestRecapFootnote": {
+    "description": "Flow 08 - After the party. Screen 07. How long the guest's recap lasts"
+  },
+  "guestRecapSee": "See the night",
+  "@guestRecapSee": {
+    "description": "Flow 07 - Join a party. Screen 06. Opens the guest's own recap from the closed bar"
+  },
+  "guestRecapGone": "That night has let go.",
+  "@guestRecapGone": {
+    "description": "Flow 08 - After the party. Screen 07. The recap a week later, or one this phone was never at"
+  },
+  "guestRecapYourNight": "Your night at {party}",
+  "@guestRecapYourNight": {
+    "description": "Flow 08 - After the party. The party tab's way back into a recap the phone still holds",
+    "placeholders": {
+      "party": {
+        "type": "String",
+        "example": "Kate’s Birthday"
       }
     }
   }
