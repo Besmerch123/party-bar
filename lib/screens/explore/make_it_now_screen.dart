@@ -3,8 +3,10 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/models.dart';
+import '../../providers/measure_unit_provider.dart';
 import '../../theme/theme.dart';
 import '../../utils/cocktail_labels.dart';
 import '../../utils/localization_helper.dart';
@@ -869,6 +871,7 @@ class _IngredientRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final unit = context.watch<MeasureUnitProvider>().unit;
 
     return Container(
       color: AppColors.row,
@@ -885,7 +888,10 @@ class _IngredientRow extends StatelessWidget {
           ),
           if (measure case final measure?) ...[
             const SizedBox(width: 12),
-            Text(measureLabel(l10n, measure), style: AppTypography.measure),
+            Text(
+              measureLabel(l10n, measure, displayUnit: unit),
+              style: AppTypography.measure,
+            ),
           ],
         ],
       ),

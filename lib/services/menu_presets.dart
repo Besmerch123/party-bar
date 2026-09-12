@@ -62,6 +62,12 @@ abstract final class MenuPresets {
     );
   }
 
+  /// Flow 09 · screen 07 — deleting an account takes every menu with it.
+  static Future<void> clear() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_key);
+  }
+
   /// A list that will not decode is a list nobody can fix from inside the
   /// app, so it reads as empty rather than throwing on every launch.
   static List<MenuPreset> _decode(String? raw) {

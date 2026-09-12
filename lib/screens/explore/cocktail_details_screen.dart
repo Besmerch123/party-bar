@@ -9,6 +9,7 @@ import '../../data/cocktail_repository.dart';
 import '../../models/models.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/bar_provider.dart';
+import '../../providers/measure_unit_provider.dart';
 import '../../theme/theme.dart';
 import '../../utils/app_router.dart';
 import '../../utils/cocktail_labels.dart';
@@ -97,6 +98,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
 
   Future<void> _shareCocktail(Cocktail cocktail) async {
     final l10n = context.l10n;
+    final unit = context.read<MeasureUnitProvider>().unit;
     final title = cocktail.title.translate(context);
     final description = cocktail.description.translate(context);
 
@@ -106,7 +108,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
           final measure = cocktail.measureFor(ingredient.id);
           return measure == null
               ? '• $name'
-              : '• $name — ${measureLabel(l10n, measure)}';
+              : '• $name — ${measureLabel(l10n, measure, displayUnit: unit)}';
         })
         .join('\n');
 
@@ -572,6 +574,7 @@ class _IngredientRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final unit = context.watch<MeasureUnitProvider>().unit;
     final measure = cocktail.measureFor(ingredient.id);
 
     return ColoredBox(
@@ -613,7 +616,7 @@ class _IngredientRow extends StatelessWidget {
             else if (measure != null)
               Flexible(
                 child: Text(
-                  measureLabel(l10n, measure),
+                  measureLabel(l10n, measure, displayUnit: unit),
                   style: AppTypography.measure,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

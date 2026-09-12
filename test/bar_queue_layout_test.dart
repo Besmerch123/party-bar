@@ -9,6 +9,7 @@ import 'package:party_bar/generated/l10n/app_localizations.dart';
 import 'package:party_bar/models/models.dart';
 import 'package:party_bar/providers/bar_provider.dart';
 import 'package:party_bar/providers/locale_provider.dart';
+import 'package:party_bar/providers/measure_unit_provider.dart';
 import 'package:party_bar/providers/party_cocktails.dart';
 import 'package:party_bar/screens/party/pouring_screen.dart';
 import 'package:party_bar/theme/theme.dart';
@@ -133,6 +134,7 @@ Future<void> pumpWithTheme(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider(create: (_) => MeasureUnitProvider()),
         if (bar != null) ChangeNotifierProvider.value(value: bar),
       ],
       child: app,

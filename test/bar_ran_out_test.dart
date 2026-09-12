@@ -12,6 +12,7 @@ import 'package:party_bar/models/models.dart';
 import 'package:party_bar/providers/bar_provider.dart';
 import 'package:party_bar/providers/explore_provider.dart';
 import 'package:party_bar/providers/locale_provider.dart';
+import 'package:party_bar/providers/measure_unit_provider.dart';
 import 'package:party_bar/screens/bar/ran_out_screen.dart';
 import 'package:party_bar/screens/explore/cocktail_details_screen.dart';
 import 'package:party_bar/services/elastic_service.dart';
@@ -157,6 +158,7 @@ void main() {
       MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => LocaleProvider()),
+          ChangeNotifierProvider(create: (_) => MeasureUnitProvider()),
           ChangeNotifierProvider.value(value: bar),
           if (explore != null) ChangeNotifierProvider.value(value: explore),
         ],

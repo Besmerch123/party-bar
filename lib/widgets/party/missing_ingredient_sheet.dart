@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../models/models.dart';
 import '../../providers/bar_provider.dart';
 import '../../providers/explore_provider.dart';
+import '../../providers/measure_unit_provider.dart';
 import '../../providers/party_menu_draft.dart';
 import '../../theme/theme.dart';
 import '../../utils/cocktail_labels.dart';
@@ -256,6 +257,7 @@ class _IngredientRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final unit = context.watch<MeasureUnitProvider>().unit;
 
     return ColoredBox(
       color: AppColors.row,
@@ -300,7 +302,7 @@ class _IngredientRow extends StatelessWidget {
               )
             else if (measure != null)
               Text(
-                measureLabel(l10n, measure!),
+                measureLabel(l10n, measure!, displayUnit: unit),
                 style: AppTypography.measure.copyWith(
                   color: AppColors.ink.withValues(alpha: .62),
                 ),

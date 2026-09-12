@@ -9,6 +9,7 @@ import 'firebase_options.dart';
 import 'utils/app_router.dart';
 import 'providers/locale_provider.dart';
 import 'providers/auth_provider.dart' show AuthenticationProvider;
+import 'providers/measure_unit_provider.dart';
 import 'providers/onboarding_provider.dart';
 import 'providers/bar_provider.dart';
 import 'providers/explore_provider.dart';
@@ -50,6 +51,9 @@ class PartyBarApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LocaleProvider()..initialize()),
+        ChangeNotifierProvider(
+          create: (_) => MeasureUnitProvider()..initialize(),
+        ),
         ChangeNotifierProvider(
           create: (_) => AuthenticationProvider()..initialize(),
         ),

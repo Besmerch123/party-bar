@@ -4,6 +4,7 @@ import '../models/bar.dart';
 import '../models/bar_item.dart';
 import '../models/onboarding.dart';
 import '../models/shopping_list.dart';
+import '../models/user.dart';
 
 /// The bar as flow 04 leaves it — one account, one shelf.
 class RemoteBar {
@@ -86,6 +87,70 @@ class AccountService implements BarAccountSync {
     if (shelf is! List) return const {};
     return shelf.whereType<String>().toSet();
   }
+
+  // ------------------------------------------------------------------- profile
+
+  /// Flow 09 — the whole of what Settings reads about the signed-in person.
+  /// Null only for a document that has genuinely never been written, which
+  /// [claimLocalState] rules out for anyone who has ever signed in once.
+  Future<User?> getProfile(String uid) async {
+    final snapshot = await _userDoc(uid).get();
+    final data = snapshot.data();
+    if (data == null) return null;
+    return _userFromData(data, uid);
+  }
+
+  /// The live version of [getProfile] — so a toggle flipped on screen 06
+  /// shows up on the index's "2 of 3 on" without a manual refresh.
+  Stream<User?> watchProfile(String uid) => _userDoc(uid).snapshots().map((snapshot) {
+    final data = snapshot.data();
+    if (data == null) return null;
+    return _userFromData(data, uid);
+  });
+
+  /// [claimLocalState] writes `createdAt`/`lastLoginAt` as
+  /// [FieldValue.serverTimestamp] — real Firestore `Timestamp`s, not the
+  /// millisecond ints [User.fromMap] expects. A write this device just made
+  /// can also reach a listener before the server has stamped it, same as
+  /// [PartyRepository]'s parties.
+  User _userFromData(Map<String, dynamic> data, String uid) {
+    int? millis(String key) {
+      final value = data[key];
+      return value is Timestamp ? value.millisecondsSinceEpoch : value as int?;
+    }
+
+    return User.fromMap({
+      ...data,
+      'id': uid,
+      'createdAt': millis('createdAt') ?? DateTime.now().millisecondsSinceEpoch,
+      'lastLoginAt': millis('lastLoginAt') ?? DateTime.now().millisecondsSinceEpoch,
+    });
+  }
+
+  /// Screen 03 (name, allergens) and screen 06 (the three switches) both
+  /// write through here — a merge, so editing one never clobbers the other.
+  Future<void> updateProfile(
+    String uid, {
+    String? name,
+    List<String>? allergens,
+    bool? notifyDrinkReady,
+    bool? notifyNewOrder,
+    bool? notifyRecapMorning,
+  }) async {
+    await _userDoc(uid).set({
+      if (name != null) 'name': name,
+      if (allergens != null) 'allergens': allergens,
+      if (notifyDrinkReady != null) 'notifyDrinkReady': notifyDrinkReady,
+      if (notifyNewOrder != null) 'notifyNewOrder': notifyNewOrder,
+      if (notifyRecapMorning != null) 'notifyRecapMorning': notifyRecapMorning,
+    }, SetOptions(merge: true));
+  }
+
+  /// Screen 07's one-way door, the Firestore half of it. What this does not
+  /// do is just as deliberate: it never touches another host's parties, so a
+  /// guest's drink count survives inside them — only the account that placed
+  /// it is gone.
+  Future<void> deleteAccountDoc(String uid) => _userDoc(uid).delete();
 
   // ------------------------------------------------------------ BarAccountSync
 

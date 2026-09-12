@@ -73,6 +73,22 @@ class IngredientMeasure {
   /// Drops the trailing zero — 45 ml, not 45.0 ml — while keeping halves.
   String get formattedAmount =>
       amount == amount.roundToDouble() ? amount.toInt().toString() : amount.toString();
+
+  /// Flow 09 · screen 05 — the settings row that changes the product.
+  ///
+  /// Only a volume converts. Dashes, barspoons, pieces, splashes and top-ups
+  /// carry no meaningful amount ([MeasureUnit.showsAmount]) and pass through
+  /// untouched — they are not being measured in the first place. The result
+  /// is rounded to the nearest quarter ounce, the way a jigger actually
+  /// pours; the stored recipe itself never changes.
+  IngredientMeasure displayAs(MeasureUnit target) {
+    if (target != MeasureUnit.oz || unit == MeasureUnit.oz) return this;
+    if (unit != MeasureUnit.ml && unit != MeasureUnit.cl) return this;
+
+    final ml = unit == MeasureUnit.cl ? amount * 10 : amount;
+    final quarterOz = ((ml / 29.5735) * 4).round() / 4;
+    return IngredientMeasure(amount: quarterOz, unit: MeasureUnit.oz, optional: optional);
+  }
 }
 
 /// One screen of the hands-busy guided pour.

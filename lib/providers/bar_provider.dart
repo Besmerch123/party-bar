@@ -490,6 +490,16 @@ class BarProvider extends ChangeNotifier {
     _scheduleSync();
   }
 
+  /// Flow 09 · screen 07 — deleting an account empties the shelf on this
+  /// phone too. Never pushed to the account: the document that would have
+  /// received it is what just got deleted.
+  Future<void> clearEverything() async {
+    _items.clear();
+    _shoppingList.clear();
+    notifyListeners();
+    await _persist();
+  }
+
   // -------------------------------------------------------------- catalogue
 
   /// Firestore's ingredients and equipment, plus [kShelfStarters], deduped by

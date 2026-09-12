@@ -4177,4 +4177,294 @@ class AppLocalizationsUk extends AppLocalizations {
   String guestRecapYourNight(String party) {
     return 'Твій вечір на $party';
   }
+
+  @override
+  String get comingSoon => 'Скоро';
+
+  @override
+  String get done => 'Готово';
+
+  @override
+  String get save => 'Зберегти';
+
+  @override
+  String get settingsMeasures => 'Мірки';
+
+  @override
+  String get measureUnitMl => 'Мілілітри';
+
+  @override
+  String get measureUnitOz => 'Унції';
+
+  @override
+  String get settingsMeasuresBody =>
+      'Кожен рецепт, кожна картка порції та список покупок після вечірки.';
+
+  @override
+  String get settingsMeasuresPreviewCaption => 'Як це виглядатиме сьогодні';
+
+  @override
+  String get settingsMeasuresNoteRounding =>
+      'Рецепти зберігаються в мілілітрах. Унції округлюються до чверті — так, як насправді наливає джигер.';
+
+  @override
+  String get settingsMeasuresNoteDashes =>
+      'Дэші, барспуни та «долити доверху» ніколи не конвертуються. Це не об\'єми.';
+
+  @override
+  String get settingsMeasuresNoteYoursOnly =>
+      'Тільки твоє. Гість, який читає твоє меню, бачить свої власні одиниці.';
+
+  @override
+  String get settingsMeasuresFootnote =>
+      'Встановлюється за твоїм регіоном при першому запуску застосунку.';
+
+  @override
+  String get settingsLanguageBody =>
+      'Змінює застосунок і текст рецептів. Назви коктейлів лишаються такими, як написані.';
+
+  @override
+  String get settingsLanguageFollowsPhone => 'Слідувати за телефоном';
+
+  @override
+  String settingsLanguageFollowsPhoneCaption(String language) {
+    return 'Твій телефон налаштований на $language';
+  }
+
+  @override
+  String get settingsLanguageNoteGuests =>
+      'Гості читають меню своєю мовою, а не твоєю. У вечірки немає мови.';
+
+  @override
+  String get settingsLanguageNoteOwnRecipes =>
+      'Рецепти, які ти написав сам, лишаються мовою, якою ти їх ввів.';
+
+  @override
+  String get settingsNotifications => 'Сповіщення';
+
+  @override
+  String settingsNotificationsValue(int on) {
+    return '$on з 3 увімкнено';
+  }
+
+  @override
+  String get settingsNotificationsBody =>
+      'Ми турбуємо тебе під час вечірки лише через те, що відбувається просто зараз.';
+
+  @override
+  String get settingsNotifyDrinkReady => 'Твій напій готовий';
+
+  @override
+  String get settingsNotifyDrinkReadyCaption =>
+      'Те, що справді важливо. Надсилається один раз, коли напій готовий.';
+
+  @override
+  String get settingsNotifyNewOrder => 'Нове замовлення, коли ти хостиш';
+
+  @override
+  String get settingsNotifyNewOrderCaption =>
+      'Групами — чотири замовлення поспіль це один сигнал.';
+
+  @override
+  String get settingsNotifyRecap => 'Твій підсумок вранці';
+
+  @override
+  String get settingsNotifyRecapCaption =>
+      'Один о 10:00 наступного дня після вечірки, яку ти влаштував.';
+
+  @override
+  String get settingsNotifyNoteNever =>
+      'Ніколи: чужий напій, зміна місця в черзі, реклама, серії.';
+
+  @override
+  String get settingsNotifyNoteNoQuietHours =>
+      'Без тихих годин. Вечірка о 01:00 — це якраз той час, коли це має працювати.';
+
+  @override
+  String get settingsNotifyFootnote =>
+      'Тільки поки вечірка, в якій ти береш участь, триває. Нічого між вечірками.';
+
+  @override
+  String get settingsAccountData => 'Акаунт і дані';
+
+  @override
+  String settingsAccountSince(String date) {
+    return 'З $date';
+  }
+
+  @override
+  String get settingsDownloadData => 'Завантажити свої дані';
+
+  @override
+  String get settingsTermsPrivacy => 'Умови та конфіденційність';
+
+  @override
+  String get settingsSendFeedback => 'Надіслати відгук';
+
+  @override
+  String get settingsSignOutBlockedTitle => 'Спочатку заверши вечірку';
+
+  @override
+  String get settingsSignOutBlockedBody =>
+      'Ти все ще хостиш. Заверши вечірку перед тим, як вийти з акаунту.';
+
+  @override
+  String get settingsSignOutBlockedAction => 'До вечірки';
+
+  @override
+  String get settingsDeleteAccount => 'Видалити мій акаунт';
+
+  @override
+  String get settingsDeleteTitle => 'Це видалить\nтвій акаунт';
+
+  @override
+  String get settingsDeleteBody => 'Все нижче зникає одразу і назавжди.';
+
+  @override
+  String settingsDeleteManifestNights(int nights, int poured) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nights,
+      locale: localeName,
+      other: '$nights вечірок',
+      many: '$nights вечірок',
+      few: '$nights вечірки',
+      one: '$nights вечірка',
+      zero: 'Ще жодного вечора',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      poured,
+      locale: localeName,
+      other: '$poured напоїв налито',
+      many: '$poured напоїв налито',
+      few: '$poured напої налито',
+      one: '$poured напій налито',
+      zero: 'нічого не налито',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String settingsDeleteManifestBar(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Мій бар · $count пляшок',
+      many: 'Мій бар · $count пляшок',
+      few: 'Мій бар · $count пляшки',
+      one: 'Мій бар · $count пляшка',
+      zero: 'Мій бар',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String settingsDeleteManifestMenus(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count збережених меню',
+      many: '$count збережених меню',
+      few: '$count збережених меню',
+      one: '$count збережене меню',
+      zero: 'Немає збережених меню',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsDeleteManifestGuests =>
+      'Кількість напоїв твоїх гостей лишається в їхніх власних підсумках. Твоє ім\'я зникає з них.';
+
+  @override
+  String get settingsDeleteTypeToConfirm => 'введи для підтвердження';
+
+  @override
+  String get settingsDeleteConfirm => 'Видалити все';
+
+  @override
+  String get settingsDeleteKeep => 'Залишити мій акаунт';
+
+  @override
+  String get settingsDeleteNeedsRecentLogin =>
+      'Увійди ще раз, щоб підтвердити це, і спробуй видалити знову.';
+
+  @override
+  String get settingsDeleteFailed =>
+      'Не вдалося видалити акаунт. Спробуй ще раз.';
+
+  @override
+  String get settingsAbout => 'Про PartyBar';
+
+  @override
+  String settingsAboutBody(String version) {
+    return 'Версія $version.\n\nПий відповідально. PartyBar призначений для осіб старших 18 років.';
+  }
+
+  @override
+  String get settingsDisclaimer =>
+      'Пий відповідально. PartyBar призначений для осіб старших 18 років.';
+
+  @override
+  String get settingsUnnamed => 'Ти';
+
+  @override
+  String get settingsNoAccountEyebrow => 'Ще немає акаунту';
+
+  @override
+  String get settingsNoAccountTitle => 'Збережи вечори, в яких ти брав участь';
+
+  @override
+  String get settingsNoAccountBody =>
+      'Увійди, і твоє ім\'я, мірки та вечірки, в яких ти береш участь, перейдуть на твій наступний телефон.';
+
+  @override
+  String get settingsSignIn => 'Увійти';
+
+  @override
+  String get settingsGuestNameCaption =>
+      'Ім\'я, яке хости бачать у твоєму замовленні';
+
+  @override
+  String get settingsChange => 'Змінити';
+
+  @override
+  String get settingsGuestNameTitle => 'Зміни своє ім\'я';
+
+  @override
+  String get settingsGuestNameHint => 'Твоє ім\'я';
+
+  @override
+  String get settingsSignedOutNote =>
+      'Без акаунту немає ні сповіщень, ні історії — надсилати їх нікуди.';
+
+  @override
+  String get profileNameLabel => 'Ім\'я';
+
+  @override
+  String get profileIntro =>
+      'Це весь профіль. Гості й хости бачать ім\'я та коло — більше нічого.';
+
+  @override
+  String get profileSaving => 'Зберігаємо…';
+
+  @override
+  String get profileSaved => 'Збережено';
+
+  @override
+  String get profileAllergensLabel => 'Алергени';
+
+  @override
+  String get profileAddAllergen => 'Додати';
+
+  @override
+  String get profileAllergenHint => 'напр. Арахіс';
+
+  @override
+  String get profileAllergensCaveat =>
+      'Вони йдуть разом із твоїм замовленням, щоб хост знав. Поки що вони нічого не приховують у меню.';
+
+  @override
+  String profileFooterStats(String since, String parties, String drinks) {
+    return 'Хостиш з $since. $parties, $drinks.';
+  }
 }

@@ -5947,6 +5947,432 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your night at {party}'**
   String guestRecapYourNight(String party);
+
+  /// Generic placeholder for a row that is designed but not built yet
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get comingSoon;
+
+  /// Generic dialog dismiss button
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// Generic dialog confirm button
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// Flow 09 - Settings. Screens 01 and 05. The one setting that changes the product
+  ///
+  /// In en, this message translates to:
+  /// **'Measures'**
+  String get settingsMeasures;
+
+  /// Flow 09 - Settings. Screen 05. The long form of the ml segment
+  ///
+  /// In en, this message translates to:
+  /// **'Millilitres'**
+  String get measureUnitMl;
+
+  /// Flow 09 - Settings. Screen 05. The long form of the oz segment
+  ///
+  /// In en, this message translates to:
+  /// **'Ounces'**
+  String get measureUnitOz;
+
+  /// Flow 09 - Settings. Screen 05. What the setting touches
+  ///
+  /// In en, this message translates to:
+  /// **'Every recipe, every pour card and the shopping list after the party.'**
+  String get settingsMeasuresBody;
+
+  /// Flow 09 - Settings. Screen 05. Caption over the live recipe preview
+  ///
+  /// In en, this message translates to:
+  /// **'How it will read tonight'**
+  String get settingsMeasuresPreviewCaption;
+
+  /// Flow 09 - Settings. Screen 05. The rounding rule
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes are stored in millilitres. Ounces are rounded to the nearest quarter, the way a jigger pours.'**
+  String get settingsMeasuresNoteRounding;
+
+  /// Flow 09 - Settings. Screen 05. What never converts
+  ///
+  /// In en, this message translates to:
+  /// **'Dashes, barspoons and \"top up\" never convert. They\'re not volumes.'**
+  String get settingsMeasuresNoteDashes;
+
+  /// Flow 09 - Settings. Screen 05. Scope of the setting
+  ///
+  /// In en, this message translates to:
+  /// **'Yours only. A guest reading your menu sees their own units.'**
+  String get settingsMeasuresNoteYoursOnly;
+
+  /// Flow 09 - Settings. Screen 05. Footnote
+  ///
+  /// In en, this message translates to:
+  /// **'Set from your region the first time you open the app.'**
+  String get settingsMeasuresFootnote;
+
+  /// Flow 09 - Settings. Screen 04. What changing the language touches
+  ///
+  /// In en, this message translates to:
+  /// **'Changes the app and the recipe text. Cocktail names stay as they\'re written.'**
+  String get settingsLanguageBody;
+
+  /// Flow 09 - Settings. Screen 04. The third, real option next to English/Ukrainian
+  ///
+  /// In en, this message translates to:
+  /// **'Follow my phone'**
+  String get settingsLanguageFollowsPhone;
+
+  /// Flow 09 - Settings. Screen 04. What the device's own language currently is
+  ///
+  /// In en, this message translates to:
+  /// **'Your phone is set to {language}'**
+  String settingsLanguageFollowsPhoneCaption(String language);
+
+  /// Flow 09 - Settings. Screen 04. Scope note
+  ///
+  /// In en, this message translates to:
+  /// **'Guests read the menu in their own language, not yours. A party has no language.'**
+  String get settingsLanguageNoteGuests;
+
+  /// Flow 09 - Settings. Screen 04. Scope note
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes you wrote yourself stay in the language you typed them in.'**
+  String get settingsLanguageNoteOwnRecipes;
+
+  /// Flow 09 - Settings. Screens 01 and 06. Row label and screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingsNotifications;
+
+  /// Flow 09 - Settings. Screen 01. How many of the three switches are on
+  ///
+  /// In en, this message translates to:
+  /// **'{on} of 3 on'**
+  String settingsNotificationsValue(int on);
+
+  /// Flow 09 - Settings. Screen 06. Intro line
+  ///
+  /// In en, this message translates to:
+  /// **'We only interrupt a party for something happening in it right now.'**
+  String get settingsNotificationsBody;
+
+  /// Flow 09 - Settings. Screen 06. First switch
+  ///
+  /// In en, this message translates to:
+  /// **'Your drink is ready'**
+  String get settingsNotifyDrinkReady;
+
+  /// Flow 09 - Settings. Screen 06. First switch's caption
+  ///
+  /// In en, this message translates to:
+  /// **'The one that matters. Sent once, when it hits the bar.'**
+  String get settingsNotifyDrinkReadyCaption;
+
+  /// Flow 09 - Settings. Screen 06. Second switch
+  ///
+  /// In en, this message translates to:
+  /// **'New order, when you host'**
+  String get settingsNotifyNewOrder;
+
+  /// Flow 09 - Settings. Screen 06. Second switch's caption
+  ///
+  /// In en, this message translates to:
+  /// **'Batched — four orders in a rush is one buzz.'**
+  String get settingsNotifyNewOrderCaption;
+
+  /// Flow 09 - Settings. Screen 06. Third switch
+  ///
+  /// In en, this message translates to:
+  /// **'Your recap in the morning'**
+  String get settingsNotifyRecap;
+
+  /// Flow 09 - Settings. Screen 06. Third switch's caption
+  ///
+  /// In en, this message translates to:
+  /// **'One at 10:00 the day after a party you hosted.'**
+  String get settingsNotifyRecapCaption;
+
+  /// Flow 09 - Settings. Screen 06. What this app will never push
+  ///
+  /// In en, this message translates to:
+  /// **'Never: someone else\'s drink, a queue position moving, marketing, streaks.'**
+  String get settingsNotifyNoteNever;
+
+  /// Flow 09 - Settings. Screen 06. No quiet-hours note
+  ///
+  /// In en, this message translates to:
+  /// **'No quiet hours. A party at 01:00 is exactly when this should work.'**
+  String get settingsNotifyNoteNoQuietHours;
+
+  /// Flow 09 - Settings. Screen 06. Footnote
+  ///
+  /// In en, this message translates to:
+  /// **'Only while a party you\'re in is live. Nothing between parties.'**
+  String get settingsNotifyFootnote;
+
+  /// Flow 09 - Settings. Screens 01 and 07. Row label and screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Account & data'**
+  String get settingsAccountData;
+
+  /// Flow 09 - Settings. Screen 07. When the account was created
+  ///
+  /// In en, this message translates to:
+  /// **'Since {date}'**
+  String settingsAccountSince(String date);
+
+  /// Flow 09 - Settings. Screen 07. Row, not yet built
+  ///
+  /// In en, this message translates to:
+  /// **'Download your data'**
+  String get settingsDownloadData;
+
+  /// Flow 09 - Settings. Screen 07. Row, not yet built
+  ///
+  /// In en, this message translates to:
+  /// **'Terms & privacy'**
+  String get settingsTermsPrivacy;
+
+  /// Flow 09 - Settings. Screen 07. Row, not yet built
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get settingsSendFeedback;
+
+  /// Flow 09 - Settings. Screen 07 edge case. Signing out while hosting a live party
+  ///
+  /// In en, this message translates to:
+  /// **'End the party first'**
+  String get settingsSignOutBlockedTitle;
+
+  /// Flow 09 - Settings. Screen 07 edge case. Explains the block
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re still hosting. End the party before you sign out.'**
+  String get settingsSignOutBlockedBody;
+
+  /// Flow 09 - Settings. Screen 07 edge case. Sends the host back to the live queue
+  ///
+  /// In en, this message translates to:
+  /// **'Go to the party'**
+  String get settingsSignOutBlockedAction;
+
+  /// Flow 09 - Settings. Screen 07. The row that opens the delete sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Delete my account'**
+  String get settingsDeleteAccount;
+
+  /// Flow 09 - Settings. Screen 07's overlay. Headline
+  ///
+  /// In en, this message translates to:
+  /// **'This deletes\nyour account'**
+  String get settingsDeleteTitle;
+
+  /// Flow 09 - Settings. Screen 07's overlay. Sub-headline
+  ///
+  /// In en, this message translates to:
+  /// **'Everything below goes at once and can\'t be brought back.'**
+  String get settingsDeleteBody;
+
+  /// Flow 09 - Settings. Screen 07's overlay. What hosting history is deleted
+  ///
+  /// In en, this message translates to:
+  /// **'{nights, plural, =0{No nights yet} =1{1 night} other{{nights} nights}} · {poured, plural, =0{nothing poured} =1{1 drink poured} other{{poured} drinks poured}}'**
+  String settingsDeleteManifestNights(int nights, int poured);
+
+  /// Flow 09 - Settings. Screen 07's overlay. What the shelf holds
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{My bar} =1{My bar · 1 bottle} other{My bar · {count} bottles}}'**
+  String settingsDeleteManifestBar(int count);
+
+  /// Flow 09 - Settings. Screen 07's overlay. Saved menus deleted
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No saved menus} =1{1 saved menu} other{{count} saved menus}}'**
+  String settingsDeleteManifestMenus(int count);
+
+  /// Flow 09 - Settings. Screen 07's overlay. What survives the deletion
+  ///
+  /// In en, this message translates to:
+  /// **'Your guests\' drink counts stay in their own recaps. Your name leaves them.'**
+  String get settingsDeleteManifestGuests;
+
+  /// Flow 09 - Settings. Screen 07's overlay. Hint beside the DELETE field
+  ///
+  /// In en, this message translates to:
+  /// **'type to confirm'**
+  String get settingsDeleteTypeToConfirm;
+
+  /// Flow 09 - Settings. Screen 07's overlay. The destructive button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete everything'**
+  String get settingsDeleteConfirm;
+
+  /// Flow 09 - Settings. Screen 07's overlay. The way out
+  ///
+  /// In en, this message translates to:
+  /// **'Keep my account'**
+  String get settingsDeleteKeep;
+
+  /// Flow 09 - Settings. Screen 07's overlay. Firebase refused a stale session
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to confirm this, then try Delete.'**
+  String get settingsDeleteNeedsRecentLogin;
+
+  /// Flow 09 - Settings. Screen 07's overlay. Any other failure
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete your account. Try again.'**
+  String get settingsDeleteFailed;
+
+  /// Flow 09 - Settings. Screen 01. Row label
+  ///
+  /// In en, this message translates to:
+  /// **'About PartyBar'**
+  String get settingsAbout;
+
+  /// Flow 09 - Settings. The About dialog's body
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}.\n\nDrink responsibly. PartyBar is for people over 18.'**
+  String settingsAboutBody(String version);
+
+  /// Flow 09 - Settings. Screen 01. Footer on every state of the index
+  ///
+  /// In en, this message translates to:
+  /// **'Drink responsibly. PartyBar is for people over 18.'**
+  String get settingsDisclaimer;
+
+  /// Flow 09 - Settings. Screen 01. Fallback when a signed-in account has no display name
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get settingsUnnamed;
+
+  /// Flow 09 - Settings. Screen 02. Eyebrow over the sign-in hero
+  ///
+  /// In en, this message translates to:
+  /// **'No account yet'**
+  String get settingsNoAccountEyebrow;
+
+  /// Flow 09 - Settings. Screen 02. Sign-in hero headline
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the nights you\'re part of'**
+  String get settingsNoAccountTitle;
+
+  /// Flow 09 - Settings. Screen 02. Sign-in hero body
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in and your name, your measures, and the nights you\'re part of follow you to your next phone.'**
+  String get settingsNoAccountBody;
+
+  /// Flow 09 - Settings. Screen 02. Sign-in hero button
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get settingsSignIn;
+
+  /// Flow 09 - Settings. Screen 02. Caption under a guest's remembered name
+  ///
+  /// In en, this message translates to:
+  /// **'The name hosts see on your order'**
+  String get settingsGuestNameCaption;
+
+  /// Flow 09 - Settings. Screen 02. Opens the rename dialog for a guest's name
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get settingsChange;
+
+  /// Flow 09 - Settings. Screen 02. Rename dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Change your name'**
+  String get settingsGuestNameTitle;
+
+  /// Flow 09 - Settings. Screen 02. Rename dialog field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Your name'**
+  String get settingsGuestNameHint;
+
+  /// Flow 09 - Settings. Screen 02. What is missing while signed out
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications and no history without an account — there\'s nowhere to send them yet.'**
+  String get settingsSignedOutNote;
+
+  /// Flow 09 - Settings. Screen 03. Eyebrow over the name field
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get profileNameLabel;
+
+  /// Flow 09 - Settings. Screen 03. Intro under the avatar
+  ///
+  /// In en, this message translates to:
+  /// **'This is the whole profile. Guests and hosts see a name and a circle — nothing else.'**
+  String get profileIntro;
+
+  /// Flow 09 - Settings. Screen 03. Transient state while a name edit is in flight
+  ///
+  /// In en, this message translates to:
+  /// **'Saving…'**
+  String get profileSaving;
+
+  /// Flow 09 - Settings. Screen 03. Transient confirmation after a name or allergen edit
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get profileSaved;
+
+  /// Flow 09 - Settings. Screen 03. Eyebrow over the allergen chips
+  ///
+  /// In en, this message translates to:
+  /// **'Allergens'**
+  String get profileAllergensLabel;
+
+  /// Flow 09 - Settings. Screen 03. The chip that opens the add-allergen prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get profileAddAllergen;
+
+  /// Flow 09 - Settings. Screen 03. Add-allergen prompt field hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Peanuts'**
+  String get profileAllergenHint;
+
+  /// Flow 09 - Settings. Screen 03. What allergens do and do not do yet
+  ///
+  /// In en, this message translates to:
+  /// **'These ride along with your order so the host knows. They don\'t hide anything on the menu yet.'**
+  String get profileAllergensCaveat;
+
+  /// Flow 09 - Settings. Screen 03. Footer, shown only once a host has closed a party
+  ///
+  /// In en, this message translates to:
+  /// **'Hosting since {since}. {parties}, {drinks}.'**
+  String profileFooterStats(String since, String parties, String drinks);
 }
 
 class _AppLocalizationsDelegate

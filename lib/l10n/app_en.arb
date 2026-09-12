@@ -5648,5 +5648,344 @@
         "example": "Kate’s Birthday"
       }
     }
+  },
+  "comingSoon": "Coming soon",
+  "@comingSoon": {
+    "description": "Generic placeholder for a row that is designed but not built yet"
+  },
+  "done": "Done",
+  "@done": {
+    "description": "Generic dialog dismiss button"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Generic dialog confirm button"
+  },
+  "settingsMeasures": "Measures",
+  "@settingsMeasures": {
+    "description": "Flow 09 - Settings. Screens 01 and 05. The one setting that changes the product"
+  },
+  "measureUnitMl": "Millilitres",
+  "@measureUnitMl": {
+    "description": "Flow 09 - Settings. Screen 05. The long form of the ml segment"
+  },
+  "measureUnitOz": "Ounces",
+  "@measureUnitOz": {
+    "description": "Flow 09 - Settings. Screen 05. The long form of the oz segment"
+  },
+  "settingsMeasuresBody": "Every recipe, every pour card and the shopping list after the party.",
+  "@settingsMeasuresBody": {
+    "description": "Flow 09 - Settings. Screen 05. What the setting touches"
+  },
+  "settingsMeasuresPreviewCaption": "How it will read tonight",
+  "@settingsMeasuresPreviewCaption": {
+    "description": "Flow 09 - Settings. Screen 05. Caption over the live recipe preview"
+  },
+  "settingsMeasuresNoteRounding": "Recipes are stored in millilitres. Ounces are rounded to the nearest quarter, the way a jigger pours.",
+  "@settingsMeasuresNoteRounding": {
+    "description": "Flow 09 - Settings. Screen 05. The rounding rule"
+  },
+  "settingsMeasuresNoteDashes": "Dashes, barspoons and \"top up\" never convert. They're not volumes.",
+  "@settingsMeasuresNoteDashes": {
+    "description": "Flow 09 - Settings. Screen 05. What never converts"
+  },
+  "settingsMeasuresNoteYoursOnly": "Yours only. A guest reading your menu sees their own units.",
+  "@settingsMeasuresNoteYoursOnly": {
+    "description": "Flow 09 - Settings. Screen 05. Scope of the setting"
+  },
+  "settingsMeasuresFootnote": "Set from your region the first time you open the app.",
+  "@settingsMeasuresFootnote": {
+    "description": "Flow 09 - Settings. Screen 05. Footnote"
+  },
+  "settingsLanguageBody": "Changes the app and the recipe text. Cocktail names stay as they're written.",
+  "@settingsLanguageBody": {
+    "description": "Flow 09 - Settings. Screen 04. What changing the language touches"
+  },
+  "settingsLanguageFollowsPhone": "Follow my phone",
+  "@settingsLanguageFollowsPhone": {
+    "description": "Flow 09 - Settings. Screen 04. The third, real option next to English/Ukrainian"
+  },
+  "settingsLanguageFollowsPhoneCaption": "Your phone is set to {language}",
+  "@settingsLanguageFollowsPhoneCaption": {
+    "description": "Flow 09 - Settings. Screen 04. What the device's own language currently is",
+    "placeholders": {
+      "language": {
+        "type": "String",
+        "example": "English"
+      }
+    }
+  },
+  "settingsLanguageNoteGuests": "Guests read the menu in their own language, not yours. A party has no language.",
+  "@settingsLanguageNoteGuests": {
+    "description": "Flow 09 - Settings. Screen 04. Scope note"
+  },
+  "settingsLanguageNoteOwnRecipes": "Recipes you wrote yourself stay in the language you typed them in.",
+  "@settingsLanguageNoteOwnRecipes": {
+    "description": "Flow 09 - Settings. Screen 04. Scope note"
+  },
+  "settingsNotifications": "Notifications",
+  "@settingsNotifications": {
+    "description": "Flow 09 - Settings. Screens 01 and 06. Row label and screen title"
+  },
+  "settingsNotificationsValue": "{on} of 3 on",
+  "@settingsNotificationsValue": {
+    "description": "Flow 09 - Settings. Screen 01. How many of the three switches are on",
+    "placeholders": {
+      "on": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsNotificationsBody": "We only interrupt a party for something happening in it right now.",
+  "@settingsNotificationsBody": {
+    "description": "Flow 09 - Settings. Screen 06. Intro line"
+  },
+  "settingsNotifyDrinkReady": "Your drink is ready",
+  "@settingsNotifyDrinkReady": {
+    "description": "Flow 09 - Settings. Screen 06. First switch"
+  },
+  "settingsNotifyDrinkReadyCaption": "The one that matters. Sent once, when it hits the bar.",
+  "@settingsNotifyDrinkReadyCaption": {
+    "description": "Flow 09 - Settings. Screen 06. First switch's caption"
+  },
+  "settingsNotifyNewOrder": "New order, when you host",
+  "@settingsNotifyNewOrder": {
+    "description": "Flow 09 - Settings. Screen 06. Second switch"
+  },
+  "settingsNotifyNewOrderCaption": "Batched — four orders in a rush is one buzz.",
+  "@settingsNotifyNewOrderCaption": {
+    "description": "Flow 09 - Settings. Screen 06. Second switch's caption"
+  },
+  "settingsNotifyRecap": "Your recap in the morning",
+  "@settingsNotifyRecap": {
+    "description": "Flow 09 - Settings. Screen 06. Third switch"
+  },
+  "settingsNotifyRecapCaption": "One at 10:00 the day after a party you hosted.",
+  "@settingsNotifyRecapCaption": {
+    "description": "Flow 09 - Settings. Screen 06. Third switch's caption"
+  },
+  "settingsNotifyNoteNever": "Never: someone else's drink, a queue position moving, marketing, streaks.",
+  "@settingsNotifyNoteNever": {
+    "description": "Flow 09 - Settings. Screen 06. What this app will never push"
+  },
+  "settingsNotifyNoteNoQuietHours": "No quiet hours. A party at 01:00 is exactly when this should work.",
+  "@settingsNotifyNoteNoQuietHours": {
+    "description": "Flow 09 - Settings. Screen 06. No quiet-hours note"
+  },
+  "settingsNotifyFootnote": "Only while a party you're in is live. Nothing between parties.",
+  "@settingsNotifyFootnote": {
+    "description": "Flow 09 - Settings. Screen 06. Footnote"
+  },
+  "settingsAccountData": "Account & data",
+  "@settingsAccountData": {
+    "description": "Flow 09 - Settings. Screens 01 and 07. Row label and screen title"
+  },
+  "settingsAccountSince": "Since {date}",
+  "@settingsAccountSince": {
+    "description": "Flow 09 - Settings. Screen 07. When the account was created",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "14 Mar 2026"
+      }
+    }
+  },
+  "settingsDownloadData": "Download your data",
+  "@settingsDownloadData": {
+    "description": "Flow 09 - Settings. Screen 07. Row, not yet built"
+  },
+  "settingsTermsPrivacy": "Terms & privacy",
+  "@settingsTermsPrivacy": {
+    "description": "Flow 09 - Settings. Screen 07. Row, not yet built"
+  },
+  "settingsSendFeedback": "Send feedback",
+  "@settingsSendFeedback": {
+    "description": "Flow 09 - Settings. Screen 07. Row, not yet built"
+  },
+  "settingsSignOutBlockedTitle": "End the party first",
+  "@settingsSignOutBlockedTitle": {
+    "description": "Flow 09 - Settings. Screen 07 edge case. Signing out while hosting a live party"
+  },
+  "settingsSignOutBlockedBody": "You're still hosting. End the party before you sign out.",
+  "@settingsSignOutBlockedBody": {
+    "description": "Flow 09 - Settings. Screen 07 edge case. Explains the block"
+  },
+  "settingsSignOutBlockedAction": "Go to the party",
+  "@settingsSignOutBlockedAction": {
+    "description": "Flow 09 - Settings. Screen 07 edge case. Sends the host back to the live queue"
+  },
+  "settingsDeleteAccount": "Delete my account",
+  "@settingsDeleteAccount": {
+    "description": "Flow 09 - Settings. Screen 07. The row that opens the delete sheet"
+  },
+  "settingsDeleteTitle": "This deletes\nyour account",
+  "@settingsDeleteTitle": {
+    "description": "Flow 09 - Settings. Screen 07's overlay. Headline"
+  },
+  "settingsDeleteBody": "Everything below goes at once and can't be brought back.",
+  "@settingsDeleteBody": {
+    "description": "Flow 09 - Settings. Screen 07's overlay. Sub-headline"
+  },
+  "settingsDeleteManifestNights": "{nights, plural, =0{No nights yet} =1{1 night} other{{nights} nights}} · {poured, plural, =0{nothing poured} =1{1 drink poured} other{{poured} drinks poured}}",
+  "@settingsDeleteManifestNights": {
+    "description": "Flow 09 - Settings. Screen 07's overlay. What hosting history is deleted",
+    "placeholders": {
+      "nights": {
+        "type": "int"
+      },
+      "poured": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsDeleteManifestBar": "{count, plural, =0{My bar} =1{My bar · 1 bottle} other{My bar · {count} bottles}}",
+  "@settingsDeleteManifestBar": {
+    "description": "Flow 09 - Settings. Screen 07's overlay. What the shelf holds",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsDeleteManifestMenus": "{count, plural, =0{No saved menus} =1{1 saved menu} other{{count} saved menus}}",
+  "@settingsDeleteManifestMenus": {
+    "description": "Flow 09 - Settings. Screen 07's overlay. Saved menus deleted",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsDeleteManifestGuests": "Your guests' drink counts stay in their own recaps. Your name leaves them.",
+  "@settingsDeleteManifestGuests": {
+    "description": "Flow 09 - Settings. Screen 07's overlay. What survives the deletion"
+  },
+  "settingsDeleteTypeToConfirm": "type to confirm",
+  "@settingsDeleteTypeToConfirm": {
+    "description": "Flow 09 - Settings. Screen 07's overlay. Hint beside the DELETE field"
+  },
+  "settingsDeleteConfirm": "Delete everything",
+  "@settingsDeleteConfirm": {
+    "description": "Flow 09 - Settings. Screen 07's overlay. The destructive button"
+  },
+  "settingsDeleteKeep": "Keep my account",
+  "@settingsDeleteKeep": {
+    "description": "Flow 09 - Settings. Screen 07's overlay. The way out"
+  },
+  "settingsDeleteNeedsRecentLogin": "Sign in again to confirm this, then try Delete.",
+  "@settingsDeleteNeedsRecentLogin": {
+    "description": "Flow 09 - Settings. Screen 07's overlay. Firebase refused a stale session"
+  },
+  "settingsDeleteFailed": "Couldn't delete your account. Try again.",
+  "@settingsDeleteFailed": {
+    "description": "Flow 09 - Settings. Screen 07's overlay. Any other failure"
+  },
+  "settingsAbout": "About PartyBar",
+  "@settingsAbout": {
+    "description": "Flow 09 - Settings. Screen 01. Row label"
+  },
+  "settingsAboutBody": "Version {version}.\n\nDrink responsibly. PartyBar is for people over 18.",
+  "@settingsAboutBody": {
+    "description": "Flow 09 - Settings. The About dialog's body",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.0.0"
+      }
+    }
+  },
+  "settingsDisclaimer": "Drink responsibly. PartyBar is for people over 18.",
+  "@settingsDisclaimer": {
+    "description": "Flow 09 - Settings. Screen 01. Footer on every state of the index"
+  },
+  "settingsUnnamed": "You",
+  "@settingsUnnamed": {
+    "description": "Flow 09 - Settings. Screen 01. Fallback when a signed-in account has no display name"
+  },
+  "settingsNoAccountEyebrow": "No account yet",
+  "@settingsNoAccountEyebrow": {
+    "description": "Flow 09 - Settings. Screen 02. Eyebrow over the sign-in hero"
+  },
+  "settingsNoAccountTitle": "Keep the nights you're part of",
+  "@settingsNoAccountTitle": {
+    "description": "Flow 09 - Settings. Screen 02. Sign-in hero headline"
+  },
+  "settingsNoAccountBody": "Sign in and your name, your measures, and the nights you're part of follow you to your next phone.",
+  "@settingsNoAccountBody": {
+    "description": "Flow 09 - Settings. Screen 02. Sign-in hero body"
+  },
+  "settingsSignIn": "Sign in",
+  "@settingsSignIn": {
+    "description": "Flow 09 - Settings. Screen 02. Sign-in hero button"
+  },
+  "settingsGuestNameCaption": "The name hosts see on your order",
+  "@settingsGuestNameCaption": {
+    "description": "Flow 09 - Settings. Screen 02. Caption under a guest's remembered name"
+  },
+  "settingsChange": "Change",
+  "@settingsChange": {
+    "description": "Flow 09 - Settings. Screen 02. Opens the rename dialog for a guest's name"
+  },
+  "settingsGuestNameTitle": "Change your name",
+  "@settingsGuestNameTitle": {
+    "description": "Flow 09 - Settings. Screen 02. Rename dialog title"
+  },
+  "settingsGuestNameHint": "Your name",
+  "@settingsGuestNameHint": {
+    "description": "Flow 09 - Settings. Screen 02. Rename dialog field hint"
+  },
+  "settingsSignedOutNote": "No notifications and no history without an account — there's nowhere to send them yet.",
+  "@settingsSignedOutNote": {
+    "description": "Flow 09 - Settings. Screen 02. What is missing while signed out"
+  },
+  "profileNameLabel": "Name",
+  "@profileNameLabel": {
+    "description": "Flow 09 - Settings. Screen 03. Eyebrow over the name field"
+  },
+  "profileIntro": "This is the whole profile. Guests and hosts see a name and a circle — nothing else.",
+  "@profileIntro": {
+    "description": "Flow 09 - Settings. Screen 03. Intro under the avatar"
+  },
+  "profileSaving": "Saving…",
+  "@profileSaving": {
+    "description": "Flow 09 - Settings. Screen 03. Transient state while a name edit is in flight"
+  },
+  "profileSaved": "Saved",
+  "@profileSaved": {
+    "description": "Flow 09 - Settings. Screen 03. Transient confirmation after a name or allergen edit"
+  },
+  "profileAllergensLabel": "Allergens",
+  "@profileAllergensLabel": {
+    "description": "Flow 09 - Settings. Screen 03. Eyebrow over the allergen chips"
+  },
+  "profileAddAllergen": "Add",
+  "@profileAddAllergen": {
+    "description": "Flow 09 - Settings. Screen 03. The chip that opens the add-allergen prompt"
+  },
+  "profileAllergenHint": "e.g. Peanuts",
+  "@profileAllergenHint": {
+    "description": "Flow 09 - Settings. Screen 03. Add-allergen prompt field hint"
+  },
+  "profileAllergensCaveat": "These ride along with your order so the host knows. They don't hide anything on the menu yet.",
+  "@profileAllergensCaveat": {
+    "description": "Flow 09 - Settings. Screen 03. What allergens do and do not do yet"
+  },
+  "profileFooterStats": "Hosting since {since}. {parties}, {drinks}.",
+  "@profileFooterStats": {
+    "description": "Flow 09 - Settings. Screen 03. Footer, shown only once a host has closed a party",
+    "placeholders": {
+      "since": {
+        "type": "String",
+        "example": "March"
+      },
+      "parties": {
+        "type": "String",
+        "example": "6 parties"
+      },
+      "drinks": {
+        "type": "String",
+        "example": "118 drinks poured"
+      }
+    }
   }
 }

@@ -4024,4 +4024,286 @@ class AppLocalizationsEn extends AppLocalizations {
   String guestRecapYourNight(String party) {
     return 'Your night at $party';
   }
+
+  @override
+  String get comingSoon => 'Coming soon';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get settingsMeasures => 'Measures';
+
+  @override
+  String get measureUnitMl => 'Millilitres';
+
+  @override
+  String get measureUnitOz => 'Ounces';
+
+  @override
+  String get settingsMeasuresBody =>
+      'Every recipe, every pour card and the shopping list after the party.';
+
+  @override
+  String get settingsMeasuresPreviewCaption => 'How it will read tonight';
+
+  @override
+  String get settingsMeasuresNoteRounding =>
+      'Recipes are stored in millilitres. Ounces are rounded to the nearest quarter, the way a jigger pours.';
+
+  @override
+  String get settingsMeasuresNoteDashes =>
+      'Dashes, barspoons and \"top up\" never convert. They\'re not volumes.';
+
+  @override
+  String get settingsMeasuresNoteYoursOnly =>
+      'Yours only. A guest reading your menu sees their own units.';
+
+  @override
+  String get settingsMeasuresFootnote =>
+      'Set from your region the first time you open the app.';
+
+  @override
+  String get settingsLanguageBody =>
+      'Changes the app and the recipe text. Cocktail names stay as they\'re written.';
+
+  @override
+  String get settingsLanguageFollowsPhone => 'Follow my phone';
+
+  @override
+  String settingsLanguageFollowsPhoneCaption(String language) {
+    return 'Your phone is set to $language';
+  }
+
+  @override
+  String get settingsLanguageNoteGuests =>
+      'Guests read the menu in their own language, not yours. A party has no language.';
+
+  @override
+  String get settingsLanguageNoteOwnRecipes =>
+      'Recipes you wrote yourself stay in the language you typed them in.';
+
+  @override
+  String get settingsNotifications => 'Notifications';
+
+  @override
+  String settingsNotificationsValue(int on) {
+    return '$on of 3 on';
+  }
+
+  @override
+  String get settingsNotificationsBody =>
+      'We only interrupt a party for something happening in it right now.';
+
+  @override
+  String get settingsNotifyDrinkReady => 'Your drink is ready';
+
+  @override
+  String get settingsNotifyDrinkReadyCaption =>
+      'The one that matters. Sent once, when it hits the bar.';
+
+  @override
+  String get settingsNotifyNewOrder => 'New order, when you host';
+
+  @override
+  String get settingsNotifyNewOrderCaption =>
+      'Batched — four orders in a rush is one buzz.';
+
+  @override
+  String get settingsNotifyRecap => 'Your recap in the morning';
+
+  @override
+  String get settingsNotifyRecapCaption =>
+      'One at 10:00 the day after a party you hosted.';
+
+  @override
+  String get settingsNotifyNoteNever =>
+      'Never: someone else\'s drink, a queue position moving, marketing, streaks.';
+
+  @override
+  String get settingsNotifyNoteNoQuietHours =>
+      'No quiet hours. A party at 01:00 is exactly when this should work.';
+
+  @override
+  String get settingsNotifyFootnote =>
+      'Only while a party you\'re in is live. Nothing between parties.';
+
+  @override
+  String get settingsAccountData => 'Account & data';
+
+  @override
+  String settingsAccountSince(String date) {
+    return 'Since $date';
+  }
+
+  @override
+  String get settingsDownloadData => 'Download your data';
+
+  @override
+  String get settingsTermsPrivacy => 'Terms & privacy';
+
+  @override
+  String get settingsSendFeedback => 'Send feedback';
+
+  @override
+  String get settingsSignOutBlockedTitle => 'End the party first';
+
+  @override
+  String get settingsSignOutBlockedBody =>
+      'You\'re still hosting. End the party before you sign out.';
+
+  @override
+  String get settingsSignOutBlockedAction => 'Go to the party';
+
+  @override
+  String get settingsDeleteAccount => 'Delete my account';
+
+  @override
+  String get settingsDeleteTitle => 'This deletes\nyour account';
+
+  @override
+  String get settingsDeleteBody =>
+      'Everything below goes at once and can\'t be brought back.';
+
+  @override
+  String settingsDeleteManifestNights(int nights, int poured) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nights,
+      locale: localeName,
+      other: '$nights nights',
+      one: '1 night',
+      zero: 'No nights yet',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      poured,
+      locale: localeName,
+      other: '$poured drinks poured',
+      one: '1 drink poured',
+      zero: 'nothing poured',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String settingsDeleteManifestBar(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'My bar · $count bottles',
+      one: 'My bar · 1 bottle',
+      zero: 'My bar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String settingsDeleteManifestMenus(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count saved menus',
+      one: '1 saved menu',
+      zero: 'No saved menus',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsDeleteManifestGuests =>
+      'Your guests\' drink counts stay in their own recaps. Your name leaves them.';
+
+  @override
+  String get settingsDeleteTypeToConfirm => 'type to confirm';
+
+  @override
+  String get settingsDeleteConfirm => 'Delete everything';
+
+  @override
+  String get settingsDeleteKeep => 'Keep my account';
+
+  @override
+  String get settingsDeleteNeedsRecentLogin =>
+      'Sign in again to confirm this, then try Delete.';
+
+  @override
+  String get settingsDeleteFailed =>
+      'Couldn\'t delete your account. Try again.';
+
+  @override
+  String get settingsAbout => 'About PartyBar';
+
+  @override
+  String settingsAboutBody(String version) {
+    return 'Version $version.\n\nDrink responsibly. PartyBar is for people over 18.';
+  }
+
+  @override
+  String get settingsDisclaimer =>
+      'Drink responsibly. PartyBar is for people over 18.';
+
+  @override
+  String get settingsUnnamed => 'You';
+
+  @override
+  String get settingsNoAccountEyebrow => 'No account yet';
+
+  @override
+  String get settingsNoAccountTitle => 'Keep the nights you\'re part of';
+
+  @override
+  String get settingsNoAccountBody =>
+      'Sign in and your name, your measures, and the nights you\'re part of follow you to your next phone.';
+
+  @override
+  String get settingsSignIn => 'Sign in';
+
+  @override
+  String get settingsGuestNameCaption => 'The name hosts see on your order';
+
+  @override
+  String get settingsChange => 'Change';
+
+  @override
+  String get settingsGuestNameTitle => 'Change your name';
+
+  @override
+  String get settingsGuestNameHint => 'Your name';
+
+  @override
+  String get settingsSignedOutNote =>
+      'No notifications and no history without an account — there\'s nowhere to send them yet.';
+
+  @override
+  String get profileNameLabel => 'Name';
+
+  @override
+  String get profileIntro =>
+      'This is the whole profile. Guests and hosts see a name and a circle — nothing else.';
+
+  @override
+  String get profileSaving => 'Saving…';
+
+  @override
+  String get profileSaved => 'Saved';
+
+  @override
+  String get profileAllergensLabel => 'Allergens';
+
+  @override
+  String get profileAddAllergen => 'Add';
+
+  @override
+  String get profileAllergenHint => 'e.g. Peanuts';
+
+  @override
+  String get profileAllergensCaveat =>
+      'These ride along with your order so the host knows. They don\'t hide anything on the menu yet.';
+
+  @override
+  String profileFooterStats(String since, String parties, String drinks) {
+    return 'Hosting since $since. $parties, $drinks.';
+  }
 }

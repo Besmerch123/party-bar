@@ -48,6 +48,11 @@ enum AuthFailureKind {
   /// No connection. The draft is on the device either way.
   offline,
 
+  /// Flow 09 · screen 07. Deleting an account is sensitive enough that
+  /// Firebase refuses it on a session older than a few minutes — the fix is
+  /// signing in again, not a retry.
+  requiresRecentLogin,
+
   /// Anything else.
   unknown,
 }

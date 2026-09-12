@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/models.dart';
+import '../../providers/measure_unit_provider.dart';
 import '../../providers/party_cocktails.dart';
 import '../../services/order_service.dart';
 import '../../theme/theme.dart';
@@ -452,6 +454,7 @@ class _MeasuresGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final unit = context.watch<MeasureUnitProvider>().unit;
     // Most of the catalogue has no quantities yet. Every ingredient is still
     // listed, so the host always sees what goes in; the amount column only
     // appears when the recipe states at least one.
@@ -477,7 +480,9 @@ class _MeasuresGroup extends StatelessWidget {
                     ConstrainedBox(
                       constraints: const BoxConstraints(minWidth: 78),
                       child: Text(
-                        entry.$2 == null ? '—' : measureLabel(l10n, entry.$2!),
+                        entry.$2 == null
+                            ? '—'
+                            : measureLabel(l10n, entry.$2!, displayUnit: unit),
                         style: AppTypography.mono.copyWith(
                           fontSize: 22,
                           fontWeight: FontWeight.w800,

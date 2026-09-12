@@ -54,6 +54,21 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String settings = '/settings';
 
+  /// Flow 09 · screen 04. Works signed out too — measures and language are
+  /// the two rows that do not need an account.
+  static const String settingsLanguage = '/settings/language';
+
+  /// Flow 09 · screen 05 — the one setting that changes the product.
+  static const String settingsMeasures = '/settings/measures';
+
+  /// Flow 09 · screen 06. Signed in only: there is nowhere to send a push
+  /// without an account behind it.
+  static const String settingsNotifications = '/settings/notifications';
+
+  /// Flow 09 · screen 07 — sign-out, delete, and the door back to whichever
+  /// one someone actually meant.
+  static const String settingsAccount = '/settings/account';
+
   /// Flow 03. The cold sign-in screen; the barrier that usually stands in for
   /// it is a sheet over whatever it interrupted, not a route.
   static const String auth = '/auth';
@@ -301,6 +316,41 @@ GoRouter createAppRouter({required bool showWelcome}) {
       GoRoute(
         path: AppRoutes.settings,
         builder: (context, state) => const SettingsScreen(),
+      ),
+      // Flow 09 - settings & profile. Language and measures work signed out;
+      // the profile, notifications and account screens do not, since there
+      // is nothing behind them for a guest to read or change.
+      GoRoute(
+        path: AppRoutes.profile,
+        builder: (context, state) => AuthGuard(
+          redirectPath: AppRoutes.profile,
+          reason: AuthReason.cold,
+          child: const ProfileScreen(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.settingsLanguage,
+        builder: (context, state) => const LanguageScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.settingsMeasures,
+        builder: (context, state) => const MeasuresScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.settingsNotifications,
+        builder: (context, state) => AuthGuard(
+          redirectPath: AppRoutes.settingsNotifications,
+          reason: AuthReason.cold,
+          child: const NotificationsScreen(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.settingsAccount,
+        builder: (context, state) => AuthGuard(
+          redirectPath: AppRoutes.settingsAccount,
+          reason: AuthReason.cold,
+          child: const AccountDataScreen(),
+        ),
       ),
       // Flow 03 — auth.
       GoRoute(

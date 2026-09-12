@@ -81,6 +81,19 @@ class AuthService {
     ]);
   }
 
+  /// Flow 09 · screen 07's one-way door. The Firestore side of the account
+  /// is the caller's problem — this only ever touches the sign-in itself.
+  Future<void> deleteAccount() async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    try {
+      await user.delete();
+    } on FirebaseAuthException catch (e) {
+      throw _translate(e);
+    }
+  }
+
   AuthFailure _translate(FirebaseAuthException e) {
     return switch (e.code) {
       'account-exists-with-different-credential' ||
@@ -95,6 +108,10 @@ class AuthService {
       ),
       'web-context-canceled' ||
       'canceled' => AuthFailure(AuthFailureKind.cancelled, detail: e.code),
+      'requires-recent-login' => AuthFailure(
+        AuthFailureKind.requiresRecentLogin,
+        detail: e.code,
+      ),
       _ => AuthFailure(
         AuthFailureKind.unknown,
         detail: '${e.code}: ${e.message}',

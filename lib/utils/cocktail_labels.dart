@@ -59,10 +59,39 @@ String unitLabel(AppLocalizations l10n, MeasureUnit unit) => switch (unit) {
 };
 
 /// "45 ml", or just "top up" for units that carry no useful number.
-String measureLabel(AppLocalizations l10n, IngredientMeasure measure) {
-  final unit = unitLabel(l10n, measure.unit);
-  if (!measure.unit.showsAmount) return unit;
-  return l10n.measureAmount(measure.formattedAmount, unit);
+///
+/// [displayUnit] is the settings preference from [MeasureUnitProvider] — omit
+/// it to print the amount exactly as the recipe stores it. A dash, a
+/// barspoon or a top-up never converts regardless, since neither carries a
+/// volume in the first place.
+String measureLabel(
+  AppLocalizations l10n,
+  IngredientMeasure measure, {
+  MeasureUnit? displayUnit,
+}) {
+  final resolved = displayUnit == null ? measure : measure.displayAs(displayUnit);
+  if (!resolved.unit.showsAmount) return unitLabel(l10n, resolved.unit);
+
+  final amount = resolved.unit == MeasureUnit.oz
+      ? _formatQuarterOz(resolved.amount)
+      : resolved.formattedAmount;
+  return l10n.measureAmount(amount, unitLabel(l10n, resolved.unit));
+}
+
+/// "1½", never "1.5" — the way a jigger's markings actually read.
+String _formatQuarterOz(double oz) {
+  var whole = oz.truncate();
+  final quarters = ((oz - whole) * 4).round();
+
+  const glyphs = ['', '¼', '½', '¾'];
+  var glyph = glyphs[quarters % 4];
+  if (quarters == 4) {
+    whole += 1;
+    glyph = '';
+  }
+
+  if (whole == 0 && glyph.isNotEmpty) return glyph;
+  return '$whole$glyph';
 }
 
 /// The line under a cocktail's name — "5 min · stirred · 18% ABV".

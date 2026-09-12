@@ -8,6 +8,13 @@ import 'app_colors.dart';
 /// Plus Jakarta Sans carries everything human. Space Mono is reserved for
 /// quantities, codes and timers — never for sentences.
 abstract final class AppTypography {
+  /// Plus Jakarta Sans' Cyrillic set is missing a few letters outright —
+  /// "і" and "ї" render as tofu in every weight, which only ever surfaced
+  /// once Flow 09 gave the Ukrainian locale a screen to try switching to
+  /// live. The fallback only ever fires for the glyphs Plus Jakarta Sans
+  /// does not have; every glyph it does have renders exactly as before.
+  static const _cyrillicFallback = ['Roboto', 'Noto Sans', 'sans-serif'];
+
   static TextStyle _sans({
     required double size,
     required FontWeight weight,
@@ -20,7 +27,7 @@ abstract final class AppTypography {
     letterSpacing: letterSpacing,
     height: height,
     color: color,
-  );
+  ).copyWith(fontFamilyFallback: _cyrillicFallback);
 
   /// Screen-owning headline over a photo hero.
   static TextStyle get display =>

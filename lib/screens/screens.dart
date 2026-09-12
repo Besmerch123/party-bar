@@ -23,8 +23,14 @@ export 'party/party_recap_screen.dart';
 export 'party/party_nights_screen.dart';
 export 'party/share_card_screen.dart';
 export 'party/guest/guest_recap_screen.dart';
+// Flow 09 - settings & profile. Thin on purpose: language and measures work
+// signed out, the rest needs an account behind it.
 export 'settings/profile_screen.dart';
 export 'settings/settings_screen.dart';
+export 'settings/language_screen.dart';
+export 'settings/measures_screen.dart';
+export 'settings/notifications_screen.dart';
+export 'settings/account_data_screen.dart';
 // Flow 04 - My bar. The shelf, search (shared with the shopping list), the
 // list itself, and the once-a-party "what ran out" check.
 export 'bar/my_bar_screen.dart';

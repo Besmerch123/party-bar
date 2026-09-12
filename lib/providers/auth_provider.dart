@@ -172,6 +172,32 @@ class AuthenticationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Flow 09 · screen 07's one-way door. The caller is expected to have
+  /// already cleared whatever it owns on the device — the shelf, saved
+  /// menus — since this provider has no reference to hold them by; this only
+  /// ever touches the account itself: the Firestore document, then the
+  /// sign-in that owned it.
+  Future<bool> deleteAccount() async {
+    final uid = _user?.uid;
+    if (uid == null) return false;
+
+    final deleted = await _attempt(() async {
+      await _accountService.deleteAccountDoc(uid);
+      await _authService.deleteAccount();
+    });
+
+    if (deleted) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_guestNameKey);
+      await prefs.remove(_claimPromptKey);
+      _guestName = null;
+      _justSignedIn = false;
+      notifyListeners();
+    }
+
+    return deleted;
+  }
+
   /// Consumed by the screen that shows the "signed in as ..." confirmation, so
   /// the chip appears once rather than on every rebuild for the rest of the
   /// session.

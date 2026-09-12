@@ -18,6 +18,11 @@ abstract final class AppColors {
   static const ready = Color(0xFF35D07F);
   static const low = Color(0xFFF5A524);
 
+  /// Irreversible actions only — deleting an account, never a warning.
+  static const danger = Color(0xFFFF5C5C);
+  static const dangerLight = Color(0xFFFFA9A9);
+  static const dangerWash = Color(0x29FF5C5C);
+
   // Ink ramp: title / body / meta / hairline
   static const ink = Color(0xFFFFFFFF);
   static const inkBody = Color(0x99FFFFFF);
