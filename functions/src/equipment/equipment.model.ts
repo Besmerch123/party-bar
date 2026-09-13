@@ -1,6 +1,22 @@
-import { Timestamp } from 'firebase-admin/firestore';
+import type { Timestamp } from 'firebase-admin/firestore';
 import type { ElasticDocument } from '../elastic/elastic.types';
-import { I18nField } from '../shared/types';
+import type { I18nField } from '../shared/types';
+
+/**
+ * What a piece of equipment is for.
+ *
+ * The app's shelf groups tools and glassware together but files ice with the
+ * ice ingredients, so the distinction has to survive the round trip rather
+ * than being inferred from the title. Pre-Flow-04 documents carry no kind at
+ * all and read back as {@link EQUIPMENT_KINDS.TOOL}.
+ */
+export const EQUIPMENT_KINDS = {
+  TOOL: 'tool',
+  GLASSWARE: 'glassware',
+  ICE: 'ice',
+} as const;
+
+export type EquipmentKind = typeof EQUIPMENT_KINDS[keyof typeof EQUIPMENT_KINDS];
 
 /**
  * Equipment Domain Model
@@ -17,6 +33,23 @@ export interface Equipment {
 
   /** Google Cloud Storage path or URL to the equipment image */
   image?: string | null;
+
+  /**
+   * Stable human key -- "shaker", "coupe". Mirrors `Ingredient.slug`: the
+   * shelf is collected on first run before any account exists, so it is stored
+   * as slugs rather than document ids, and this is what lets a shaker picked
+   * during onboarding resolve to a real document later.
+   */
+  slug?: string | null;
+
+  /** Tool, glassware or ice. Absent on the pre-Flow-04 catalogue. */
+  kind?: EquipmentKind | null;
+
+  /**
+   * Catalogue-wide "in N drinks" figure shown on the bar's item sheet.
+   * Derived -- see the catalogue stats module -- never authored by hand.
+   */
+  cocktailCount?: number | null;
   
   /** Timestamp when the equipment was created */
   createdAt?: string;
@@ -37,6 +70,8 @@ export interface EquipmentDocument extends Omit<Equipment, 'id' | 'createdAt' | 
 export interface CreateEquipmentDto {
   title: I18nField;
   image?: string | null;
+  slug?: string | null;
+  kind?: EquipmentKind | null;
 }
 
 /**
@@ -47,6 +82,8 @@ export interface UpdateEquipmentDto {
   id: string;
   title?: I18nField;
   image?: string | null;
+  slug?: string | null;
+  kind?: EquipmentKind | null;
 }
 
 export interface EquipmentSearchDocument extends ElasticDocument, Omit<Equipment, 'createdAt' | 'updatedAt'> {}

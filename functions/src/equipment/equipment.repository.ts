@@ -10,7 +10,7 @@ import { CollectionReference, DocumentSnapshot, Timestamp, FieldPath } from 'fir
 
 import { AbstractRepository } from '../shared/abstract.repository';
 
-import { EquipmentDocument, CreateEquipmentDto, UpdateEquipmentDto } from './equipment.model';
+import { EquipmentDocument, CreateEquipmentDto, UpdateEquipmentDto, EQUIPMENT_KINDS } from './equipment.model';
 
 export class EquipmentRepository extends AbstractRepository {
   readonly collection = firestore().collection('equipment') as CollectionReference<EquipmentDocument>;
@@ -25,13 +25,16 @@ export class EquipmentRepository extends AbstractRepository {
       throw new Error('English title is required to create equipment');
     }
 
-    const slug = await this.getSafeSlug(englishTitle);
-    const docRef = this.collection.doc(slug);
+    const docId = await this.getSafeSlug(englishTitle);
+    const docRef = this.collection.doc(docId);
 
     const timestamp = Timestamp.now();
     const equipmentDoc: EquipmentDocument = {
       title: equipmentData.title,
-      image: equipmentData.image,
+      image: equipmentData.image ?? null,
+      slug: equipmentData.slug ?? null,
+      kind: equipmentData.kind ?? EQUIPMENT_KINDS.TOOL,
+      cocktailCount: null,
       createdAt: timestamp,
       updatedAt: timestamp,
     };

@@ -25,10 +25,21 @@ src/equipment/
 
 The `Equipment` is the core entity representing tools and equipment needed for cocktail preparation:
 
-- **ID**: Unique identifier (Firebase document ID)
-- **Title**: The name of the equipment
+- **ID**: Unique identifier (Firebase document ID), slugified from the English title
+- **Title**: The name of the equipment (`I18nField`)
 - **Image**: Optional Google Cloud Storage path or public URL
+- **Kind**: `tool`, `glassware` or `ice`. The app's shelf groups tools and
+  glassware together but files ice with the ice *ingredients*, so the
+  distinction has to survive the round trip rather than being guessed from the
+  title. Documents predating this field read back as `tool`.
+- **Slug**: Stable camelCase shelf key — `bostonShaker`, not the kebab-case
+  document id. Mirrors `Ingredient.slug`. Optional.
 - **Timestamps**: Created/updated dates
+
+### Derived figures
+
+`cocktailCount` ("in N drinks") is computed from the whole cocktail collection
+by `recountCatalogue` — see `catalogue/README.md` — never authored.
 
 ## Endpoints Organization
 

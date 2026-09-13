@@ -9,7 +9,7 @@ import { IngredientRepository } from './ingredient.repository';
 
 import { AbstractService } from '../shared/abstract.service';
 
-import { Ingredient, CreateIngredientDto, UpdateIngredientDto, IngredientDocument } from './ingredient.model';
+import { Ingredient, CreateIngredientDto, UpdateIngredientDto, IngredientDocument, INGREDIENT_CATEGORIES, IngredientCategory } from './ingredient.model';
 import { DocumentSnapshot } from 'firebase-admin/firestore';
 
 export class IngredientService extends AbstractService {
@@ -31,6 +31,7 @@ export class IngredientService extends AbstractService {
       title: normalizedTitle,
       category: data.category,
       image,
+      slug: this.normalizeSlug(data.slug),
     });
 
     return this.docSnapshotToIngredient(created);
@@ -120,6 +121,15 @@ export class IngredientService extends AbstractService {
         updatePayload.image = image;
       }
     }
+    if (data.slug !== undefined) {
+      updatePayload.slug = this.normalizeSlug(data.slug);
+    }
+    if (data.unlocks !== undefined) {
+      updatePayload.unlocks = this.validateCount(data.unlocks, 'unlocks');
+    }
+    if (data.cocktailCount !== undefined) {
+      updatePayload.cocktailCount = this.validateCount(data.cocktailCount, 'cocktailCount');
+    }
 
     const updatedIngredient = await this.repository.update(updatePayload);
     if (!updatedIngredient) {
@@ -150,22 +160,67 @@ export class IngredientService extends AbstractService {
   }
 
   /**
-   * Validates ingredient category
+   * Validates ingredient category against the known set.
+   *
+   * Anything outside it decodes to `other` on the device, so accepting a typo
+   * here miscategorises the ingredient silently rather than failing the write.
    */
   private validateCategory(category: string): void {
     if (!category || typeof category !== 'string') {
       throw new Error('Category is required and must be a string');
     }
 
-    const trimmedCategory = category.trim().toLowerCase();
+    const trimmedCategory = category.trim().toLowerCase() as IngredientCategory;
     if (trimmedCategory.length === 0) {
       throw new Error('Category cannot be empty');
     }
 
-    // For now we allow any string, but could validate against INGREDIENT_CATEGORIES if needed
-    if (trimmedCategory.length > 50) {
-      throw new Error('Category cannot exceed 50 characters');
+    const allowed = Object.values(INGREDIENT_CATEGORIES) as string[];
+    if (!allowed.includes(trimmedCategory)) {
+      throw new Error(`Invalid ingredient category: ${category}. Expected one of: ${allowed.join(', ')}`);
     }
+  }
+
+  /**
+   * The stable human key the on-device shelf is stored as -- "sweetVermouth",
+   * not the kebab-case document id. Null clears it.
+   */
+  private normalizeSlug(slug: string | null | undefined): string | null {
+    if (slug === null || slug === undefined) {
+      return null;
+    }
+
+    if (typeof slug !== 'string') {
+      throw new Error('Slug must be a string');
+    }
+
+    const trimmed = slug.trim();
+    if (trimmed.length === 0) {
+      return null;
+    }
+
+    if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(trimmed)) {
+      throw new Error(`Invalid slug: ${slug}. Expected a camelCase key such as "sweetVermouth"`);
+    }
+
+    return trimmed;
+  }
+
+  /**
+   * Guards the derived figures. They are written by the catalogue recount
+   * rather than typed in, but a hand-run update should still not store a
+   * negative or fractional count.
+   */
+  private validateCount(value: number | null, field: string): number | null {
+    if (value === null) {
+      return null;
+    }
+
+    if (typeof value !== 'number' || !Number.isInteger(value) || value < 0) {
+      throw new Error(`${field} must be a non-negative integer or null`);
+    }
+
+    return value;
   }
 
   private docSnapshotToIngredient(doc: DocumentSnapshot<IngredientDocument>): Ingredient {

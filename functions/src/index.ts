@@ -15,6 +15,8 @@ admin.initializeApp();
 export * from './ingredient';
 export * from './equipment';
 export * from './cocktail';
+export * from './catalogue';
 export * from './storage';
+export * from './image-generation';
 
 setGlobalOptions({ maxInstances: 10 });

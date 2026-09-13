@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import type { ImagenInlineImage } from 'firebase/ai';
-import type { ImageTemplate } from '~/types';
-import { useImagen } from '~/composables/useImagen';
+import type { GenerateImageResponse, ImageTemplate } from '~/types';
+import { useGenerateImage } from '~/composables/useGenerateImage';
 
 defineProps<{ template: ImageTemplate; prompt: string }>();
 
-defineEmits<{ choice: [file: ImagenInlineImage] }>();
+defineEmits<{ choice: [file: GenerateImageResponse] }>();
 
-const { mutateAsync: generateImage, isPending: isGeneratingImage, data } = useImagen();
+const { mutateAsync: generateImage, isPending: isGeneratingImage, data } = useGenerateImage();
 </script>
 
 <template>
@@ -25,9 +24,9 @@ const { mutateAsync: generateImage, isPending: isGeneratingImage, data } = useIm
 
       <img
         v-else
-        :src="`data:${data?.[0]?.mimeType};base64,${data?.[0]?.bytesBase64Encoded}`"
+        :src="`data:${data?.mimeType};base64,${data?.data}`"
         class="w-full aspect-square object-cover cursor-pointer"
-        @click="$emit('choice', data?.[0]!)"
+        @click="$emit('choice', data!)"
       >
     </template>
 
@@ -44,7 +43,7 @@ const { mutateAsync: generateImage, isPending: isGeneratingImage, data } = useIm
         color="success"
         class="cursor-pointer"
         :disabled="isGeneratingImage"
-        @click="$emit('choice', data?.[0]!)"
+        @click="$emit('choice', data!)"
       />
     </template>
   </UModal>

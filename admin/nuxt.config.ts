@@ -46,7 +46,11 @@ export default defineNuxtConfig({
     },
     config: {
       apiKey: process.env.NUXT_FIREBASE_API_KEY,
-      authDomain: 'https://party-bar.web.app',
+      // A bare host, never a URL. The SDK builds the OAuth popup target as
+      // `https://${authDomain}/__/auth/handler`, so a scheme here produces
+      // `https://https://.../__/auth/handler` and the popup dies on an
+      // invalid URL before it ever reaches Google.
+      authDomain: 'party-bar.firebaseapp.com',
       projectId: 'party-bar',
       storageBucket: 'party-bar.firebasestorage.app',
       messagingSenderId: '768164532049',

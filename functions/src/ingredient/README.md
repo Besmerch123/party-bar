@@ -27,17 +27,32 @@ src/ingredient/
 
 The `Ingredient` is the core entity representing a building block for cocktails:
 
-- **ID**: Unique identifier (Firebase document ID)
-- **Title**: The name of the ingredient
+- **ID**: Unique identifier (Firebase document ID), slugified from the English title
+- **Title**: The name of the ingredient (`I18nField`)
 - **Category**: Type of ingredient (spirit, mixer, garnish, etc.)
 - **Image**: Optional Google Cloud Storage path or public URL
+- **Slug**: Stable camelCase shelf key — `sweetVermouth`, not the kebab-case
+  document id. The app's shelf is collected during onboarding before any
+  account exists, so it stores these rather than document ids; this field is
+  what lets such a shelf resolve to real ingredients later. Optional.
 - **Timestamps**: Created/updated dates
+
+### Derived figures
+
+`cocktailCount` ("in N drinks") and `unlocks` ("add lime, unlocks 11 more") are
+computed from the whole cocktail collection, never authored. They are written
+by `recountCatalogue` — see `catalogue/README.md` — and shown read-only in the
+admin panel.
 
 ## Available Categories
 
 ```typescript
-SPIRIT, LIQUEUR, MIXER, SYRUP, BITTERS, GARNISH, FRUIT, HERB, SPICE, OTHER;
+SPIRIT, LIQUEUR, MIXER, SYRUP, BITTERS, GARNISH, FRUIT, HERB, SPICE, ICE, OTHER;
 ```
+
+Validation is strict: a value outside this set is rejected on write. It would
+otherwise decode to `other` on the device, silently miscategorising the
+ingredient instead of failing.
 
 ## Endpoints Organization
 

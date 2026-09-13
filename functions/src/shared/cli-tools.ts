@@ -1,4 +1,5 @@
-import { VertexAI } from '@google-cloud/vertexai';
+import { GoogleGenAI } from '@google/genai';
+import type { GenerateContentResponse } from '@google/genai';
 import type { SupportedLocale } from './types';
 
 /**
@@ -37,11 +38,12 @@ export function getProjectId(): string | undefined {
 }
 
 /**
- * Initializes Vertex AI with project configuration
+ * Initializes the Gemini client against Vertex AI, using the project's
+ * default service credentials (no API key).
  */
-export function initializeVertexAI(projectId: string): VertexAI {
+export function initializeGenAI(projectId: string): GoogleGenAI {
   const location = process.env.GOOGLE_CLOUD_LOCATION || process.env.VERTEX_LOCATION || DEFAULT_VERTEX_LOCATION;
-  return new VertexAI({ project: projectId, location });
+  return new GoogleGenAI({ vertexai: true, project: projectId, location });
 }
 
 /**
@@ -59,26 +61,11 @@ export function getVertexLocation(): string {
 }
 
 /**
- * Extracts text from a Vertex AI generation result
+ * Extracts text from a Gemini generation result
  */
-export function extractTextResponse(
-  result: Awaited<ReturnType<ReturnType<VertexAI['getGenerativeModel']>['generateContent']>>
-): string | undefined {
-  const candidates = result?.response?.candidates;
-  if (!candidates || candidates.length === 0) {
-    return undefined;
-  }
-
-  const parts = candidates[0]?.content?.parts;
-  if (!parts || parts.length === 0) {
-    return undefined;
-  }
-
-  return parts
-    .map((part) => ('text' in part ? part.text : undefined))
-    .filter((text): text is string => Boolean(text))
-    .join('')
-    .trim();
+export function extractTextResponse(result: GenerateContentResponse): string | undefined {
+  const text = result.text?.trim();
+  return text ? text : undefined;
 }
 
 /**
@@ -157,18 +144,15 @@ export function hasAllLocaleTitles(
  * Generic request to Gemini with JSON response
  */
 export async function requestGeminiJson<T>(
-  generativeModel: ReturnType<VertexAI['getGenerativeModel']>,
+  ai: GoogleGenAI,
+  model: string,
   prompt: string,
   temperature: number = 0.4
 ): Promise<T> {
-  const result = await generativeModel.generateContent({
-    contents: [
-      {
-        role: 'user',
-        parts: [{ text: prompt }]
-      }
-    ],
-    generationConfig: {
+  const result = await ai.models.generateContent({
+    model,
+    contents: prompt,
+    config: {
       responseMimeType: 'application/json',
       temperature
     }

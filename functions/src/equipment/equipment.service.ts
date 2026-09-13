@@ -9,7 +9,7 @@ import { EquipmentRepository } from './equipment.repository';
 
 import { AbstractService } from '../shared/abstract.service';
 
-import { Equipment, CreateEquipmentDto, UpdateEquipmentDto, EquipmentDocument } from './equipment.model';
+import { Equipment, CreateEquipmentDto, UpdateEquipmentDto, EquipmentDocument, EQUIPMENT_KINDS, EquipmentKind } from './equipment.model';
 import { DocumentSnapshot } from 'firebase-admin/firestore';
 
 export class EquipmentService extends AbstractService {
@@ -29,6 +29,8 @@ export class EquipmentService extends AbstractService {
     const created = await this.repository.create({
       title: normalizedTitle,
       image,
+      slug: this.normalizeSlug(data.slug),
+      kind: this.normalizeKind(data.kind),
     });
 
     return this.docSnapshotToEquipment(created);
@@ -96,6 +98,12 @@ export class EquipmentService extends AbstractService {
         updatePayload.image = image;
       }
     }
+    if (data.slug !== undefined) {
+      updatePayload.slug = this.normalizeSlug(data.slug);
+    }
+    if (data.kind !== undefined) {
+      updatePayload.kind = this.normalizeKind(data.kind);
+    }
 
     const updatedEquipment = await this.repository.update(updatePayload);
 
@@ -127,6 +135,49 @@ export class EquipmentService extends AbstractService {
   private validateEquipmentData(data: CreateEquipmentDto): void {
     this.validateI18nField(data.title);
     this.normalizeImage(data.image);
+  }
+
+  /**
+   * The stable human key the on-device shelf is stored as -- "boston_shaker"
+   * is a document id, "bostonShaker" is the key a shelf collected during
+   * onboarding carries.
+   */
+  private normalizeSlug(slug: string | null | undefined): string | null {
+    if (slug === null || slug === undefined) {
+      return null;
+    }
+
+    if (typeof slug !== 'string') {
+      throw new Error('Slug must be a string');
+    }
+
+    const trimmed = slug.trim();
+    if (trimmed.length === 0) {
+      return null;
+    }
+
+    if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(trimmed)) {
+      throw new Error(`Invalid slug: ${slug}. Expected a camelCase key such as "bostonShaker"`);
+    }
+
+    return trimmed;
+  }
+
+  /**
+   * Tool, glassware or ice. The app groups the shelf by this, so an unknown
+   * value would quietly file a jigger with the ice.
+   */
+  private normalizeKind(kind: EquipmentKind | null | undefined): EquipmentKind {
+    if (kind === null || kind === undefined) {
+      return EQUIPMENT_KINDS.TOOL;
+    }
+
+    const allowed = Object.values(EQUIPMENT_KINDS) as string[];
+    if (typeof kind !== 'string' || !allowed.includes(kind)) {
+      throw new Error(`Invalid equipment kind: ${kind}. Expected one of: ${allowed.join(', ')}`);
+    }
+
+    return kind;
   }
 
   private docSnapshotToEquipment(doc: DocumentSnapshot<EquipmentDocument>): Equipment {

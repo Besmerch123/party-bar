@@ -80,6 +80,26 @@ class ElasticService {
     });
   }
 
+  /**
+   * Creates the index with an explicit mapping.
+   *
+   * Without this the index is created implicitly by the first write and
+   * dynamic mapping picks the field types -- which analyses ids and enum
+   * values into tokens, so every term-query filter silently matches nothing.
+   * See `elastic.mappings`.
+   */
+  public async createIndex(index: string, mappings: estypes.MappingTypeMapping): Promise<void> {
+    await this.client.indices.create({
+      index: this.getIndexName(index),
+      mappings,
+    });
+  }
+
+  /** Whether the index exists yet. */
+  public async indexExists(index: string): Promise<boolean> {
+    return this.client.indices.exists({ index: this.getIndexName(index) });
+  }
+
   private getIndexName(baseIndex: string): string {
     return `${baseIndex}-${stage.value()}`;
   }

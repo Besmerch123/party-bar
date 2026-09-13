@@ -1,47 +1,27 @@
-import { useMutation } from '@tanstack/vue-query';
-import { getAI, getImagenModel, VertexAIBackend } from 'firebase/ai';
-import type { ImageTemplate } from '~/types';
+/**
+ * Image Generation
+ *
+ * Product photography for a cocktail, ingredient or piece of equipment,
+ * generated from the same description the admin panel already builds for the
+ * item's title/description fields. One template per catalogue kind, because
+ * each wants a different scene (an isolated product shot vs. a served drink
+ * on a bar).
+ */
 
-export interface GenerateImagePayload {
-  /** Template type: equipment, ingredient, or cocktail */
+export type ImageTemplate = 'equipment' | 'ingredient' | 'cocktail';
+
+export interface GenerateImageRequest {
+  /** Which catalogue kind this image is for. */
   template: ImageTemplate;
-  /** Description of what should be in the image */
+  /** Description of what should be in the image, in English. */
   description: string;
 }
-export function useImagen() {
-  const app = useFirebaseApp();
 
-  const ai = getAI(app, { backend: new VertexAIBackend('us-central1') });
-
-  const model = getImagenModel(
-    ai,
-    {
-      model: 'imagen-4.0-generate-001',
-      generationConfig: {
-        numberOfImages: 1,
-        aspectRatio: '1:1',
-        imageFormat: {
-          mimeType: 'image/jpeg'
-        },
-        addWatermark: false
-      }
-    }
-  );
-
-  return useMutation({
-    mutationKey: ['generate-image'],
-    mutationFn: async ({ template, description }: GenerateImagePayload) => {
-      const prompt = promptTemplates[template](description);
-
-      if (!prompt || prompt.trim() === '') {
-        throw new Error(`Image generation for template "${template}" is not yet implemented`);
-      }
-
-      const response = await model.generateImages(prompt);
-
-      return response.images;
-    }
-  });
+export interface GenerateImageResponse {
+  /** MIME type of the generated image, e.g. "image/png". */
+  mimeType: string;
+  /** Base64-encoded image bytes. */
+  data: string;
 }
 
 export const promptTemplates: Record<ImageTemplate, (description: string) => string> = {
@@ -49,6 +29,7 @@ export const promptTemplates: Record<ImageTemplate, (description: string) => str
     return `Create a high-quality, professional photograph of bar equipment: ${description}
 
 Style requirements:
+- Square 1:1 image
 - Dark blue gradient background with dark grey
 - Only show the described bar equipment, nothing else in the image
 - Professional product photography lighting
@@ -66,6 +47,7 @@ The equipment should look pristine, professional, and ready for use in a high-en
     return `Create a high-quality, professional photograph of a bar ingredient: ${description}
 
 Style requirements:
+- Square 1:1 image
 - Background gradient should match the ingredient's natural color blending into dark grey:
   * For colorful fruits (orange, lemon, lime): use their natural color (orange, yellow, green) gradient with dark grey
   * For green ingredients (mint, basil, green apple): use green gradient with dark grey
@@ -90,6 +72,7 @@ The ingredient should look premium, fresh, and ready for use in a high-end cockt
     return `Create a high-quality, professional photograph of a cocktail ready to serve: ${description}
 
 Scene requirements:
+- Square 1:1 image
 - Cocktail positioned on a polished dark wood bar counter or elegant bar surface
 - Natural bar lighting with subtle ambient atmosphere
 - The cocktail should be in an appropriate glass for its style (martini glass, rocks glass, highball, etc.)

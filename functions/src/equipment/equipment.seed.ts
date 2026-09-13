@@ -5,7 +5,7 @@ import type { CreateEquipmentDto } from './equipment.model';
 import { SUPPORTED_LOCALES, type SupportedLocale } from '../shared/types';
 import {
   getProjectId,
-  initializeVertexAI,
+  initializeGenAI,
   getVertexModel,
   getVertexLocation,
   requestGeminiJson,
@@ -34,10 +34,9 @@ async function main(): Promise<void> {
     );
   }
 
-  const vertexAI = initializeVertexAI(projectId);
+  const ai = initializeGenAI(projectId);
   const model = getVertexModel();
   const location = getVertexLocation();
-  const generativeModel = vertexAI.getGenerativeModel({ model });
 
   // Query existing equipment first
   console.log('Querying existing equipment from Firestore...');
@@ -53,7 +52,7 @@ async function main(): Promise<void> {
   console.log(`Requesting equipment items from Gemini (${model} @ ${location})...`);
 
   const prompt = buildEquipmentPrompt(existingTitles);
-  const suggestions = await requestGeminiJson<GeminiEquipmentSuggestion[]>(generativeModel, prompt);
+  const suggestions = await requestGeminiJson<GeminiEquipmentSuggestion[]>(ai, model, prompt);
   const validSuggestions = filterValidSuggestions(suggestions);
 
   if (validSuggestions.length === 0) {

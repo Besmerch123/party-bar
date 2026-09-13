@@ -8,7 +8,7 @@ import type { EquipmentDocument } from '../equipment/equipment.model';
 import { SUPPORTED_LOCALES, type SupportedLocale } from '../shared/types';
 import {
   getProjectId,
-  initializeVertexAI,
+  initializeGenAI,
   getVertexModel,
   getVertexLocation,
   requestGeminiJson,
@@ -65,10 +65,9 @@ async function main(): Promise<void> {
   }
   console.log(`Found ${availableEquipment.length} available equipment items.`);
 
-  const vertexAI = initializeVertexAI(projectId);
+  const ai = initializeGenAI(projectId);
   const model = getVertexModel();
   const location = getVertexLocation();
-  const generativeModel = vertexAI.getGenerativeModel({ model });
 
   console.log(`\nRequesting ${options.count} cocktail(s) from Gemini (${model} @ ${location})...`);
 
@@ -78,9 +77,10 @@ async function main(): Promise<void> {
     availableEquipment,
     existingCocktails
   );
-  
+
   const suggestions = await requestGeminiJson<GeminiCocktailSuggestion[]>(
-    generativeModel, 
+    ai,
+    model,
     prompt,
     0.7 // Higher temperature for more creative cocktails
   );

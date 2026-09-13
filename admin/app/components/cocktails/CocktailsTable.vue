@@ -49,7 +49,10 @@ const columns: TableColumn<CocktailSearchDocument>[] = [
     accessorKey: 'ingredients',
     header: 'Ingredients',
     cell: ({ row }) => {
-      const items = row.original.ingredients.map(i => i.title[locale.value] || 'N/A').join(', ');
+      // Documents indexed before a shape change can be missing a relation
+      // entirely. The list is worth rendering without it -- a blank cell beats
+      // a table that throws on one stale row.
+      const items = (row.original.ingredients ?? []).map(i => i.title[locale.value] || 'N/A').join(', ');
 
       return h('span', { class: 'text-sm text-muted max-w-xs inline-block truncate' }, items);
     }
@@ -58,7 +61,7 @@ const columns: TableColumn<CocktailSearchDocument>[] = [
     accessorKey: 'equipments',
     header: 'Equipment',
     cell: ({ row }) => {
-      const items = row.original.equipment.map(e => e.title[locale.value] || 'N/A').join(', ');
+      const items = (row.original.equipments ?? []).map(e => e.title[locale.value] || 'N/A').join(', ');
 
       return h('span', { class: 'text-sm text-muted max-w-xs inline-block truncate' }, items);
     }

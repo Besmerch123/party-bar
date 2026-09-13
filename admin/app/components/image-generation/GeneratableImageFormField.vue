@@ -34,7 +34,7 @@ const generateHandler = async () => {
           {
             name: `${props.title.toLowerCase()}.${type}`,
             contentType: image.mimeType,
-            data: image.bytesBase64Encoded
+            data: image.data
           }
         ]
       }, {

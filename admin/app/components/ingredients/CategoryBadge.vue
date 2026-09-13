@@ -11,7 +11,8 @@ const colorsMap: Partial<Record<IngredientCategory, BadgeProps['color']>> = {
   syrup: 'secondary',
   bitters: 'neutral',
   garnish: 'neutral',
-  fruit: 'success'
+  fruit: 'success',
+  ice: 'info'
 };
 </script>
 

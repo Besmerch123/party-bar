@@ -38,5 +38,7 @@ defineEmits<{
     <p class="text-sm text-muted px-2 mb-2">
       {{ subtitle }}
     </p>
+
+    <slot />
   </div>
 </template>

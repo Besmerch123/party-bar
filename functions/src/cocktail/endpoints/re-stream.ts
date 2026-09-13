@@ -3,6 +3,7 @@ import { onCall } from 'firebase-functions/https';
 import { getCocktailService } from '../cocktail.service';
 import { DocumentSnapshot } from 'firebase-admin/firestore';
 import { CocktailDocument } from '../cocktail.model';
+import { COCKTAILS_INDEX_MAPPING } from '../../elastic/elastic.mappings';
 
 export const reStreamCocktails = onCall(async () => {
   let processed = 0;
@@ -15,9 +16,17 @@ export const reStreamCocktails = onCall(async () => {
 
   console.info('Starting cocktail re-streaming to Elastic index...');
 
-  await cocktailService.repository.elastic.deleteIndex('cocktails');
+  // Deleting an index that is not there is an error, not a no-op.
+  if (await cocktailService.repository.elastic.indexExists('cocktails')) {
+    await cocktailService.repository.elastic.deleteIndex('cocktails');
+    console.info('Deleted existing cocktails index.');
+  }
 
-  console.info('Deleted existing cocktails index, starting re-indexing...');
+  // Recreate it with the explicit mapping before the first write, so the
+  // filters that read ids and enum values keep working.
+  await cocktailService.repository.elastic.createIndex('cocktails', COCKTAILS_INDEX_MAPPING);
+
+  console.info('Created cocktails index with explicit mapping, starting re-indexing...');
 
   while (hasMore) {
     try {

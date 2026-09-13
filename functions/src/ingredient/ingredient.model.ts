@@ -15,6 +15,7 @@ export const INGREDIENT_CATEGORIES = {
   FRUIT: 'fruit',
   HERB: 'herb',
   SPICE: 'spice',
+  ICE: 'ice',
   OTHER: 'other'
 } as const;
 
@@ -55,6 +56,12 @@ export interface Ingredient {
    */
   unlocks?: number | null;
 
+  /**
+   * Catalogue-wide "in N drinks" figure shown on the bar's item sheet.
+   * Derived alongside {@link Ingredient.unlocks} -- never authored by hand.
+   */
+  cocktailCount?: number | null;
+
   /** Timestamp when the ingredient was created */
   createdAt?: string;
   
@@ -71,7 +78,6 @@ export interface CreateIngredientDto {
   category: IngredientCategory;
   image?: string | null; // null indicates removal of the image
   slug?: string | null;
-  unlocks?: number | null;
 }
 
 /**
@@ -85,6 +91,7 @@ export interface UpdateIngredientDto {
   image?: string | null; // null indicates removal of the image
   slug?: string | null;
   unlocks?: number | null;
+  cocktailCount?: number | null;
 }
 
 /**

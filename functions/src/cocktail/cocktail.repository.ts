@@ -38,8 +38,8 @@ class CocktailRepository extends AbstractRepository {
       throw new Error('English title is required to create a cocktail');
     }
 
-    const slug = await this.getSafeSlug(englishTitle);
-    const docRef = this.collection.doc(slug);
+    const docId = await this.getSafeSlug(englishTitle);
+    const docRef = this.collection.doc(docId);
 
     const timestamp = Timestamp.now();
     const cocktailDoc: CocktailDocument = {
@@ -251,7 +251,7 @@ class CocktailRepository extends AbstractRepository {
       if (equipments && equipments.length > 0) {
         equipments.forEach(equipmentId => {
           boolQuery.filter(
-            esb.termQuery('equipment.id', equipmentId)
+            esb.termQuery('equipments.id', equipmentId)
           );
         });
       }
@@ -301,12 +301,25 @@ class CocktailRepository extends AbstractRepository {
         boolQuery.filter(esb.rangeQuery('ingredientCount').lte(maxIngredients));
       }
 
-      // Makeable with my bar: every ingredient the recipe needs is on the shelf.
-      // Expressed as "no ingredient outside the shelf", which needs no per-drink
-      // arithmetic at query time.
+      // Makeable with my bar -- a broadening pre-filter, not the real answer.
+      //
+      // `ingredients` is a flattened object, so a terms query over it asks
+      // "does this drink use ANY of these", never "are they ALL on the shelf".
+      // What this can honestly do is drop drinks sharing nothing with the
+      // shelf; the exact makeability test needs to know which ingredients are
+      // optional per drink and is finished on the device, which is also the
+      // only place the shelf really lives.
+      //
+      // The shelf arrives as bar keys, which are slugs for anything collected
+      // during onboarding and document ids otherwise, so both are matched.
       if (makeableOnly && availableIngredients && availableIngredients.length > 0) {
-        boolQuery.mustNot(
-          esb.boolQuery().mustNot(esb.termsQuery('ingredients.id', availableIngredients))
+        boolQuery.filter(
+          esb.boolQuery()
+            .should([
+              esb.termsQuery('ingredients.id', availableIngredients),
+              esb.termsQuery('ingredients.slug', availableIngredients),
+            ])
+            .minimumShouldMatch(1)
         );
       }
     }

@@ -26,14 +26,17 @@ export class IngredientRepository extends AbstractRepository {
       throw new Error('English title is required to create an ingredient');
     }
 
-    const slug = await this.getSafeSlug(englishTitle);
-    const docRef = this.collection.doc(slug);
+    const docId = await this.getSafeSlug(englishTitle);
+    const docRef = this.collection.doc(docId);
 
     const timestamp = Timestamp.now();
     const ingredientDoc: IngredientDocument = {
       title: ingredientData.title,
       category: ingredientData.category,
-      image: ingredientData.image,
+      image: ingredientData.image ?? null,
+      slug: ingredientData.slug ?? null,
+      unlocks: null,
+      cocktailCount: null,
       createdAt: timestamp,
       updatedAt: timestamp,
     };

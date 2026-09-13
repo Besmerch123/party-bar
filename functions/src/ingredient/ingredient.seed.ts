@@ -9,7 +9,7 @@ import {
 import { SUPPORTED_LOCALES, type SupportedLocale } from '../shared/types';
 import {
   getProjectId,
-  initializeVertexAI,
+  initializeGenAI,
   getVertexModel,
   getVertexLocation,
   requestGeminiJson,
@@ -39,10 +39,9 @@ async function main(): Promise<void> {
     );
   }
 
-  const vertexAI = initializeVertexAI(projectId);
+  const ai = initializeGenAI(projectId);
   const model = getVertexModel();
   const location = getVertexLocation();
-  const generativeModel = vertexAI.getGenerativeModel({ model });
 
   // Query existing ingredients from the category first
   console.log(`Querying existing "${options.category}" ingredients from Firestore...`);
@@ -58,7 +57,7 @@ async function main(): Promise<void> {
   console.log(`Requesting "${options.category}" ingredients from Gemini (${model} @ ${location})...`);
 
   const prompt = buildIngredientPrompt(options.category, existingTitles);
-  const suggestions = await requestGeminiJson<GeminiIngredientSuggestion[]>(generativeModel, prompt);
+  const suggestions = await requestGeminiJson<GeminiIngredientSuggestion[]>(ai, model, prompt);
   const validSuggestions = filterValidSuggestions(suggestions);
 
   if (validSuggestions.length === 0) {

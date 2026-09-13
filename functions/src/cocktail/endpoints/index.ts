@@ -9,5 +9,6 @@ export { searchCocktails } from './search-cocktails';
 export { updateCocktail } from './update-cocktail';
 export { deleteCocktail } from './delete-cocktail';
 export { generateCocktail } from './generate-cocktail';
+export { backfillCocktails } from './backfill-cocktails';
 export { onDocumentWritten } from './on-document-written';
 export { reStreamCocktails } from './re-stream';

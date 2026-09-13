@@ -236,7 +236,7 @@ export interface UpdateCocktailDto {
   image?: string | null;
 }
 
-export interface CocktailSearchDocument extends ElasticDocument, Omit<Cocktail, 'preparationSteps' | 'ingredients' | 'equipments'> {
+export interface CocktailSearchDocument extends ElasticDocument, Omit<Cocktail, 'ingredients' | 'equipments'> {
   ingredients: IngredientSearchDocument[];
   equipments: EquipmentSearchDocument[];
 
