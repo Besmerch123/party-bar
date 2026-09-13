@@ -1460,6 +1460,12 @@ abstract class AppLocalizations {
   /// **'Recipe copied to clipboard'**
   String get cocktailRecipeCopied;
 
+  /// Flow 02 - Explore. Header over the amounts-only ingredient list on the cocktail detail screen — the same cut of the recipe the hosting pour's "Show recipe" sheet offers, for someone who already knows the drill
+  ///
+  /// In en, this message translates to:
+  /// **'Quick recipe'**
+  String get cocktailQuickRecipe;
+
   /// Flow 02 - Explore. Eyebrow above the current step of the guided pour
   ///
   /// In en, this message translates to:

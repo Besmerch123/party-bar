@@ -30,8 +30,12 @@ abstract final class AppTypography {
   ).copyWith(fontFamilyFallback: _cyrillicFallback);
 
   /// Screen-owning headline over a photo hero.
-  static TextStyle get display =>
-      _sans(size: 40, weight: FontWeight.w800, letterSpacing: -1.4, height: 1.0);
+  static TextStyle get display => _sans(
+    size: 40,
+    weight: FontWeight.w800,
+    letterSpacing: -1.4,
+    height: 1.0,
+  );
 
   static TextStyle get title => _sans(
     size: 36,
@@ -50,17 +54,21 @@ abstract final class AppTypography {
   );
 
   /// Card and hero titles that sit inside content rather than owning a screen.
-  static TextStyle get heading =>
-      _sans(size: 26, weight: FontWeight.w800, letterSpacing: -0.91, height: 1.05);
+  static TextStyle get heading => _sans(
+    size: 26,
+    weight: FontWeight.w800,
+    letterSpacing: -0.91,
+    height: 1.05,
+  );
 
   static TextStyle get section =>
       _sans(size: 15, weight: FontWeight.w700, letterSpacing: -0.15);
 
   static TextStyle get cardTitle =>
-      _sans(size: 13.5, weight: FontWeight.w700, letterSpacing: -0.1);
+      _sans(size: 14, weight: FontWeight.w700, letterSpacing: -0.1);
 
   static TextStyle get body => _sans(
-    size: 13.5,
+    size: 15,
     weight: FontWeight.w500,
     height: 1.55,
     color: AppColors.inkBody,

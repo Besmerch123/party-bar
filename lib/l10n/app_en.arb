@@ -1112,6 +1112,10 @@
   "@cocktailRecipeCopied": {
     "description": "Flow 02 - Explore. Confirmation after sharing a recipe"
   },
+  "cocktailQuickRecipe": "Quick recipe",
+  "@cocktailQuickRecipe": {
+    "description": "Flow 02 - Explore. Header over the amounts-only ingredient list on the cocktail detail screen — the same cut of the recipe the hosting pour's \"Show recipe\" sheet offers, for someone who already knows the drill"
+  },
   "pourStepCounter": "Step {step} of {total} · {cocktail}",
   "@pourStepCounter": {
     "description": "Flow 02 - Explore. Eyebrow above the current step of the guided pour",

@@ -15,9 +15,9 @@ import '../../utils/app_router.dart';
 import '../../utils/cocktail_labels.dart';
 import '../../utils/localization_helper.dart';
 import '../../widgets/bar/two_away_sheet.dart';
+import '../../widgets/cocktails/auth_gate_sheet.dart';
 import '../../widgets/common/app_chip.dart';
 import '../../widgets/common/glass.dart';
-import '../../widgets/cocktails/auth_gate_sheet.dart';
 
 /// The solo cocktail detail: a held photograph with a sheet risen over it.
 ///
@@ -86,10 +86,15 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
   }
 
   void _onBookmarkTap(Cocktail cocktail) {
-    final authenticated = context.read<AuthenticationProvider>().isAuthenticated;
+    final authenticated = context
+        .read<AuthenticationProvider>()
+        .isAuthenticated;
 
     if (!authenticated) {
-      showAuthGateSheet(context, cocktailName: cocktail.title.translate(context));
+      showAuthGateSheet(
+        context,
+        cocktailName: cocktail.title.translate(context),
+      );
       return;
     }
 
@@ -142,9 +147,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
     final l10n = context.l10n;
 
     if (_isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     final cocktail = _cocktail;
@@ -184,9 +187,15 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
 
     final screenHeight = MediaQuery.sizeOf(context).height;
     final photoHeight = math.min(screenHeight * 0.55, 470.0);
-    final authenticated = context.watch<AuthenticationProvider>().isAuthenticated;
+    final authenticated = context
+        .watch<AuthenticationProvider>()
+        .isAuthenticated;
 
     return Scaffold(
+      // The actions bar floats over the sheet rather than owning its own
+      // opaque strip — the body needs to keep filling all the way down for
+      // that glass to have scrolling content to blur.
+      extendBody: true,
       body: Stack(
         children: [
           _Photo(imageUrl: cocktail.image, height: photoHeight),
@@ -200,6 +209,7 @@ class _CocktailDetailsScreenState extends State<CocktailDetailsScreen> {
           ),
         ],
       ),
+      bottomNavigationBar: _ActionsBar(cocktail: cocktail),
     );
   }
 }
@@ -456,20 +466,37 @@ class CocktailSheetContent extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 10),
-        Text(cocktail.description.translate(context), style: AppTypography.body),
+        Text(
+          cocktail.description.translate(context),
+          style: AppTypography.body,
+        ),
         const SizedBox(height: 18),
         _IngredientList(cocktail: cocktail),
+        const SizedBox(height: 18),
+        _QuickRecipe(cocktail: cocktail),
         if (makeability.isOneAway) ...[
           const SizedBox(height: 14),
-          _UnlockPrompt(cocktail: cocktail, missing: makeability.missing.single),
+          _UnlockPrompt(
+            cocktail: cocktail,
+            missing: makeability.missing.single,
+          ),
         ] else if (makeability.requiredCount > 0 &&
-            (makeability.missingCount == 2 || makeability.missingCount == 3)) ...[
+            (makeability.missingCount == 2 ||
+                makeability.missingCount == 3)) ...[
           const SizedBox(height: 14),
-          _TwoAwayPrompt(cocktail: cocktail, missingCount: makeability.missingCount),
+          _TwoAwayPrompt(
+            cocktail: cocktail,
+            missingCount: makeability.missingCount,
+          ),
         ],
-        const SizedBox(height: 16),
-        _ActionsRow(cocktail: cocktail),
-        SizedBox(height: MediaQuery.paddingOf(context).bottom + 26),
+        // The actions live in the Scaffold's bottomNavigationBar now, fixed
+        // in place rather than scrolling away with the rest of the sheet —
+        // this just keeps the last bit of content clear of it — a small
+        // gap, not another empty screen's worth below the last row.
+        SizedBox(
+          height:
+              MediaQuery.paddingOf(context).bottom + _ActionsBar.height + 10,
+        ),
       ],
     );
   }
@@ -650,6 +677,88 @@ class _IngredientStatusSquare extends StatelessWidget {
   }
 }
 
+/// Amounts only, no shelf status and no step-by-step guidance — the same cut
+/// of the recipe the hands-busy pour's "Show recipe" sheet offers during a
+/// party, promoted onto the detail screen for someone who already knows the
+/// drill and would rather not open "Make it now" just to check a pour size.
+class _QuickRecipe extends StatelessWidget {
+  const _QuickRecipe({required this.cocktail});
+
+  final Cocktail cocktail;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final ingredients = cocktail.ingredients;
+    if (ingredients.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.cocktailQuickRecipe, style: AppTypography.section),
+        const SizedBox(height: 20),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: ColoredBox(
+            color: AppColors.fillSubtle,
+            child: Column(
+              children: [
+                for (final (index, ingredient) in ingredients.indexed) ...[
+                  if (index > 0) const SizedBox(height: 1),
+                  _QuickRecipeRow(
+                    name: ingredient.title.translate(context),
+                    measure: cocktail.measureFor(ingredient.id),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _QuickRecipeRow extends StatelessWidget {
+  const _QuickRecipeRow({required this.name, required this.measure});
+
+  final String name;
+  final IngredientMeasure? measure;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final unit = context.watch<MeasureUnitProvider>().unit;
+    final measure = this.measure;
+
+    return ColoredBox(
+      color: AppColors.row,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 14),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                name,
+                style: AppTypography.body,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            if (measure != null) ...[
+              const SizedBox(width: 12),
+              Text(
+                measureLabel(l10n, measure, displayUnit: unit),
+                style: AppTypography.measure,
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// Shown only when one bottle stands between this shelf and this drink —
 /// the same threshold the zero-results screen answers with elsewhere.
 class _UnlockPrompt extends StatelessWidget {
@@ -749,11 +858,7 @@ class _TwoAwayPrompt extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
             child: Row(
               children: [
-                const Icon(
-                  Icons.error_outline,
-                  size: 18,
-                  color: AppColors.low,
-                ),
+                const Icon(Icons.error_outline, size: 18, color: AppColors.low),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
@@ -777,6 +882,41 @@ class _TwoAwayPrompt extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Pins "Make it now" and "Add to a party" to the bottom of the screen via
+/// [Scaffold.bottomNavigationBar] instead of letting them scroll away with
+/// the rest of the sheet — the two actions someone opened this screen for
+/// should stay a thumb's reach away no matter how far they've scrolled
+/// through the recipe. Just the two buttons themselves, no surface behind
+/// them — they already carry their own solid fills.
+class _ActionsBar extends StatelessWidget {
+  const _ActionsBar({required this.cocktail});
+
+  final Cocktail cocktail;
+
+  static const double _barHeight = 60;
+
+  /// The row's own height plus the padding around it — kept in one place so
+  /// [CocktailSheetContent] can reserve exactly this much scroll space,
+  /// safe-area aside.
+  static const double height = _barHeight + AppSpacing.sm;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        AppSpacing.screenEdge,
+        0,
+        AppSpacing.screenEdge,
+        MediaQuery.paddingOf(context).bottom + AppSpacing.sm,
+      ),
+      child: SizedBox(
+        height: _barHeight,
+        child: _ActionsRow(cocktail: cocktail),
       ),
     );
   }

@@ -196,8 +196,12 @@ class BarRow extends StatelessWidget {
             // Loose, not tight: a text-based trailing action (the "Add to
             // list" pill) still has to give way to the title at a small
             // width and a bumped text scale, the same way the title gives
-            // way to it the rest of the time.
-            Flexible(child: trailing!),
+            // way to it the rest of the time. Align right so it hugs the
+            // row's edge instead of centering in whatever flex space it's
+            // handed.
+            Flexible(
+              child: Align(alignment: Alignment.centerRight, child: trailing!),
+            ),
           ],
         ],
       ),

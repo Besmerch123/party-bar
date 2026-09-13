@@ -821,6 +821,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cocktailRecipeCopied => 'Recipe copied to clipboard';
 
   @override
+  String get cocktailQuickRecipe => 'Quick recipe';
+
+  @override
   String pourStepCounter(int step, int total, String cocktail) {
     return 'Step $step of $total · $cocktail';
   }

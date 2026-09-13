@@ -828,6 +828,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get cocktailRecipeCopied => 'Рецепт скопійовано';
 
   @override
+  String get cocktailQuickRecipe => 'Швидкий рецепт';
+
+  @override
   String pourStepCounter(int step, int total, String cocktail) {
     return 'Крок $step з $total · $cocktail';
   }

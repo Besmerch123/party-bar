@@ -227,6 +227,7 @@
   "cocktailMakeItNow": "Готувати зараз",
   "cocktailAddToParty": "Додати до вечірки",
   "cocktailRecipeCopied": "Рецепт скопійовано",
+  "cocktailQuickRecipe": "Швидкий рецепт",
   "pourStepCounter": "Крок {step} з {total} · {cocktail}",
   "pourTimerHint": "Торкніться, щоб запустити таймер",
   "pourTimerRunning": "Триває",
