@@ -82,7 +82,7 @@ rejected: a blank screen mid-pour is worse than no guided pour at all.
 
 ## Cloud Functions
 
-All require an authenticated caller.
+All require an authenticated caller, except `searchCocktails` — see below.
 
 ### `getCocktail`
 
@@ -102,6 +102,10 @@ pre-filter** server-side — `ingredients` is a flattened object, so a terms
 query over it can ask "uses any of these", never "needs only these". The exact
 makeability test knows which ingredients are optional per drink and runs on the
 device, which is also the only place the shelf really lives.
+
+The one callable here open to unauthenticated requests: it backs the app's
+Explore feed (flow 2), which runs before Auth (flow 3), and is a read-only
+public query with no per-user data.
 
 ### `updateCocktail`
 
@@ -166,7 +170,8 @@ Firestore trigger keeping the Elastic index in step with `cocktails/{id}`.
 7. **`prepTimeMinutes`** – a whole number of minutes, 1–240
 8. **`measures`** – keyed by an ingredient the recipe lists; known unit;
    non-negative amount
-9. **Authentication** – every callable requires an authenticated caller
+9. **Authentication** – every callable requires an authenticated caller,
+   except `searchCocktails`, which backs the pre-auth Explore feed
 10. **Timestamps** – managed automatically on create and update
 
 ## Related

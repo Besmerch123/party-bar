@@ -370,7 +370,9 @@ class CocktailSearchResult {
     // Parse preparation steps if present
     I18nArrayField? preparationSteps;
     if (data['preparationSteps'] != null) {
-      preparationSteps = (data['preparationSteps'] as Map<String, dynamic>).map(
+      preparationSteps = Map<String, dynamic>.from(
+        data['preparationSteps'] as Map,
+      ).map(
         (key, value) => MapEntry(key, List<String>.from(value as List)),
       );
     }

@@ -11,16 +11,18 @@ import type { CocktailsSearchSchema, CocktailSearchDocument } from '../cocktail.
 
 /**
  * Retrieves all cocktails ordered by title
+ *
+ * Deliberately open to unauthenticated callers: this is the app's Explore
+ * feed (flow 2), which runs before Auth (flow 3) and the bar never gates —
+ * see CLAUDE.md's flow order and the flow-04 open-seams notes. It's a
+ * read-only public catalogue query with no per-user data, unlike every other
+ * callable in this module.
 */
 export const searchCocktails = onCall<CocktailsSearchSchema, Promise<ElasticSearchResults<CocktailSearchDocument>>>(
   async (request) => {
     const cocktailService = getCocktailService();
 
     try {
-      if (!request.auth) {
-        throw new HttpsError('unauthenticated', 'User must be authenticated');
-      }
-
       return cocktailService.searchCocktails(request.data);
 
     } catch (error) {
