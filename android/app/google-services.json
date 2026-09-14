@@ -39,10 +39,10 @@
               "client_type": 3
             },
             {
-              "client_id": "768164532049-h6ma40bsd70llavpjgmrk1relerj88p3.apps.googleusercontent.com",
+              "client_id": "768164532049-5a25p820maf1018a71ddtpfmvdnkf2bd.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.partyBar"
+                "bundle_id": "com.partyBar.debug"
               }
             }
           ]

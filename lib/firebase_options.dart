@@ -56,15 +56,14 @@ class DefaultFirebaseOptions {
     projectId: 'party-bar',
     storageBucket: 'party-bar.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBvtCBZIbwpffCKAkCcaoN8UjlfcPSuXbw',
-    appId: '1:768164532049:ios:f89fb13c9517f69af04d70',
+    appId: '1:768164532049:ios:d74856cd12da65d6f04d70',
     messagingSenderId: '768164532049',
     projectId: 'party-bar',
     storageBucket: 'party-bar.firebasestorage.app',
-    iosClientId:
-        '768164532049-h6ma40bsd70llavpjgmrk1relerj88p3.apps.googleusercontent.com',
-    iosBundleId: 'com.example.partyBar',
+    androidClientId: '768164532049-78gpucmn2hspbup033qi4kiqqp70ubtm.apps.googleusercontent.com',
+    iosClientId: '768164532049-5a25p820maf1018a71ddtpfmvdnkf2bd.apps.googleusercontent.com',
+    iosBundleId: 'com.partyBar.debug',
   );
 }

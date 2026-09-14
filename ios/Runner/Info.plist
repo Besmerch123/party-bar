@@ -64,8 +64,26 @@
 				<string>partybar</string>
 			</array>
 		</dict>
+		<!-- Google sign-in's OAuth callback. The value is REVERSED_CLIENT_ID
+		     from GoogleService-Info.plist; without it the Google lane in
+		     Flow 03 opens the consent screen and never comes back. -->
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.googleusercontent.apps.oauth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.768164532049-5a25p820maf1018a71ddtpfmvdnkf2bd</string>
+			</array>
+		</dict>
 	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- The app talks to Firebase and its own API over standard TLS and
+	     nothing else, which is exempt encryption. Declared here so every
+	     TestFlight upload stops stopping to ask. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>
