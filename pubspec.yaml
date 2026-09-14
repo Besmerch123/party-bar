@@ -87,6 +87,10 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
 
+  # App icon generation — see `flutter_launcher_icons` config below.
+  # Run `dart run flutter_launcher_icons` after changing the source assets.
+  flutter_launcher_icons: ^0.14.4
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -131,3 +135,12 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icons/partybar-icon-1024.png"
+  adaptive_icon_background: "#3B6CF6"
+  adaptive_icon_foreground: "assets/icons/partybar-adaptive-foreground-432.png"
+  adaptive_icon_monochrome: "assets/icons/partybar-monochrome-432.png"

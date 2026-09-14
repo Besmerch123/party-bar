@@ -1,0 +1,10 @@
+allowBuilds:
+  '@firebase/util': true
+  '@google/genai': true
+  protobufjs: true
+  unrs-resolver: true
+onlyBuiltDependencies:
+  - '@firebase/util'
+  - '@google/genai'
+  - protobufjs
+  - unrs-resolver
